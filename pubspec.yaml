@@ -38,6 +38,23 @@ dependencies:
   animated_text_kit: ^4.2.1
   firebase_core: ^1.6.0
   shared_preferences: ^2.2.2
+#  google_nav_bar: ^5.0.6
+  readmore: ^2.2.0
+  flutter_native_splash:
+  flutter_bloc: ^8.1.4
+  bloc: ^8.1.3
+
+
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/icon.png
+  color_dark: "#1a1a1a"
+  image_dark: assets/images/icon.png
+  android_gravity: center
+  android: true
+  ios: true
+  web: true
   
    
 
@@ -64,9 +81,10 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/
-    - assets/images/circles/
-    - assets/images/test_images/
+#    - assets/images/
+    - assets/
+#    - assets/fonts/
+#    - assets/screenshot/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

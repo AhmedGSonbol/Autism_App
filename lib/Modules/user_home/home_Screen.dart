@@ -1,41 +1,76 @@
+import 'package:autism/Modules/test/test_Screen.dart';
+import 'package:autism/Modules/user_home/posts_Screen.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/modules/user_home/chat.dart';
 import 'package:autism/modules/user_home/drawer_slide/testing/test_splash.dart';
 import 'package:autism/modules/user_home/info.dart';
-import 'package:autism/modules/user_home/main.dart';
+
 import 'package:autism/modules/user_home/reviews.dart';
+import 'package:autism/setting/settings_Screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'drawer_slide/setting/user_setting.dart';
-
-class UserHome extends StatefulWidget {
+class Home_Screen extends StatefulWidget {
   @override
-  _UserHomeState createState() => _UserHomeState();
+  _Home_ScreenState createState() => _Home_ScreenState();
 }
 
-class _UserHomeState extends State<UserHome> {
+class _Home_ScreenState extends State<Home_Screen> {
   int _currentIndex = 0;
 
   List<Widget> screens =
   [
-    Home2(),
+    Posts_Screen(),
     const ChatHome(),
     const ReviewsScreen(),
     const InfoAutism(),
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: TextDirection.rtl  ,
       child: Scaffold(
         backgroundColor: backgroundColor,
+
         appBar: AppBar(
+          scrolledUnderElevation: 0,
+          elevation: 0,
           // toolbarHeight: 64,
           backgroundColor: const Color(0xff292A2D),
-          leading: Image.asset('assets/images/leading-icon.png'),
+
+          //Avatar image
+          leading: Builder(
+              builder: (context)
+              {
+                return Row(
+                    mainAxisSize: MainAxisSize.min,
+                  children:
+                  [
+                    IconButton(
+                      onPressed: () {
+                        Scaffold.of(context).openDrawer(); // Open the drawer
+                      },
+                      icon: const Icon(
+                        Icons.menu,
+                        color: Color(0xffC4C6CF),
+                        size: 25,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.search),
+                      color: const Color(0xffC4C6CF),
+                      iconSize: 25,
+                      onPressed: (){},
+
+                    ),
+                  ],
+                );
+              }
+          ),
+          leadingWidth: 100,
           title: const Text(
             'مجتمع التوحد',
             style: TextStyle(
@@ -45,32 +80,21 @@ class _UserHomeState extends State<UserHome> {
                 fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
-          actions: [
-            Container(
-              width: 48,
-              height: 48,
-              child: const Icon(
-                Icons.search,
-                color: Color(0xffC4C6CF),
-                size: 40,
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Container(
-              width: 48,
-              height: 48,
-              child: IconButton(
-                onPressed: () {
-                  Scaffold.of(context).openDrawer(); // Open the drawer
-                },
-                icon: const Icon(
-                  Icons.menu,
-                  color: Color(0xffC4C6CF),
-                  size: 24,
-                ),
-              ),
+
+
+
+          actions:
+          [
+
+
+
+
+            InkWell(
+                child: Image.asset('assets/images/leading-icon.png'),
+              onTap: ()
+              {
+                //go to profile
+              },
             ),
           ],
         ),
@@ -147,7 +171,7 @@ class _UserHomeState extends State<UserHome> {
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(builder: (context) {
-                              return const UserSetting();
+                              return const Settings_Screen();
                             }),
                           );
                         },
@@ -178,9 +202,9 @@ class _UserHomeState extends State<UserHome> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return const TestSplash();
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)
+                          {
+                            return const Test_Screen();
                           }));
                         },
                         child: Container(
@@ -332,39 +356,36 @@ class _UserHomeState extends State<UserHome> {
           ),
         ),
         body: screens[_currentIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor:
-              const Color(0xffD9E3F8), // Set the color of the selected item
-          unselectedItemColor:
-              Colors.grey, // Set the color of the unselected items
-          backgroundColor: const Color(0xff1d2024),
-          currentIndex: _currentIndex,
-          onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          items: [
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.forum),
-              label: 'الرئيسية',
-            ),
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.chat),
-              label: 'تحدث',
-            ),
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.reviews),
-              label: 'إرشاد',
-            ),
-            const BottomNavigationBarItem(
-              // backgroundColor: Colors.white,
-              icon: Icon(Icons.local_library),
-              label: 'عن التوحد',
-            ),
-          ],
-        ),
+
+          bottomNavigationBar: NavigationBar(
+
+//
+            backgroundColor: const Color(0xff1d2024),
+            indicatorColor: Colors.grey,
+            // shadowColor: Colors.yellowAccent,
+            // surfaceTintColor: Colors.red,
+
+            selectedIndex: _currentIndex,
+            labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+            onDestinationSelected: (index)
+            {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            destinations:
+            [
+              NavigationDestination(icon: Icon(Icons.forum,color: Color(0xffE1E2E9)), label: 'الرئيسية'),
+              NavigationDestination(icon: Icon(Icons.chat,color: Color(0xffE1E2E9)), label: 'تحدث'),
+              NavigationDestination(icon: Icon(Icons.reviews,color: Color(0xffE1E2E9)), label: 'إرشاد'),
+              NavigationDestination(icon: Icon(Icons.local_library,color: Color(0xffE1E2E9)), label: 'عن التوحد')
+            ],
+
+          )
+
+
+
+
       ),
     );
   }

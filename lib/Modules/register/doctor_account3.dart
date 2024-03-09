@@ -2,7 +2,8 @@ import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:flutter/material.dart';
 
-class DoctorAccount3 extends StatelessWidget {
+class DoctorAccount3 extends StatelessWidget
+{
   const DoctorAccount3({super.key});
 
   @override
@@ -17,10 +18,10 @@ class DoctorAccount3 extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 83,
                   ),
-                  Text(
+                  const Text(
                     'إكتمل إنشاء حسابك',
                     style: TextStyle(
                         color: Color(0xffC7C6CA),
@@ -29,7 +30,7 @@ class DoctorAccount3 extends StatelessWidget {
                         fontSize: 26,
                         fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 70,
                   ),
                   Stack(
@@ -46,10 +47,10 @@ class DoctorAccount3 extends StatelessWidget {
                       // )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 70,
                   ),
-                  Text(
+                  const Text(
                     'تهانينا, لقد إكتمل إنشاء حسابك و اﻷن يمكنك المساهم في نشر الوعي و مساعدت أطفال طيف التوحد ',
                     style: TextStyle(
                         color: Color(0xffE1E2E9),
@@ -58,13 +59,13 @@ class DoctorAccount3 extends StatelessWidget {
                         fontSize: 16,
                         fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Container(
                     height: 60,
                     decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xff8E9099), width: .5),
+                        border: Border.all(color: const Color(0xff8E9099), width: .5),
                         borderRadius: BorderRadius.circular(5)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -74,29 +75,29 @@ class DoctorAccount3 extends StatelessWidget {
                           width: 56,
                           height: 56,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 20,
                         ),
-                        Text(
+                        const Text(
                           'PDF',
                           style: TextStyle(
                             color: Color(0xffFFB4AB),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                         Text(
                           'ارفع ملف تعريف الهوية بصيغة ',
                           style: textOnBoarding2,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 20,
                         )
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 100,
                   ),
                   Row(

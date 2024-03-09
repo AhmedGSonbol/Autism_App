@@ -2,18 +2,20 @@ import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:flutter/material.dart';
 
-class Home2 extends StatefulWidget {
-  Home2({super.key});
+class Posts_Screen extends StatefulWidget {
+  Posts_Screen({super.key});
 
   @override
-  State<Home2> createState() => _Home2State();
+  State<Posts_Screen> createState() => _Posts_ScreenState();
 }
 
-class _Home2State extends State<Home2> {
+class _Posts_ScreenState extends State<Posts_Screen>
+{
   TextEditingController writeCon = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -23,7 +25,7 @@ class _Home2State extends State<Home2> {
               vertical: 10, horizontal: 10),
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 // padding: const EdgeInsetsDirectional.symmetric(vertical: 10),
                 width: 350,
                 height: 60,
@@ -49,7 +51,7 @@ class _Home2State extends State<Home2> {
               ),
               Expanded(
                 child: ListView.separated(
-                  itemBuilder: (context, index) => bulidPostItem(),
+                  itemBuilder: (context, index) => bulidPostItem(text: 'testooooooooooo oooooooooooooooo ooooooooooooo oooooooooooooo iiiiiiiiiiii pppppppppppppp [[[[[[[[[[[[[[[ jjjjjjjjjjjjjjj mmmmmmmmmmmmm bbbbbbbbbbbbb hhhhhhhhhhhhhhh jjjjjjjjjjjjjjj kkkkkkkkkkkk lllllllllllll mmmmmmmmm jjjjjjjjjjjjjjj hhhhhhhhhhhhhhh uuuuuuuuuuuuu knknkn kn kjn jn jn jn jn jn jn j nj n jn jn jn j n'),
                   separatorBuilder: (context, index) => SizedBox(
                     height: 10,
                   ),

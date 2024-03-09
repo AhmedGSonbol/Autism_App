@@ -1,5 +1,8 @@
 import 'package:autism/Shared/Constants/Constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:readmore/readmore.dart';
 
 void navTo(BuildContext context , Widget route)
 {
@@ -40,17 +43,17 @@ Widget defaultTextFormField({
     // onChanged: (value) { },
 
     decoration: InputDecoration(
-      border: OutlineInputBorder(),
+      border: const OutlineInputBorder(),
       labelText: label,
 
       hintText: hint,
-      hintStyle: TextStyle(color: Color(0xffD9D9D9), fontSize: 15),
+      hintStyle: const TextStyle(color: Color(0xffD9D9D9), fontSize: 15),
       hintTextDirection: hintRt1,
       prefixIcon: isPrefix
           ? IconButton(
               icon: Icon(
                 prefix,
-                color: prefixColor ?? Color(0xffCCCCCC),
+                color: prefixColor ?? const Color(0xffCCCCCC),
                 size: prefixIconSize ?? 25,
               ),
               onPressed: () {
@@ -62,7 +65,7 @@ Widget defaultTextFormField({
     ),
     onTap: onTap,
     validator: validate,
-    style: TextStyle(color: Colors.white),
+    style: const TextStyle(color: Colors.white),
   );
 }
 
@@ -90,7 +93,7 @@ Widget defaultButton({
       onPressed: function,
       child: Text(
         isUpperCase ? text.toUpperCase() : text,
-        style: TextStyle(
+        style: const TextStyle(
             color: Color(0xff05305F),
             fontSize: 16,
             fontWeight: FontWeight.bold),
@@ -112,17 +115,17 @@ Widget defaultElevatedButton({
       style: ButtonStyle(
         elevation: MaterialStatePropertyAll(elevation),
         fixedSize: MaterialStateProperty.all<Size>(
-          Size(100, 50), // Set the desired width and height
+          const Size(100, 50), // Set the desired width and height
         ),
         backgroundColor: MaterialStatePropertyAll(
-          color ?? Color(0xffA8C8FF),
+          color ?? const Color(0xffA8C8FF),
         ),
       ),
       onPressed: onPressed,
       child: Text(
         text,
         style: TextStyle(
-            color: textColor ?? Color(0xff05305F),
+            color: textColor ?? const Color(0xff05305F),
             fontSize: 18,
             fontWeight: FontWeight.bold),
       ),
@@ -137,7 +140,7 @@ Widget buildChatItems() => Padding(
     height: 170,
     width: double.infinity,
     decoration: BoxDecoration(
-      color: Color(0xff292A2D),
+      color: const Color(0xff292A2D),
       borderRadius: BorderRadiusDirectional.circular(30),
     ),
     child: Column(
@@ -146,38 +149,38 @@ Widget buildChatItems() => Padding(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
-              CircleAvatar(
+              const CircleAvatar(
                 backgroundImage: AssetImage(
                   'assets/images/Rectangle (1).png',
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Text(
                 'د. أحمد',
                 style: textOnBoarding2,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 190,
               ),
-              Text(
+              const Text(
                 '  ٥:٢٢ م',
                 style: TextStyle(color: Color(0xffE1E2E9), fontSize: 20),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
             ],
           ),
         ),
-        Expanded(
+        const Expanded(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Text(
                 ' أَبْجَدْ هَوَّزْ حُطِّي كَلَمُنْ سَعْفُصْ ',
                 style: TextStyle(color: Color(0xffE1E2E9), fontSize: 20),
@@ -191,13 +194,13 @@ Widget buildChatItems() => Padding(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Padding(
-                padding: EdgeInsetsDirectional.only(end: 20),
+                padding: const EdgeInsetsDirectional.only(end: 20),
                 child: Container(
                   height: 30,
                   width: 30,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       shape: BoxShape.circle, color: Color(0xffA8C8FF)),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       '٢',
                       style: TextStyle(
@@ -216,52 +219,100 @@ Widget buildChatItems() => Padding(
   ),
 );
 
-Widget bulidPostItem() {
+Widget bulidPostItem({
+  required String text
+}) {
   return Padding(
-    padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
+    padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
     child: Container(
-      height: 155,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Color(0xff292A2D),
+        color: const Color(0xff292A2D),
         borderRadius: BorderRadiusDirectional.circular(10),
       ),
       child: Column(
-        children: [
-          ListTile(
-            leading: CircleAvatar(
-              backgroundImage: AssetImage('assets/images/Rectangle.png'),
-            ),
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children:  [
-                Text(
-                  'د. أحمد',
-                  style: textOnBoarding2,
-                ),
-                Text(
-                  ' ٢ أكتوبر ٢٠٢٤',
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Color(0xffE1E2E9),
+        children:
+        [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+              children:
+              [
+                const Image(image: AssetImage('assets/images/Rectangle.png')),
+                const SizedBox(width: 7,),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children:
+                    [
+                      Row(children:
+                      [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children:
+                            [
+                              Text(
+                                'د. أحمد',
+                                style: textOnBoarding2,
+                              ),
+                              const Text(
+                                ' ٢ أكتوبر ٢٠٢٤',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: Color(0xffE1E2E9),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: InkWell(
+                              child: Image.asset('assets/images/partner_reports.png'),
+                            onTap: ()
+                            {
+                              // tap on report post !!
+                            },
+                          ),
+                        )
+                      ]
+                        ,),
+                      Row(
+                        children:
+                        [
+                          Expanded(
+                            child: ReadMoreText(
+                              text,
+                              style:  const TextStyle(
+                              fontSize: 15,
+                              color: Color(0xffE1E2E9),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                              trimLines: 2,
+                              colorClickableText: Colors.grey,
+
+                            ),
+                          ),
+
+
+
+                        ],
+                      )
+                    ],
                   ),
-                ),
+                )
               ],
             ),
-            subtitle: Text(
-              'أَبْجَدْ هَوَّزْ حُطِّي كَلَمُنْ سَعْفُصْ أَبْجَدْ هَوَّزْ',
-              style: TextStyle(
-                  fontSize: 15,
-                  color: Color(0xffE1E2E9),
-                  overflow: TextOverflow.ellipsis),
-            ),
-            trailing: Image.asset('assets/images/partner_reports.png'),
           ),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.favorite,
                   color: Color(0xffE1E2E9),
                 ),
@@ -270,7 +321,7 @@ Widget bulidPostItem() {
                 },
               ),
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.comment,
                   color: Color(0xffE1E2E9),
                 ),
@@ -279,7 +330,7 @@ Widget bulidPostItem() {
                 },
               ),
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.bookmark_add,
                   color: Color(0xffE1E2E9),
                 ),
@@ -304,13 +355,13 @@ Widget buildReviewsItem() {
       height: 155,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Color(0xff292A2D),
+        color: const Color(0xff292A2D),
         borderRadius: BorderRadiusDirectional.circular(10),
       ),
       child: Column(
         children: [
           ListTile(
-            leading: CircleAvatar(
+            leading: const CircleAvatar(
               backgroundImage: AssetImage('assets/images/Rectangle (5).png'),
             ),
             title: Column(
@@ -320,7 +371,7 @@ Widget buildReviewsItem() {
                   'د. أحمد',
                   style: textOnBoarding2,
                 ),
-                Text(
+                const Text(
                   ' ٢ أكتوبر ٢٠٢٤',
                   style: TextStyle(
                     fontSize: 10,
@@ -329,13 +380,13 @@ Widget buildReviewsItem() {
                 ),
               ],
             ),
-            subtitle: Text(
+            subtitle: const Text(
               'أَبْجَدْ هَوَّزْ حُطِّي كَلَمُنْ سَعْفُصْ أَبْجَدْ هَوَّزْ',
               style: TextStyle(fontSize: 15, color: Color(0xffE1E2E9)),
               overflow: TextOverflow.ellipsis,
             ),
             trailing: IconButton(
-              icon: Icon(Icons.info),
+              icon: const Icon(Icons.info),
               onPressed: () {},
             ),
           ),
@@ -343,7 +394,7 @@ Widget buildReviewsItem() {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.favorite,
                   color: Color(0xffE1E2E9),
                 ),
@@ -352,7 +403,7 @@ Widget buildReviewsItem() {
                 },
               ),
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.comment,
                   color: Color(0xffE1E2E9),
                 ),
@@ -361,7 +412,7 @@ Widget buildReviewsItem() {
                 },
               ),
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.bookmark_add,
                   color: Color(0xffE1E2E9),
                 ),
