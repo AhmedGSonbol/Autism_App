@@ -38,9 +38,35 @@ class AppCubit extends Cubit<AppStates>
 
   ];
 
+  bool? testQueChecked ;
+
+  List<dynamic> testAnswers = [];
+
+
+  void checkAction(bool checkVal)
+  {
+    testQueChecked = checkVal;
+    testAnswers.insert(currentTestScreen - 1, checkVal);
+    print(testQueChecked);
+    print(currentTestScreen);
+    print(testAnswers);
+    emit(AppQuestionCheckedChangeState());
+  }
+
   void nextTestQuestion()
   {
+    print(testAnswers);
+    print(currentTestScreen);
     currentTestScreen += 1;
+    try
+    {
+       testQueChecked = testAnswers[currentTestScreen-1];
+
+    }catch(ex)
+    {
+      testQueChecked = null;
+    }
+
 
     print(currentTestScreen);
 
@@ -50,6 +76,17 @@ class AppCubit extends Cubit<AppStates>
   void previousTestQuestion()
   {
     currentTestScreen -= 1;
+    print(testAnswers);
+    print(currentTestScreen);
+    try
+    {
+
+       testQueChecked = testAnswers[currentTestScreen-1];
+
+    }catch(ex)
+    {
+      testQueChecked = null;
+    }
 
     emit(AppPreviousQuestionState());
   }

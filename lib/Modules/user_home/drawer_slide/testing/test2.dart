@@ -70,7 +70,8 @@ class TestScreen2 extends StatelessWidget {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children:
+                  [
                     GestureDetector(
                       child: Container(
                         width: 90,
@@ -119,7 +120,7 @@ class TestScreen2 extends StatelessWidget {
                         ),
                       ),
                       onTap: () {},
-                    )
+                    ),
                   ],
                 ),
                 SizedBox(

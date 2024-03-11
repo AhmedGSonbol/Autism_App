@@ -5,3 +5,5 @@ class AppInitialState extends AppStates{}
 class AppNextQuestionState extends AppStates{}
 
 class AppPreviousQuestionState extends AppStates{}
+
+class AppQuestionCheckedChangeState extends AppStates{}
