@@ -37,7 +37,8 @@ void main() async
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             useMaterial3: true,
-            fontFamily: 'Roboto'
+            fontFamily: 'Roboto',
+            dividerTheme: const DividerThemeData(color: Colors.transparent),
         ),
         home: screen,
       ),

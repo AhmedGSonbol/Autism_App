@@ -1,8 +1,10 @@
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jiffy/jiffy.dart';
 
 class Test_Screen extends StatelessWidget
 {
@@ -14,12 +16,16 @@ class Test_Screen extends StatelessWidget
 
     var dateController = TextEditingController();
 
-    var cubit = AppCubit.get(context);
+
+
+
 
     return BlocConsumer<AppCubit,AppStates>(
       listener: (context, state) {},
       builder: (context, state)
       {
+        var cubit = AppCubit.get(context);
+
         return Scaffold(
           backgroundColor: const Color(0xff1d2024),
           appBar: AppBar(
@@ -41,6 +47,108 @@ class Test_Screen extends StatelessWidget
               ),
             ),
           ),
+          bottomNavigationBar: BottomAppBar(
+            padding: EdgeInsets.zero,
+            height: 130,
+            color: Colors.transparent,
+            child: Column(children:
+            [
+              const Divider(
+                thickness: .5,
+                color: Colors.grey,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children:
+                  [
+                    if(cubit.currentTestScreen != 0)
+                      defaultElevatedButton(
+                        onPressed: ()
+                        {
+                          cubit.previousTestQuestion();
+                        },
+                        text: 'السابق',
+                        color: const Color(0xffDBBCE1),
+                        textColor: const Color(0xff3E2845),
+                      ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    defaultElevatedButton(
+                      onPressed: ()
+                      {
+                        if(cubit.currentTestScreen == 0)
+                        {
+                          cubit.nextTestQuestion(null);
+                        }
+                        else
+                        {
+                          if(cubit.currentTestScreen != 11 && cubit.currentTestScreen != 15)
+                          {
+                            if(cubit.testQueChecked != null)
+                            {
+                              cubit.nextTestQuestion(cubit.testQueChecked);
+
+                            }
+                            else
+                            {
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('برجاء اختيار إجابة اولاً')));
+                            }
+                          }
+                          else if(cubit.currentTestScreen == 11)
+                          {
+                            if(dateController.text.isNotEmpty)
+                            {
+                              int x = Jiffy.now().diff(Jiffy.parse(dateController.text),unit: Unit.month).toInt();
+
+                              if(x >= 0)
+                              {
+                                cubit.nextTestQuestion(x);
+                              }
+                              else
+                              {
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('برجاء اختيار تاريخ صحيح !')));
+                              }
+                            }
+                            else
+                            {
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('برجاء اختيار تاريخ الميلاد اولاً')));
+                            }
+                          }
+                          else
+                          {
+                            if(cubit.selectedEthnicity >= 0)
+                            {
+                              cubit.nextTestQuestion(cubit.selectedEthnicity);
+                            }else
+                            {
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('برجاء اختيار إجابة اولاً')));
+                            }
+                          }
+                        }
+
+
+
+
+
+
+
+                      },
+                      text: 'التالي',
+                      color: const Color(0xffA8C8FF),
+                      textColor: const Color(0xff05305F),
+                    ),
+                  ],
+                ),
+              ),
+            ],),
+            elevation: 0,
+          ),
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -61,22 +169,44 @@ class Test_Screen extends StatelessWidget
                     height: 20,
                   ),
                   Center(
-                    child: Text(
+                    child:
+                        cubit.currentTestScreen != 16 ?
+                    Text(
                       textAlign: TextAlign.center,
                       cubit.testQuestions[cubit.currentTestScreen],
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Color(0xffE1E2E9),
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
-                    ),
+                    )
+                            :
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              ' عالي',
+                              style: TextStyle(
+                                  color: Color(0xffFFB4AB),
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              ' إحتمال الإصابة',
+                              style: TextStyle(
+                                  color: Color(0xffE3E2E6),
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                   ),
                   const SizedBox(
-                    height: 50,
+                    height: 30,
                   ),
 
                   ///////// Choose Data Here//////////
 
-                  if(cubit.currentTestScreen != 0)
+                  if(cubit.currentTestScreen != 0 && cubit.currentTestScreen != 16)
                   (()
                   {
                     if(cubit.currentTestScreen == 11)
@@ -84,7 +214,7 @@ class Test_Screen extends StatelessWidget
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: TextField(
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color:  Color(0xffCCCCCC)
@@ -92,12 +222,12 @@ class Test_Screen extends StatelessWidget
                           textAlign: TextAlign.center,
                           keyboardType: TextInputType.none,
                           decoration: InputDecoration(
-                            border: OutlineInputBorder(),
+                            border: const OutlineInputBorder(),
                             hintText: 'العمر',
                             hintStyle: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color:  Color(0xffCCCCCC).withOpacity(0.5)
+                                color:  const Color(0xffCCCCCC).withOpacity(0.5)
                             ),
 
 
@@ -113,7 +243,7 @@ class Test_Screen extends StatelessWidget
                                 lastDate: DateTime(2025,1));
                             if (picked != null)
                             {
-                              dateController.text = picked.year.toString() + "/" + picked.month.toString();
+                              dateController.text = picked.year.toString() + "/" + picked.month.toString() + "/" + picked.day.toString();
                             }
                           },
                         ),
@@ -121,7 +251,47 @@ class Test_Screen extends StatelessWidget
                     }
                     else if(cubit.currentTestScreen == 15)
                     {
-                      return Container();
+                      return Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 0.5,
+                            color: Colors.grey
+                          )
+                        ),
+                        child: DropdownButton<String>(
+
+
+                          value: cubit.selectedEthnicity < 0 ? null : cubit.selectedEthnicity.toString(),
+                          elevation: 0,
+                          underline: const SizedBox(),
+                          icon: const SizedBox(),
+
+                          isExpanded: true,
+                          iconSize: 30.0,
+                          style: const TextStyle(color: Colors.blue),
+                          hint: const Align(alignment: Alignment.centerRight,child: Padding(
+                            padding: const EdgeInsets.only(right: 10.0),
+                            child: Text('العرق',style: TextStyle(color: Colors.blue),),
+                          )),
+                          items: cubit.ethnicityList.asMap().entries.map((value)
+                          {
+                            return DropdownMenuItem<String>(
+                              alignment: Alignment.centerRight,
+
+                              value: value.key.toString(),
+
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 10.0),
+                                child: Text(value.value),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (val)
+                          {
+                            cubit.changeEthnicity(int.parse(val!));
+                          },
+                        ),
+                      );
                     }
                     else
                     {
@@ -129,63 +299,9 @@ class Test_Screen extends StatelessWidget
                     }
 
                   }
-                    ()),
-
-
-
-
+                  ()),
                   ///////////////////////////////
-                  SizedBox(
-                    height: 20,
-                  ),
-                  const Divider(
-                    thickness: .5,
-                    color: Colors.grey,
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children:
-                      [
-                        if(cubit.currentTestScreen != 0)
-                          defaultElevatedButton(
-                            onPressed: ()
-                            {
-                              cubit.previousTestQuestion();
-                            },
-                            text: 'السابق',
-                            color: const Color(0xffDBBCE1),
-                            textColor: const Color(0xff3E2845),
-                          ),
-                        const SizedBox(
-                          width: 15,
-                        ),
-                        defaultElevatedButton(
-                          onPressed: ()
-                          {
-                            if(cubit.testQueChecked != null || cubit.currentTestScreen == 0)
-                            {
-                              cubit.nextTestQuestion();
-                            }
-                            else
-                            {
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('برجاء اختيار إجابة اولاً')));
-                            }
 
-
-
-                          },
-                          text: 'التالي',
-                          color: const Color(0xffA8C8FF),
-                          textColor: const Color(0xff05305F),
-                        ),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -212,26 +328,26 @@ class Test_Screen extends StatelessWidget
               color:cubit.testQueChecked == null ? Colors.transparent : (cubit.testQueChecked == true ? Colors.transparent: const Color(0xffA8C8FF)) ,
               border: Border.all(
                 width: .5,
-                color:Color(0xff8E9199),
+                color:const Color(0xff8E9199),
               ),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Center(
               child: Text(
-                'لا',
+                cubit.currentTestScreen == 12 ? 'انثي' : 'لا',
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
-                    color: cubit.testQueChecked == null ? Color(0xffCCCCCC) : (cubit.testQueChecked == true ? Color(0xffCCCCCC): const Color(0xff05305F))),
+                    color: cubit.testQueChecked == null ? const Color(0xffCCCCCC) : (cubit.testQueChecked == true ? const Color(0xffCCCCCC): const Color(0xff05305F))),
               ),
             ),
           ),
           onTap: ()
           {
-            cubit.checkAction(false);
+            cubit.checkChanged(false);
           },
         ),
-        SizedBox(
+        const SizedBox(
           width: 30,
         ),
         GestureDetector(
@@ -239,26 +355,26 @@ class Test_Screen extends StatelessWidget
             width: 90,
             height: 40,
             decoration: BoxDecoration(
-              color: cubit.testQueChecked == null ? Colors.transparent : (cubit.testQueChecked == true ? Color(0xffA8C8FF) : Colors.transparent ),
+              color: cubit.testQueChecked == null ? Colors.transparent : (cubit.testQueChecked == true ? const Color(0xffA8C8FF) : Colors.transparent ),
               border: Border.all(
                 width: .5,
-                color: Color(0xff8E9199),
+                color: const Color(0xff8E9199),
               ),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Center(
               child: Text(
-                'نعم',
+                cubit.currentTestScreen == 12 ? 'ذكر' : 'نعم',
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
-                    color: cubit.testQueChecked == null ? Color(0xffCCCCCC) : (cubit.testQueChecked == true ?Color(0xff05305F) : Color(0xffCCCCCC) )),
+                    color: cubit.testQueChecked == null ? const Color(0xffCCCCCC) : (cubit.testQueChecked == true ?const Color(0xff05305F) : const Color(0xffCCCCCC) )),
               ),
             ),
           ),
           onTap: ()
           {
-            cubit.checkAction(true);
+            cubit.checkChanged(true);
           },
         ),
       ],

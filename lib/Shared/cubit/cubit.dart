@@ -35,39 +35,80 @@ class AppCubit extends Cubit<AppStates>
     ' هل هناك أي فرد من العائلة لديه تاريخ مرضي مع إضطراب طيف التوحد ؟',
     ' ما هو عرق طفلك ؟',
 
-
   ];
 
   bool? testQueChecked ;
 
   List<dynamic> testAnswers = [];
 
+  List<String> ethnicityList =
+  [
+    'شرق أوسطي',
+    'أوروبي أبيض',
+    'هسباني',
+    'أسود',
+    'آسيوي',
+    'جنوب آسيوي',
+    'هنود أصليون',
+    'لاتينيون',
+    'مختلطون',
+    'باسيفيكا',
+    'آخرون',
+  ];
 
-  void checkAction(bool checkVal)
+  int selectedEthnicity = -1;
+
+  void changeEthnicity(int index)
   {
-    testQueChecked = checkVal;
-    testAnswers.insert(currentTestScreen - 1, checkVal);
-    print(testQueChecked);
-    print(currentTestScreen);
-    print(testAnswers);
+    selectedEthnicity = index;
+
+    emit(AppChangeSelectedEthnicityState());
+  }
+
+
+  void checkChanged(bool val)
+  {
+
+    testQueChecked = val;
+
     emit(AppQuestionCheckedChangeState());
   }
 
-  void nextTestQuestion()
+  void nextTestQuestion(var val)
   {
-    print(testAnswers);
-    print(currentTestScreen);
-    currentTestScreen += 1;
-    try
-    {
-       testQueChecked = testAnswers[currentTestScreen-1];
 
-    }catch(ex)
+
+    if(val != null)
+    {
+      if(testAnswers.asMap().containsKey(currentTestScreen-1))
+      {
+
+        testAnswers[currentTestScreen-1] = val;
+      }
+      else
+      {
+        testAnswers.insert(currentTestScreen - 1, val);
+      }
+
+    }
+
+    if(val is bool)
     {
       testQueChecked = null;
     }
 
+    currentTestScreen += 1;
 
+    if(testAnswers.asMap().containsKey(currentTestScreen-1))
+    {
+      if(testAnswers[currentTestScreen-1] is bool)
+      {
+        testQueChecked = testAnswers[currentTestScreen-1];
+      }
+
+    }
+
+    print(testAnswers);
     print(currentTestScreen);
 
     emit(AppNextQuestionState());
@@ -75,18 +116,20 @@ class AppCubit extends Cubit<AppStates>
 
   void previousTestQuestion()
   {
+
     currentTestScreen -= 1;
+    if(testAnswers.asMap().containsKey(currentTestScreen-1))
+    {
+      if(testAnswers[currentTestScreen-1] is bool)
+      {
+        testQueChecked = testAnswers[currentTestScreen-1];
+      }
+    }
+
+
     print(testAnswers);
     print(currentTestScreen);
-    try
-    {
 
-       testQueChecked = testAnswers[currentTestScreen-1];
-
-    }catch(ex)
-    {
-      testQueChecked = null;
-    }
 
     emit(AppPreviousQuestionState());
   }

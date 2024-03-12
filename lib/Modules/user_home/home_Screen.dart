@@ -101,7 +101,8 @@ class _Home_ScreenState extends State<Home_Screen> {
         drawer: Drawer(
           backgroundColor: const Color(0xff282a2f),
           child: ListView(
-            // padding: EdgeInsets.zero,
+            physics: BouncingScrollPhysics(),
+              padding: const EdgeInsets.only(bottom: 40.0),
             children: [
               DrawerHeader(
                 child: Container(
@@ -113,10 +114,10 @@ class _Home_ScreenState extends State<Home_Screen> {
                   child: const ListTile(
                     leading: CircleAvatar(
                       backgroundImage:
-                          AssetImage('assets/images/Rectangle.png'),
+                      AssetImage('assets/images/Rectangle.png'),
                     ),
                     title: Text(
-                      'أحمد رمضان',
+                      'User Name',
                       style: TextStyle(
                           fontSize: 20,
                           color: Color(0xffE1E2E9),
@@ -321,7 +322,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                 ),
               ),
               const SizedBox(
-                height: 40,
+                height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 60.0),
