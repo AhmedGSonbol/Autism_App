@@ -2,7 +2,6 @@ import 'package:autism/Modules/test/test_Screen.dart';
 import 'package:autism/Modules/user_home/posts_Screen.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/modules/user_home/chat.dart';
-import 'package:autism/modules/user_home/drawer_slide/testing/test_splash.dart';
 import 'package:autism/modules/user_home/info.dart';
 
 import 'package:autism/modules/user_home/reviews.dart';

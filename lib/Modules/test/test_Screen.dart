@@ -3,8 +3,10 @@ import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class Test_Screen extends StatelessWidget
 {
@@ -155,12 +157,30 @@ class Test_Screen extends StatelessWidget
               child: Column(
                 children:
                 [
+                  if(cubit.currentTestScreen != 0)
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: CircularStepProgressIndicator(
+                      totalSteps: 15,
+                      currentStep: cubit.currentTestScreen-1,
+                      stepSize: 6,
+                      selectedColor: Color(0xffA8C8FF),
+                      unselectedColor: Color(0xff254777),
+                      padding: 0,
+                      width: 50,
+                      height: 50,
+                      selectedStepSize: 6,
+                      roundedCap: (_, __) => true,
+                    ),
+                  ),
+
+                  SizedBox(height: 20.0,),
 
                   Center(
                     child: Image(//      assets/images/test_images/test0.png
                       image: AssetImage('assets/images/test_images/test${cubit.currentTestScreen}.png'),
                       fit: BoxFit.cover,
-                      height: MediaQuery.of(context).size.height / 3,
+                      height: MediaQuery.of(context).size.height / 4,
                     ),
 
 
