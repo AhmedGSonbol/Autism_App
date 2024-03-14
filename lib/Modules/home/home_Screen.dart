@@ -5,6 +5,7 @@ import 'package:autism/Modules/setting/settings_Screen.dart';
 import 'package:autism/Modules/test/test_Screen.dart';
 import 'package:autism/Modules/posts/posts_Screen.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
+import 'package:autism/Shared/styles/colors.dart';
 
 
 

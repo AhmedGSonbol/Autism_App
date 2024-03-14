@@ -1,4 +1,5 @@
 import 'package:autism/Shared/Constants/Constants.dart';
+import 'package:autism/Shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 
 class Chat_Details_Screen extends StatelessWidget {
@@ -12,51 +13,84 @@ class Chat_Details_Screen extends StatelessWidget {
         backgroundColor: backgroundColor,
         appBar: AppBar(
           backgroundColor: Color(0xff1D2024),
-          leading: CircleAvatar(
-            backgroundImage: AssetImage('assets/images/Rectangle (1).png'),
-          ),
-          title: Text(
-            'د. أحمد',
-            style: TextStyle(color: Colors.white),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.search,
-                color: Color(0xffCCCCCC),
-                size: 25,
+
+
+          title: Row(
+            children:
+            [
+              Spacer(),
+
+              Text(
+                'د. أحمد',
+                style: TextStyle(color: Colors.white),
               ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.more_vert,
-                color: Color(0xffCCCCCC),
-                size: 25,
+              SizedBox(width: 10.0,),
+              CircleAvatar(
+                backgroundColor: Color(0xff1D2024),
+
+                child: Image(image: AssetImage('assets/images/Rectangle (1).png'),),
+
               ),
-            ),
-          ],
+
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.arrow_forward),
+                color: const Color(0xffE1E2E9),
+              ),
+            ],
+          ),
+          titleSpacing: 0.0,
+          // actions: [
+          //   IconButton(
+          //     onPressed: () {},
+          //     icon: Icon(
+          //       Icons.search,
+          //       color: Color(0xffCCCCCC),
+          //       size: 25,
+          //     ),
+          //   ),
+          //   IconButton(
+          //     onPressed: () {},
+          //     icon: Icon(
+          //       Icons.more_vert,
+          //       color: Color(0xffCCCCCC),
+          //       size: 25,
+          //     ),
+          //   ),
+          // ],
         ),
         body: Column(
-          children: [
+          children:
+          [
             Expanded(
               child: ListView.builder(
-                itemBuilder: (context, index) => senderItemBuilder(),
+                itemBuilder: (context, index) => receiverItemBuilder(),
                 itemCount: 3,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: TextFormField(
+              child: TextField(
+                maxLines: 1,
+
+
                 style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
+
                   hintTextDirection: TextDirection.rtl,
+                  hintText: 'اكتب شيئا هنا',
+                  hintStyle: TextStyle(color: Color(0xffE1E2E9)),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
                   ),
-                  suffix: Image.asset('assets/images/send.png',
-                      color: Color(0xffA8C8FF)),
+                  suffixIcon:IconButton(onPressed: (){},icon: Icon(Icons.send_rounded,color: Color(0xffE1E2E9),),),
+                  fillColor:  Color(0xff33353A),
+                  filled: true,
+                  focusColor: Colors.green,
+                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50),borderSide: BorderSide(color: Color(0xff1D2024) ,)),
+                  hoverColor: Colors.blue
                 ),
               ),
             ),
@@ -75,20 +109,46 @@ class Chat_Details_Screen extends StatelessWidget {
         // height: 85,
         // width: 150,
         padding:
-        EdgeInsetsDirectional.only(start: 16, bottom: 16, end: 16, top: 16),
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        EdgeInsets.all(16.0),
+        margin: EdgeInsets.all(20.0),
         decoration: BoxDecoration(
           color: Color(0xffA8C8FF),
           borderRadius: BorderRadiusDirectional.only(
-            topStart: Radius.circular(40),
-            bottomEnd: Radius.circular(40),
-            bottomStart: Radius.circular(40),
+            topStart: Radius.circular(16),
+            bottomEnd: Radius.circular(16),
+            bottomStart: Radius.circular(16),
           ),
         ),
         child: Text(
           'السلام عليكم ورحمة الله',
           style: TextStyle(
             color: Color(0xff05305F),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget receiverItemBuilder()
+  {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+        padding:
+        EdgeInsets.all(16.0),
+        margin: EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+          color: Color(0xff43474E),
+          borderRadius: BorderRadiusDirectional.only(
+            topEnd: Radius.circular(16),
+            bottomEnd: Radius.circular(16),
+            bottomStart: Radius.circular(16),
+          ),
+        ),
+        child: Text(
+          'السلام عليكم ورحمة الله',
+          style: TextStyle(
+            color: Color(0xffE1E2E9),
           ),
         ),
       ),

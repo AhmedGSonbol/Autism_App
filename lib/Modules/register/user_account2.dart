@@ -1,5 +1,6 @@
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
+import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/modules/register/user_account3.dart';
 import 'package:flutter/material.dart';
 

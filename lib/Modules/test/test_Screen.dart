@@ -1,6 +1,7 @@
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
+import 'package:autism/Shared/styles/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -18,7 +19,41 @@ class Test_Screen extends StatelessWidget
 
     var dateController = TextEditingController();
 
+    List<String> ethnicityList =
+    [
+      'شرق أوسطي',
+      'أوروبي أبيض',
+      'هسباني',
+      'أسود',
+      'آسيوي',
+      'جنوب آسيوي',
+      'هنود أصليون',
+      'لاتينيون',
+      'مختلطون',
+      'باسيفيكا',
+      'آخرون',
+    ];
 
+    List<String> testQuestions =
+    [
+      'تشخيص أولي مبني على الذكاء  اﻹصطناعي لقياس مدى قابلية طفلك للأصابة بالتوحد و من ثم اتخذ القرار المناسب',
+      ' هل ينظر إليك طفلك عندم تنادية باسمه ؟',
+      'هل سهل عليك التواصل بصرياً مع طفلك ؟',
+      ' هل يميل طفلك ﻹستخدام اﻹشارة بدل الكلام ؟',
+      ' هل يميل طفلك لمشاركة إهتماماته معك؟',
+      ' هل يتفاعل طفلك مع ألعابة كأنها تستجيب له ؟',
+      'هل يميل طفلك لتخلف أثناء الذهاب إلى مكان ما ؟',
+      'إذا كنت أو شخص آخر في العائلة منزعجًا بشكل واضح، فهل تظهر على طفلك علامات عاطفية كإحتضان الشخص الغاضب لتهدئت الوضع؟',
+      ' هل كلمات الطفل اﻷولى كانت واضحة ؟',
+      'هل يستخدم طفلك الإيماءات البسيطة؟ (على سبيل المثال التلويح بالوداع)',
+      'هل يحدق طفلك في لا شيء دون أي غرض واضح؟',
+      'ما هو تاريخ الميلاد ؟',
+      'ما هو جنس طفلك ؟',
+      ' هل يعاني طفلك من اليرق صعوبة النوم ؟',
+      ' هل هناك أي فرد من العائلة لديه تاريخ مرضي مع إضطراب طيف التوحد ؟',
+      ' ما هو عرق طفلك ؟',
+
+    ];
 
 
 
@@ -29,15 +64,15 @@ class Test_Screen extends StatelessWidget
         var cubit = AppCubit.get(context);
 
         return Scaffold(
-          backgroundColor: const Color(0xff1d2024),
+          backgroundColor: backgroundColor,
           appBar: AppBar(
-            backgroundColor: const Color(0xff1d2024),
+            backgroundColor: backgroundColor,
             leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
               },
               icon: const Icon(Icons.arrow_back),
-              color: const Color(0xffE1E2E9),
+              color: fontColor,
             ),
             title: const Text(
               'التشخيص',
@@ -45,7 +80,7 @@ class Test_Screen extends StatelessWidget
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Roboto',
-                color: Color(0xffE1E2E9),
+                color: fontColor,
               ),
             ),
           ),
@@ -193,9 +228,9 @@ class Test_Screen extends StatelessWidget
                         cubit.currentTestScreen != 16 ?
                     Text(
                       textAlign: TextAlign.center,
-                      cubit.testQuestions[cubit.currentTestScreen],
+                      testQuestions[cubit.currentTestScreen],
                       style: const TextStyle(
-                          color: Color(0xffE1E2E9),
+                          color: fontColor,
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
                     )
@@ -293,7 +328,7 @@ class Test_Screen extends StatelessWidget
                             padding: const EdgeInsets.only(right: 10.0),
                             child: Text('العرق',style: TextStyle(color: Colors.blue),),
                           )),
-                          items: cubit.ethnicityList.asMap().entries.map((value)
+                          items: ethnicityList.asMap().entries.map((value)
                           {
                             return DropdownMenuItem<String>(
                               alignment: Alignment.centerRight,

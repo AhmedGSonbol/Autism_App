@@ -1,6 +1,7 @@
 
 import 'package:autism/Modules/onboarding/onboarding_Screen.dart';
 import 'package:autism/Modules/home/home_Screen.dart';
+import 'package:autism/Modules/register/register_Screen.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/modules/login/login_Screen.dart';
 import 'package:bloc/bloc.dart';
@@ -36,7 +37,7 @@ void main() async
     screen = Login_Screen();
   }
 
-  screen = Home_Screen();
+  screen = Register_Screen();
 
 
   return runApp(

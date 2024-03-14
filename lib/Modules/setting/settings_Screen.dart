@@ -1,3 +1,4 @@
+import 'package:autism/Shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 
 class Settings_Screen extends StatelessWidget {
@@ -6,9 +7,9 @@ class Settings_Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff1d2024),
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: const Color(0xff1d2024),
+        backgroundColor: backgroundColor,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -74,7 +75,7 @@ class Settings_Screen extends StatelessWidget {
                             const Text(
                               'اﻹشعارات',
                               style: TextStyle(
-                                  color: Color(0xffE1E2E9),
+                                  color: fontColor,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold),
                             ),
@@ -156,7 +157,7 @@ class Settings_Screen extends StatelessWidget {
                                 const Text(
                                   'رؤية ملفك الشخصي',
                                   style: TextStyle(
-                                      color: Color(0xffE1E2E9),
+                                      color: fontColor,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -174,7 +175,7 @@ class Settings_Screen extends StatelessWidget {
                                 const Text(
                                   'رؤيتك في البحث',
                                   style: TextStyle(
-                                      color: Color(0xffE1E2E9),
+                                      color: fontColor,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -192,7 +193,7 @@ class Settings_Screen extends StatelessWidget {
                                 const Text(
                                   'التحدث معك',
                                   style: TextStyle(
-                                      color: Color(0xffE1E2E9),
+                                      color: fontColor,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -210,7 +211,7 @@ class Settings_Screen extends StatelessWidget {
                                 const Text(
                                   'التعليق علي منشورك',
                                   style: TextStyle(
-                                      color: Color(0xffE1E2E9),
+                                      color: fontColor,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -228,7 +229,7 @@ class Settings_Screen extends StatelessWidget {
                                 const Text(
                                   'التطبيق استخدام بيانات التشخيص',
                                   style: TextStyle(
-                                      color: Color(0xffE1E2E9),
+                                      color: fontColor,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -309,7 +310,7 @@ class Settings_Screen extends StatelessWidget {
               //                 const Text(
               //                   'عمل نسخة للمحادثات و اﻹعدادات',
               //                   style: TextStyle(
-              //                       color: Color(0xffE1E2E9),
+              //                       color: fontColor,
               //                       fontSize: 17,
               //                       fontWeight: FontWeight.bold),
               //                 )
@@ -353,7 +354,7 @@ class Settings_Screen extends StatelessWidget {
               //                 const Text(
               //                   'إسترداد النسخة اﻹحتياطية',
               //                   style: TextStyle(
-              //                       color: Color(0xffE1E2E9),
+              //                       color: fontColor,
               //                       fontSize: 17,
               //                       fontWeight: FontWeight.bold),
               //                 )

@@ -1,8 +1,9 @@
 
 import 'package:autism/Modules/home/home_Screen.dart';
+import 'package:autism/Modules/register/register_Screen.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
-import 'package:autism/modules/register/user_account1.dart';
+import 'package:autism/Shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 
 class Login_Screen extends StatelessWidget
@@ -137,7 +138,7 @@ class Login_Screen extends StatelessWidget
                     TextButton(
                       onPressed: ()
                       {
-                        navTo(context, UserAccount());
+                        navTo(context, Register_Screen());
 
                       },
                       child: const Text(
