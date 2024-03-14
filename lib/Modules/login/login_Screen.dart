@@ -1,5 +1,5 @@
 
-import 'package:autism/Modules/user_home/home_Screen.dart';
+import 'package:autism/Modules/home/home_Screen.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/modules/register/user_account1.dart';

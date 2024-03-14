@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class InfoAutism extends StatelessWidget {
-  const InfoAutism({super.key});
+class Info_Screen extends StatelessWidget {
+  const Info_Screen({super.key});
 
   @override
   Widget build(BuildContext context) {

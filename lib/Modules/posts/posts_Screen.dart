@@ -2,15 +2,9 @@ import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:flutter/material.dart';
 
-class Posts_Screen extends StatefulWidget {
+class Posts_Screen extends StatelessWidget {
   Posts_Screen({super.key});
 
-  @override
-  State<Posts_Screen> createState() => _Posts_ScreenState();
-}
-
-class _Posts_ScreenState extends State<Posts_Screen>
-{
   TextEditingController writeCon = TextEditingController();
 
   @override
@@ -18,62 +12,49 @@ class _Posts_ScreenState extends State<Posts_Screen>
   {
     return Directionality(
       textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: backgroundColor,
-        body: Padding(
-          padding: const EdgeInsetsDirectional.symmetric(
-              vertical: 10, horizontal: 10),
-          child: Column(
-            children: [
-              SizedBox(
-                // padding: const EdgeInsetsDirectional.symmetric(vertical: 10),
-                width: 350,
-                height: 60,
-                child: TextField(
-                  style: TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16)),
-                    hintText: 'إكتب شئ',
-                    hintStyle: TextStyle(
-                      color: Color(0xffE1E2E9),
-                    ),
-                    suffix: Image.asset(
-                      'assets/images/send.png',
-                      width: 30,
-                      height: 30,
-                    ),
+      child: Padding(
+        padding: const EdgeInsetsDirectional.all(10.0),
+        child: Column(
+          children: [
+            SizedBox(
+              // padding: const EdgeInsetsDirectional.symmetric(vertical: 10),
+              width: 350,
+              height: 60,
+              child: TextField(
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16)),
+                  hintText: 'إكتب شئ',
+                  hintStyle: TextStyle(
+                    color: Color(0xffE1E2E9),
+                  ),
+                  suffix: Image.asset(
+                    'assets/images/send.png',
+                    width: 30,
+                    height: 30,
                   ),
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Expanded(
-                child: ListView.separated(
-                  itemBuilder: (context, index) => bulidPostItem(text: 'testooooooooooo oooooooooooooooo ooooooooooooo oooooooooooooo iiiiiiiiiiii pppppppppppppp [[[[[[[[[[[[[[[ jjjjjjjjjjjjjjj mmmmmmmmmmmmm bbbbbbbbbbbbb hhhhhhhhhhhhhhh jjjjjjjjjjjjjjj kkkkkkkkkkkk lllllllllllll mmmmmmmmm jjjjjjjjjjjjjjj hhhhhhhhhhhhhhh uuuuuuuuuuuuu knknkn kn kjn jn jn jn jn jn jn j nj n jn jn jn j n'),
-                  separatorBuilder: (context, index) => SizedBox(
-                    height: 10,
-                  ),
-                  itemCount: 20,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Expanded(
+              child: ListView.separated(
+                itemBuilder: (context, index) => bulidPostItem(text: 'testooooooooooo oooooooooooooooo ooooooooooooo oooooooooooooo iiiiiiiiiiii pppppppppppppp [[[[[[[[[[[[[[[ jjjjjjjjjjjjjjj mmmmmmmmmmmmm bbbbbbbbbbbbb hhhhhhhhhhhhhhh jjjjjjjjjjjjjjj kkkkkkkkkkkk lllllllllllll mmmmmmmmm jjjjjjjjjjjjjjj hhhhhhhhhhhhhhh uuuuuuuuuuuuu knknkn kn kjn jn jn jn jn jn jn j nj n jn jn jn j n'),
+                separatorBuilder: (context, index) => SizedBox(
+                  height: 10,
                 ),
+                itemCount: 20,
               ),
-            ],
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Color(0xff254777),
-          onPressed: () {},
-          child: Icon(
-            Icons.arrow_upward,
-            color: Color(0xffD5E3FF),
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
-
 
 // Expanded(
 //           child: ListView.separated(

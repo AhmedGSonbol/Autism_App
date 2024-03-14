@@ -1,9 +1,8 @@
 import 'package:autism/Shared/Constants/Constants.dart';
-import 'package:autism/Shared/components/widgets/chat/chat_screen/chat_bubble.dart';
 import 'package:flutter/material.dart';
 
-class ChatPage extends StatelessWidget {
-  const ChatPage({super.key});
+class Chat_Details_Screen extends StatelessWidget {
+  const Chat_Details_Screen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +42,7 @@ class ChatPage extends StatelessWidget {
           children: [
             Expanded(
               child: ListView.builder(
-                itemBuilder: (context, index) => ChatBubble(),
+                itemBuilder: (context, index) => senderItemBuilder(),
                 itemCount: 3,
               ),
             ),
@@ -62,6 +61,35 @@ class ChatPage extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget senderItemBuilder()
+  {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        //Don`nt use fixed height and width
+        // height: 85,
+        // width: 150,
+        padding:
+        EdgeInsetsDirectional.only(start: 16, bottom: 16, end: 16, top: 16),
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        decoration: BoxDecoration(
+          color: Color(0xffA8C8FF),
+          borderRadius: BorderRadiusDirectional.only(
+            topStart: Radius.circular(40),
+            bottomEnd: Radius.circular(40),
+            bottomStart: Radius.circular(40),
+          ),
+        ),
+        child: Text(
+          'السلام عليكم ورحمة الله',
+          style: TextStyle(
+            color: Color(0xff05305F),
+          ),
         ),
       ),
     );

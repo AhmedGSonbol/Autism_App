@@ -1,8 +1,8 @@
 
-import 'package:autism/Modules/user_home/home_Screen.dart';
+import 'package:autism/Modules/onboarding/onboarding_Screen.dart';
+import 'package:autism/Modules/home/home_Screen.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/modules/login/login_Screen.dart';
-import 'package:autism/modules/onboarding/onboarding_Screen.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,13 +22,23 @@ void main() async
   await CachHelper.init();
 
 
-  Widget screen = Login_Screen();
-  print('sss');
-  print(CachHelper.getData(key: 'onBoarding'));
+  Widget screen;
 
-  if (CachHelper.getData(key: 'onBoarding') == null) {
-    screen = OnboardingScreen();
+  if(CachHelper.getData(key: 'ShowBoarding') != null)
+  {
+
+      screen = Login_Screen();
+
   }
+  else
+  {
+    // screen = OnBoardingScreen();
+    screen = Login_Screen();
+  }
+
+  screen = Home_Screen();
+
+
   return runApp(
 
     BlocProvider(

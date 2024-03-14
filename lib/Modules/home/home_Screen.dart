@@ -1,11 +1,14 @@
+import 'package:autism/Modules/chat/chat_Screen.dart';
+import 'package:autism/Modules/info/info_Screen.dart';
+import 'package:autism/Modules/reviews/reviews_Screen.dart';
+import 'package:autism/Modules/setting/settings_Screen.dart';
 import 'package:autism/Modules/test/test_Screen.dart';
-import 'package:autism/Modules/user_home/posts_Screen.dart';
+import 'package:autism/Modules/posts/posts_Screen.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
-import 'package:autism/modules/user_home/chat.dart';
-import 'package:autism/modules/user_home/info.dart';
 
-import 'package:autism/modules/user_home/reviews.dart';
-import 'package:autism/setting/settings_Screen.dart';
+
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -21,9 +24,9 @@ class _Home_ScreenState extends State<Home_Screen> {
   List<Widget> screens =
   [
     Posts_Screen(),
-    const ChatHome(),
-    const ReviewsScreen(),
-    const InfoAutism(),
+    const Chat_Screen(),
+    const Reviews_Screen(),
+    const Info_Screen(),
   ];
 
   @override
@@ -93,6 +96,7 @@ class _Home_ScreenState extends State<Home_Screen> {
               onTap: ()
               {
                 //go to profile
+
               },
             ),
           ],
@@ -356,8 +360,7 @@ class _Home_ScreenState extends State<Home_Screen> {
           ),
         ),
         body: screens[_currentIndex],
-
-          bottomNavigationBar: NavigationBar(
+        bottomNavigationBar: NavigationBar(
 
 //
             backgroundColor: const Color(0xff1d2024),
