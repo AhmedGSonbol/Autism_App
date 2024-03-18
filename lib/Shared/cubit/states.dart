@@ -9,3 +9,7 @@ class AppPreviousQuestionState extends AppStates{}
 class AppQuestionCheckedChangeState extends AppStates{}
 
 class AppChangeSelectedEthnicityState extends AppStates{}
+
+class AppChangeRegScreenState extends AppStates{}
+
+class AppChangeProfileScreenState extends AppStates{}

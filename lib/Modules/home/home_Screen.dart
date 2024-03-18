@@ -5,7 +5,9 @@ import 'package:autism/Modules/setting/settings_Screen.dart';
 import 'package:autism/Modules/test/test_Screen.dart';
 import 'package:autism/Modules/posts/posts_Screen.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
+import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/styles/colors.dart';
+import 'package:autism/profile/profile_Screen.dart';
 
 
 
@@ -149,26 +151,35 @@ class _Home_ScreenState extends State<Home_Screen> {
                       color: const Color(0xff43474E),
                       borderRadius: BorderRadius.circular(20)),
                   child: Column(
-                    children: [
-                      const Row(
-                        children: [
-                          Icon(
-                            Icons.account_circle,
-                            size: 30,
-                            color: Color(0xffA8C8FF),
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Text(
-                            'الملف الشخصي',
-                            style: TextStyle(
-                                color: Color(0xffE1E2E9),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          )
-                        ],
-                      ),
+                    children:
+                    [
+
+                      GestureDetector(
+                        onTap: ()
+                        {
+                          navTo(context, Profile_Screen());
+                        },
+                         child: Row(
+                          children:
+                          [
+                            Icon(
+                              Icons.account_circle,
+                              size: 30,
+                              color: Color(0xffA8C8FF),
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Text(
+                              'الملف الشخصي',
+                              style: TextStyle(
+                                  color: Color(0xffE1E2E9),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            )
+                          ],
+                                               ),
+                       ),
                       const SizedBox(
                         height: 30,
                       ),
@@ -180,26 +191,24 @@ class _Home_ScreenState extends State<Home_Screen> {
                             }),
                           );
                         },
-                        child: Container(
-                          child: const Row(
-                            children: [
-                              Icon(
-                                Icons.settings,
-                                size: 30,
-                                color: Color(0xffA8C8FF),
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Text(
-                                ' اﻹعدادات',
-                                style: TextStyle(
-                                    color: Color(0xffE1E2E9),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              )
-                            ],
-                          ),
+                        child: const Row(
+                          children: [
+                            Icon(
+                              Icons.settings,
+                              size: 30,
+                              color: Color(0xffA8C8FF),
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Text(
+                              ' اﻹعدادات',
+                              style: TextStyle(
+                                  color: Color(0xffE1E2E9),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            )
+                          ],
                         ),
                       ),
                       const SizedBox(

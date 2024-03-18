@@ -168,17 +168,8 @@ class Test_Screen extends StatelessWidget
                             }
                           }
                         }
-
-
-
-
-
-
-
                       },
                       text: 'التالي',
-                      color: const Color(0xffA8C8FF),
-                      textColor: const Color(0xff05305F),
                     ),
                   ],
                 ),

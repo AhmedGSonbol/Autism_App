@@ -9,4 +9,5 @@ TextStyle textOnBoarding = const TextStyle(
 TextStyle textOnBoarding2 = const TextStyle(
   color: Color(0xffE1E2E9),
   fontSize: 18,
+  overflow: TextOverflow.ellipsis
 );

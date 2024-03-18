@@ -3,6 +3,7 @@ import 'package:autism/Modules/onboarding/onboarding_Screen.dart';
 import 'package:autism/Modules/home/home_Screen.dart';
 import 'package:autism/Modules/register/register_Screen.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
+import 'package:autism/Shared/styles/app_Themes.dart';
 import 'package:autism/modules/login/login_Screen.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -34,10 +35,10 @@ void main() async
   else
   {
     // screen = OnBoardingScreen();
-    screen = Login_Screen();
+    screen = OnBoardingScreen();
   }
 
-  screen = Register_Screen();
+  screen = OnBoardingScreen();
 
 
   return runApp(
@@ -46,11 +47,9 @@ void main() async
       create: (context) => AppCubit(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            useMaterial3: true,
-            fontFamily: 'Roboto',
-            dividerTheme: const DividerThemeData(color: Colors.transparent),
-        ),
+        darkTheme: myDarkTheme,
+        themeMode: ThemeMode.dark,
+
         home: screen,
       ),
     )

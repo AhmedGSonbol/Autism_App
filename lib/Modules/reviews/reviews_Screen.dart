@@ -15,7 +15,7 @@ class Reviews_Screen extends StatelessWidget {
         children: [
           Expanded(
             child: ListView.separated(
-              itemBuilder: (context, index) => bulidPostItem(text: 'testooooooooooo oooooooooooooooo ooooooooooooo oooooooooooooo iiiiiiiiiiii pppppppppppppp [[[[[[[[[[[[[[[ jjjjjjjjjjjjjjj mmmmmmmmmmmmm bbbbbbbbbbbbb hhhhhhhhhhhhhhh jjjjjjjjjjjjjjj kkkkkkkkkkkk lllllllllllll mmmmmmmmm jjjjjjjjjjjjjjj hhhhhhhhhhhhhhh uuuuuuuuuuuuu knknkn kn kjn jn jn jn jn jn jn j nj n jn jn jn j n'),
+              itemBuilder: (context, index) => bulidPostItem(context: context,text: 'testooooooooooo oooooooooooooooo ooooooooooooo oooooooooooooo iiiiiiiiiiii pppppppppppppp [[[[[[[[[[[[[[[ jjjjjjjjjjjjjjj mmmmmmmmmmmmm bbbbbbbbbbbbb hhhhhhhhhhhhhhh jjjjjjjjjjjjjjj kkkkkkkkkkkk lllllllllllll mmmmmmmmm jjjjjjjjjjjjjjj hhhhhhhhhhhhhhh uuuuuuuuuuuuu knknkn kn kjn jn jn jn jn jn jn j nj n jn jn jn j n'),
               separatorBuilder: (context, index) => SizedBox(
                 height: 10,
               ),

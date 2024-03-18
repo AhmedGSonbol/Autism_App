@@ -1,4 +1,5 @@
 import 'package:autism/Shared/Constants/Constants.dart';
+import 'package:autism/Shared/styles/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -86,7 +87,7 @@ Widget defaultTextFormField({
 
 Widget defaultButton({
   double width = 100,
-  Color color = const Color(0xffA8C8FF),
+  Color color = mainColor,
   double radius = 0.0,
   double height = 40,
   bool isUpperCase = true,
@@ -115,7 +116,7 @@ Widget defaultElevatedButton({
   double elevation = 0,
   double width = 100,
   double height = 50,
-  required void Function()? onPressed,
+  required void Function() onPressed,
   required String text,
   Color? color,
   Color? textColor,
@@ -146,7 +147,9 @@ Widget defaultElevatedButton({
 
 
 Widget bulidPostItem({
-  required String text
+  required String text,
+  required BuildContext context,
+  bool isMyPost = false
 }) {
   return Padding(
     padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
@@ -165,7 +168,13 @@ Widget bulidPostItem({
                 crossAxisAlignment: CrossAxisAlignment.start,
               children:
               [
-                const Image(image: AssetImage('assets/images/Rectangle.png')),
+                IconButton(
+                  icon: Image(image: AssetImage('assets/images/Rectangle.png')),
+                  onPressed: ()
+                  {
+
+                  },
+                ),
                 const SizedBox(width: 7,),
                 Expanded(
                   child: Column(
@@ -197,10 +206,112 @@ Widget bulidPostItem({
                         Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: InkWell(
-                              child: Image.asset('assets/images/partner_reports.png'),
+                              child: isMyPost ? Icon(Icons.delete_outline,color: const Color(0xffDBBCE1),) :  Image.asset('assets/images/partner_reports.png'),
                             onTap: ()
                             {
-                              // tap on report post !!
+                              if(!isMyPost)
+                              {
+                                showDialog(context: context, builder: (context) => AlertDialog(
+                                  backgroundColor: const Color(0xff282a2f),
+                                  title: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children:
+                                      [
+                                        Image.asset('assets/images/partner_reports.png',height: 20.0,width: 20.0,),
+                                        SizedBox(height: 20.0,),
+                                        Text('إبلاغ',style: TextStyle(fontSize: 25.0,color: fontColor),),
+                                        SizedBox(height: 20.0,),
+                                        Text(
+                                            'حدد نوع الإساءة الموجودة في المنشور',
+                                            textAlign: TextAlign.center,style: textOnBoarding2)
+                                      ],
+                                    ),
+                                  ),
+                                  content: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children:
+                                    [
+                                      Row(children:
+                                      [
+                                        Checkbox(activeColor: mainColor,value: true, onChanged: (val){}),
+                                        Spacer(),
+                                        Text('معلومة غير صحيحة',style: textOnBoarding2,),
+                                      ],),
+                                      Divider(),
+                                      Row(children:
+                                      [
+                                        Checkbox(activeColor: mainColor,value: false, onChanged: (val){}),
+                                        Spacer(),
+                                        Text('إساءة باللفظ',style: textOnBoarding2),
+                                      ],),
+                                      Divider(),
+                                      Row(children:
+                                      [
+                                        Checkbox(activeColor: mainColor,value: true, onChanged: (val){}),
+                                        Spacer(),
+                                        Text('إزعاج',style: textOnBoarding2),
+                                      ],),
+
+
+                                    ],
+                                  ),
+
+                                  actions:
+                                  [
+                                    TextButton(
+                                      child: Text('إرسال',style: TextStyle(color: secondColor),),
+                                      onPressed: (){},
+                                    ),
+                                    TextButton(
+                                      child: Text('إلغاء',style: TextStyle(color: fontColor),),
+                                      onPressed: (){},
+                                    ),
+
+                                  ],
+
+                                  // backgroundColor: backgroundColor,
+                                  titlePadding: EdgeInsets.zero,
+                                ),);
+                              }else
+                              {
+                                showDialog(context: context, builder: (context) => AlertDialog(
+                                  backgroundColor: const Color(0xff282a2f),
+                                  title: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children:
+                                      [
+                                        Icon(Icons.delete,color: secondColor,),
+                                        SizedBox(height: 20.0,),
+                                        Text('هل تريد حذف المنشور ؟',style: TextStyle(fontSize: 25.0,color: fontColor),),
+                                        SizedBox(height: 20.0,),
+                                      ],
+                                    ),
+                                  ),
+                                  actions:
+                                  [
+                                    TextButton(
+                                      child: Text('حذف',style: TextStyle(color: secondColor),),
+                                      onPressed: (){},
+                                    ),
+                                    TextButton(
+                                      child: Text('إلغاء',style: TextStyle(color: fontColor),),
+                                      onPressed: (){},
+                                    ),
+
+                                  ],
+
+
+                                  // backgroundColor: backgroundColor,
+                                  titlePadding: EdgeInsets.zero,
+                                ),);
+                              }
+
+
                             },
                           ),
                         )
@@ -356,6 +467,69 @@ Widget buildReviewsItem() {
   );
 }
 
+
+Widget myNavBar(
+{
+  required int selectedIndex,
+  required List<String> text,
+  required Function(int index) onDestinationSelected,
+})
+{
+  return Container(
+    decoration: BoxDecoration(
+      border: Border.all(color: Colors.white , width: 1.0),
+      borderRadius: BorderRadius.circular(31.0),
+
+    ),
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(100.0),
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: NavigationBar(
+          height: 60.0,
+
+
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          indicatorColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
+
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+          selectedIndex: selectedIndex,
+          destinations:
+              text.asMap().entries.map((entry) => NavigationDestination(
+                icon: Container(
+                    decoration: BoxDecoration(
+                      color: entry.key == selectedIndex ? mainColor : Colors.transparent,),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children:
+                        [
+                          if(entry.key == selectedIndex)
+                            const Icon(Icons.check,color: Colors.black ,size: 18.0,),
+                          Expanded(
+                            child: Center(
+                              child: Text(
+                                entry.value,
+                                style: TextStyle(color: entry.key == selectedIndex ? Colors.black : fontColor),
+                              ),
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    )),
+                label: '',
+              )).toList(),
+
+
+          onDestinationSelected: onDestinationSelected
+        ),
+      ),
+    ),
+  );
+}
 
 // AnimatedSwitcher buildAnimatedSwitcher(
 //   BuildContext context, {
