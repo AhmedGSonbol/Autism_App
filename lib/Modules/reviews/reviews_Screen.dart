@@ -2,28 +2,41 @@
 
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
+import 'package:autism/Shared/cubit/cubit.dart';
+import 'package:autism/Shared/cubit/states.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Reviews_Screen extends StatelessWidget {
   const Reviews_Screen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsetsDirectional.all(10.0),
-      child: Column(
-        children: [
-          Expanded(
-            child: ListView.separated(
-              itemBuilder: (context, index) => bulidPostItem(context: context,text: 'testooooooooooo oooooooooooooooo ooooooooooooo oooooooooooooo iiiiiiiiiiii pppppppppppppp [[[[[[[[[[[[[[[ jjjjjjjjjjjjjjj mmmmmmmmmmmmm bbbbbbbbbbbbb hhhhhhhhhhhhhhh jjjjjjjjjjjjjjj kkkkkkkkkkkk lllllllllllll mmmmmmmmm jjjjjjjjjjjjjjj hhhhhhhhhhhhhhh uuuuuuuuuuuuu knknkn kn kjn jn jn jn jn jn jn j nj n jn jn jn j n'),
-              separatorBuilder: (context, index) => SizedBox(
-                height: 10,
+  Widget build(BuildContext context)
+  {
+    return BlocConsumer<AppCubit,AppStates>(
+      listener: (context, state) {},
+      builder: (context, state)
+      {
+
+        var cubit = AppCubit.get(context);
+
+        return Padding(
+          padding: const EdgeInsetsDirectional.all(10.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.separated(
+                  itemBuilder: (context, index) => bulidPostItem(context: context,model: cubit.doctorsPosts[index]),
+                  separatorBuilder: (context, index) => SizedBox(
+                    height: 10,
+                  ),
+                  itemCount: cubit.doctorsPosts.length,
+                ),
               ),
-              itemCount: 20,
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

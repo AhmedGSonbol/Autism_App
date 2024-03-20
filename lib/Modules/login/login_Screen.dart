@@ -71,6 +71,7 @@ class Login_Screen extends StatelessWidget
                 type: TextInputType.visiblePassword,
                 hint: 'الرقم السري',
                 isPrefix: true,
+
                 prefixIcon: const Icon(Icons.visibility),
                 isPass: true,
                 style: const TextStyle(color: Colors.white),

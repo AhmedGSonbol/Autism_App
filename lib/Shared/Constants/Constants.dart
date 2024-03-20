@@ -11,3 +11,5 @@ TextStyle textOnBoarding2 = const TextStyle(
   fontSize: 18,
   overflow: TextOverflow.ellipsis
 );
+
+String uId = '123';

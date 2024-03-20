@@ -1,3 +1,4 @@
+import 'package:autism/Modules/test/test_Screen.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:flutter/cupertino.dart';
@@ -64,7 +65,11 @@ class Profile_Child_Screen extends StatelessWidget {
           Icon(Icons.badge_outlined,color: mainColor,),
         ],),
         SizedBox(height: 10.0,),
-        defaultElevatedButton(text: 'اختبر',onPressed: (){},
+        defaultElevatedButton(text: 'اختبر',
+          onPressed: ()
+          {
+            navTo(context, Test_Screen());
+          },
         ),
         SizedBox(height: 30.0,),
 

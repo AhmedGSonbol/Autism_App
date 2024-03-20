@@ -1,5 +1,6 @@
 import 'package:autism/Modules/chat/chat_Screen.dart';
 import 'package:autism/Modules/info/info_Screen.dart';
+import 'package:autism/Modules/profile/profile_Screen.dart';
 import 'package:autism/Modules/reviews/reviews_Screen.dart';
 import 'package:autism/Modules/setting/settings_Screen.dart';
 import 'package:autism/Modules/test/test_Screen.dart';
@@ -7,7 +8,6 @@ import 'package:autism/Modules/posts/posts_Screen.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/styles/colors.dart';
-import 'package:autism/profile/profile_Screen.dart';
 
 
 
@@ -99,7 +99,7 @@ class _Home_ScreenState extends State<Home_Screen> {
               onTap: ()
               {
                 //go to profile
-
+                navTo(context, Profile_Screen());
               },
             ),
           ],

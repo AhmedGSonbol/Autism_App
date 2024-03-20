@@ -1,3 +1,4 @@
+import 'package:autism/Models/post_Model.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,7 +30,7 @@ Widget defaultTextFormField({
   required bool isPrefix,
   bool isSuffix = false,
   bool isPass = false,
-  // required
+  // delete validate
   validate,
   IconData? prefix,
   prefixPressed,
@@ -44,38 +45,49 @@ Widget defaultTextFormField({
   TextStyle? hintStyle,
   Widget? prefixIcon,
 }) {
-  return TextFormField(
-    controller: controller,
-    keyboardType: type,
-    obscureText: isPass,
-    enabled: isClickable,
-    onFieldSubmitted: (value) {},
-    // onChanged: (value) { },
+  return Directionality(
+    textDirection: hintRt1!,
+    child: TextFormField(
 
-    decoration: InputDecoration(
-      border: const OutlineInputBorder(),
-      labelText: label,
+      controller: controller,
+      keyboardType: type,
+      obscureText: isPass,
+      enabled: isClickable,
+      onFieldSubmitted: (value) {},
 
-      hintText: hint,
-      hintStyle: const TextStyle(color: Color(0xffD9D9D9), fontSize: 15),
-      hintTextDirection: hintRt1,
-      prefixIcon: isPrefix
-          ? IconButton(
-              icon: Icon(
-                prefix,
-                color: prefixColor ?? const Color(0xffCCCCCC),
-                size: prefixIconSize ?? 25,
-              ),
-              onPressed: () {
-                prefixPressed();
-              },
-            )
-          : null,
-      // suffixIcon: isSuffix?  null:suffix,
+      // onChanged: (value) { },
+
+      decoration: InputDecoration(
+
+        border: const OutlineInputBorder(),
+        labelText: label,
+        labelStyle: const TextStyle(color: Color(0xffD9D9D9), fontSize: 15),
+
+        hintText: hint,
+        hintStyle: const TextStyle(color: Color(0xffD9D9D9), fontSize: 15),
+        // hintTextDirection: hintRt1,
+        prefixIcon: isPrefix
+            ? IconButton(
+                icon: Icon(
+                  prefix,
+                  color: prefixColor ?? const Color(0xffCCCCCC),
+                  size: prefixIconSize ?? 25,
+                ),
+                onPressed: () {
+                  prefixPressed();
+                },
+              )
+            : null,
+        // suffixIcon: isSuffix?  null:suffix,
+      ),
+      onTap: onTap,
+      validator: (value) {
+        if (value == '') {
+          return 'مطلوب*';
+        }
+      },
+      style: const TextStyle(color: Colors.white),
     ),
-    onTap: onTap,
-    validator: validate,
-    style: const TextStyle(color: Colors.white),
   );
 }
 
@@ -147,31 +159,32 @@ Widget defaultElevatedButton({
 
 
 Widget bulidPostItem({
-  required String text,
   required BuildContext context,
-  bool isMyPost = false
+  required Post_Model model,
 }) {
   return Padding(
     padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
+    
     child: Container(
       width: double.infinity,
       decoration: BoxDecoration(
         color: const Color(0xff292A2D),
         borderRadius: BorderRadiusDirectional.circular(10),
       ),
-      child: Column(
-        children:
-        [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children:
+          [
+            Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
               children:
               [
                 IconButton(
-                  icon: Image(image: AssetImage('assets/images/Rectangle.png')),
-                  onPressed: ()
-                  {
+                  // change it to network image
+                  icon: Image(image: AssetImage(model.avatarImage!)),
+                  onPressed: () {
+                    // go to user porofile
 
                   },
                 ),
@@ -189,14 +202,14 @@ Widget bulidPostItem({
                             children:
                             [
                               Text(
-                                'د. أحمد',
+                                model.name!,
                                 style: textOnBoarding2,
                               ),
-                              const Text(
-                                ' ٢ أكتوبر ٢٠٢٤',
-                                style: TextStyle(
+                               Text(
+                                model.date!,
+                                style: const TextStyle(
                                   fontSize: 10,
-                                  color: Color(0xffE1E2E9),
+                                  color: fontColor,
                                 ),
                               ),
                             ],
@@ -205,114 +218,150 @@ Widget bulidPostItem({
 
                         Padding(
                           padding: const EdgeInsets.only(left: 5),
-                          child: InkWell(
-                              child: isMyPost ? Icon(Icons.delete_outline,color: const Color(0xffDBBCE1),) :  Image.asset('assets/images/partner_reports.png'),
-                            onTap: ()
-                            {
-                              if(!isMyPost)
-                              {
-                                showDialog(context: context, builder: (context) => AlertDialog(
-                                  backgroundColor: const Color(0xff282a2f),
-                                  title: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children:
+                          child: Row(
+                            children:
+                            [
+                              IconButton(
+                                icon: model.uId! == uId ? const Icon(Icons.delete_outline,color: Color(0xffDBBCE1),) :  Image.asset('assets/images/partner_reports.png'),
+                                onPressed: ()
+                                {
+                                  if(!(model.uId == uId))
+                                  {
+                                    showDialog(context: context, builder: (context) => AlertDialog(
+                                      backgroundColor: const Color(0xff282a2f),
+                                      title: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children:
+                                          [
+                                            Image.asset('assets/images/partner_reports.png',height: 20.0,width: 20.0,),
+                                            const SizedBox(height: 20.0,),
+                                            const Text('إبلاغ',style: TextStyle(fontSize: 25.0,color: fontColor),),
+                                            const SizedBox(height: 20.0,),
+                                            Text(
+                                                'حدد نوع الإساءة الموجودة في المنشور',
+                                                textAlign: TextAlign.center,style: textOnBoarding2)
+                                          ],
+                                        ),
+                                      ),
+                                      content: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children:
+                                        [
+                                          Row(children:
+                                          [
+                                            Checkbox(activeColor: mainColor,value: true, onChanged: (val){}),
+                                            const Spacer(),
+                                            Text('معلومة غير صحيحة',style: textOnBoarding2,),
+                                          ],),
+                                          const Divider(),
+                                          Row(children:
+                                          [
+                                            Checkbox(activeColor: mainColor,value: false, onChanged: (val){}),
+                                            const Spacer(),
+                                            Text('إساءة باللفظ',style: textOnBoarding2),
+                                          ],),
+                                          const Divider(),
+                                          Row(children:
+                                          [
+                                            Checkbox(activeColor: mainColor,value: true, onChanged: (val){}),
+                                            const Spacer(),
+                                            Text('إزعاج',style: textOnBoarding2),
+                                          ],),
+
+
+                                        ],
+                                      ),
+
+                                      actions:
                                       [
-                                        Image.asset('assets/images/partner_reports.png',height: 20.0,width: 20.0,),
-                                        SizedBox(height: 20.0,),
-                                        Text('إبلاغ',style: TextStyle(fontSize: 25.0,color: fontColor),),
-                                        SizedBox(height: 20.0,),
-                                        Text(
-                                            'حدد نوع الإساءة الموجودة في المنشور',
-                                            textAlign: TextAlign.center,style: textOnBoarding2)
+                                        TextButton(
+                                          child: const Text('إرسال',style: TextStyle(color: secondColor),),
+                                          onPressed: (){},
+                                        ),
+                                        TextButton(
+                                          child: const Text('إلغاء',style: TextStyle(color: fontColor),),
+                                          onPressed: ()
+                                          {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+
                                       ],
-                                    ),
-                                  ),
-                                  content: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children:
-                                    [
-                                      Row(children:
+
+                                      // backgroundColor: backgroundColor,
+                                      titlePadding: EdgeInsets.zero,
+                                    ),);
+                                  }else
+                                  {
+                                    showDialog(context: context, builder: (context) => AlertDialog(
+                                      backgroundColor: const Color(0xff282a2f),
+                                      title: const Padding(
+                                        padding: EdgeInsets.all(10.0),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children:
+                                          [
+                                            Icon(Icons.delete,color: secondColor,),
+                                            SizedBox(height: 20.0,),
+                                            Text('هل تريد حذف المنشور ؟',style: TextStyle(fontSize: 25.0,color: fontColor),),
+                                            SizedBox(height: 20.0,),
+                                          ],
+                                        ),
+                                      ),
+                                      actions:
                                       [
-                                        Checkbox(activeColor: mainColor,value: true, onChanged: (val){}),
-                                        Spacer(),
-                                        Text('معلومة غير صحيحة',style: textOnBoarding2,),
-                                      ],),
-                                      Divider(),
-                                      Row(children:
-                                      [
-                                        Checkbox(activeColor: mainColor,value: false, onChanged: (val){}),
-                                        Spacer(),
-                                        Text('إساءة باللفظ',style: textOnBoarding2),
-                                      ],),
-                                      Divider(),
-                                      Row(children:
-                                      [
-                                        Checkbox(activeColor: mainColor,value: true, onChanged: (val){}),
-                                        Spacer(),
-                                        Text('إزعاج',style: textOnBoarding2),
-                                      ],),
+                                        TextButton(
+                                          child: const Text('حذف',style: TextStyle(color: secondColor),),
+                                          onPressed: (){},
+                                        ),
+                                        TextButton(
+                                          child: const Text('إلغاء',style: TextStyle(color: fontColor),),
+                                          onPressed: ()
+                                          {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
 
-
-                                    ],
-                                  ),
-
-                                  actions:
-                                  [
-                                    TextButton(
-                                      child: Text('إرسال',style: TextStyle(color: secondColor),),
-                                      onPressed: (){},
-                                    ),
-                                    TextButton(
-                                      child: Text('إلغاء',style: TextStyle(color: fontColor),),
-                                      onPressed: (){},
-                                    ),
-
-                                  ],
-
-                                  // backgroundColor: backgroundColor,
-                                  titlePadding: EdgeInsets.zero,
-                                ),);
-                              }else
-                              {
-                                showDialog(context: context, builder: (context) => AlertDialog(
-                                  backgroundColor: const Color(0xff282a2f),
-                                  title: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children:
-                                      [
-                                        Icon(Icons.delete,color: secondColor,),
-                                        SizedBox(height: 20.0,),
-                                        Text('هل تريد حذف المنشور ؟',style: TextStyle(fontSize: 25.0,color: fontColor),),
-                                        SizedBox(height: 20.0,),
                                       ],
-                                    ),
-                                  ),
-                                  actions:
-                                  [
-                                    TextButton(
-                                      child: Text('حذف',style: TextStyle(color: secondColor),),
-                                      onPressed: (){},
-                                    ),
-                                    TextButton(
-                                      child: Text('إلغاء',style: TextStyle(color: fontColor),),
-                                      onPressed: (){},
-                                    ),
-
-                                  ],
 
 
-                                  // backgroundColor: backgroundColor,
-                                  titlePadding: EdgeInsets.zero,
-                                ),);
+                                      // backgroundColor: backgroundColor,
+                                      titlePadding: EdgeInsets.zero,
+                                    ),);
+                                  }
+
+
+                                },
+                              ),
+                              (()
+                              {
+                                if(model.postType == 0)
+                                {
+                                  return Container();
+
+                                }else
+                                {
+                                  if(model.postType == 1)
+                                  {
+                                    return const Icon(Icons.report_gmailerrorred_rounded , color: Color(0xFFFFB4AB),);
+                                  }
+                                  else if(model.postType == 2)
+                                  {
+                                    return const Icon(Icons.info_outline , color: Color(0xFF16EA9E),);
+                                  }
+                                  else
+                                  {
+                                    return const Icon(Icons.help_outline , color: Color(0xFF569CFF),);
+                                  }
+                                }
+
                               }
+                              ()),
 
-
-                            },
+                            ],
                           ),
                         )
                       ]
@@ -322,10 +371,10 @@ Widget bulidPostItem({
                         [
                           Expanded(
                             child: ReadMoreText(
-                              text,
+                              model.text!,
                               style:  const TextStyle(
                               fontSize: 15,
-                              color: Color(0xffE1E2E9),
+                              color: fontColor,
                               overflow: TextOverflow.ellipsis,
                             ),
                               trimLines: 2,
@@ -343,41 +392,75 @@ Widget bulidPostItem({
                 )
               ],
             ),
-          ),
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                icon: const Icon(
-                  Icons.favorite,
-                  color: Color(0xffE1E2E9),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children:
+              [
+                //like button
+                Column(
+                  children:
+                  [
+                    IconButton(
+                      icon: Icon(
+                        model.isSaved!
+                            ?
+                        Icons.favorite_border
+                            :
+                        Icons.favorite,
+                        color:model.isSaved! ?fontColor : const Color(0xffE27676),
+                      ),
+                      onPressed: () {
+                        // Handle like post
+                      },
+                    ),
+                    Text('${model.likesCount}',style: const TextStyle(color: fontColor,fontSize: 15.0),)
+                  ],
                 ),
-                onPressed: () {
-                  // Handle like post
-                },
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.comment,
-                  color: Color(0xffE1E2E9),
+
+                //comment button
+                Column(
+                  children:
+                  [
+                    IconButton(
+                      icon: const Icon(
+                        Icons.comment,
+                        color: fontColor,
+                      ),
+                      onPressed: () {
+                        // Handle comment on post
+                      },
+                    ),
+                    Text('${model.commentsCount}',style: const TextStyle(color: fontColor,fontSize: 15.0),)
+                  ],
                 ),
-                onPressed: () {
-                  // Handle comment on post
-                },
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.bookmark_add,
-                  color: Color(0xffE1E2E9),
+
+                //save button
+                Column(
+                  children:
+                  [
+                    IconButton(
+                      icon: Icon(
+                        model.isSaved!
+                            ?
+                        Icons.bookmark_added_outlined
+                            :
+                        Icons.bookmark_add_outlined
+                        ,
+                        color:model.isSaved! ? const Color(0xff16EA9E) :  fontColor,
+                      ),
+                      onPressed: () {
+                        // Handle save post
+                      },
+                    ),
+                    Text('${model.savesCounts}',style: const TextStyle(color: fontColor,fontSize: 15.0),)
+                  ],
                 ),
-                onPressed: () {
-                  // Handle save post
-                },
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     ),
   );
@@ -385,87 +468,87 @@ Widget bulidPostItem({
 
 
 // Not Used !!
-Widget buildReviewsItem() {
-  return Padding(
-    padding: const EdgeInsetsDirectional.symmetric(
-      horizontal: 20,
-    ),
-    child: Container(
-      height: 155,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: const Color(0xff292A2D),
-        borderRadius: BorderRadiusDirectional.circular(10),
-      ),
-      child: Column(
-        children: [
-          ListTile(
-            leading: const CircleAvatar(
-              backgroundImage: AssetImage('assets/images/Rectangle (5).png'),
-            ),
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children:  [
-                Text(
-                  'د. أحمد',
-                  style: textOnBoarding2,
-                ),
-                const Text(
-                  ' ٢ أكتوبر ٢٠٢٤',
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Color(0xffE1E2E9),
-                  ),
-                ),
-              ],
-            ),
-            subtitle: const Text(
-              'أَبْجَدْ هَوَّزْ حُطِّي كَلَمُنْ سَعْفُصْ أَبْجَدْ هَوَّزْ',
-              style: TextStyle(fontSize: 15, color: Color(0xffE1E2E9)),
-              overflow: TextOverflow.ellipsis,
-            ),
-            trailing: IconButton(
-              icon: const Icon(Icons.info),
-              onPressed: () {},
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                icon: const Icon(
-                  Icons.favorite,
-                  color: Color(0xffE1E2E9),
-                ),
-                onPressed: () {
-                  // Handle like post
-                },
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.comment,
-                  color: Color(0xffE1E2E9),
-                ),
-                onPressed: () {
-                  // Handle comment on post
-                },
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.bookmark_add,
-                  color: Color(0xffE1E2E9),
-                ),
-                onPressed: () {
-                  // Handle save post
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
-    ),
-  );
-}
+// Widget buildReviewsItem() {
+//   return Padding(
+//     padding: const EdgeInsetsDirectional.symmetric(
+//       horizontal: 20,
+//     ),
+//     child: Container(
+//       height: 155,
+//       width: double.infinity,
+//       decoration: BoxDecoration(
+//         color: const Color(0xff292A2D),
+//         borderRadius: BorderRadiusDirectional.circular(10),
+//       ),
+//       child: Column(
+//         children: [
+//           ListTile(
+//             leading: const CircleAvatar(
+//               backgroundImage: AssetImage('assets/images/Rectangle (5).png'),
+//             ),
+//             title: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children:  [
+//                 Text(
+//                   'د. أحمد',
+//                   style: textOnBoarding2,
+//                 ),
+//                 const Text(
+//                   ' ٢ أكتوبر ٢٠٢٤',
+//                   style: TextStyle(
+//                     fontSize: 10,
+//                     color: fontColor,
+//                   ),
+//                 ),
+//               ],
+//             ),
+//             subtitle: const Text(
+//               'أَبْجَدْ هَوَّزْ حُطِّي كَلَمُنْ سَعْفُصْ أَبْجَدْ هَوَّزْ',
+//               style: TextStyle(fontSize: 15, color: fontColor),
+//               overflow: TextOverflow.ellipsis,
+//             ),
+//             trailing: IconButton(
+//               icon: const Icon(Icons.info),
+//               onPressed: () {},
+//             ),
+//           ),
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//             children: [
+//               IconButton(
+//                 icon: const Icon(
+//                   Icons.favorite,
+//                   color: fontColor,
+//                 ),
+//                 onPressed: () {
+//                   // Handle like post
+//                 },
+//               ),
+//               IconButton(
+//                 icon: const Icon(
+//                   Icons.comment,
+//                   color: fontColor,
+//                 ),
+//                 onPressed: () {
+//                   // Handle comment on post
+//                 },
+//               ),
+//               IconButton(
+//                 icon: const Icon(
+//                   Icons.bookmark_add,
+//                   color:  fontColor,
+//                 ),
+//                 onPressed: () {
+//                   // Handle save post
+//                 },
+//               ),
+//             ],
+//           ),
+//         ],
+//       ),
+//     ),
+//   );
+// }
 
 
 Widget myNavBar(

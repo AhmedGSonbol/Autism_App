@@ -86,7 +86,7 @@ class Test_Screen extends StatelessWidget
           ),
           bottomNavigationBar: BottomAppBar(
             padding: EdgeInsets.zero,
-            height: 130,
+            height: 100,
             color: Colors.transparent,
             child: Column(children:
             [
@@ -95,7 +95,7 @@ class Test_Screen extends StatelessWidget
                 color: Colors.grey,
               ),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 15.0),

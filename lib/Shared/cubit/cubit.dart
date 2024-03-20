@@ -1,5 +1,6 @@
 
 
+import 'package:autism/Models/post_Model.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +12,117 @@ class AppCubit extends Cubit<AppStates>
   static AppCubit get(context) =>BlocProvider.of(context);
 
 
+  List<Post_Model> usersPosts =
+  [
+    Post_Model(
+        name: 'Ahmed sonbol',
+        date: ' ٢ أكتوبر ٢٠٢٤',
+        avatarImage: 'assets/images/Rectangle.png',
+        text: 'برجاء مراعاة مريض التوحد',
+        uId: '123',
+        isLiked: true,
+        isSaved: true,
+        likesCount: 21,
+        commentsCount: 30,
+        savesCounts: 55,
+        postType:0
+    ),
+    Post_Model(
+        name: 'محمد خميس',
+        date: ' 9 نوفمبر 2023',
+        avatarImage: 'assets/images/Rectangle.png',
+        text: 'السلام عليكم',
+        uId: '335',
+        isLiked: false,
+        isSaved: false,
+        likesCount: 1,
+        commentsCount: 5,
+        savesCounts: 3,
+        postType:0
+    ),
+    Post_Model(
+        name: 'احمد رمضان',
+        date: ' 7 ابريل 2019',
+        avatarImage: 'assets/images/Rectangle.png',
+        text: 'مرض التوحد هو اضطراب عصبي يؤثر على التواصل والسلوك الاجتماعي للأفراد المصابين به. يعتبر التوحد جزءًا من طيف اضطرابات التوحد، والتي تشمل مجموعة متنوعة من الأعراض والتحديات. يمكن أن يظهر التوحد في الطفولة المبكرة ويستمر طوال الحياة.بعض الأعراض الشائعة لمرض التوحد تشمل:عدم الاستجابة لاسم الشخص أو عدم الاستماع في بعض الأحيان.مقاومة العناق وعدم الرغبة في التمسك بالآخرين، ويبدو أنه يفضل اللعب بمفرده والانعزال في عالمه الخاص.نقص في الاتصال بالعين وعدم التعبير الوجهي.عدم القدرة على التحدث أو تأخر في الكلام، أو فقدان القدرة السابقة على القول بعض الكلمات أو الجمل.عدم القدرة على بدء محادثة أو الاستمرار فيها، أو البدء في المحادثة فقط لطلب الأشياء أو تسمية العناصر.الكلام بنغمة غير طبيعية أو إيقاع وربما استخدام صوت يشبه الغناء أو الكلام الآلي.تكرار الكلمات أو العبارات حرفيًا، ولكن دون فهم كيفية استخدامها.عدم القدرة على فهم الأسئلة أو التوجيهات البسيطة.عدم التعبير عن المشاعر أو الأحاسيس ويبدو عدم وعيه لمشاعر الآخرين.عدم القدرة على الإشارة إلى الأشياء أو إحضارها لمشاركة الاهتمام.الاقتراب بشكل غير مناسب في التفاعل الاجتماعي عن طريق التكون أو العدوانية أو التشويش.إذا كنت قلقًا بشأن تطور طفلك أو تشتبه في إصابته بمرض التوحد، يُنصح بمناقشة الموضوع مع طبيب الأطفال الخاص بك.',
+        uId: '555',
+        isLiked: true,
+        isSaved: false,
+        likesCount: 0,
+        commentsCount: 0,
+        savesCounts: 0,
+        postType:0
+    ),
+    Post_Model(
+        name: 'Ahmed sonbol',
+        date: ' ٢ أكتوبر ٢٠٢٤',
+        avatarImage: 'assets/images/Rectangle.png',
+        text: 'برجاء مراعاة مريض التوحد',
+        uId: '123',
+        isLiked: true,
+        isSaved: true,
+        likesCount: 21,
+        commentsCount: 30,
+        savesCounts: 55,
+        postType:0
+    ),
+  ];
+
+  List<Post_Model> doctorsPosts =
+  [
+    Post_Model(
+        name: 'Ahmed sonbol',
+        date: ' ٢ أكتوبر ٢٠٢٤',
+        avatarImage: 'assets/images/Rectangle.png',
+        text: 'برجاء مراعاة مريض التوحد',
+        uId: '123',
+        isLiked: true,
+        isSaved: true,
+        likesCount: 21,
+        commentsCount: 30,
+        savesCounts: 55,
+        postType:1
+    ),
+    Post_Model(
+        name: 'محمد خميس',
+        date: ' 9 نوفمبر 2023',
+        avatarImage: 'assets/images/Rectangle.png',
+        text: 'السلام عليكم',
+        uId: '335',
+        isLiked: false,
+        isSaved: false,
+        likesCount: 1,
+        commentsCount: 5,
+        savesCounts: 3,
+        postType:2
+    ),
+    Post_Model(
+        name: 'احمد رمضان',
+        date: ' 7 ابريل 2019',
+        avatarImage: 'assets/images/Rectangle.png',
+        text: 'مرض التوحد هو اضطراب عصبي يؤثر على التواصل والسلوك الاجتماعي للأفراد المصابين به. يعتبر التوحد جزءًا من طيف اضطرابات التوحد، والتي تشمل مجموعة متنوعة من الأعراض والتحديات. يمكن أن يظهر التوحد في الطفولة المبكرة ويستمر طوال الحياة.بعض الأعراض الشائعة لمرض التوحد تشمل:عدم الاستجابة لاسم الشخص أو عدم الاستماع في بعض الأحيان.مقاومة العناق وعدم الرغبة في التمسك بالآخرين، ويبدو أنه يفضل اللعب بمفرده والانعزال في عالمه الخاص.نقص في الاتصال بالعين وعدم التعبير الوجهي.عدم القدرة على التحدث أو تأخر في الكلام، أو فقدان القدرة السابقة على القول بعض الكلمات أو الجمل.عدم القدرة على بدء محادثة أو الاستمرار فيها، أو البدء في المحادثة فقط لطلب الأشياء أو تسمية العناصر.الكلام بنغمة غير طبيعية أو إيقاع وربما استخدام صوت يشبه الغناء أو الكلام الآلي.تكرار الكلمات أو العبارات حرفيًا، ولكن دون فهم كيفية استخدامها.عدم القدرة على فهم الأسئلة أو التوجيهات البسيطة.عدم التعبير عن المشاعر أو الأحاسيس ويبدو عدم وعيه لمشاعر الآخرين.عدم القدرة على الإشارة إلى الأشياء أو إحضارها لمشاركة الاهتمام.الاقتراب بشكل غير مناسب في التفاعل الاجتماعي عن طريق التكون أو العدوانية أو التشويش.إذا كنت قلقًا بشأن تطور طفلك أو تشتبه في إصابته بمرض التوحد، يُنصح بمناقشة الموضوع مع طبيب الأطفال الخاص بك.',
+        uId: '555',
+        isLiked: true,
+        isSaved: false,
+        likesCount: 0,
+        commentsCount: 0,
+        savesCounts: 0,
+        postType:3
+    ),
+    Post_Model(
+        name: 'Ahmed sonbol',
+        date: ' ٢ أكتوبر ٢٠٢٤',
+        avatarImage: 'assets/images/Rectangle.png',
+        text: 'برجاء مراعاة مريض التوحد',
+        uId: '123',
+        isLiked: true,
+        isSaved: true,
+        likesCount: 21,
+        commentsCount: 30,
+        savesCounts: 55,
+        postType:1
+    ),
+  ];
 
   void getAppData(){}
 

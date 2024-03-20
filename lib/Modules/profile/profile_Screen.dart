@@ -1,11 +1,13 @@
+import 'package:autism/Modules/profile_Child/profile_Child_Screen.dart';
+import 'package:autism/Modules/profile_Edit/profile_Edit_Screen.dart';
+import 'package:autism/Modules/profile_Posts/profile_Posts_Screen.dart';
+import 'package:autism/Modules/profile_Saves/profile_Saves_Screen.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/styles/colors.dart';
-import 'package:autism/profile_Child/profile_Child_Screen.dart';
-import 'package:autism/profile_Posts/profile_Posts_Screen.dart';
-import 'package:autism/profile_Saves/profile_Saves_Screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,9 +17,9 @@ class Profile_Screen extends StatelessWidget {
 
   List<Widget> screens =
   [
-    Profile_Posts_Screen(),
+    const Profile_Posts_Screen(),
     Profile_Child_Screen(),
-    Profile_Saves_Screen()
+    const Profile_Saves_Screen()
   ];
 
   @override
@@ -33,8 +35,8 @@ class Profile_Screen extends StatelessWidget {
         return Scaffold(
           backgroundColor: backgroundColor,
           appBar: AppBar(
-            backgroundColor: Color(0xff43474E),
-            title: Text('الملف الشخصي',style: TextStyle(color: fontColor),),
+            backgroundColor: const Color(0xff43474E),
+            title: const Text('الملف الشخصي',style: TextStyle(color: fontColor),),
             leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -49,7 +51,7 @@ class Profile_Screen extends StatelessWidget {
               [
                 //User info
                 Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Color(0xff43474E),
                     borderRadius: BorderRadius.only(bottomRight: Radius.circular(16.0),bottomLeft: Radius.circular(16.0))
                   ),
@@ -65,29 +67,31 @@ class Profile_Screen extends StatelessWidget {
                           IconButton(
                             iconSize: 25.0,
                             padding: EdgeInsets.zero,
-                            icon: SizedBox(),
+                            icon: const SizedBox(),
                             onPressed: ()
                             {
 
                             },),
-                          Image(image: AssetImage('assets/images/Rectangle.png'),width: 100,height: 100,fit: BoxFit.cover,),
+                          Hero(
+                            tag: 'profile_image',
+                              child: const Image(image: AssetImage('assets/images/Rectangle.png'),width: 100,height: 100,fit: BoxFit.cover,)),
                           IconButton(
                             iconSize: 25.0,
                             padding: EdgeInsets.zero,
-                            icon: Icon(Icons.edit,color: fontColor,),
+                            icon: const Icon(Icons.edit,color: fontColor,),
                           onPressed: ()
                           {
-
+                            navTo(context, Profile_Edit_Screen());
                           },)
                         ],
                       ),
 
-                      SizedBox(height: 10.0,),
+                      const SizedBox(height: 10.0,),
 
                       //username
-                      Text('أحمد سنبل',style: TextStyle(fontSize: 25.0,color: fontColor),),
+                      const Text('أحمد سنبل',style: TextStyle(fontSize: 25.0,color: fontColor),),
 
-                      SizedBox(height: 5.0,),
+                      const SizedBox(height: 5.0,),
 
                       //location
                       Row(
@@ -95,16 +99,16 @@ class Profile_Screen extends StatelessWidget {
                         children:
                         [
                           Text('مصر - البحيرة',style: textOnBoarding2,),
-                          Icon(Icons.location_on,color: fontColor,)
+                          const Icon(Icons.location_on,color: fontColor,)
                         ],
                       ),
 
-                      SizedBox(height: 20.0,),
+                      const SizedBox(height: 20.0,),
                     ],
                   ),
                 ),
 
-                SizedBox(height: 20.0,),
+                const SizedBox(height: 20.0,),
 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -122,7 +126,7 @@ class Profile_Screen extends StatelessWidget {
                         },
                       ),
 
-                      SizedBox(height: 20.0,),
+                      const SizedBox(height: 20.0,),
 
                       screens[cubit.currentProfileScreen]
                     ],
