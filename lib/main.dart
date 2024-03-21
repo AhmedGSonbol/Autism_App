@@ -26,18 +26,19 @@ void main() async
 
   Widget screen;
 
-  if(CachHelper.getData(key: 'ShowBoarding') != null)
-  {
+  // if(CachHelper.getData(key: 'ShowBoarding') != null)
+  // {
+  //
+  //     screen = Login_Screen();
+  //
+  // }
+  // else
+  // {
+  //   // screen = OnBoardingScreen();
+  //   screen = OnBoardingScreen();
+  // }
 
-      screen = Login_Screen();
-
-  }
-  else
-  {
-    // screen = OnBoardingScreen();
-    screen = OnBoardingScreen();
-  }
-
+  bool isAdmin = false;
   screen = Login_Screen();
 
 

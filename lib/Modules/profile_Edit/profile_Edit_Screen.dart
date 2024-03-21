@@ -144,7 +144,7 @@ class Profile_Edit_Screen extends StatelessWidget
                         defaultTextFormField(
                             controller: nameController,
                             type: TextInputType.name,
-                            isPrefix: false,
+
 
                           label: 'الأسم',
                         ),
@@ -155,7 +155,7 @@ class Profile_Edit_Screen extends StatelessWidget
                         defaultTextFormField(
                             controller: countryController,
                             type: TextInputType.name,
-                            isPrefix: false,
+
 
                             label: 'الدولة'
                         ),
@@ -165,7 +165,7 @@ class Profile_Edit_Screen extends StatelessWidget
                         defaultTextFormField(
                             controller: governmentController,
                             type: TextInputType.name,
-                            isPrefix: false,
+
 
                             label: 'المحافظة'
                         ),
@@ -175,7 +175,7 @@ class Profile_Edit_Screen extends StatelessWidget
                         defaultTextFormField(
                             controller: phoneController,
                             type: TextInputType.name,
-                            isPrefix: false,
+
 
                             label: 'الهاتف'
                         ),
@@ -185,7 +185,7 @@ class Profile_Edit_Screen extends StatelessWidget
                         defaultTextFormField(
                             controller: passwordController,
                             type: TextInputType.name,
-                            isPrefix: false,
+
                             isPass: true,
 
                             label: 'الرقم السري'

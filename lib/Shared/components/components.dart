@@ -1,6 +1,7 @@
 import 'package:autism/Models/post_Model.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/styles/colors.dart';
+import 'package:autism/Shared/styles/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -27,12 +28,10 @@ Widget defaultTextFormField({
   required TextEditingController controller,
   required TextInputType type,
   String? label,
-  required bool isPrefix,
-  bool isSuffix = false,
   bool isPass = false,
+  Widget? iconButton,
   // delete validate
   validate,
-  IconData? prefix,
   prefixPressed,
   Color? prefixColor,
   double? prefixIconSize,
@@ -65,20 +64,8 @@ Widget defaultTextFormField({
 
         hintText: hint,
         hintStyle: const TextStyle(color: Color(0xffD9D9D9), fontSize: 15),
-        // hintTextDirection: hintRt1,
-        prefixIcon: isPrefix
-            ? IconButton(
-                icon: Icon(
-                  prefix,
-                  color: prefixColor ?? const Color(0xffCCCCCC),
-                  size: prefixIconSize ?? 25,
-                ),
-                onPressed: () {
-                  prefixPressed();
-                },
-              )
-            : null,
-        // suffixIcon: isSuffix?  null:suffix,
+
+        suffixIcon: iconButton,
       ),
       onTap: onTap,
       validator: (value) {
@@ -137,7 +124,7 @@ Widget defaultElevatedButton({
       style: ButtonStyle(
         elevation: MaterialStatePropertyAll(elevation),
         fixedSize: MaterialStateProperty.all<Size>(
-          const Size(100, 50), // Set the desired width and height
+          const Size(90, 30), // Set the desired width and height
         ),
         backgroundColor: MaterialStatePropertyAll(
           color ?? const Color(0xffA8C8FF),
@@ -148,7 +135,7 @@ Widget defaultElevatedButton({
         text,
         style: TextStyle(
             color: textColor ?? const Color(0xff05305F),
-            fontSize: 18,
+            fontSize: 17,
             fontWeight: FontWeight.bold),
       ),
     );
@@ -203,7 +190,7 @@ Widget bulidPostItem({
                             [
                               Text(
                                 model.name!,
-                                style: textOnBoarding2,
+                                style: onBoardingDesc,
                               ),
                                Text(
                                 model.date!,
@@ -239,9 +226,9 @@ Widget bulidPostItem({
                                             const SizedBox(height: 20.0,),
                                             const Text('إبلاغ',style: TextStyle(fontSize: 25.0,color: fontColor),),
                                             const SizedBox(height: 20.0,),
-                                            Text(
+                                            const Text(
                                                 'حدد نوع الإساءة الموجودة في المنشور',
-                                                textAlign: TextAlign.center,style: textOnBoarding2)
+                                                textAlign: TextAlign.center,style: onBoardingDesc)
                                           ],
                                         ),
                                       ),
@@ -254,21 +241,21 @@ Widget bulidPostItem({
                                           [
                                             Checkbox(activeColor: mainColor,value: true, onChanged: (val){}),
                                             const Spacer(),
-                                            Text('معلومة غير صحيحة',style: textOnBoarding2,),
+                                            Text('معلومة غير صحيحة',style: onBoardingDesc,),
                                           ],),
                                           const Divider(),
                                           Row(children:
                                           [
                                             Checkbox(activeColor: mainColor,value: false, onChanged: (val){}),
                                             const Spacer(),
-                                            Text('إساءة باللفظ',style: textOnBoarding2),
+                                            Text('إساءة باللفظ',style: onBoardingDesc),
                                           ],),
                                           const Divider(),
                                           Row(children:
                                           [
                                             Checkbox(activeColor: mainColor,value: true, onChanged: (val){}),
                                             const Spacer(),
-                                            Text('إزعاج',style: textOnBoarding2),
+                                            Text('إزعاج',style: onBoardingDesc),
                                           ],),
 
 

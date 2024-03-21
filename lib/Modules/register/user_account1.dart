@@ -28,7 +28,7 @@ class UserAccount1 extends StatelessWidget
           defaultTextFormField(
               controller: nameCon,
               type: TextInputType.name,
-              isPrefix: false,
+
               hint: 'الأسم',
               validate: (value) {
                 if (value == '') {
@@ -41,7 +41,7 @@ class UserAccount1 extends StatelessWidget
           defaultTextFormField(
               controller: ageCon,
               type: TextInputType.number,
-              isPrefix: false,
+
               hint: 'سن الطفل',
               validate: (value) {
                 if (value == '') {
@@ -54,7 +54,7 @@ class UserAccount1 extends StatelessWidget
           defaultTextFormField(
               controller: countryCon,
               type: TextInputType.text,
-              isPrefix: false,
+
               hint: 'الدولة',
               validate: (value) {
                 if (value == '') {
@@ -67,7 +67,7 @@ class UserAccount1 extends StatelessWidget
           defaultTextFormField(
               controller: governmentCon,
               type: TextInputType.text,
-              isPrefix: false,
+
               hint: 'المحافظة',
               validate: (value) {
                 if (value == '') {

@@ -1,5 +1,3 @@
-
-
 import 'package:autism/Models/post_Model.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:bloc/bloc.dart';

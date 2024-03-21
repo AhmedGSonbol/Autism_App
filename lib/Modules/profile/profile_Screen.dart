@@ -7,6 +7,7 @@ import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/styles/colors.dart';
+import 'package:autism/Shared/styles/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,9 +73,9 @@ class Profile_Screen extends StatelessWidget {
                             {
 
                             },),
-                          Hero(
+                          const Hero(
                             tag: 'profile_image',
-                              child: const Image(image: AssetImage('assets/images/Rectangle.png'),width: 100,height: 100,fit: BoxFit.cover,)),
+                              child: Image(image: AssetImage('assets/images/Rectangle.png'),width: 100,height: 100,fit: BoxFit.cover,)),
                           IconButton(
                             iconSize: 25.0,
                             padding: EdgeInsets.zero,
@@ -94,12 +95,12 @@ class Profile_Screen extends StatelessWidget {
                       const SizedBox(height: 5.0,),
 
                       //location
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children:
                         [
-                          Text('مصر - البحيرة',style: textOnBoarding2,),
-                          const Icon(Icons.location_on,color: fontColor,)
+                          Text('مصر - البحيرة',style: onBoardingDesc,),
+                          Icon(Icons.location_on,color: fontColor,)
                         ],
                       ),
 

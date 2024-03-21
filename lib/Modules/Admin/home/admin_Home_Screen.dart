@@ -1,3 +1,6 @@
+import 'package:autism/Modules/Admin/complaints/complaints_Screen.dart';
+import 'package:autism/Modules/Admin/manage_Admins/manage_Accounts_Screen.dart';
+import 'package:autism/Modules/Admin/requests/requests_Screen.dart';
 import 'package:autism/Modules/chat/chat_Screen.dart';
 import 'package:autism/Modules/info/info_Screen.dart';
 import 'package:autism/Modules/profile/profile_Screen.dart';
@@ -10,20 +13,20 @@ import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 
-class Home_Screen extends StatefulWidget {
+class Admin_Home_Screen extends StatefulWidget {
   @override
-  _Home_ScreenState createState() => _Home_ScreenState();
+  _Admin_Home_ScreenState createState() => _Admin_Home_ScreenState();
 }
 
-class _Home_ScreenState extends State<Home_Screen> {
+class _Admin_Home_ScreenState extends State<Admin_Home_Screen> {
   int _currentIndex = 0;
 
   List<Widget> screens =
   [
-    Posts_Screen(),
-    const Chat_Screen(),
-    const Reviews_Screen(),
-    const Info_Screen(),
+    const Requests_Screen(),
+    const Complaints_Screen(),
+    const Manage_Admins_Screen(),
+
   ];
 
   @override
@@ -82,10 +85,6 @@ class _Home_ScreenState extends State<Home_Screen> {
 
           actions:
           [
-
-
-
-
             InkWell(
                 child: Image.asset('assets/images/leading-icon.png'),
               onTap: ()
@@ -99,7 +98,7 @@ class _Home_ScreenState extends State<Home_Screen> {
         drawer: Drawer(
           backgroundColor: const Color(0xff282a2f),
           child: ListView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.only(bottom: 40.0),
             children: [
               DrawerHeader(
@@ -151,7 +150,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                         {
                           navTo(context, Profile_Screen());
                         },
-                         child: Row(
+                         child: const Row(
                           children:
                           [
                             Icon(
@@ -374,7 +373,7 @@ class _Home_ScreenState extends State<Home_Screen> {
           child: NavigationBar(
 
               backgroundColor: const Color(0xff1D2024),
-              indicatorColor: Color(0xFF3D4758),
+              indicatorColor: const Color(0xFF3D4758),
               elevation: 0.0,
 
               // shadowColor: Colors.yellowAccent,
@@ -391,10 +390,9 @@ class _Home_ScreenState extends State<Home_Screen> {
               },
               destinations:
               [
-                NavigationDestination(icon: Icon(_currentIndex == 0 ? Icons.forum : Icons.forum_outlined,color: Color(0xffE1E2E9)), label: 'الرئيسية'),
-                NavigationDestination(icon: Icon(_currentIndex == 1 ? Icons.chat :Icons.chat_outlined,color: Color(0xffE1E2E9)), label: 'تحدث'),
-                NavigationDestination(icon: Icon(_currentIndex == 2 ? Icons.reviews :Icons.reviews_outlined,color: Color(0xffE1E2E9)), label: 'إرشاد'),
-                NavigationDestination(icon: Icon(_currentIndex == 3 ? Icons.local_library :Icons.local_library_outlined,color: Color(0xffE1E2E9)), label: 'عن التوحد')
+                NavigationDestination(icon: Icon(_currentIndex == 0 ? Icons.forum : Icons.forum_outlined,color: const Color(0xffE1E2E9)), label: 'الإنضمام'),
+                NavigationDestination(icon: Icon(_currentIndex == 1 ? Icons.chat :Icons.chat_outlined,color: const Color(0xffE1E2E9)), label: 'الشكاوي'),
+                NavigationDestination(icon: Icon(_currentIndex == 2 ? Icons.reviews :Icons.reviews_outlined,color: const Color(0xffE1E2E9)), label: 'الحسابات'),
               ],
 
             ),

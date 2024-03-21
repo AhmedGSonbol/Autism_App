@@ -147,13 +147,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
         Text(
           model.title,
-          style: TextStyles.onBoardingTitle,
+          style: onBoardingTitle,
         ),
         const SizedBox(height: 10),
         Text(
           textAlign: TextAlign.center,
           model.description,
-          style: TextStyles.onBoardingDesc,
+          style: onBoardingDesc,
         ),
 
 

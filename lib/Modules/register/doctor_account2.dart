@@ -28,7 +28,7 @@ class DoctorAccount2 extends StatelessWidget
           defaultTextFormField(
               controller: phoneCon,
               type: TextInputType.phone,
-              isPrefix: false,
+
               hint: 'الهاتف',
               validate: (value) {
                 if (value == '') {
@@ -41,7 +41,7 @@ class DoctorAccount2 extends StatelessWidget
           defaultTextFormField(
               controller: emailCon,
               type: TextInputType.number,
-              isPrefix: false,
+
               hint: 'الإيميل',
               validate: (value) {
                 if (value == '') {
@@ -54,7 +54,7 @@ class DoctorAccount2 extends StatelessWidget
           defaultTextFormField(
               controller: passCon,
               type: TextInputType.text,
-              isPrefix: false,
+
               hint: 'إنشاء الرقم سري',
               validate: (value) {
                 if (value == '') {
@@ -67,7 +67,7 @@ class DoctorAccount2 extends StatelessWidget
           defaultTextFormField(
               controller: confirmPassCon,
               type: TextInputType.text,
-              isPrefix: false,
+
               hint: 'تأكيد الرقم السري',
               validate: (value) {
                 if (value == '') {
