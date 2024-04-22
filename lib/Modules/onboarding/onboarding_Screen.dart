@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/network/local/Cach_Helper.dart';
@@ -9,8 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-
-class onBoardingModel{
+class onBoardingModel {
   final String image;
   final String title;
   final String description;
@@ -22,8 +23,7 @@ class onBoardingModel{
   });
 }
 
-class OnBoardingScreen extends StatefulWidget
-{
+class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
 
   @override
@@ -31,17 +31,16 @@ class OnBoardingScreen extends StatefulWidget
 }
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
-
   bool isLast = false;
 
   final _pageController = PageController();
 
-  List<onBoardingModel> screens =
-  [
+  List<onBoardingModel> screens = [
     onBoardingModel(
       image: 'assets/images/Exams-rafiki 1.png',
       title: 'تشخيص',
-      description: 'تشخيص مبدائي مبني على الذكاء اﻷصطناعي لقياس مدى قابلية طفلك للإصابة بطيف التوحد',
+      description:
+          'تشخيص مبدائي مبني على الذكاء اﻷصطناعي لقياس مدى قابلية طفلك للإصابة بطيف التوحد',
     ),
     onBoardingModel(
       image: 'assets/images/Online Doctor-rafiki 1.png',
@@ -53,14 +52,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       title: 'مجتمع',
       description: 'مجتمع مخصص للأطباء و مجتمع للأباء و اﻷمهات و اﻷطباء',
     ),
-
   ];
 
   @override
-  Widget build(BuildContext context)
-  {
-
-
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: onBoardingBackgroundColor,
       body: SafeArea(
@@ -68,73 +63,60 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children:
-            [
+            children: [
               SmoothPageIndicator(
                 controller: _pageController,
                 count: screens.length,
                 effect: ExpandingDotsEffect(
-                    dotWidth: 20,
-                    dotHeight: 5,
-                    activeDotColor: mainColor
-                ),
+                    dotWidth: 20, dotHeight: 5, activeDotColor: mainColor),
               ),
-
               Expanded(
                 child: PageView.builder(
                   physics: BouncingScrollPhysics(),
                   controller: _pageController,
-                  itemBuilder: (context , index) => buildOnBoardintItem(context, screens[index]),
+                  itemBuilder: (context, index) =>
+                      buildOnBoardintItem(context, screens[index]),
                   itemCount: screens.length,
-                  onPageChanged: (index)
-                  {
-                    if(index == screens.length-1)
-                    {
+                  onPageChanged: (index) {
+                    if (index == screens.length - 1) {
                       setState(() {
                         isLast = true;
                       });
-
                     }
                   },
                 ),
               ),
-
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  child: Text('التالي',style: TextStyle(color: mainColor),),
-                  onPressed: ()
-                  {
-                    if(isLast == false)
-                    {
-                      _pageController.nextPage(duration: Duration(milliseconds: 500), curve: Curves.decelerate);
-                    }else
-                    {
+                  child: Text(
+                    'التالي',
+                    style: TextStyle(color: mainColor),
+                  ),
+                  onPressed: () {
+                    if (isLast == false) {
+                      _pageController.nextPage(
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.decelerate);
+                    } else {
                       navAndFinishTo(context, Login_Screen());
-                      CachHelper.saveData(key: 'ShowBoarding', value: false).then( (value)
-                      {
-                        if(value!)
-                        {
-
-                        }
+                      CachHelper.saveData(key: 'ShowBoarding', value: false)
+                          .then((value) {
+                        if (value!) {}
                       });
                     }
-
                   },
                 ),
               ),
-
               const SizedBox(height: 30),
-
-            ],),
+            ],
+          ),
         ),
       ),
     );
   }
 
-
-  Widget buildOnBoardintItem(BuildContext context,onBoardingModel model)
-  {
+  Widget buildOnBoardintItem(BuildContext context, onBoardingModel model) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -144,7 +126,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           width: 300,
         ),
         const SizedBox(height: 30),
-
         Text(
           model.title,
           style: onBoardingTitle,
@@ -155,18 +136,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           model.description,
           style: onBoardingDesc,
         ),
-
-
       ],
     );
   }
 }
-
-
-
-
-
-
-
-
-

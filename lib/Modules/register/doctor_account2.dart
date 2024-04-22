@@ -4,9 +4,8 @@ import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/modules/register/user_account3.dart';
 import 'package:flutter/material.dart';
 
-class DoctorAccount2 extends StatelessWidget
-{
-  DoctorAccount2({super.key,required this.formKey});
+class DoctorAccount2 extends StatelessWidget {
+  DoctorAccount2({super.key, required this.formKey});
 
   final TextEditingController phoneCon = TextEditingController();
   final TextEditingController emailCon = TextEditingController();
@@ -15,20 +14,16 @@ class DoctorAccount2 extends StatelessWidget
 
   var formKey = GlobalKey<FormState>();
 
-
-
   @override
   Widget build(BuildContext context) {
     return Form(
       key: formKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        children:
-        [
+        children: [
           defaultTextFormField(
               controller: phoneCon,
               type: TextInputType.phone,
-
               hint: 'الهاتف',
               validate: (value) {
                 if (value == '') {
@@ -40,8 +35,7 @@ class DoctorAccount2 extends StatelessWidget
           ),
           defaultTextFormField(
               controller: emailCon,
-              type: TextInputType.number,
-
+              type: TextInputType.text,
               hint: 'الإيميل',
               validate: (value) {
                 if (value == '') {
@@ -54,7 +48,6 @@ class DoctorAccount2 extends StatelessWidget
           defaultTextFormField(
               controller: passCon,
               type: TextInputType.text,
-
               hint: 'إنشاء الرقم سري',
               validate: (value) {
                 if (value == '') {
@@ -67,7 +60,6 @@ class DoctorAccount2 extends StatelessWidget
           defaultTextFormField(
               controller: confirmPassCon,
               type: TextInputType.text,
-
               hint: 'تأكيد الرقم السري',
               validate: (value) {
                 if (value == '') {

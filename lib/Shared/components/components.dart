@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, unnecessary_import, body_might_complete_normally_nullable
+
 import 'package:autism/Models/post_Model.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/styles/colors.dart';
@@ -7,20 +9,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:readmore/readmore.dart';
 
-void navTo(BuildContext context , Widget route)
-{
-  Navigator.of(context).push(MaterialPageRoute(builder: (context)
-  {
+void navTo(BuildContext context, Widget route) {
+  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
     return route;
   }));
 }
 
-void navAndFinishTo(BuildContext context , Widget widget)
-{
-  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> widget
-  ),
-        (Route<dynamic> route) => false,
-
+void navAndFinishTo(BuildContext context, Widget widget) {
+  Navigator.of(context).pushAndRemoveUntil(
+    MaterialPageRoute(builder: (context) => widget),
+    (Route<dynamic> route) => false,
   );
 }
 
@@ -47,7 +45,6 @@ Widget defaultTextFormField({
   return Directionality(
     textDirection: hintRt1!,
     child: TextFormField(
-
       controller: controller,
       keyboardType: type,
       obscureText: isPass,
@@ -57,14 +54,11 @@ Widget defaultTextFormField({
       // onChanged: (value) { },
 
       decoration: InputDecoration(
-
         border: const OutlineInputBorder(),
         labelText: label,
         labelStyle: const TextStyle(color: Color(0xffD9D9D9), fontSize: 15),
-
         hintText: hint,
         hintStyle: const TextStyle(color: Color(0xffD9D9D9), fontSize: 15),
-
         suffixIcon: iconButton,
       ),
       onTap: onTap,
@@ -140,10 +134,7 @@ Widget defaultElevatedButton({
       ),
     );
 
-
 //////////////////////////////////////////////////////////
-
-
 
 Widget bulidPostItem({
   required BuildContext context,
@@ -151,7 +142,6 @@ Widget bulidPostItem({
 }) {
   return Padding(
     padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
-    
     child: Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -161,217 +151,263 @@ Widget bulidPostItem({
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
-          children:
-          [
+          children: [
             Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-              children:
-              [
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 IconButton(
                   // change it to network image
                   icon: Image(image: AssetImage(model.avatarImage!)),
                   onPressed: () {
                     // go to user porofile
-
                   },
                 ),
-                const SizedBox(width: 7,),
+                const SizedBox(
+                  width: 7,
+                ),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children:
-                    [
-                      Row(children:
-                      [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children:
-                            [
-                              Text(
-                                model.name!,
-                                style: onBoardingDesc,
-                              ),
-                               Text(
-                                model.date!,
-                                style: const TextStyle(
-                                  fontSize: 10,
-                                  color: fontColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        Padding(
-                          padding: const EdgeInsets.only(left: 5),
-                          child: Row(
-                            children:
-                            [
-                              IconButton(
-                                icon: model.uId! == uId ? const Icon(Icons.delete_outline,color: Color(0xffDBBCE1),) :  Image.asset('assets/images/partner_reports.png'),
-                                onPressed: ()
-                                {
-                                  if(!(model.uId == uId))
-                                  {
-                                    showDialog(context: context, builder: (context) => AlertDialog(
-                                      backgroundColor: const Color(0xff282a2f),
-                                      title: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children:
-                                          [
-                                            Image.asset('assets/images/partner_reports.png',height: 20.0,width: 20.0,),
-                                            const SizedBox(height: 20.0,),
-                                            const Text('إبلاغ',style: TextStyle(fontSize: 25.0,color: fontColor),),
-                                            const SizedBox(height: 20.0,),
-                                            const Text(
-                                                'حدد نوع الإساءة الموجودة في المنشور',
-                                                textAlign: TextAlign.center,style: onBoardingDesc)
-                                          ],
-                                        ),
-                                      ),
-                                      content: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children:
-                                        [
-                                          Row(children:
-                                          [
-                                            Checkbox(activeColor: mainColor,value: true, onChanged: (val){}),
-                                            const Spacer(),
-                                            Text('معلومة غير صحيحة',style: onBoardingDesc,),
-                                          ],),
-                                          const Divider(),
-                                          Row(children:
-                                          [
-                                            Checkbox(activeColor: mainColor,value: false, onChanged: (val){}),
-                                            const Spacer(),
-                                            Text('إساءة باللفظ',style: onBoardingDesc),
-                                          ],),
-                                          const Divider(),
-                                          Row(children:
-                                          [
-                                            Checkbox(activeColor: mainColor,value: true, onChanged: (val){}),
-                                            const Spacer(),
-                                            Text('إزعاج',style: onBoardingDesc),
-                                          ],),
-
-
-                                        ],
-                                      ),
-
-                                      actions:
-                                      [
-                                        TextButton(
-                                          child: const Text('إرسال',style: TextStyle(color: secondColor),),
-                                          onPressed: (){},
-                                        ),
-                                        TextButton(
-                                          child: const Text('إلغاء',style: TextStyle(color: fontColor),),
-                                          onPressed: ()
-                                          {
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-
-                                      ],
-
-                                      // backgroundColor: backgroundColor,
-                                      titlePadding: EdgeInsets.zero,
-                                    ),);
-                                  }else
-                                  {
-                                    showDialog(context: context, builder: (context) => AlertDialog(
-                                      backgroundColor: const Color(0xff282a2f),
-                                      title: const Padding(
-                                        padding: EdgeInsets.all(10.0),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children:
-                                          [
-                                            Icon(Icons.delete,color: secondColor,),
-                                            SizedBox(height: 20.0,),
-                                            Text('هل تريد حذف المنشور ؟',style: TextStyle(fontSize: 25.0,color: fontColor),),
-                                            SizedBox(height: 20.0,),
-                                          ],
-                                        ),
-                                      ),
-                                      actions:
-                                      [
-                                        TextButton(
-                                          child: const Text('حذف',style: TextStyle(color: secondColor),),
-                                          onPressed: (){},
-                                        ),
-                                        TextButton(
-                                          child: const Text('إلغاء',style: TextStyle(color: fontColor),),
-                                          onPressed: ()
-                                          {
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-
-                                      ],
-
-
-                                      // backgroundColor: backgroundColor,
-                                      titlePadding: EdgeInsets.zero,
-                                    ),);
-                                  }
-
-
-                                },
-                              ),
-                              (()
-                              {
-                                if(model.postType == 0)
-                                {
-                                  return Container();
-
-                                }else
-                                {
-                                  if(model.postType == 1)
-                                  {
-                                    return const Icon(Icons.report_gmailerrorred_rounded , color: Color(0xFFFFB4AB),);
-                                  }
-                                  else if(model.postType == 2)
-                                  {
-                                    return const Icon(Icons.info_outline , color: Color(0xFF16EA9E),);
-                                  }
-                                  else
-                                  {
-                                    return const Icon(Icons.help_outline , color: Color(0xFF569CFF),);
-                                  }
-                                }
-
-                              }
-                              ()),
-
-                            ],
-                          ),
-                        )
-                      ]
-                        ,),
+                    children: [
                       Row(
-                        children:
-                        [
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  model.name!,
+                                  style: onBoardingDesc,
+                                ),
+                                Text(
+                                  model.date!,
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    color: fontColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 5),
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  icon: model.uId! == uId
+                                      ? const Icon(
+                                          Icons.delete_outline,
+                                          color: Color(0xffDBBCE1),
+                                        )
+                                      : Image.asset(
+                                          'assets/images/partner_reports.png'),
+                                  onPressed: () {
+                                    if (!(model.uId == uId)) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          backgroundColor:
+                                              const Color(0xff282a2f),
+                                          title: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Image.asset(
+                                                  'assets/images/partner_reports.png',
+                                                  height: 20.0,
+                                                  width: 20.0,
+                                                ),
+                                                const SizedBox(
+                                                  height: 20.0,
+                                                ),
+                                                const Text(
+                                                  'إبلاغ',
+                                                  style: TextStyle(
+                                                      fontSize: 25.0,
+                                                      color: fontColor),
+                                                ),
+                                                const SizedBox(
+                                                  height: 20.0,
+                                                ),
+                                                const Text(
+                                                    'حدد نوع الإساءة الموجودة في المنشور',
+                                                    textAlign: TextAlign.center,
+                                                    style: onBoardingDesc)
+                                              ],
+                                            ),
+                                          ),
+                                          content: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Checkbox(
+                                                      activeColor: mainColor,
+                                                      value: true,
+                                                      onChanged: (val) {}),
+                                                  const Spacer(),
+                                                  Text(
+                                                    'معلومة غير صحيحة',
+                                                    style: onBoardingDesc,
+                                                  ),
+                                                ],
+                                              ),
+                                              const Divider(),
+                                              Row(
+                                                children: [
+                                                  Checkbox(
+                                                      activeColor: mainColor,
+                                                      value: false,
+                                                      onChanged: (val) {}),
+                                                  const Spacer(),
+                                                  Text('إساءة باللفظ',
+                                                      style: onBoardingDesc),
+                                                ],
+                                              ),
+                                              const Divider(),
+                                              Row(
+                                                children: [
+                                                  Checkbox(
+                                                      activeColor: mainColor,
+                                                      value: true,
+                                                      onChanged: (val) {}),
+                                                  const Spacer(),
+                                                  Text('إزعاج',
+                                                      style: onBoardingDesc),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+
+                                          actions: [
+                                            TextButton(
+                                              child: const Text(
+                                                'إرسال',
+                                                style: TextStyle(
+                                                    color: secondColor),
+                                              ),
+                                              onPressed: () {},
+                                            ),
+                                            TextButton(
+                                              child: const Text(
+                                                'إلغاء',
+                                                style:
+                                                    TextStyle(color: fontColor),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                          ],
+
+                                          // backgroundColor: backgroundColor,
+                                          titlePadding: EdgeInsets.zero,
+                                        ),
+                                      );
+                                    } else {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          backgroundColor:
+                                              const Color(0xff282a2f),
+                                          title: const Padding(
+                                            padding: EdgeInsets.all(10.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.delete,
+                                                  color: secondColor,
+                                                ),
+                                                SizedBox(
+                                                  height: 20.0,
+                                                ),
+                                                Text(
+                                                  'هل تريد حذف المنشور ؟',
+                                                  style: TextStyle(
+                                                      fontSize: 25.0,
+                                                      color: fontColor),
+                                                ),
+                                                SizedBox(
+                                                  height: 20.0,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              child: const Text(
+                                                'حذف',
+                                                style: TextStyle(
+                                                    color: secondColor),
+                                              ),
+                                              onPressed: () {},
+                                            ),
+                                            TextButton(
+                                              child: const Text(
+                                                'إلغاء',
+                                                style:
+                                                    TextStyle(color: fontColor),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                          ],
+
+                                          // backgroundColor: backgroundColor,
+                                          titlePadding: EdgeInsets.zero,
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
+                                (() {
+                                  if (model.postType == 0) {
+                                    return Container();
+                                  } else {
+                                    if (model.postType == 1) {
+                                      return const Icon(
+                                        Icons.report_gmailerrorred_rounded,
+                                        color: Color(0xFFFFB4AB),
+                                      );
+                                    } else if (model.postType == 2) {
+                                      return const Icon(
+                                        Icons.info_outline,
+                                        color: Color(0xFF16EA9E),
+                                      );
+                                    } else {
+                                      return const Icon(
+                                        Icons.help_outline,
+                                        color: Color(0xFF569CFF),
+                                      );
+                                    }
+                                  }
+                                }()),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
                           Expanded(
                             child: ReadMoreText(
                               model.text!,
-                              style:  const TextStyle(
-                              fontSize: 15,
-                              color: fontColor,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                              style: const TextStyle(
+                                fontSize: 15,
+                                color: fontColor,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                               trimLines: 2,
                               colorClickableText: Colors.grey,
-
                             ),
                           ),
-
-
-
                         ],
                       )
                     ],
@@ -379,37 +415,34 @@ Widget bulidPostItem({
                 )
               ],
             ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children:
-              [
+              children: [
                 //like button
                 Column(
-                  children:
-                  [
+                  children: [
                     IconButton(
                       icon: Icon(
-                        model.isSaved!
-                            ?
-                        Icons.favorite_border
-                            :
-                        Icons.favorite,
-                        color:model.isSaved! ?fontColor : const Color(0xffE27676),
+                        model.isSaved! ? Icons.favorite_border : Icons.favorite,
+                        color: model.isSaved!
+                            ? fontColor
+                            : const Color(0xffE27676),
                       ),
                       onPressed: () {
                         // Handle like post
                       },
                     ),
-                    Text('${model.likesCount}',style: const TextStyle(color: fontColor,fontSize: 15.0),)
+                    Text(
+                      '${model.likesCount}',
+                      style: const TextStyle(color: fontColor, fontSize: 15.0),
+                    )
                   ],
                 ),
 
                 //comment button
                 Column(
-                  children:
-                  [
+                  children: [
                     IconButton(
                       icon: const Icon(
                         Icons.comment,
@@ -419,29 +452,33 @@ Widget bulidPostItem({
                         // Handle comment on post
                       },
                     ),
-                    Text('${model.commentsCount}',style: const TextStyle(color: fontColor,fontSize: 15.0),)
+                    Text(
+                      '${model.commentsCount}',
+                      style: const TextStyle(color: fontColor, fontSize: 15.0),
+                    )
                   ],
                 ),
 
                 //save button
                 Column(
-                  children:
-                  [
+                  children: [
                     IconButton(
                       icon: Icon(
                         model.isSaved!
-                            ?
-                        Icons.bookmark_added_outlined
-                            :
-                        Icons.bookmark_add_outlined
-                        ,
-                        color:model.isSaved! ? const Color(0xff16EA9E) :  fontColor,
+                            ? Icons.bookmark_added_outlined
+                            : Icons.bookmark_add_outlined,
+                        color: model.isSaved!
+                            ? const Color(0xff16EA9E)
+                            : fontColor,
                       ),
                       onPressed: () {
                         // Handle save post
                       },
                     ),
-                    Text('${model.savesCounts}',style: const TextStyle(color: fontColor,fontSize: 15.0),)
+                    Text(
+                      '${model.savesCounts}',
+                      style: const TextStyle(color: fontColor, fontSize: 15.0),
+                    )
                   ],
                 ),
               ],
@@ -452,7 +489,6 @@ Widget bulidPostItem({
     ),
   );
 }
-
 
 // Not Used !!
 // Widget buildReviewsItem() {
@@ -537,69 +573,96 @@ Widget bulidPostItem({
 //   );
 // }
 
-
-Widget myNavBar(
-{
+Widget myNavBar({
   required int selectedIndex,
   required List<String> text,
   required Function(int index) onDestinationSelected,
-})
-{
+}) {
   return Container(
     decoration: BoxDecoration(
-      border: Border.all(color: Colors.white , width: 1.0),
+      border: Border.all(color: Colors.grey, width: 1.0),
       borderRadius: BorderRadius.circular(31.0),
-
     ),
     child: ClipRRect(
       borderRadius: BorderRadius.circular(100.0),
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: NavigationBar(
-          height: 60.0,
-
-
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          indicatorColor: Colors.transparent,
-          surfaceTintColor: Colors.transparent,
-
-          labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-          selectedIndex: selectedIndex,
-          destinations:
-              text.asMap().entries.map((entry) => NavigationDestination(
-                icon: Container(
-                    decoration: BoxDecoration(
-                      color: entry.key == selectedIndex ? mainColor : Colors.transparent,),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children:
-                        [
-                          if(entry.key == selectedIndex)
-                            const Icon(Icons.check,color: Colors.black ,size: 18.0,),
-                          Expanded(
-                            child: Center(
-                              child: Text(
-                                entry.value,
-                                style: TextStyle(color: entry.key == selectedIndex ? Colors.black : fontColor),
-                              ),
-                            ),
+            height: 60.0,
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            indicatorColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
+            labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+            selectedIndex: selectedIndex,
+            destinations: text
+                .asMap()
+                .entries
+                .map((entry) => NavigationDestination(
+                      icon: Container(
+                          decoration: BoxDecoration(
+                            color: entry.key == selectedIndex
+                                ? mainColor
+                                : Colors.transparent,
                           ),
-
-                        ],
-                      ),
-                    )),
-                label: '',
-              )).toList(),
-
-
-          onDestinationSelected: onDestinationSelected
-        ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              children: [
+                                if (entry.key == selectedIndex)
+                                  const Icon(
+                                    Icons.check,
+                                    color: Colors.black,
+                                    size: 18.0,
+                                  ),
+                                Expanded(
+                                  child: Center(
+                                    child: Text(
+                                      entry.value,
+                                      style: TextStyle(
+                                          color: entry.key == selectedIndex
+                                              ? Colors.black
+                                              : fontColor),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )),
+                      label: '',
+                    ))
+                .toList(),
+            onDestinationSelected: onDestinationSelected),
       ),
     ),
   );
 }
+
+Widget mySwitch() {
+  return Switch(
+    value: true,
+    onChanged: (val) {},
+    activeTrackColor: const Color(0xffA8C8FF),
+    thumbIcon: MaterialStateProperty.resolveWith(
+      (Set<MaterialState> states) {
+        if (states.contains(MaterialState.selected)) {
+          return const Icon(Icons.check, color: Color(0xffA8C8FF));
+        }
+        return null;
+      },
+    ),
+    thumbColor: MaterialStateProperty.resolveWith(
+      (Set<MaterialState> states) {
+        if (states.contains(MaterialState.selected)) {
+          return const Color(0xff05305F);
+        }
+        return Colors.grey;
+      },
+    ),
+  );
+}
+
+
 
 // AnimatedSwitcher buildAnimatedSwitcher(
 //   BuildContext context, {

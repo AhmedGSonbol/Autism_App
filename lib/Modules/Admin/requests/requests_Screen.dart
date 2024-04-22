@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unused_import
 
 import 'package:autism/Modules/chat_Details/chat_Details_Screen.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
@@ -13,8 +13,7 @@ class Requests_Screen extends StatelessWidget {
   const Requests_Screen({super.key});
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Padding(
@@ -31,83 +30,86 @@ class Requests_Screen extends StatelessWidget {
   }
 
   Widget buildRequestItems(BuildContext context) => Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 20),
-    child: Container(
-      padding: EdgeInsets.all(10.0),
-
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: const Color(0xff292A2D),
-        borderRadius: BorderRadiusDirectional.circular(30),
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Container(
+          padding: EdgeInsets.all(10.0),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: const Color(0xff292A2D),
+            borderRadius: BorderRadiusDirectional.circular(30),
+          ),
+          child: Column(
             children: [
-              const SizedBox(
-                width: 10,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const CircleAvatar(
+                    backgroundImage: AssetImage(
+                      'assets/images/Rectangle (1).png',
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'د. أحمد',
+                    style: onBoardingDesc,
+                  ),
+                  Spacer(),
+                  const Text(
+                    'Oct 8 2024',
+                    style: TextStyle(color: Color(0xffE1E2E9), fontSize: 16),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                ],
               ),
-              const CircleAvatar(
-                backgroundImage: AssetImage(
-                  'assets/images/Rectangle (1).png',
-                ),
+              SizedBox(
+                height: 15.0,
               ),
-              const SizedBox(
-                width: 10,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'التخصص :  أَبْجَدْ هَوَّزْ حُطِّي كَلَمُنْ سَعْفُصْ ',
+                    style: TextStyle(color: fontColor, fontSize: 18),
+                  ),
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                  Text(
+                    'فتح ملف تعريف الهوية',
+                    style: TextStyle(color: Color(0xffA8C8FF), fontSize: 18),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ),
-              Text(
-                'د. أحمد',
-                style: onBoardingDesc,
+              SizedBox(
+                height: 15.0,
               ),
-              Spacer(),
-              const Text(
-                'Oct 8 2024',
-                style: TextStyle(color: Color(0xffE1E2E9), fontSize: 16),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  defaultElevatedButton(
+                    text: 'قبول',
+                    onPressed: () {},
+                  ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  defaultElevatedButton(
+                    text: 'رفض',
+                    color: secondColor,
+                    onPressed: () {},
+                  ),
+                ],
+              )
             ],
           ),
-          SizedBox(height: 15.0,),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children:
-            [
-              Text(
-                'التخصص :  أَبْجَدْ هَوَّزْ حُطِّي كَلَمُنْ سَعْفُصْ ',
-                style: TextStyle(color: fontColor, fontSize: 18),
-
-              ),
-              SizedBox(height: 15.0,),
-              Text(
-                'فتح ملف تعريف الهوية',
-                style: TextStyle(color: Color(0xffA8C8FF), fontSize: 18),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
-          SizedBox(height: 15.0,),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children:
-            [
-              defaultElevatedButton(
-                text: 'قبول',
-                onPressed: (){},
-              ),
-              SizedBox(width: 10.0,),
-              defaultElevatedButton(
-                text: 'رفض',
-                color: secondColor,
-                onPressed: (){},
-              ),
-            ],
-          )
-        ],
-      ),
-    ),
-  );
+        ),
+      );
 }

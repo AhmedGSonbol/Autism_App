@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:autism/Modules/Admin/complaints/complaints_Screen.dart';
 import 'package:autism/Modules/Admin/manage_Admins/manage_Accounts_Screen.dart';
 import 'package:autism/Modules/Admin/requests/requests_Screen.dart';
@@ -21,202 +23,125 @@ class Admin_Home_Screen extends StatefulWidget {
 class _Admin_Home_ScreenState extends State<Admin_Home_Screen> {
   int _currentIndex = 0;
 
-  List<Widget> screens =
-  [
+  List<Widget> screens = [
     const Requests_Screen(),
     const Complaints_Screen(),
     const Manage_Admins_Screen(),
-
   ];
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl  ,
+      textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: backgroundColor,
+          backgroundColor: backgroundColor,
+          appBar: AppBar(
+            scrolledUnderElevation: 0,
+            elevation: 0,
+            // toolbarHeight: 64,
+            backgroundColor: const Color(0xff292A2D),
 
-        appBar: AppBar(
-          scrolledUnderElevation: 0,
-          elevation: 0,
-          // toolbarHeight: 64,
-          backgroundColor: const Color(0xff292A2D),
-
-          //Avatar image
-          leading: Builder(
-              builder: (context)
-              {
-                return Row(
-                    mainAxisSize: MainAxisSize.min,
-                  children:
-                  [
-                    IconButton(
-                      onPressed: () {
-                        Scaffold.of(context).openDrawer(); // Open the drawer
-                      },
-                      icon: const Icon(
-                        Icons.menu,
-                        color: Color(0xffC4C6CF),
-                        size: 25,
-                      ),
+            //Avatar image
+            leading: Builder(builder: (context) {
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer(); // Open the drawer
+                    },
+                    icon: const Icon(
+                      Icons.menu,
+                      color: Color(0xffC4C6CF),
+                      size: 25,
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.search),
-                      color: const Color(0xffC4C6CF),
-                      iconSize: 25,
-                      onPressed: (){},
-
-                    ),
-                  ],
-                );
-              }
-          ),
-          leadingWidth: 100,
-          title: const Text(
-            'مجتمع التوحد',
-            style: TextStyle(
-                color: Color(0xffE1E2E9),
-                fontFamily: 'Roboto',
-                fontSize: 24,
-                fontWeight: FontWeight.bold),
-          ),
-          centerTitle: true,
-
-          actions:
-          [
-            InkWell(
-                child: Image.asset('assets/images/leading-icon.png'),
-              onTap: ()
-              {
-                //go to profile
-                navTo(context, Profile_Screen());
-              },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.search),
+                    color: const Color(0xffC4C6CF),
+                    iconSize: 25,
+                    onPressed: () {},
+                  ),
+                ],
+              );
+            }),
+            leadingWidth: 100,
+            title: const Text(
+              'مجتمع التوحد',
+              style: TextStyle(
+                  color: Color(0xffE1E2E9),
+                  fontFamily: 'Roboto',
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold),
             ),
-          ],
-        ),
-        drawer: Drawer(
-          backgroundColor: const Color(0xff282a2f),
-          child: ListView(
-            physics: const BouncingScrollPhysics(),
+            centerTitle: true,
+
+            actions: [
+              InkWell(
+                child: Image.asset('assets/images/leading-icon.png'),
+                onTap: () {
+                  //go to profile
+                  navTo(context, Profile_Screen());
+                },
+              ),
+            ],
+          ),
+          drawer: Drawer(
+            backgroundColor: const Color(0xff282a2f),
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.only(bottom: 40.0),
-            children: [
-              DrawerHeader(
-                child: Container(
-                  height: 70,
-                  padding: const EdgeInsetsDirectional.all(10),
-                  decoration: BoxDecoration(
-                      color: const Color(0xff43474E),
-                      borderRadius: BorderRadius.circular(20)),
-                  child: const ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage:
-                      AssetImage('assets/images/Rectangle.png'),
-                    ),
-                    title: Text(
-                      'User Name',
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Color(0xffE1E2E9),
-                          fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      'username@gmail.com',
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Color(0xffCCCCCC),
+              children: [
+                DrawerHeader(
+                  child: Container(
+                    height: 70,
+                    padding: const EdgeInsetsDirectional.all(10),
+                    decoration: BoxDecoration(
+                        color: const Color(0xff43474E),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: const ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage:
+                            AssetImage('assets/images/Rectangle.png'),
+                      ),
+                      title: Text(
+                        'User Name',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Color(0xffE1E2E9),
+                            fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                        'username@gmail.com',
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Color(0xffCCCCCC),
+                        ),
                       ),
                     ),
                   ),
+                  decoration: const BoxDecoration(
+                    color: Color(0xff282a2f),
+                  ),
                 ),
-                decoration: const BoxDecoration(
-                  color: Color(0xff282a2f),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Container(
-                  padding: const EdgeInsetsDirectional.all(20),
-                  decoration: BoxDecoration(
-                      color: const Color(0xff43474E),
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Column(
-                    children:
-                    [
-
-                      GestureDetector(
-                        onTap: ()
-                        {
-                          navTo(context, Profile_Screen());
-                        },
-                         child: const Row(
-                          children:
-                          [
-                            Icon(
-                              Icons.account_circle,
-                              size: 30,
-                              color: Color(0xffA8C8FF),
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Text(
-                              'الملف الشخصي',
-                              style: TextStyle(
-                                  color: Color(0xffE1E2E9),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15),
-                            )
-                          ],
-                                               ),
-                       ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) {
-                              return const Settings_Screen();
-                            }),
-                          );
-                        },
-                        child: const Row(
-                          children: [
-                            Icon(
-                              Icons.settings,
-                              size: 30,
-                              color: Color(0xffA8C8FF),
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Text(
-                              ' اﻹعدادات',
-                              style: TextStyle(
-                                  color: Color(0xffE1E2E9),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15),
-                            )
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context)
-                          {
-                            return const Test_Screen();
-                          }));
-                        },
-                        child: Container(
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Container(
+                    padding: const EdgeInsetsDirectional.all(20),
+                    decoration: BoxDecoration(
+                        color: const Color(0xff43474E),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            navTo(context, Profile_Screen());
+                          },
                           child: const Row(
                             children: [
                               Icon(
-                                Icons.quiz,
+                                Icons.account_circle,
                                 size: 30,
                                 color: Color(0xffA8C8FF),
                               ),
@@ -224,7 +149,7 @@ class _Admin_Home_ScreenState extends State<Admin_Home_Screen> {
                                 width: 15,
                               ),
                               Text(
-                                'شخص طفلك ',
+                                'الملف الشخصي',
                                 style: TextStyle(
                                     color: Color(0xffE1E2E9),
                                     fontWeight: FontWeight.bold,
@@ -233,145 +158,205 @@ class _Admin_Home_ScreenState extends State<Admin_Home_Screen> {
                             ],
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Container(
-                  padding: const EdgeInsetsDirectional.all(20),
-                  decoration: BoxDecoration(
-                      color: const Color(0xff43474E),
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Image.asset('assets/images/captive_portal.png'),
-                          const SizedBox(
-                            width: 15,
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) {
+                                return const Settings_Screen();
+                              }),
+                            );
+                          },
+                          child: const Row(
+                            children: [
+                              Icon(
+                                Icons.settings,
+                                size: 30,
+                                color: Color(0xffA8C8FF),
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                ' اﻹعدادات',
+                                style: TextStyle(
+                                    color: Color(0xffE1E2E9),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15),
+                              )
+                            ],
                           ),
-                          const Text(
-                            ' موقعنا',
-                            style: TextStyle(
-                                color: Color(0xffE1E2E9),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      const Row(
-                        children: [
-                          Icon(
-                            Icons.flag_circle,
-                            size: 30,
-                            color: Color(0xffA8C8FF),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return const Test_Screen();
+                            }));
+                          },
+                          child: Container(
+                            child: const Row(
+                              children: [
+                                Icon(
+                                  Icons.quiz,
+                                  size: 30,
+                                  color: Color(0xffA8C8FF),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Text(
+                                  'شخص طفلك ',
+                                  style: TextStyle(
+                                      color: Color(0xffE1E2E9),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                )
+                              ],
+                            ),
                           ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Text(
-                            ' رؤيتنا',
-                            style: TextStyle(
-                                color: Color(0xffE1E2E9),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Row(
-                        children: [
-                          Image.asset('assets/images/crowdsource.png'),
-                          const SizedBox(
-                            width: 15,
-                          ),
-                          const Text(
-                            ' عنا ',
-                            style: TextStyle(
-                                color: Color(0xffE1E2E9),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Row(
-                        children: [
-                          Image.asset('assets/images/prompt_suggestion.png'),
-                          const SizedBox(
-                            width: 15,
-                          ),
-                          const Text(
-                            'شخص طفلك ',
-                            style: TextStyle(
-                                color: Color(0xffE1E2E9),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 60.0),
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    fixedSize: MaterialStateProperty.all<Size>(
-                      const Size(50, 50), // Set the desired width and height
+                        ),
+                      ],
                     ),
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(const Color(0xffDBBCE1)),
-                  ),
-                  onPressed: () {},
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'تسجل الخروج',
-                        style: TextStyle(
-                            color: Color(0xff3E2845),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15),
-                      ),
-                      Icon(
-                        Icons.logout,
-                        color: Color(0xff3E2845),
-                      ),
-                    ],
                   ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Container(
+                    padding: const EdgeInsetsDirectional.all(20),
+                    decoration: BoxDecoration(
+                        color: const Color(0xff43474E),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Image.asset('assets/images/captive_portal.png'),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            const Text(
+                              ' موقعنا',
+                              style: TextStyle(
+                                  color: Color(0xffE1E2E9),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        const Row(
+                          children: [
+                            Icon(
+                              Icons.flag_circle,
+                              size: 30,
+                              color: Color(0xffA8C8FF),
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Text(
+                              ' رؤيتنا',
+                              style: TextStyle(
+                                  color: Color(0xffE1E2E9),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Row(
+                          children: [
+                            Image.asset('assets/images/crowdsource.png'),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            const Text(
+                              ' عنا ',
+                              style: TextStyle(
+                                  color: Color(0xffE1E2E9),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Row(
+                          children: [
+                            Image.asset('assets/images/prompt_suggestion.png'),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            const Text(
+                              'شخص طفلك ',
+                              style: TextStyle(
+                                  color: Color(0xffE1E2E9),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 60.0),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      fixedSize: MaterialStateProperty.all<Size>(
+                        const Size(50, 50), // Set the desired width and height
+                      ),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          const Color(0xffDBBCE1)),
+                    ),
+                    onPressed: () {},
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'تسجل الخروج',
+                          style: TextStyle(
+                              color: Color(0xff3E2845),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15),
+                        ),
+                        Icon(
+                          Icons.logout,
+                          color: Color(0xff3E2845),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        body: screens[_currentIndex],
-
-
-        bottomNavigationBar: NavigationBarTheme(
-          data: NavigationBarThemeData(
-            labelTextStyle: MaterialStateProperty.resolveWith<TextStyle>(
-                  (Set<MaterialState> states) => states.contains(MaterialState.selected)
-                ? const TextStyle(color: fontColor)
-                : const TextStyle(color: Colors.black),)
-          ),
-          child: NavigationBar(
-
+          body: screens[_currentIndex],
+          bottomNavigationBar: NavigationBarTheme(
+            data: NavigationBarThemeData(
+                labelTextStyle: MaterialStateProperty.resolveWith<TextStyle>(
+              (Set<MaterialState> states) =>
+                  states.contains(MaterialState.selected)
+                      ? const TextStyle(color: fontColor)
+                      : const TextStyle(color: Colors.black),
+            )),
+            child: NavigationBar(
               backgroundColor: const Color(0xff1D2024),
               indicatorColor: const Color(0xFF3D4758),
               elevation: 0.0,
@@ -380,28 +365,34 @@ class _Admin_Home_ScreenState extends State<Admin_Home_Screen> {
               // surfaceTintColor: Colors.red,
 
               selectedIndex: _currentIndex,
-              labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-              onDestinationSelected: (index)
-              {
-                setState(()
-                {
+              labelBehavior:
+                  NavigationDestinationLabelBehavior.onlyShowSelected,
+              onDestinationSelected: (index) {
+                setState(() {
                   _currentIndex = index;
                 });
               },
-              destinations:
-              [
-                NavigationDestination(icon: Icon(_currentIndex == 0 ? Icons.forum : Icons.forum_outlined,color: const Color(0xffE1E2E9)), label: 'الإنضمام'),
-                NavigationDestination(icon: Icon(_currentIndex == 1 ? Icons.chat :Icons.chat_outlined,color: const Color(0xffE1E2E9)), label: 'الشكاوي'),
-                NavigationDestination(icon: Icon(_currentIndex == 2 ? Icons.reviews :Icons.reviews_outlined,color: const Color(0xffE1E2E9)), label: 'الحسابات'),
+              destinations: [
+                NavigationDestination(
+                    icon: Icon(
+                        _currentIndex == 0 ? Icons.forum : Icons.forum_outlined,
+                        color: const Color(0xffE1E2E9)),
+                    label: 'الإنضمام'),
+                NavigationDestination(
+                    icon: Icon(
+                        _currentIndex == 1 ? Icons.chat : Icons.chat_outlined,
+                        color: const Color(0xffE1E2E9)),
+                    label: 'الشكاوي'),
+                NavigationDestination(
+                    icon: Icon(
+                        _currentIndex == 2
+                            ? Icons.reviews
+                            : Icons.reviews_outlined,
+                        color: const Color(0xffE1E2E9)),
+                    label: 'الحسابات'),
               ],
-
             ),
-        )
-
-
-
-
-      ),
+          )),
     );
   }
 }

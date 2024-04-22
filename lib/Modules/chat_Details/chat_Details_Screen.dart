@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:flutter/material.dart';
@@ -14,24 +16,22 @@ class Chat_Details_Screen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Color(0xff1D2024),
 
-
           title: Row(
-            children:
-            [
+            children: [
               Spacer(),
-
               Text(
                 'د. أحمد',
                 style: TextStyle(color: Colors.white),
               ),
-              SizedBox(width: 10.0,),
+              SizedBox(
+                width: 10.0,
+              ),
               CircleAvatar(
                 backgroundColor: Color(0xff1D2024),
-
-                child: Image(image: AssetImage('assets/images/Rectangle (1).png'),),
-
+                child: Image(
+                  image: AssetImage('assets/images/Rectangle (1).png'),
+                ),
               ),
-
               IconButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -62,8 +62,7 @@ class Chat_Details_Screen extends StatelessWidget {
           // ],
         ),
         body: Column(
-          children:
-          [
+          children: [
             Expanded(
               child: ListView.builder(
                 itemBuilder: (context, index) => receiverItemBuilder(),
@@ -74,24 +73,30 @@ class Chat_Details_Screen extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: TextField(
                 maxLines: 1,
-
-
                 style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-
-                  hintTextDirection: TextDirection.rtl,
-                  hintText: 'اكتب شيئا هنا',
-                  hintStyle: TextStyle(color: Color(0xffE1E2E9)),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  suffixIcon:IconButton(onPressed: (){},icon: Icon(Icons.send_rounded,color: Color(0xffE1E2E9),),),
-                  fillColor:  Color(0xff33353A),
-                  filled: true,
-                  focusColor: Colors.green,
-                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50),borderSide: BorderSide(color: Color(0xff1D2024) ,)),
-                  hoverColor: Colors.blue
-                ),
+                    hintTextDirection: TextDirection.rtl,
+                    hintText: 'اكتب شيئا هنا',
+                    hintStyle: TextStyle(color: Color(0xffE1E2E9)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    suffixIcon: IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.send_rounded,
+                        color: Color(0xffE1E2E9),
+                      ),
+                    ),
+                    fillColor: Color(0xff33353A),
+                    filled: true,
+                    focusColor: Colors.green,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50),
+                        borderSide: BorderSide(
+                          color: Color(0xff1D2024),
+                        )),
+                    hoverColor: Colors.blue),
               ),
             ),
           ],
@@ -100,16 +105,14 @@ class Chat_Details_Screen extends StatelessWidget {
     );
   }
 
-  Widget senderItemBuilder()
-  {
+  Widget senderItemBuilder() {
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
         //Don`nt use fixed height and width
         // height: 85,
         // width: 150,
-        padding:
-        EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         margin: EdgeInsets.all(20.0),
         decoration: BoxDecoration(
           color: Color(0xffA8C8FF),
@@ -129,13 +132,11 @@ class Chat_Details_Screen extends StatelessWidget {
     );
   }
 
-  Widget receiverItemBuilder()
-  {
+  Widget receiverItemBuilder() {
     return Align(
       alignment: Alignment.centerRight,
       child: Container(
-        padding:
-        EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         margin: EdgeInsets.all(20.0),
         decoration: BoxDecoration(
           color: Color(0xff43474E),
