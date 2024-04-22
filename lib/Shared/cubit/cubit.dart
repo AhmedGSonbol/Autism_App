@@ -200,4 +200,15 @@ class AppCubit extends Cubit<AppStates> {
 
     emit(AppChangeProfileScreenState());
   }
+
+  bool isPassVisible = false;
+
+  void changePassVisibility() {
+    isPassVisible = !isPassVisible;
+    isAdmin = !isAdmin;
+
+    emit(AppChangePassVisibilityState());
+  }
+
+  bool isAdmin = true;
 }

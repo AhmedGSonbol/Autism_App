@@ -1,8 +1,12 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, sort_child_properties_last, prefer_const_constructors
 
+import 'package:autism/Models/about/about_screen.dart';
+import 'package:autism/Modules/Admin/admin_profile/admin_profile_screen.dart';
 import 'package:autism/Modules/Admin/complaints/complaints_Screen.dart';
 import 'package:autism/Modules/Admin/manage_Admins/manage_Accounts_Screen.dart';
 import 'package:autism/Modules/Admin/requests/requests_Screen.dart';
+import 'package:autism/Modules/Admin/settings/admin_settings_screen.dart';
+import 'package:autism/Modules/Admin/suggestions/suggestions_screen.dart';
 import 'package:autism/Modules/chat/chat_Screen.dart';
 import 'package:autism/Modules/info/info_Screen.dart';
 import 'package:autism/Modules/profile/profile_Screen.dart';
@@ -10,10 +14,13 @@ import 'package:autism/Modules/reviews/reviews_Screen.dart';
 import 'package:autism/Modules/setting/settings_Screen.dart';
 import 'package:autism/Modules/test/test_Screen.dart';
 import 'package:autism/Modules/posts/posts_Screen.dart';
+import 'package:autism/Modules/vision/our_vision.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/styles/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class Admin_Home_Screen extends StatefulWidget {
   @override
@@ -70,7 +77,6 @@ class _Admin_Home_ScreenState extends State<Admin_Home_Screen> {
               'مجتمع التوحد',
               style: TextStyle(
                   color: Color(0xffE1E2E9),
-                  fontFamily: 'Roboto',
                   fontSize: 24,
                   fontWeight: FontWeight.bold),
             ),
@@ -80,8 +86,7 @@ class _Admin_Home_ScreenState extends State<Admin_Home_Screen> {
               InkWell(
                 child: Image.asset('assets/images/leading-icon.png'),
                 onTap: () {
-                  //go to profile
-                  navTo(context, Profile_Screen());
+                  navTo(context, Admin_Profile_Screen());
                 },
               ),
             ],
@@ -105,14 +110,14 @@ class _Admin_Home_ScreenState extends State<Admin_Home_Screen> {
                             AssetImage('assets/images/Rectangle.png'),
                       ),
                       title: Text(
-                        'User Name',
+                        'Admin Name',
                         style: TextStyle(
                             fontSize: 20,
                             color: Color(0xffE1E2E9),
                             fontWeight: FontWeight.bold),
                       ),
                       subtitle: Text(
-                        'username@gmail.com',
+                        'adminame@gmail.com',
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: Color(0xffCCCCCC),
@@ -136,7 +141,7 @@ class _Admin_Home_ScreenState extends State<Admin_Home_Screen> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            navTo(context, Profile_Screen());
+                            navTo(context, Admin_Profile_Screen());
                           },
                           child: const Row(
                             children: [
@@ -165,7 +170,7 @@ class _Admin_Home_ScreenState extends State<Admin_Home_Screen> {
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(builder: (context) {
-                                return const Settings_Screen();
+                                return const Admin_Settings_Screen();
                               }),
                             );
                           },
@@ -187,38 +192,6 @@ class _Admin_Home_ScreenState extends State<Admin_Home_Screen> {
                                     fontSize: 15),
                               )
                             ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context) {
-                              return const Test_Screen();
-                            }));
-                          },
-                          child: Container(
-                            child: const Row(
-                              children: [
-                                Icon(
-                                  Icons.quiz,
-                                  size: 30,
-                                  color: Color(0xffA8C8FF),
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Text(
-                                  'شخص طفلك ',
-                                  style: TextStyle(
-                                      color: Color(0xffE1E2E9),
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15),
-                                )
-                              ],
-                            ),
                           ),
                         ),
                       ],
@@ -253,60 +226,76 @@ class _Admin_Home_ScreenState extends State<Admin_Home_Screen> {
                         const SizedBox(
                           height: 30,
                         ),
-                        const Row(
-                          children: [
-                            Icon(
-                              Icons.flag_circle,
-                              size: 30,
-                              color: Color(0xffA8C8FF),
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Text(
-                              ' رؤيتنا',
-                              style: TextStyle(
-                                  color: Color(0xffE1E2E9),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15),
-                            )
-                          ],
+                        GestureDetector(
+                          onTap: () {
+                            navTo(context, Our_Vision());
+                          },
+                          child: const Row(
+                            children: [
+                              Icon(
+                                Icons.flag_circle,
+                                size: 30,
+                                color: Color(0xffA8C8FF),
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                ' رؤيتنا',
+                                style: TextStyle(
+                                    color: Color(0xffE1E2E9),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15),
+                              )
+                            ],
+                          ),
                         ),
                         const SizedBox(
                           height: 30,
                         ),
-                        Row(
-                          children: [
-                            Image.asset('assets/images/crowdsource.png'),
-                            const SizedBox(
-                              width: 15,
-                            ),
-                            const Text(
-                              ' عنا ',
-                              style: TextStyle(
-                                  color: Color(0xffE1E2E9),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15),
-                            ),
-                          ],
+                        GestureDetector(
+                          onTap: () {
+                            navTo(context, About_Screen());
+                          },
+                          child: Row(
+                            children: [
+                              Image.asset('assets/images/crowdsource.png'),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              const Text(
+                                ' عنا ',
+                                style: TextStyle(
+                                    color: Color(0xffE1E2E9),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15),
+                              ),
+                            ],
+                          ),
                         ),
                         const SizedBox(
                           height: 30,
                         ),
-                        Row(
-                          children: [
-                            Image.asset('assets/images/prompt_suggestion.png'),
-                            const SizedBox(
-                              width: 15,
-                            ),
-                            const Text(
-                              'شخص طفلك ',
-                              style: TextStyle(
-                                  color: Color(0xffE1E2E9),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15),
-                            ),
-                          ],
+                        GestureDetector(
+                          onTap: () {
+                            navTo(context, Suggestions_Screen());
+                          },
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                  'assets/images/prompt_suggestion.png'),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              const Text(
+                                'اﻹقتراحات',
+                                style: TextStyle(
+                                    color: Color(0xffE1E2E9),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

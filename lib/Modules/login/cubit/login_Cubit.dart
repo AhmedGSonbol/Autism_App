@@ -16,5 +16,5 @@ class LoginCubit extends Cubit<LoginStates> {
     emit(LoginChangePassVisibilityState());
   }
 
-  bool isAdmin = false;
+  bool isAdmin = true;
 }

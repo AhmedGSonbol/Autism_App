@@ -1,15 +1,17 @@
-abstract class AppStates{}
+abstract class AppStates {}
 
-class AppInitialState extends AppStates{}
+class AppInitialState extends AppStates {}
 
-class AppNextQuestionState extends AppStates{}
+class AppNextQuestionState extends AppStates {}
 
-class AppPreviousQuestionState extends AppStates{}
+class AppPreviousQuestionState extends AppStates {}
 
-class AppQuestionCheckedChangeState extends AppStates{}
+class AppQuestionCheckedChangeState extends AppStates {}
 
-class AppChangeSelectedEthnicityState extends AppStates{}
+class AppChangeSelectedEthnicityState extends AppStates {}
 
-class AppChangeRegScreenState extends AppStates{}
+class AppChangeRegScreenState extends AppStates {}
 
-class AppChangeProfileScreenState extends AppStates{}
+class AppChangeProfileScreenState extends AppStates {}
+
+class AppChangePassVisibilityState extends AppStates {}

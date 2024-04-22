@@ -54,11 +54,18 @@ Widget defaultTextFormField({
       // onChanged: (value) { },
 
       decoration: InputDecoration(
-        border: const OutlineInputBorder(),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Color(0xffA8C8FF),
+          ),
+        ),
         labelText: label,
-        labelStyle: const TextStyle(color: Color(0xffD9D9D9), fontSize: 15),
+        labelStyle: const TextStyle(
+            color: Color(0xffD9D9D9),
+            fontSize: 18,
+            fontWeight: FontWeight.bold),
         hintText: hint,
-        hintStyle: const TextStyle(color: Color(0xffD9D9D9), fontSize: 15),
+        hintStyle: const TextStyle(color: Color(0xffD9D9D9), fontSize: 18),
         suffixIcon: iconButton,
       ),
       onTap: onTap,
