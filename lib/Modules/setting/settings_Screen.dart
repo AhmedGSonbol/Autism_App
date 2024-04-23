@@ -9,7 +9,7 @@ class Settings_Screen extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: backgroundColor,
+        backgroundColor: appBarColor,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -31,16 +31,13 @@ class Settings_Screen extends StatelessWidget {
         padding: const EdgeInsetsDirectional.all(20),
         child: SingleChildScrollView(
           child: Column(
-            children:
-            [
-          
+            children: [
               Container(
-          
                 width: double.infinity,
                 padding: const EdgeInsetsDirectional.only(top: 16),
                 decoration: BoxDecoration(
-                    color: const Color(0xff282A2F),
-                    borderRadius: BorderRadius.circular(30),
+                  color: const Color(0xff282A2F),
+                  borderRadius: BorderRadius.circular(30),
                 ),
                 child: Center(
                   child: Column(
@@ -63,13 +60,11 @@ class Settings_Screen extends StatelessWidget {
                           ),
                         ),
                       ),
-          
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children:
-                          [
+                          children: [
                             mySwitch(),
                             const Spacer(),
                             const Text(
@@ -99,10 +94,8 @@ class Settings_Screen extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
-                      children:
-                      [
+                      children: [
                         Container(
-          
                           height: 40,
                           decoration: BoxDecoration(
                               color: const Color(0xffF8D8FE),
@@ -121,32 +114,28 @@ class Settings_Screen extends StatelessWidget {
                           height: 20,
                         ),
                         Column(
-                          children:
-                          [
-
+                          children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children:
-                              [
+                              children: [
                                 Switch(
                                   value: false,
-                                  onChanged: (val){},
-
+                                  onChanged: (val) {},
                                   activeTrackColor: const Color(0xffA8C8FF),
-
                                   thumbIcon: MaterialStateProperty.resolveWith(
-                                        (Set<MaterialState> states) {
-                                      if (states.contains(MaterialState.selected)) {
-                                        return const Icon(Icons.check, color: Color(0xffA8C8FF));
+                                    (Set<MaterialState> states) {
+                                      if (states
+                                          .contains(MaterialState.selected)) {
+                                        return const Icon(Icons.check,
+                                            color: Color(0xffA8C8FF));
                                       }
                                       return null;
                                     },
                                   ),
-
                                   thumbColor: MaterialStateProperty.resolveWith(
-                                        (Set<MaterialState> states) {
-                                      if (states.contains(MaterialState.selected))
-                                      {
+                                    (Set<MaterialState> states) {
+                                      if (states
+                                          .contains(MaterialState.selected)) {
                                         return const Color(0xff05305F);
                                       }
                                       return Colors.grey;
@@ -168,8 +157,7 @@ class Settings_Screen extends StatelessWidget {
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children:
-                              [
+                              children: [
                                 mySwitch(),
                                 const Spacer(),
                                 const Text(
@@ -186,8 +174,7 @@ class Settings_Screen extends StatelessWidget {
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children:
-                              [
+                              children: [
                                 mySwitch(),
                                 const Spacer(),
                                 const Text(
@@ -204,8 +191,7 @@ class Settings_Screen extends StatelessWidget {
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children:
-                              [
+                              children: [
                                 mySwitch(),
                                 const Spacer(),
                                 const Text(
@@ -222,8 +208,7 @@ class Settings_Screen extends StatelessWidget {
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children:
-                              [
+                              children: [
                                 mySwitch(),
                                 const Spacer(),
                                 const Text(
@@ -242,7 +227,6 @@ class Settings_Screen extends StatelessWidget {
                   ),
                 ),
               ),
-
 
               // Backup
               // Padding(
@@ -373,27 +357,22 @@ class Settings_Screen extends StatelessWidget {
     );
   }
 
-  Widget mySwitch()
-  {
+  Widget mySwitch() {
     return Switch(
       value: true,
-      onChanged: (val){},
-
+      onChanged: (val) {},
       activeTrackColor: const Color(0xffA8C8FF),
-
       thumbIcon: MaterialStateProperty.resolveWith(
-            (Set<MaterialState> states) {
+        (Set<MaterialState> states) {
           if (states.contains(MaterialState.selected)) {
             return const Icon(Icons.check, color: Color(0xffA8C8FF));
           }
           return null;
         },
       ),
-
       thumbColor: MaterialStateProperty.resolveWith(
-            (Set<MaterialState> states) {
-          if (states.contains(MaterialState.selected))
-          {
+        (Set<MaterialState> states) {
+          if (states.contains(MaterialState.selected)) {
             return const Color(0xff05305F);
           }
           return Colors.grey;

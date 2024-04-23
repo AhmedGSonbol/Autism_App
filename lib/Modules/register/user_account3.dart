@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/styles/colors.dart';
@@ -10,20 +12,20 @@ class UserAccount3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children:
-      [
+      children: [
         Stack(
           alignment: Alignment.bottomRight,
-          children:
-          [
+          children: [
             Image.asset(
               'assets/images/account_circle.png',
               width: 120,
               height: 120,
             ),
             IconButton(
-                icon: Image.asset('assets/images/Icon button toggleable-dark.png'),
-            onPressed: (){},)
+              icon:
+                  Image.asset('assets/images/Icon button toggleable-dark.png'),
+              onPressed: () {},
+            )
           ],
         ),
         const SizedBox(
@@ -50,8 +52,6 @@ class UserAccount3 extends StatelessWidget {
         SizedBox(
           height: 166,
         ),
-
-
       ],
     );
   }
