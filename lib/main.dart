@@ -21,25 +21,30 @@ void main() async
   WidgetsFlutterBinding.ensureInitialized();
 
   Bloc.observer = MyBlocObserver();
+
+  print(CachHelper.lol);
+
   await CachHelper.init();
+
+  print(CachHelper.lol);
 
 
   Widget screen;
 
-  // if(CachHelper.getData(key: 'ShowBoarding') != null)
-  // {
-  //
-  //     screen = Login_Screen();
-  //
-  // }
-  // else
-  // {
-  //   // screen = OnBoardingScreen();
-  //   screen = OnBoardingScreen();
-  // }
+  if(CachHelper.getData(key: 'ShowBoarding') != null)
+  {
 
-  bool isAdmin = false;
-  screen = Login_Screen();
+      screen = Login_Screen();
+
+  }
+  else
+  {
+
+    screen = OnBoardingScreen();
+  }
+
+
+   screen = Login_Screen();
 
 
   return runApp(

@@ -108,15 +108,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     if(isLast == false)
                     {
                       _pageController.nextPage(duration: Duration(milliseconds: 500), curve: Curves.decelerate);
+                      final int? counter = CachHelper.sharedPreferences!.getInt('counter');
+                      print(counter);
                     }else
                     {
-                      navAndFinishTo(context, Login_Screen());
-                      CachHelper.saveData(key: 'ShowBoarding', value: false).then( (value)
+                      CachHelper.saveData(key: 'ShowBoarding', value: false).then( (value)async
                       {
-                        if(value!)
-                        {
-
-                        }
+                        await CachHelper.sharedPreferences!.setInt('counter', 10);
+                        navAndFinishTo(context, Login_Screen());
                       });
                     }
 
