@@ -211,4 +211,12 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   bool isAdmin = true;
+
+  int currentAccountsScreen = 0;
+
+  void changeCurrentAccountScreen(int index) {
+    currentAccountsScreen = index;
+
+    emit(AppChangeAccountsScreenState());
+  }
 }

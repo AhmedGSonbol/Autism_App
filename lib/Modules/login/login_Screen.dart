@@ -135,21 +135,9 @@ class Login_Screen extends StatelessWidget {
                             navTo(context, Admin_Home_Screen());
                             // navTo(context, Doctor_Home_Screen());
                           } else {
-                            // navTo(context, Home_Screen());
-                            navTo(context, Doctor_Home_Screen());
+                            navTo(context, Home_Screen());
+                            // navTo(context, Doctor_Home_Screen());
                           }
-                          // if (formKey.currentState!.validate()) {
-                          //   if (emailCon == 'admin@gmail.com' &&
-                          //       passCon == '123456') {
-                          //     navTo(context, Admin_Home_Screen());
-                          //   } else if (emailCon == 'doctor@gmail.com' &&
-                          //       passCon == '123456') {
-                          //     navTo(context, Doctor_Home_Screen());
-                          //   } else if (emailCon == 'user@gmail.com' &&
-                          //       passCon == '123456') {
-                          //     navTo(context, Home_Screen());
-                          //   }
-                          // }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xffA8C8FF),

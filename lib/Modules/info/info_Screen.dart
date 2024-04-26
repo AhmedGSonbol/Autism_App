@@ -1,11 +1,10 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use, camel_case_types, unnecessary_import
-
+// ignore_for_file: prefer_const_constructors, deprecated_member_use, camel_case_types, unnecessary_import, prefer_final_fields
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-// import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class Info_Screen extends StatefulWidget {
   const Info_Screen({super.key});
@@ -15,6 +14,10 @@ class Info_Screen extends StatefulWidget {
 }
 
 class _Info_ScreenState extends State<Info_Screen> {
+  YoutubePlayerController _youtubePlayerController = YoutubePlayerController(
+    initialVideoId: '-4HS8L0WfbQ',
+    flags: YoutubePlayerFlags(autoPlay: false, mute: true),
+  );
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -540,13 +543,29 @@ class _Info_ScreenState extends State<Info_Screen> {
           ),
           Center(
             child: Text(
-              'بعض العلاجات',
+              'بعض الفيديوهات',
               style: Theme.of(context)
                   .textTheme
                   .headline4
                   ?.copyWith(color: fontColor, fontWeight: FontWeight.bold),
             ),
           ),
+          SizedBox(
+            height: 15,
+          ),
+          Center(
+            child: Text(
+              'فيديوهات مفيده في جانب الحديث عن طيف التوحد بالعربية',
+              style: Theme.of(context).textTheme.headline6?.copyWith(
+                  color: fontColor, fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          Center(
+            child: YoutubePlayer(controller: _youtubePlayerController),
+          )
         ],
       ),
     );

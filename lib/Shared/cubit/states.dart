@@ -15,3 +15,5 @@ class AppChangeRegScreenState extends AppStates {}
 class AppChangeProfileScreenState extends AppStates {}
 
 class AppChangePassVisibilityState extends AppStates {}
+
+class AppChangeAccountsScreenState extends AppStates {}

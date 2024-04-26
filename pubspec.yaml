@@ -47,6 +47,7 @@ dependencies:
   step_progress_indicator: ^1.0.2
   smooth_page_indicator: ^1.1.0
   youtube_player_iframe: ^4.0.4 
+  youtube_player_flutter: ^9.0.1
 
 
 

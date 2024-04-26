@@ -587,7 +587,7 @@ Widget myNavBar({
 }) {
   return Container(
     decoration: BoxDecoration(
-      border: Border.all(color: Colors.grey, width: 1.0),
+      border: Border.all(color: Color(0xff8E9199), width: 1.0),
       borderRadius: BorderRadius.circular(31.0),
     ),
     child: ClipRRect(

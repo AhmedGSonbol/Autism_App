@@ -17,29 +17,19 @@ void main() async {
 
   Bloc.observer = MyBlocObserver();
 
-  print(CachHelper.lol);
+  // print(CachHelper.lol);
 
   await CachHelper.init();
 
-
-
-
   Widget screen;
 
-  if(CachHelper.getData(key: 'ShowBoarding') != null)
-  {
-
-      screen = Login_Screen();
-
-  }
-  else
-  {
-
+  if (CachHelper.getData(key: 'ShowBoarding') != null) {
+    screen = Login_Screen();
+  } else {
     screen = OnBoardingScreen();
   }
 
-
-   screen = Login_Screen();
+  screen = Login_Screen();
 
   return runApp(BlocProvider(
     create: (context) => AppCubit(),

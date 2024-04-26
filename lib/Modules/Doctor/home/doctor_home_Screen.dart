@@ -3,6 +3,7 @@
 import 'package:autism/Models/about/about_screen.dart';
 import 'package:autism/Modules/Doctor/chat/chat_screen.dart';
 import 'package:autism/Modules/Doctor/posts/posts_screen.dart';
+import 'package:autism/Modules/Doctor/profile/doctor_profile_screen.dart';
 import 'package:autism/Modules/Doctor/reviews/reviews_Screen.dart';
 import 'package:autism/Modules/Doctor/setting/settings_doctor_screen.dart';
 import 'package:autism/Modules/vision/our_vision.dart';
@@ -69,7 +70,9 @@ class _Doctor_Home_ScreenState extends State<Doctor_Home_Screen> {
                   'assets/images/Rectangle (5).png',
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                navTo(context, Doctor_Profile_Screen());
+              },
             ),
           ],
           leadingWidth: 100,
@@ -130,7 +133,7 @@ class _Doctor_Home_ScreenState extends State<Doctor_Home_Screen> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          // navTo(context, Profile_Screen());
+                          navTo(context, Doctor_Profile_Screen());
                         },
                         child: Row(
                           children: [
@@ -197,20 +200,23 @@ class _Doctor_Home_ScreenState extends State<Doctor_Home_Screen> {
                       borderRadius: BorderRadius.circular(20)),
                   child: Column(
                     children: [
-                      Row(
-                        children: [
-                          Image.asset('assets/images/captive_portal.png'),
-                          const SizedBox(
-                            width: 15,
-                          ),
-                          const Text(
-                            ' موقعنا',
-                            style: TextStyle(
-                                color: Color(0xffE1E2E9),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          )
-                        ],
+                      GestureDetector(
+                        onTap: () {},
+                        child: Row(
+                          children: [
+                            Image.asset('assets/images/captive_portal.png'),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            const Text(
+                              ' موقعنا',
+                              style: TextStyle(
+                                  color: Color(0xffE1E2E9),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            )
+                          ],
+                        ),
                       ),
                       const SizedBox(
                         height: 30,
