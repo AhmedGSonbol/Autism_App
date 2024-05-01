@@ -59,7 +59,7 @@ class Test_Screen extends StatelessWidget {
         return Scaffold(
           backgroundColor: backgroundColor,
           appBar: AppBar(
-            backgroundColor: backgroundColor,
+            backgroundColor: appBarColor,
             leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -72,7 +72,6 @@ class Test_Screen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
-                fontFamily: 'Roboto',
                 color: fontColor,
               ),
             ),
@@ -169,6 +168,9 @@ class Test_Screen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Column(
                 children: [
+                  SizedBox(
+                    height: 20.0,
+                  ),
                   if (cubit.currentTestScreen != 0)
                     Align(
                       alignment: Alignment.centerLeft,

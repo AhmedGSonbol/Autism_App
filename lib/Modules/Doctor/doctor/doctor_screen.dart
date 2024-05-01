@@ -21,74 +21,77 @@ class Doctor_Details extends StatelessWidget {
         var cubit = AppCubit.get(context);
         return Directionality(
           textDirection: TextDirection.rtl,
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'التعريف',
-                    style: Theme.of(context).textTheme.headline4?.copyWith(
-                        color: fontColor, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Icon(
-                    Icons.edit_outlined,
-                    color: fontColor,
-                    size: 25,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'الدكتور أحمد عبد الله هو طبيب مصري متخرج من كلية الطب بجامعة دمنهور عام 2020. وهو متخصص في علاج مرض التوحد والاضطرابات النفسية المرتبطة به.',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    ?.copyWith(color: fontColor),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              Text(
-                'أراء  الآخرين',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    ?.copyWith(color: fontColor, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'تعرف على ما يقوله آولياء اﻷمور و اﻷطباء الآخرين عنك',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: fontColor,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'التعريف',
+                      style: Theme.of(context).textTheme.headline4?.copyWith(
+                          color: fontColor, fontWeight: FontWeight.bold),
                     ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              ListView.separated(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.only(bottom: 20.0),
-                itemBuilder: (context, index) {
-                  return Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: buildViewsPosts(),
-                  );
-                },
-                separatorBuilder: (context, index) => SizedBox(
-                  height: 10.0,
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Icon(
+                      Icons.edit_outlined,
+                      color: fontColor,
+                      size: 25,
+                    ),
+                  ],
                 ),
-                itemCount: 5,
-              )
-            ],
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'الدكتور أحمد عبد الله هو طبيب مصري متخرج من كلية الطب بجامعة دمنهور عام 2020. وهو متخصص في علاج مرض التوحد والاضطرابات النفسية المرتبطة به.',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      ?.copyWith(color: fontColor),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                Text(
+                  'أراء  الآخرين',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline5
+                      ?.copyWith(color: fontColor, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'تعرف على ما يقوله آولياء اﻷمور و اﻷطباء الآخرين عنك',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: fontColor,
+                      ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.only(bottom: 20.0),
+                  itemBuilder: (context, index) {
+                    return Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: buildViewsPosts(),
+                    );
+                  },
+                  separatorBuilder: (context, index) => SizedBox(
+                    height: 10.0,
+                  ),
+                  itemCount: 5,
+                )
+              ],
+            ),
           ),
         );
       },
@@ -129,25 +132,3 @@ Widget buildViewsPosts() => Container(
         ],
       ),
     );
-
-//  ListView.separated(
-//                 shrinkWrap: true,
-//                 physics: NeverScrollableScrollPhysics(),
-//                 padding: EdgeInsets.only(bottom: 20.0),
-//                 itemBuilder: (context, index) {
-//                   return Directionality(
-//                       textDirection: TextDirection.rtl,
-//                       child: bulidPostItem(
-//                           context: context, model: cubit.usersPosts[index]));
-//                 },
-//                 separatorBuilder: (context, index) => SizedBox(
-//                   height: 10.0,
-//                 ),
-//                 itemCount: cubit.doctorsPosts.length,
-//               )
-
-// {
-//   // required String image,
-//   // required String text,
-//   // required String name,
-// }

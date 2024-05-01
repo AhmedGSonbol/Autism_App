@@ -14,10 +14,23 @@ class Info_Screen extends StatefulWidget {
 }
 
 class _Info_ScreenState extends State<Info_Screen> {
-  YoutubePlayerController _youtubePlayerController = YoutubePlayerController(
-    initialVideoId: '-4HS8L0WfbQ',
-    flags: YoutubePlayerFlags(autoPlay: false, mute: true),
-  );
+  YoutubePlayerController? _youtubePlayerController;
+  @override
+  void initState() {
+    _youtubePlayerController = YoutubePlayerController(
+      initialVideoId:
+          convertedUrl('https://www.youtube.com/watch?v=-4HS8L0WfbQ'),
+      flags: YoutubePlayerFlags(autoPlay: false, mute: false),
+    );
+    super.initState();
+  }
+
+  // @override
+  // void dispose() {
+  //   _youtubePlayerController!.pause();
+  //   super.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -563,11 +576,27 @@ class _Info_ScreenState extends State<Info_Screen> {
           SizedBox(
             height: 30,
           ),
+          // Center(
+          //   child: YoutubePlayer(controller: _youtubePlayerController!),
+          // ),
+          SizedBox(
+            height: 30,
+          ),
           Center(
-            child: YoutubePlayer(controller: _youtubePlayerController),
+            child: YoutubePlayerBuilder(
+              player: YoutubePlayer(controller: _youtubePlayerController!),
+              builder: (context, player) {
+                return YoutubePlayer(controller: _youtubePlayerController!);
+              },
+            ),
           )
         ],
       ),
     );
+  }
+
+  //converted url
+  String convertedUrl(url) {
+    return YoutubePlayer.convertUrlToId(url).toString();
   }
 }

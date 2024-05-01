@@ -132,8 +132,8 @@ class Login_Screen extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () {
                           if (cubit.isAdmin) {
-                            navTo(context, Admin_Home_Screen());
-                            // navTo(context, Doctor_Home_Screen());
+                            // navTo(context, Admin_Home_Screen());
+                            navTo(context, Doctor_Home_Screen());
                           } else {
                             navTo(context, Home_Screen());
                             // navTo(context, Doctor_Home_Screen());

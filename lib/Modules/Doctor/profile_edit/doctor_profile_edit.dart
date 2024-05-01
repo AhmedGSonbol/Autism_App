@@ -134,7 +134,7 @@ class Doctor_Profile_Edit_Screen extends StatelessWidget {
                         defaultTextFormField(
                           controller: nameController,
                           type: TextInputType.name,
-                          label: 'الأسم',
+                          label: 'الإسم',
                         ),
                         const SizedBox(
                           height: 20.0,
@@ -168,10 +168,22 @@ class Doctor_Profile_Edit_Screen extends StatelessWidget {
                           height: 20.0,
                         ),
                         defaultTextFormField(
-                            controller: passwordController,
-                            type: TextInputType.name,
-                            isPass: true,
-                            label: 'الرقم السري'),
+                          controller: passwordController,
+                          type: TextInputType.name,
+                          isPass: !cubit.isPassVisible,
+                          label: 'الرقم السري',
+                          iconButton: IconButton(
+                            onPressed: () {
+                              cubit.changePassVisibility();
+                            },
+                            icon: Icon(
+                              cubit.isPassVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: fontColor,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -184,3 +196,26 @@ class Doctor_Profile_Edit_Screen extends StatelessWidget {
     );
   }
 }
+
+  // defaultTextFormField(
+  //                         controller: passCon,
+  //                         type: TextInputType.visiblePassword,
+  //                         hint: 'الرقم السري',
+  //                         iconButton: IconButton(
+  //                           icon: Icon(
+  //                             cubit.isPassVisible
+  //                                 ? Icons.visibility
+  //                                 : Icons.visibility_off,
+  //                             color: fontColor,
+  //                           ),
+  //                           onPressed: () {
+  //                             cubit.changePassVisibility();
+  //                           },
+  //                         ),
+  //                         isPass: !cubit.isPassVisible,
+  //                         style: const TextStyle(color: Colors.white),
+  //                         validate: (value) {
+  //                           if (value == '') {
+  //                             return 'مطلوب*';
+  //                           }
+  //                         }),
