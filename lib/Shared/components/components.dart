@@ -41,10 +41,12 @@ Widget defaultTextFormField({
   TextDirection? hintRt1 = TextDirection.rtl,
   TextStyle? hintStyle,
   Widget? prefixIcon,
+  int maxLines = 1
 }) {
   return Directionality(
     textDirection: hintRt1!,
     child: TextFormField(
+      maxLines: maxLines,
       controller: controller,
       keyboardType: type,
       obscureText: isPass,

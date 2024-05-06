@@ -10,6 +10,8 @@ class Profile_Edit_Screen extends StatelessWidget {
   Profile_Edit_Screen({Key? key}) : super(key: key);
 
   var nameController = TextEditingController();
+  var childNameController = TextEditingController();
+  var childAgeController = TextEditingController();
   var countryController = TextEditingController();
   var governmentController = TextEditingController();
   var phoneController = TextEditingController();
@@ -130,11 +132,28 @@ class Profile_Edit_Screen extends StatelessWidget {
                   child: Form(
                     key: formKey,
                     child: Column(
-                      children: [
+                      children:
+                      [
                         defaultTextFormField(
                           controller: nameController,
                           type: TextInputType.name,
                           label: 'الأسم',
+                        ),
+                        const SizedBox(
+                          height: 20.0,
+                        ),
+                        defaultTextFormField(
+                          controller: childNameController,
+                          type: TextInputType.name,
+                          label: 'اسم الطفل',
+                        ),
+                        const SizedBox(
+                          height: 20.0,
+                        ),
+                        defaultTextFormField(
+                          controller: childAgeController,
+                          type: TextInputType.number,
+                          label: 'عمر الطفل',
                         ),
                         const SizedBox(
                           height: 20.0,
@@ -160,23 +179,23 @@ class Profile_Edit_Screen extends StatelessWidget {
                         const SizedBox(
                           height: 20.0,
                         ),
-                        defaultTextFormField(
-                          controller: passwordController,
-                          type: TextInputType.name,
-                          isPass: !cubit.isPassVisible,
-                          label: 'الرقم السري',
-                          iconButton: IconButton(
-                            onPressed: () {
-                              cubit.changePassVisibility();
-                            },
-                            icon: Icon(
-                              cubit.isPassVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                              color: fontColor,
-                            ),
-                          ),
-                        ),
+                        // defaultTextFormField(
+                        //   controller: passwordController,
+                        //   type: TextInputType.name,
+                        //   isPass: !cubit.isPassVisible,
+                        //   label: 'الرقم السري',
+                        //   iconButton: IconButton(
+                        //     onPressed: () {
+                        //       cubit.changePassVisibility();
+                        //     },
+                        //     icon: Icon(
+                        //       cubit.isPassVisible
+                        //           ? Icons.visibility
+                        //           : Icons.visibility_off,
+                        //       color: fontColor,
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

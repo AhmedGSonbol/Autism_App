@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unused_import, unnecessary_import
 
 import 'package:autism/Modules/Admin/admin_accounts/admin_accounts_screen.dart';
+import 'package:autism/Modules/Admin/doctor_accounts/doctor_accounts_screen.dart';
 import 'package:autism/Modules/Admin/user_accounts/user_accounts_screen.dart';
 import 'package:autism/Modules/chat_Details/chat_Details_Screen.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
@@ -18,7 +19,9 @@ class Manage_Admins_Screen extends StatelessWidget {
   Manage_Admins_Screen({super.key});
   List<Widget> screens = [
     Admin_Accounts_Screen(),
+    Doctor_Accounts_Screen(),
     User_Accounts_Screen(),
+
   ];
 
   @override
@@ -40,7 +43,7 @@ class Manage_Admins_Screen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: myNavBar(
                             selectedIndex: cubit.currentAccountsScreen,
-                            text: ['مسؤول', 'مستخدم'],
+                            text: ['مسؤول', 'طبيب', 'مريض'],
                             onDestinationSelected: (index) {
                               cubit.changeCurrentAccountScreen(index);
                             }),

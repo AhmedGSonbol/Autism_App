@@ -1,12 +1,12 @@
 // ignore_for_file: unused_import, sort_child_properties_last, prefer_const_constructors
 
-import 'package:autism/Models/about/about_screen.dart';
 import 'package:autism/Modules/Admin/admin_profile/admin_profile_screen.dart';
 import 'package:autism/Modules/Admin/complaints/complaints_Screen.dart';
 import 'package:autism/Modules/Admin/manage_Admins/manage_Accounts_Screen.dart';
 import 'package:autism/Modules/Admin/requests/requests_Screen.dart';
 import 'package:autism/Modules/Admin/settings/admin_settings_screen.dart';
 import 'package:autism/Modules/Admin/suggestions/suggestions_screen.dart';
+import 'package:autism/Modules/about/about_screen.dart';
 import 'package:autism/Modules/chat/chat_Screen.dart';
 import 'package:autism/Modules/info/info_Screen.dart';
 import 'package:autism/Modules/profile/profile_Screen.dart';
@@ -163,37 +163,38 @@ class _Admin_Home_ScreenState extends State<Admin_Home_Screen> {
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) {
-                                return const Admin_Settings_Screen();
-                              }),
-                            );
-                          },
-                          child: const Row(
-                            children: [
-                              Icon(
-                                Icons.settings,
-                                size: 30,
-                                color: Color(0xffA8C8FF),
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Text(
-                                ' اﻹعدادات',
-                                style: TextStyle(
-                                    color: Color(0xffE1E2E9),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              )
-                            ],
-                          ),
-                        ),
+                        ///settings
+                        // const SizedBox(
+                        //   height: 30,
+                        // ),
+                        // GestureDetector(
+                        //   onTap: () {
+                        //     Navigator.of(context).push(
+                        //       MaterialPageRoute(builder: (context) {
+                        //         return const Admin_Settings_Screen();
+                        //       }),
+                        //     );
+                        //   },
+                        //   child: const Row(
+                        //     children: [
+                        //       Icon(
+                        //         Icons.settings,
+                        //         size: 30,
+                        //         color: Color(0xffA8C8FF),
+                        //       ),
+                        //       SizedBox(
+                        //         width: 15,
+                        //       ),
+                        //       Text(
+                        //         ' اﻹعدادات',
+                        //         style: TextStyle(
+                        //             color: Color(0xffE1E2E9),
+                        //             fontWeight: FontWeight.bold,
+                        //             fontSize: 15),
+                        //       )
+                        //     ],
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -273,30 +274,31 @@ class _Admin_Home_ScreenState extends State<Admin_Home_Screen> {
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            navTo(context, Suggestions_Screen());
-                          },
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                  'assets/images/prompt_suggestion.png'),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              const Text(
-                                'اﻹقتراحات',
-                                style: TextStyle(
-                                    color: Color(0xffE1E2E9),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              ),
-                            ],
-                          ),
-                        ),
+                        ///suggestion
+                        // const SizedBox(
+                        //   height: 30,
+                        // ),
+                        // GestureDetector(
+                        //   onTap: () {
+                        //     navTo(context, Suggestions_Screen());
+                        //   },
+                        //   child: Row(
+                        //     children: [
+                        //       Image.asset(
+                        //           'assets/images/prompt_suggestion.png'),
+                        //       const SizedBox(
+                        //         width: 15,
+                        //       ),
+                        //       const Text(
+                        //         'اﻹقتراحات',
+                        //         style: TextStyle(
+                        //             color: Color(0xffE1E2E9),
+                        //             fontWeight: FontWeight.bold,
+                        //             fontSize: 15),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

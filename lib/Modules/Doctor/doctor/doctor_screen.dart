@@ -7,6 +7,7 @@ import 'package:autism/Shared/styles/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:readmore/readmore.dart';
 
 class Doctor_Details extends StatelessWidget {
   Doctor_Details({super.key});
@@ -18,7 +19,6 @@ class Doctor_Details extends StatelessWidget {
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        var cubit = AppCubit.get(context);
         return Directionality(
           textDirection: TextDirection.rtl,
           child: Padding(
@@ -33,63 +33,69 @@ class Doctor_Details extends StatelessWidget {
                       style: Theme.of(context).textTheme.headline4?.copyWith(
                           color: fontColor, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Icon(
-                      Icons.edit_outlined,
-                      color: fontColor,
-                      size: 25,
-                    ),
+                    // SizedBox(
+                    //   width: 5,
+                    // ),
+                    // Icon(
+                    //   Icons.edit_outlined,
+                    //   color: fontColor,
+                    //   size: 25,
+                    // ),
                   ],
                 ),
                 SizedBox(
                   height: 20,
                 ),
-                Text(
-                  'الدكتور أحمد عبد الله هو طبيب مصري متخرج من كلية الطب بجامعة دمنهور عام 2020. وهو متخصص في علاج مرض التوحد والاضطرابات النفسية المرتبطة به.',
+                ReadMoreText(
+                  ' الدكتور أحمد عبد الله هو طبيب مصري متخرج من كلية الطب بجامعة دمنهور عام 2020. وهو متخصص في علاج مرض التوحد والاضطرابات النفسية المرتبطة به الدكتور أحمد عبد الله هو طبيب مصري متخرج من كلية الطب بجامعة دمنهور عام 2020. وهو متخصص في علاج مرض التوحد والاضطرابات النفسية المرتبطة بهالدكتور أحمد عبد الله هو طبيب مصري متخرج من كلية الطب بجامعة دمنهور عام 2020. وهو متخصص في علاج مرض التوحد والاضطرابات النفسية المرتبطة به.',
                   style: Theme.of(context)
                       .textTheme
                       .headline6
                       ?.copyWith(color: fontColor),
+                  trimLines: 2,
+                  trimLength: 300,
+                  colorClickableText: Colors.grey,
                 ),
                 SizedBox(
                   height: 40,
                 ),
-                Text(
-                  'أراء  الآخرين',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5
-                      ?.copyWith(color: fontColor, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'تعرف على ما يقوله آولياء اﻷمور و اﻷطباء الآخرين عنك',
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: fontColor,
-                      ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                ListView.separated(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.only(bottom: 20.0),
-                  itemBuilder: (context, index) {
-                    return Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: buildViewsPosts(),
-                    );
-                  },
-                  separatorBuilder: (context, index) => SizedBox(
-                    height: 10.0,
-                  ),
-                  itemCount: 5,
-                )
+
+
+                ///reviews
+                // Text(
+                //   'أراء  الآخرين',
+                //   style: Theme.of(context)
+                //       .textTheme
+                //       .headline5
+                //       ?.copyWith(color: fontColor, fontWeight: FontWeight.bold),
+                // ),
+                // SizedBox(
+                //   height: 10,
+                // ),
+                // Text(
+                //   'تعرف على ما يقوله آولياء اﻷمور و اﻷطباء الآخرين عنك',
+                //   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                //         color: fontColor,
+                //       ),
+                // ),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                // ListView.separated(
+                //   shrinkWrap: true,
+                //   physics: NeverScrollableScrollPhysics(),
+                //   padding: EdgeInsets.only(bottom: 20.0),
+                //   itemBuilder: (context, index) {
+                //     return Directionality(
+                //       textDirection: TextDirection.rtl,
+                //       child: buildViewsPosts(),
+                //     );
+                //   },
+                //   separatorBuilder: (context, index) => SizedBox(
+                //     height: 10.0,
+                //   ),
+                //   itemCount: 5,
+                // )
               ],
             ),
           ),

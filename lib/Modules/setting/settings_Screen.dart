@@ -102,7 +102,7 @@ class Settings_Screen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(30)),
                           child: const Center(
                             child: Text(
-                              'إمكانية اﻵخرين',
+                              'الصلاحيات',
                               style: TextStyle(
                                   color: Color(0xff3E2845),
                                   fontSize: 20,
@@ -155,71 +155,71 @@ class Settings_Screen extends StatelessWidget {
                             const SizedBox(
                               height: 20,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                mySwitch(),
-                                const Spacer(),
-                                const Text(
-                                  'رؤيتك في البحث',
-                                  style: TextStyle(
-                                      color: fontColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                mySwitch(),
-                                const Spacer(),
-                                const Text(
-                                  'التحدث معك',
-                                  style: TextStyle(
-                                      color: fontColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                mySwitch(),
-                                const Spacer(),
-                                const Text(
-                                  'التعليق علي منشورك',
-                                  style: TextStyle(
-                                      color: fontColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                mySwitch(),
-                                const Spacer(),
-                                const Text(
-                                  'التطبيق استخدام بيانات التشخيص',
-                                  style: TextStyle(
-                                      color: fontColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     mySwitch(),
+                            //     const Spacer(),
+                            //     const Text(
+                            //       'رؤيتك في البحث',
+                            //       style: TextStyle(
+                            //           color: fontColor,
+                            //           fontSize: 18,
+                            //           fontWeight: FontWeight.bold),
+                            //     ),
+                            //   ],
+                            // ),
+                            // const SizedBox(
+                            //   height: 20,
+                            // ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     mySwitch(),
+                            //     const Spacer(),
+                            //     const Text(
+                            //       'التحدث معك',
+                            //       style: TextStyle(
+                            //           color: fontColor,
+                            //           fontSize: 18,
+                            //           fontWeight: FontWeight.bold),
+                            //     ),
+                            //   ],
+                            // ),
+                            // const SizedBox(
+                            //   height: 20,
+                            // ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     mySwitch(),
+                            //     const Spacer(),
+                            //     const Text(
+                            //       'التعليق علي منشورك',
+                            //       style: TextStyle(
+                            //           color: fontColor,
+                            //           fontSize: 18,
+                            //           fontWeight: FontWeight.bold),
+                            //     ),
+                            //   ],
+                            // ),
+                            // const SizedBox(
+                            //   height: 20,
+                            // ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     mySwitch(),
+                            //     const Spacer(),
+                            //     const Text(
+                            //       'التطبيق استخدام بيانات التشخيص',
+                            //       style: TextStyle(
+                            //           color: fontColor,
+                            //           fontSize: 18,
+                            //           fontWeight: FontWeight.bold),
+                            //     ),
+                            //   ],
+                            // ),
                           ],
                         )
                       ],

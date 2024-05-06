@@ -82,152 +82,154 @@ class Settings_Doctor_Screen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsetsDirectional.only(top: 16),
-                decoration: BoxDecoration(
-                    color: const Color(0xff282A2F),
-                    borderRadius: BorderRadius.circular(30)),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 40,
-                          decoration: BoxDecoration(
-                              color: const Color(0xffF8D8FE),
-                              borderRadius: BorderRadius.circular(30)),
-                          child: const Center(
-                            child: Text(
-                              'إمكانية اﻵخرين',
-                              style: TextStyle(
-                                  color: Color(0xff3E2845),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Switch(
-                                  value: false,
-                                  onChanged: (val) {},
-                                  activeTrackColor: const Color(0xffA8C8FF),
-                                  thumbIcon: MaterialStateProperty.resolveWith(
-                                    (Set<MaterialState> states) {
-                                      if (states
-                                          .contains(MaterialState.selected)) {
-                                        return const Icon(Icons.check,
-                                            color: Color(0xffA8C8FF));
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                  thumbColor: MaterialStateProperty.resolveWith(
-                                    (Set<MaterialState> states) {
-                                      if (states
-                                          .contains(MaterialState.selected)) {
-                                        return const Color(0xff05305F);
-                                      }
-                                      return Colors.grey;
-                                    },
-                                  ),
-                                ),
-                                const Spacer(),
-                                const Text(
-                                  'رؤية ملفك الشخصي',
-                                  style: TextStyle(
-                                      color: fontColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                mySwitch(),
-                                const Spacer(),
-                                const Text(
-                                  'رؤيتك في البحث',
-                                  style: TextStyle(
-                                      color: fontColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                mySwitch(),
-                                const Spacer(),
-                                const Text(
-                                  'التحدث معك',
-                                  style: TextStyle(
-                                      color: fontColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                mySwitch(),
-                                const Spacer(),
-                                const Text(
-                                  'التعليق علي منشورك',
-                                  style: TextStyle(
-                                      color: fontColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                mySwitch(),
-                                const Spacer(),
-                                const Text(
-                                  'رؤية اﻵراء',
-                                  style: TextStyle(
-                                      color: fontColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+
+              ///no more permissions
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              // Container(
+              //   width: double.infinity,
+              //   padding: const EdgeInsetsDirectional.only(top: 16),
+              //   decoration: BoxDecoration(
+              //       color: const Color(0xff282A2F),
+              //       borderRadius: BorderRadius.circular(30)),
+              //   child: Center(
+              //     child: Padding(
+              //       padding: const EdgeInsets.all(8.0),
+              //       child: Column(
+              //         children: [
+              //           Container(
+              //             height: 40,
+              //             decoration: BoxDecoration(
+              //                 color: const Color(0xffF8D8FE),
+              //                 borderRadius: BorderRadius.circular(30)),
+              //             child: const Center(
+              //               child: Text(
+              //                 'إمكانية اﻵخرين',
+              //                 style: TextStyle(
+              //                     color: Color(0xff3E2845),
+              //                     fontSize: 20,
+              //                     fontWeight: FontWeight.bold),
+              //               ),
+              //             ),
+              //           ),
+              //           const SizedBox(
+              //             height: 20,
+              //           ),
+              //           Column(
+              //             children: [
+              //               Row(
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 children: [
+              //                   Switch(
+              //                     value: false,
+              //                     onChanged: (val) {},
+              //                     activeTrackColor: const Color(0xffA8C8FF),
+              //                     thumbIcon: MaterialStateProperty.resolveWith(
+              //                       (Set<MaterialState> states) {
+              //                         if (states
+              //                             .contains(MaterialState.selected)) {
+              //                           return const Icon(Icons.check,
+              //                               color: Color(0xffA8C8FF));
+              //                         }
+              //                         return null;
+              //                       },
+              //                     ),
+              //                     thumbColor: MaterialStateProperty.resolveWith(
+              //                       (Set<MaterialState> states) {
+              //                         if (states
+              //                             .contains(MaterialState.selected)) {
+              //                           return const Color(0xff05305F);
+              //                         }
+              //                         return Colors.grey;
+              //                       },
+              //                     ),
+              //                   ),
+              //                   const Spacer(),
+              //                   const Text(
+              //                     'رؤية ملفك الشخصي',
+              //                     style: TextStyle(
+              //                         color: fontColor,
+              //                         fontSize: 18,
+              //                         fontWeight: FontWeight.bold),
+              //                   ),
+              //                 ],
+              //               ),
+              //               const SizedBox(
+              //                 height: 20,
+              //               ),
+              //               Row(
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 children: [
+              //                   mySwitch(),
+              //                   const Spacer(),
+              //                   const Text(
+              //                     'رؤيتك في البحث',
+              //                     style: TextStyle(
+              //                         color: fontColor,
+              //                         fontSize: 18,
+              //                         fontWeight: FontWeight.bold),
+              //                   ),
+              //                 ],
+              //               ),
+              //               const SizedBox(
+              //                 height: 20,
+              //               ),
+              //               Row(
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 children: [
+              //                   mySwitch(),
+              //                   const Spacer(),
+              //                   const Text(
+              //                     'التحدث معك',
+              //                     style: TextStyle(
+              //                         color: fontColor,
+              //                         fontSize: 18,
+              //                         fontWeight: FontWeight.bold),
+              //                   ),
+              //                 ],
+              //               ),
+              //               const SizedBox(
+              //                 height: 20,
+              //               ),
+              //               Row(
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 children: [
+              //                   mySwitch(),
+              //                   const Spacer(),
+              //                   const Text(
+              //                     'التعليق علي منشورك',
+              //                     style: TextStyle(
+              //                         color: fontColor,
+              //                         fontSize: 18,
+              //                         fontWeight: FontWeight.bold),
+              //                   ),
+              //                 ],
+              //               ),
+              //               const SizedBox(
+              //                 height: 20,
+              //               ),
+              //               Row(
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 children: [
+              //                   mySwitch(),
+              //                   const Spacer(),
+              //                   const Text(
+              //                     'رؤية اﻵراء',
+              //                     style: TextStyle(
+              //                         color: fontColor,
+              //                         fontSize: 18,
+              //                         fontWeight: FontWeight.bold),
+              //                   ),
+              //                 ],
+              //               ),
+              //             ],
+              //           )
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

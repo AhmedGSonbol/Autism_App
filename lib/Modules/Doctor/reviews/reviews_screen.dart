@@ -118,6 +118,36 @@ class Reviews_Screen extends StatelessWidget {
                     ],
                   ),
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  // padding: const EdgeInsetsDirectional.symmetric(vertical: 10),
+                  height: 60,
+                  child: TextField(
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                        hintText: 'إكتب شئ',
+                        hintStyle: const TextStyle(
+                          color: Color(0xffE1E2E9),
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Transform.rotate(
+                            angle: 0,
+                            child: const Icon(
+                              Icons.send,
+                              color: fontColor,
+                            ),
+                          ),
+                          onPressed: () {},
+                        )),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
                 SizedBox(
                   height: 10,
                 ),

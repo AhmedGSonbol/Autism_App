@@ -38,36 +38,83 @@ class Admin_Profile_Screen extends StatelessWidget {
               color: const Color(0xffE1E2E9),
             ),
           ),
+          bottomNavigationBar: BottomAppBar(
+            padding: EdgeInsets.zero,
+            height: 100,
+            color: Colors.transparent,
+            elevation: 0,
+            child: Column(
+              children: [
+                const Divider(
+                  thickness: .5,
+                  color: Colors.grey,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      defaultElevatedButton(
+                        onPressed: () {},
+                        text: 'إلغاء',
+                        color: const Color(0xffDBBCE1),
+                        textColor: const Color(0xff3E2845),
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      defaultElevatedButton(
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {}
+                        },
+                        text: 'حفظ',
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
           body: SingleChildScrollView(
             child: Column(
               children: [
-                Stack(
-                  children: [
-                    Container(
-                      height: 250,
-                      decoration: const BoxDecoration(
-                        color: Color(0xff43474E),
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(20.0),
-                          bottomLeft: Radius.circular(20.0),
+                Container(
+                  decoration: const BoxDecoration(
+                      color: Color(0xff43474E),
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(16.0),
+                          bottomLeft: Radius.circular(16.0))),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Stack(
+                          alignment: Alignment.bottomRight,
+                          children: [
+                            Hero(
+                              tag: 'profile_image',
+                              child: Image.asset(
+                                fit: BoxFit.cover,
+                                'assets/images/Ellipse 18.png',
+                                width: 150,
+                                height: 150,
+                              ),
+                            ),
+                            IconButton(
+                              icon: Image.asset(
+                                  'assets/images/Icon button toggleable-dark.png'),
+                              onPressed: () {},
+                            )
+                          ],
                         ),
-                      ),
+                        const SizedBox(
+                          height: 20.0,
+                        ),
+                      ],
                     ),
-                    Positioned(
-                      top: 70,
-                      left: 125,
-                      child: Image.asset('assets/images/Ellipse 18.png'),
-                    ),
-                    Positioned(
-                      top: 155,
-                      left: 225,
-                      child: IconButton(
-                        icon: Image.asset(
-                            'assets/images/Icon button toggleable-dark.png'),
-                        onPressed: () {},
-                      ),
-                    )
-                  ],
+                  ),
                 ),
                 SizedBox(
                   height: 20,
@@ -124,29 +171,8 @@ class Admin_Profile_Screen extends StatelessWidget {
                                 return 'مطلوب*';
                               }
                             }),
-                        SizedBox(
-                          height: 200,
-                        ),
-                        Divider(
-                          height: 1,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            defaultElevatedButton(
-                              text: 'إلغاء',
-                              color: secondColor,
-                              onPressed: () {},
-                            ),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            defaultElevatedButton(
-                              text: 'حفظ',
-                              onPressed: () {},
-                            ),
-                          ],
-                        )
+
+
                       ],
                     ),
                   ),

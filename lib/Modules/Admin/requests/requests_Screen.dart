@@ -71,22 +71,19 @@ class Requests_Screen extends StatelessWidget {
               SizedBox(
                 height: 15.0,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'التخصص :  أَبْجَدْ هَوَّزْ حُطِّي كَلَمُنْ سَعْفُصْ ',
-                    style: TextStyle(color: fontColor, fontSize: 18),
-                  ),
-                  SizedBox(
-                    height: 15.0,
-                  ),
-                  Text(
+              Align(
+                alignment: Alignment.centerRight,
+                child: InkWell(
+                  onTap: ()
+                  {
+                    ///open CV here !!
+                  },
+                  child: Text(
                     'فتح ملف تعريف الهوية',
                     style: TextStyle(color: Color(0xffA8C8FF), fontSize: 18),
                     overflow: TextOverflow.ellipsis,
                   ),
-                ],
+                ),
               ),
               SizedBox(
                 height: 15.0,

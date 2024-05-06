@@ -12,7 +12,9 @@ class Doctor_Profile_Edit_Screen extends StatelessWidget {
   var nameController = TextEditingController();
   var countryController = TextEditingController();
   var governmentController = TextEditingController();
+  var clinicController = TextEditingController();
   var phoneController = TextEditingController();
+  var aboutController = TextEditingController();
   var passwordController = TextEditingController();
 
   var formKey = GlobalKey<FormState>();
@@ -154,7 +156,7 @@ class Doctor_Profile_Edit_Screen extends StatelessWidget {
                           height: 20.0,
                         ),
                         defaultTextFormField(
-                            controller: governmentController,
+                            controller: clinicController,
                             type: TextInputType.name,
                             label: 'العيادة'),
                         const SizedBox(
@@ -168,22 +170,30 @@ class Doctor_Profile_Edit_Screen extends StatelessWidget {
                           height: 20.0,
                         ),
                         defaultTextFormField(
-                          controller: passwordController,
-                          type: TextInputType.name,
-                          isPass: !cubit.isPassVisible,
-                          label: 'الرقم السري',
-                          iconButton: IconButton(
-                            onPressed: () {
-                              cubit.changePassVisibility();
-                            },
-                            icon: Icon(
-                              cubit.isPassVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                              color: fontColor,
-                            ),
-                          ),
+                            controller: aboutController,
+                            type: TextInputType.name,
+                            label: 'التعريف',
+                          maxLines: 3
+
                         ),
+                        ///password
+                        // defaultTextFormField(
+                        //   controller: passwordController,
+                        //   type: TextInputType.name,
+                        //   isPass: !cubit.isPassVisible,
+                        //   label: 'الرقم السري',
+                        //   iconButton: IconButton(
+                        //     onPressed: () {
+                        //       cubit.changePassVisibility();
+                        //     },
+                        //     icon: Icon(
+                        //       cubit.isPassVisible
+                        //           ? Icons.visibility
+                        //           : Icons.visibility_off,
+                        //       color: fontColor,
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

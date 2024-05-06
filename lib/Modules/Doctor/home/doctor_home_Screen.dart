@@ -1,11 +1,11 @@
 // ignore_for_file: camel_case_types, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
-import 'package:autism/Models/about/about_screen.dart';
 import 'package:autism/Modules/Doctor/chat/chat_screen.dart';
 import 'package:autism/Modules/Doctor/posts/posts_screen.dart';
 import 'package:autism/Modules/Doctor/profile/doctor_profile_screen.dart';
 import 'package:autism/Modules/Doctor/reviews/reviews_Screen.dart';
 import 'package:autism/Modules/Doctor/setting/settings_doctor_screen.dart';
+import 'package:autism/Modules/about/about_screen.dart';
 import 'package:autism/Modules/vision/our_vision.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/styles/colors.dart';
@@ -268,126 +268,128 @@ class _Doctor_Home_ScreenState extends State<Doctor_Home_Screen> {
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              backgroundColor: const Color(0xff282a2f),
-                              title: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/prompt_suggestion.png',
-                                      height: 20.0,
-                                      width: 20.0,
-                                    ),
-                                    const SizedBox(
-                                      height: 20.0,
-                                    ),
-                                    const Text(
-                                      'اقتراح',
-                                      style: TextStyle(
-                                          fontSize: 25.0, color: fontColor),
-                                    ),
-                                    const SizedBox(
-                                      height: 20.0,
-                                    ),
-                                    const Text(
-                                        'حدد الجزء المحتاج لتحسين في التطبيق',
-                                        textAlign: TextAlign.center,
-                                        style: onBoardingDesc)
-                                  ],
-                                ),
-                              ),
-                              content: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Checkbox(
-                                          activeColor: mainColor,
-                                          value: false,
-                                          onChanged: (val) {}),
-                                      const Spacer(),
-                                      Text(
-                                        'التصميم',
-                                        style: onBoardingDesc,
-                                      ),
-                                    ],
-                                  ),
-                                  const Divider(),
-                                  Row(
-                                    children: [
-                                      Checkbox(
-                                          activeColor: mainColor,
-                                          value: false,
-                                          onChanged: (val) {}),
-                                      const Spacer(),
-                                      Text('الأداء', style: onBoardingDesc),
-                                    ],
-                                  ),
-                                  const Divider(),
-                                  Row(
-                                    children: [
-                                      Checkbox(
-                                          activeColor: mainColor,
-                                          value: true,
-                                          onChanged: (val) {}),
-                                      const Spacer(),
-                                      Text('الذكاء الإصطناعي',
-                                          style: onBoardingDesc),
-                                    ],
-                                  ),
-                                ],
-                              ),
 
-                              actions: [
-                                TextButton(
-                                  child: const Text(
-                                    'إرسال',
-                                    style: TextStyle(color: secondColor),
-                                  ),
-                                  onPressed: () {},
-                                ),
-                                TextButton(
-                                  child: const Text(
-                                    'إلغاء',
-                                    style: TextStyle(color: fontColor),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
-
-                              // backgroundColor: backgroundColor,
-                              titlePadding: EdgeInsets.zero,
-                            ),
-                          );
-                        },
-                        child: Row(
-                          children: [
-                            Image.asset('assets/images/prompt_suggestion.png'),
-                            const SizedBox(
-                              width: 15,
-                            ),
-                            const Text(
-                              'إقتراح',
-                              style: TextStyle(
-                                  color: Color(0xffE1E2E9),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15),
-                            ),
-                          ],
-                        ),
-                      ),
+                      ///suggestion
+                      // const SizedBox(
+                      //   height: 30,
+                      // ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     showDialog(
+                      //       context: context,
+                      //       builder: (context) => AlertDialog(
+                      //         backgroundColor: const Color(0xff282a2f),
+                      //         title: Padding(
+                      //           padding: const EdgeInsets.all(10.0),
+                      //           child: Column(
+                      //             mainAxisAlignment: MainAxisAlignment.center,
+                      //             children: [
+                      //               Image.asset(
+                      //                 'assets/images/prompt_suggestion.png',
+                      //                 height: 20.0,
+                      //                 width: 20.0,
+                      //               ),
+                      //               const SizedBox(
+                      //                 height: 20.0,
+                      //               ),
+                      //               const Text(
+                      //                 'اقتراح',
+                      //                 style: TextStyle(
+                      //                     fontSize: 25.0, color: fontColor),
+                      //               ),
+                      //               const SizedBox(
+                      //                 height: 20.0,
+                      //               ),
+                      //               const Text(
+                      //                   'حدد الجزء المحتاج لتحسين في التطبيق',
+                      //                   textAlign: TextAlign.center,
+                      //                   style: onBoardingDesc)
+                      //             ],
+                      //           ),
+                      //         ),
+                      //         content: Column(
+                      //           mainAxisAlignment: MainAxisAlignment.center,
+                      //           mainAxisSize: MainAxisSize.min,
+                      //           children: [
+                      //             Row(
+                      //               children: [
+                      //                 Checkbox(
+                      //                     activeColor: mainColor,
+                      //                     value: false,
+                      //                     onChanged: (val) {}),
+                      //                 const Spacer(),
+                      //                 Text(
+                      //                   'التصميم',
+                      //                   style: onBoardingDesc,
+                      //                 ),
+                      //               ],
+                      //             ),
+                      //             const Divider(),
+                      //             Row(
+                      //               children: [
+                      //                 Checkbox(
+                      //                     activeColor: mainColor,
+                      //                     value: false,
+                      //                     onChanged: (val) {}),
+                      //                 const Spacer(),
+                      //                 Text('الأداء', style: onBoardingDesc),
+                      //               ],
+                      //             ),
+                      //             const Divider(),
+                      //             Row(
+                      //               children: [
+                      //                 Checkbox(
+                      //                     activeColor: mainColor,
+                      //                     value: true,
+                      //                     onChanged: (val) {}),
+                      //                 const Spacer(),
+                      //                 Text('الذكاء الإصطناعي',
+                      //                     style: onBoardingDesc),
+                      //               ],
+                      //             ),
+                      //           ],
+                      //         ),
+                      //
+                      //         actions: [
+                      //           TextButton(
+                      //             child: const Text(
+                      //               'إرسال',
+                      //               style: TextStyle(color: secondColor),
+                      //             ),
+                      //             onPressed: () {},
+                      //           ),
+                      //           TextButton(
+                      //             child: const Text(
+                      //               'إلغاء',
+                      //               style: TextStyle(color: fontColor),
+                      //             ),
+                      //             onPressed: () {
+                      //               Navigator.pop(context);
+                      //             },
+                      //           ),
+                      //         ],
+                      //
+                      //         // backgroundColor: backgroundColor,
+                      //         titlePadding: EdgeInsets.zero,
+                      //       ),
+                      //     );
+                      //   },
+                      //   child: Row(
+                      //     children: [
+                      //       Image.asset('assets/images/prompt_suggestion.png'),
+                      //       const SizedBox(
+                      //         width: 15,
+                      //       ),
+                      //       const Text(
+                      //         'إقتراح',
+                      //         style: TextStyle(
+                      //             color: Color(0xffE1E2E9),
+                      //             fontWeight: FontWeight.bold,
+                      //             fontSize: 15),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

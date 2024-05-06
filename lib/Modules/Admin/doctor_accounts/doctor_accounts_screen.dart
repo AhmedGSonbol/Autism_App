@@ -6,8 +6,8 @@ import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/Shared/styles/text_styles.dart';
 import 'package:flutter/material.dart';
 
-class User_Accounts_Screen extends StatelessWidget {
-  const User_Accounts_Screen({super.key});
+class Doctor_Accounts_Screen extends StatelessWidget {
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ Widget buildUserAccountsItem(BuildContext context) => Padding(
               borderRadius: BorderRadiusDirectional.circular(30),
               border: Border(
                 top: BorderSide(
-                  color: Colors.greenAccent,
+                  color: Color(0xffA8C8FF),
                   width: 5,
                 ),
               )),

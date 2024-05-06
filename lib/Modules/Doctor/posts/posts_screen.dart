@@ -21,34 +21,36 @@ class Posts_Doctor_Screen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsetsDirectional.all(10.0),
             child: Column(
-              children: [
-                SizedBox(
-                  // padding: const EdgeInsetsDirectional.symmetric(vertical: 10),
-                  height: 60,
-                  child: TextField(
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16)),
-                        hintText: 'إكتب شئ',
-                        hintStyle: const TextStyle(
-                          color: Color(0xffE1E2E9),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Transform.rotate(
-                            angle: 0,
-                            child: const Icon(
-                              Icons.send,
-                              color: fontColor,
-                            ),
-                          ),
-                          onPressed: () {},
-                        )),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
+              children:
+              [
+
+                // SizedBox(
+                //   // padding: const EdgeInsetsDirectional.symmetric(vertical: 10),
+                //   height: 60,
+                //   child: TextField(
+                //     style: const TextStyle(color: Colors.white),
+                //     decoration: InputDecoration(
+                //         border: OutlineInputBorder(
+                //             borderRadius: BorderRadius.circular(16)),
+                //         hintText: 'إكتب شئ',
+                //         hintStyle: const TextStyle(
+                //           color: Color(0xffE1E2E9),
+                //         ),
+                //         suffixIcon: IconButton(
+                //           icon: Transform.rotate(
+                //             angle: 0,
+                //             child: const Icon(
+                //               Icons.send,
+                //               color: fontColor,
+                //             ),
+                //           ),
+                //           onPressed: () {},
+                //         )),
+                //   ),
+                // ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
                 Expanded(
                   child: ListView.separated(
                     itemBuilder: (context, index) => bulidPostItem(

@@ -1,6 +1,5 @@
 // ignore_for_file: unrelated_type_equality_checks, prefer_const_constructors, unused_import
 
-import 'package:autism/Models/home_doctor/home_doctor_screen.dart';
 import 'package:autism/Modules/Admin/home/admin_Home_Screen.dart';
 import 'package:autism/Modules/Doctor/home/doctor_home_Screen.dart';
 import 'package:autism/Modules/home/home_Screen.dart';
@@ -112,19 +111,26 @@ class Login_Screen extends StatelessWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            'هل نسيت الرقم السري ؟',
-                            style: TextStyle(
-                              color: Color(0xffA8C8FF),
+                      InkWell(
+                        onTap: ()
+                        {
+                          navTo(context, Admin_Home_Screen());
+
+                        },
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              'هل نسيت الرقم السري ؟',
+                              style: TextStyle(
+                                color: Color(0xffA8C8FF),
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 16,
-                          )
-                        ],
+                            SizedBox(
+                              width: 16,
+                            )
+                          ],
+                        ),
                       ),
                       const SizedBox(
                         height: 30,
