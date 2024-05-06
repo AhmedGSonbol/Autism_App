@@ -1,0 +1,112 @@
+
+import 'package:dio/dio.dart';
+
+class DioHelper
+{
+  static Dio? dio;
+
+  static init()
+  {
+    dio = Dio(
+      BaseOptions(
+        baseUrl: 'https://autisociety17.serv00.net/api/',
+
+        receiveDataWhenStatusError: true,
+        validateStatus: (int? status) {
+          return status != null;
+          // return status != null && status >= 200 && status < 300;
+        },
+      )
+    );
+    dio!.interceptors.addAll([
+      ErrorInterceptor(),
+    ]);
+  }
+
+
+
+
+
+  static Future<Response>? getData({
+    required String url,
+    Map<String , dynamic>? query,
+
+    String? token,
+  })async
+  {
+    dio!.options.headers =
+    {
+      'Content-Type':'application/json',
+      'Authorization' : token??''
+    };
+
+    return await dio!.get(url , queryParameters: query,);
+  }
+
+
+
+  static Future<Response>? postData({
+    required String url,
+    required Map<String , dynamic> data,
+
+    Map<String , dynamic>? query,
+    String? token,
+
+  })async
+  {
+
+    dio!.options.headers =
+    {
+      'Content-Type':'application/json',
+      'Authorization' : token??''
+    };
+
+    return await dio!.post(
+        url,
+        queryParameters: query,
+        data: data
+
+    );
+  }
+
+  static Future<Response>? putData({
+    required String url,
+    required Map<String , dynamic> data,
+
+    Map<String , dynamic>? query,
+    String? token,
+
+  })async
+  {
+
+    dio!.options.headers =
+    {
+      'Content-Type':'application/json',
+      'Authorization' : token??''
+    };
+
+    return await dio!.put(
+        url,
+        queryParameters: query,
+        data: data
+
+    );
+  }
+
+}
+
+class ErrorInterceptor extends Interceptor {
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    final status = response.statusCode;
+    final isValid = status != null && status >= 200 && status < 300;
+    if (!isValid) {
+      throw DioException.badResponse(
+        statusCode: status!,
+        requestOptions: response.requestOptions,
+        response: response,
+      );
+    }
+    super.onResponse(response, handler);
+  }
+}

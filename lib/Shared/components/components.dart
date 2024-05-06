@@ -7,6 +7,7 @@ import 'package:autism/Shared/styles/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:readmore/readmore.dart';
 
 void navTo(BuildContext context, Widget route) {
@@ -671,6 +672,48 @@ Widget mySwitch() {
   );
 }
 
+void myToast({
+  required String msg,
+  required ToastStates state,
+
+  Color textColor = Colors.white,
+  Toast toastLength = Toast.LENGTH_LONG,
+  ToastGravity gravity = ToastGravity.BOTTOM,
+  int timeInSecForIosWeb = 1,
+  double fontSize = 16.0,
+
+
+})
+{
+  Fluttertoast.showToast(
+    msg: msg,
+    toastLength: toastLength,
+    gravity: gravity,
+    timeInSecForIosWeb: timeInSecForIosWeb,
+    backgroundColor: toastbackgroundColor(state),
+    textColor: textColor,
+    fontSize: fontSize,
+  );
+}
+
+enum ToastStates {SUCCESS , ERROR , WARNING}
+
+Color toastbackgroundColor(ToastStates state) {
+  Color color;
+
+  switch (state) {
+    case ToastStates.SUCCESS:
+      color = Colors.green;
+      break;
+    case ToastStates.ERROR:
+      color = Colors.red;
+      break;
+    case ToastStates.WARNING:
+      color = Colors.amber;
+      break;
+  }
+  return color;
+}
 
 
 // AnimatedSwitcher buildAnimatedSwitcher(

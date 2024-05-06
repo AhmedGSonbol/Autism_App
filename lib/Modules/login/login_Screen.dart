@@ -8,6 +8,7 @@ import 'package:autism/Modules/login/cubit/login_States.dart';
 import 'package:autism/Modules/register/register_Screen.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
+import 'package:autism/Shared/network/local/Cach_Helper.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,8 +26,34 @@ class Login_Screen extends StatelessWidget {
     return BlocProvider(
       create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginStates>(
-        listener: (context, state) {},
-        builder: (context, state) {
+        listener: (context, state)
+        {
+          if(state is LoginSuccessState)
+          {
+
+              myToast(msg: state.model.message!, state: ToastStates.SUCCESS);
+
+              CachHelper.saveData(key: 'token', value: state.model.token).then((value)
+              {
+                token = state.model.token!;
+
+                // ShopCubit.get(context).refresh();
+                // navAndFinishTo(context, ShopLayout());
+              });
+
+
+
+          }
+          else if(state is LoginErrorState)
+          {
+            print(state.error);
+
+            myToast(msg: state.error,state: ToastStates.ERROR ,);
+          }
+        },
+        builder: (context, state)
+        {
+
           var cubit = LoginCubit.get(context);
 
           return Scaffold(
@@ -136,14 +163,22 @@ class Login_Screen extends StatelessWidget {
                         height: 30,
                       ),
                       ElevatedButton(
-                        onPressed: () {
-                          if (cubit.isAdmin) {
-                            // navTo(context, Admin_Home_Screen());
-                            navTo(context, Doctor_Home_Screen());
-                          } else {
-                            navTo(context, Home_Screen());
-                            // navTo(context, Doctor_Home_Screen());
+                        onPressed: ()
+                        {
+                          if(formKey.currentState!.validate())
+                          {
+                            cubit.userLogin(Email: emailCon.text, Password: passCon.text);
                           }
+
+
+
+                          // if (cubit.isAdmin) {
+                          //   // navTo(context, Admin_Home_Screen());
+                          //   navTo(context, Doctor_Home_Screen());
+                          // } else {
+                          //   navTo(context, Home_Screen());
+                          //   // navTo(context, Doctor_Home_Screen());
+                          // }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xffA8C8FF),

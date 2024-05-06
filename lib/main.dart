@@ -4,6 +4,7 @@ import 'package:autism/Modules/onboarding/onboarding_Screen.dart';
 import 'package:autism/Modules/home/home_Screen.dart';
 import 'package:autism/Modules/register/register_Screen.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
+import 'package:autism/Shared/network/remote/dio_Helper.dart';
 import 'package:autism/Shared/styles/app_Themes.dart';
 import 'package:autism/modules/login/login_Screen.dart';
 import 'package:bloc/bloc.dart';
@@ -17,7 +18,7 @@ void main() async {
 
   Bloc.observer = MyBlocObserver();
 
-  // print(CachHelper.lol);
+  DioHelper.init();
 
   await CachHelper.init();
 
