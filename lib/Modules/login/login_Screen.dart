@@ -35,10 +35,23 @@ class Login_Screen extends StatelessWidget {
 
               CachHelper.saveData(key: 'token', value: state.model.token).then((value)
               {
-                token = state.model.token!;
+                CachHelper.saveData(key: 'user_type', value: state.model.data!.user_type).then((value)
+                {
+                  token = state.model.token!;
+                  if(state.model.data!.user_type == 'patient')
+                  {
+                    navAndFinishTo(context, Home_Screen());
+                  }
+                  else if(state.model.data!.user_type == 'doctor')
+                  {
+                    navAndFinishTo(context, Doctor_Home_Screen());
+                  }
+                  else
+                  {
+                    navAndFinishTo(context, Admin_Home_Screen());
+                  }
 
-                // ShopCubit.get(context).refresh();
-                // navAndFinishTo(context, ShopLayout());
+                });
               });
 
 

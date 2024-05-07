@@ -1,3 +1,4 @@
+import 'package:autism/Modules/register/cubit/register_Cubit.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/styles/colors.dart';
@@ -6,16 +7,17 @@ import 'package:flutter/material.dart';
 
 class UserAccount2 extends StatelessWidget
 {
+  UserAccount2( {required this.formKey,required this.cubit});
 
   final TextEditingController phoneCon = TextEditingController();
   final TextEditingController emailCon = TextEditingController();
   final TextEditingController passCon = TextEditingController();
   final TextEditingController confirmPassCon = TextEditingController();
 
-  UserAccount2(this.formKey, {super.key});
-  var formKey = GlobalKey<FormState>();
 
+  var formKey ;
 
+  RegisterCubit cubit;
 
   @override
   Widget build(BuildContext context) {

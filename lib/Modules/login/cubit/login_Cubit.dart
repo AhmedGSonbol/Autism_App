@@ -42,8 +42,14 @@ class LoginCubit extends Cubit<LoginStates> {
       emit(LoginSuccessState(login_model));
     }).catchError((err)
     {
-      print(err.toString());
-      emit(LoginErrorState(err.toString()));
+      if(err.response?.statusCode == 400)
+      {
+        emit(LoginErrorState(err.response.data['Message']));
+      }
+      else
+      {
+        emit(LoginErrorState('خطأ في الاتصال بالانترنت'));
+      }
     });
   }
 }

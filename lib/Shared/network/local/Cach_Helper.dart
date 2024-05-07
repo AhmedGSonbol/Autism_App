@@ -4,14 +4,10 @@ class CachHelper
 {
   static SharedPreferences? sharedPreferences;
 
-  static int? lol;
   //initialization on start of the application
-  static Future init() async
+  static init() async
   {
-    print('999');
     sharedPreferences = await SharedPreferences.getInstance();
-    lol = 5;
-    print('dine');
   }
 
 
@@ -24,7 +20,7 @@ class CachHelper
   // }
 
 
-  static  getData({
+  static dynamic getData({
     required String key,
   })
   {
@@ -39,7 +35,6 @@ class CachHelper
 
   }) async
   {
-    print(value);
     if (value is String) {
       return await sharedPreferences?.setString(key, value);
     }

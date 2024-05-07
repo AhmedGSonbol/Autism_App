@@ -1,8 +1,11 @@
 // ignore_for_file: unused_local_variable, unused_import, unnecessary_import
 
+import 'package:autism/Modules/Admin/home/admin_Home_Screen.dart';
+import 'package:autism/Modules/Doctor/home/doctor_home_Screen.dart';
 import 'package:autism/Modules/onboarding/onboarding_Screen.dart';
 import 'package:autism/Modules/home/home_Screen.dart';
 import 'package:autism/Modules/register/register_Screen.dart';
+import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/network/remote/dio_Helper.dart';
 import 'package:autism/Shared/styles/app_Themes.dart';
@@ -24,9 +27,48 @@ void main() async {
 
   Widget screen;
 
-  if (CachHelper.getData(key: 'ShowBoarding') != null) {
-    screen = Login_Screen();
-  } else {
+  if (CachHelper.getData(key: 'ShowBoarding') != null)
+  {
+
+    print(CachHelper.getData(key: 'ShowBoarding'));
+
+    if(CachHelper.getData(key: 'token') != null )
+    {
+
+      if(CachHelper.getData(key: 'user_type') != null )
+      {
+        token = CachHelper.getData(key: 'token');
+
+        String user_type = CachHelper.getData(key: 'token');
+
+        if(user_type == 'patient')
+        {
+          screen = Home_Screen();
+        }
+        else if(user_type == 'doctor')
+        {
+          screen = Doctor_Home_Screen();
+        }
+        else
+        {
+          screen = Admin_Home_Screen();
+        }
+
+      }
+      else
+      {
+        screen = Login_Screen();
+      }
+
+    }
+    else
+    {
+      screen = Login_Screen();
+    }
+
+  }
+  else
+  {
     screen = OnBoardingScreen();
   }
 

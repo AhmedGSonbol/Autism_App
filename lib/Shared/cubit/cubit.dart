@@ -177,21 +177,7 @@ class AppCubit extends Cubit<AppStates> {
 
   ///////////////  REGISTRATION  ////////////
 
-  int currentRegScreenType = 0;
 
-  void changeCurrentRegScreenType(int index) {
-    currentRegScreenType = index;
-
-    emit(AppChangeRegScreenState());
-  }
-
-  int currentRegScreen = 0;
-
-  void changeCurrentRegScreen(int index) {
-    currentRegScreen = index;
-
-    emit(AppChangeRegScreenState());
-  }
 
   int currentProfileScreen = 0;
 
@@ -214,7 +200,8 @@ class AppCubit extends Cubit<AppStates> {
 
   int currentAccountsScreen = 0;
 
-  void changeCurrentAccountScreen(int index) {
+  void changeCurrentAccountScreen(int index)
+  {
     currentAccountsScreen = index;
 
     emit(AppChangeAccountsScreenState());

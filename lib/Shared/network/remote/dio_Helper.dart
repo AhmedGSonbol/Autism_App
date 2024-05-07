@@ -10,7 +10,7 @@ class DioHelper
     dio = Dio(
       BaseOptions(
         baseUrl: 'https://autisociety17.serv00.net/api/',
-
+        // baseUrl: 'http://192.168.1.50:5000/',
         receiveDataWhenStatusError: true,
         validateStatus: (int? status) {
           return status != null;
@@ -47,8 +47,9 @@ class DioHelper
 
   static Future<Response>? postData({
     required String url,
-    required Map<String , dynamic> data,
+    required var data,
 
+    bool contentType = false,
     Map<String , dynamic>? query,
     String? token,
 
@@ -57,14 +58,14 @@ class DioHelper
 
     dio!.options.headers =
     {
-      'Content-Type':'application/json',
+      'Content-Type':contentType == false ? 'application/json' : 'multipart/form-data',
       'Authorization' : token??''
     };
 
     return await dio!.post(
         url,
         queryParameters: query,
-        data: data
+        data: data,
 
     );
   }

@@ -3,13 +3,16 @@
 import 'package:autism/Modules/about/about_screen.dart';
 import 'package:autism/Modules/chat/chat_Screen.dart';
 import 'package:autism/Modules/info/info_Screen.dart';
+import 'package:autism/Modules/login/login_Screen.dart';
 import 'package:autism/Modules/profile/profile_Screen.dart';
 import 'package:autism/Modules/reviews/reviews_Screen.dart';
 import 'package:autism/Modules/setting/settings_Screen.dart';
 import 'package:autism/Modules/test/test_Screen.dart';
 import 'package:autism/Modules/posts/posts_Screen.dart';
 import 'package:autism/Modules/vision/our_vision.dart';
+import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
+import 'package:autism/Shared/network/local/Cach_Helper.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/Shared/styles/text_styles.dart';
 import 'package:flutter/cupertino.dart';
@@ -440,7 +443,15 @@ class _Home_ScreenState extends State<Home_Screen> {
                     backgroundColor: MaterialStateProperty.all<Color>(
                         const Color(0xffDBBCE1)),
                   ),
-                  onPressed: () {},
+                  onPressed: ()
+                  {
+                    CachHelper.sharedPreferences!.clear().then((value)
+                    {
+                      token = '';
+                      navAndFinishTo(context, Login_Screen());
+                    });
+
+                  },
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

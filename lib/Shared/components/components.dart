@@ -26,11 +26,12 @@ void navAndFinishTo(BuildContext context, Widget widget) {
 Widget defaultTextFormField({
   required TextEditingController controller,
   required TextInputType type,
+  Function(String?)? onSaved,
   String? label,
   bool isPass = false,
   Widget? iconButton,
   // delete validate
-  validate,
+  String? Function(String?)? validate,
   prefixPressed,
   Color? prefixColor,
   double? prefixIconSize,
@@ -47,6 +48,7 @@ Widget defaultTextFormField({
   return Directionality(
     textDirection: hintRt1!,
     child: TextFormField(
+      onSaved: onSaved,
       maxLines: maxLines,
       controller: controller,
       keyboardType: type,
@@ -62,17 +64,16 @@ Widget defaultTextFormField({
             color: Color(0xffA8C8FF),
           ),
         ),
-        labelText: label,
+        labelText: hint,
         labelStyle: const TextStyle(
             color: Color(0xffD9D9D9),
             fontSize: 18,
             fontWeight: FontWeight.bold),
-        hintText: hint,
         hintStyle: const TextStyle(color: Color(0xffD9D9D9), fontSize: 18),
         suffixIcon: iconButton,
       ),
       onTap: onTap,
-      validator: (value) {
+      validator: validate ?? (value) {
         if (value == '') {
           return 'مطلوب*';
         }

@@ -77,6 +77,7 @@ class Test_Screen extends StatelessWidget {
             ),
           ),
           bottomNavigationBar: BottomAppBar(
+            elevation: 0,
             padding: EdgeInsets.zero,
             height: 100,
             color: Colors.transparent,
@@ -161,7 +162,6 @@ class Test_Screen extends StatelessWidget {
                 ),
               ],
             ),
-            elevation: 0,
           ),
           body: SingleChildScrollView(
             child: Padding(
