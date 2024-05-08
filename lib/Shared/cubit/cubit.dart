@@ -105,6 +105,8 @@ class AppCubit extends Cubit<AppStates> {
 
   Post_Model? usersPostsModel ;
   Post_Model? doctorsPostsModel ;
+  List<PostData> myPosts  = [];
+  List<PostData> mySavedPosts = [];
 
   void getPatientsPosts()
   {
@@ -116,6 +118,18 @@ class AppCubit extends Cubit<AppStates> {
     )!.then((value)
     {
       usersPostsModel = Post_Model.fromJson(value.data);
+
+      usersPostsModel!.postData.forEach((e)
+      {
+        if(e.post_user_id == userModel!.data!.id)
+        {
+          myPosts.add(e);
+        }
+        if(e.isSaved == true)
+        {
+          mySavedPosts.add(e);
+        }
+      });
 
       emit(SuccessGetPatientPostsState());
     })
@@ -139,6 +153,18 @@ class AppCubit extends Cubit<AppStates> {
     {
       doctorsPostsModel = Post_Model.fromJson(value.data);
 
+      doctorsPostsModel!.postData.forEach((e)
+      {
+        if(e.post_user_id == userModel!.data!.id)
+        {
+          myPosts.add(e);
+        }
+        if(e.isSaved == true)
+        {
+          mySavedPosts.add(e);
+        }
+      });
+
       emit(SuccessGetDoctorPostsState());
     }).catchError((err)
     {
@@ -151,8 +177,6 @@ class AppCubit extends Cubit<AppStates> {
 
   void likeUnlikePost(PostData model)
   {
-    emit(LoadingLikeUnlikePostState());
-
     if(model.isLiked!)
     {
       model.likes = model.likes! - 1;
@@ -162,6 +186,8 @@ class AppCubit extends Cubit<AppStates> {
       model.likes = model.likes! + 1;
     }
     model.isLiked = !model.isLiked!;
+
+    emit(LoadingLikeUnlikePostState());
 
     DioHelper.postData(
       url: model.isLiked! ? LIKE_POST : UNLIKE_POST,
@@ -184,6 +210,55 @@ class AppCubit extends Cubit<AppStates> {
       }
       model.isLiked = !model.isLiked!;
       emit(ErrorLikeUnlikePostState());
+      print(err.response.data['message']);
+      myToast(msg: err.response.data['message'], state: ToastStates.ERROR);
+    });
+
+  }
+
+  void saveUnsavePost(PostData model)
+  {
+
+    if(model.isSaved!)
+    {
+      model.saves = model.saves! - 1;
+      mySavedPosts.remove(model);
+
+    }else
+    {
+      model.saves = model.saves! + 1;
+      mySavedPosts.add(model);
+      mySavedPosts.sort((a, b) => DateTime.parse(b.date!).compareTo(DateTime.parse(a.date!)));
+    }
+    model.isSaved = !model.isSaved!;
+
+
+
+    emit(LoadingSaveUnsavePostState());
+
+    DioHelper.postData(
+        url: model.isSaved! ? SAVE_POST : UNSAVE_POST,
+        token: token,
+        data: {'post_id':model.id}
+    )!.then((value)
+    {
+
+      emit(SuccessSaveUnsavePostState());
+    }).catchError((err)
+    {
+
+      if(model.isSaved!)
+      {
+        model.saves = model.saves! - 1;
+        mySavedPosts.remove(model);
+      }else
+      {
+        model.saves = model.saves! + 1;
+        mySavedPosts.add(model);
+        mySavedPosts.sort((a, b) => DateTime.parse(b.date!).compareTo(DateTime.parse(a.date!)));
+      }
+      model.isSaved = !model.isSaved!;
+      emit(ErrorSaveUnsavePostState());
       print(err.response.data['message']);
       myToast(msg: err.response.data['message'], state: ToastStates.ERROR);
     });

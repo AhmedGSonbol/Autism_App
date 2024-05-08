@@ -26,14 +26,13 @@ class Profile_Saves_Screen extends StatelessWidget {
             {
               return Directionality(
                   textDirection: TextDirection.rtl,
-                  child: Container());
-                  // bulidPostItem(context: context ,model: cubit.usersPosts[index]));
+                  child: bulidPostItem(context: context ,model: cubit.mySavedPosts[index]));
 
             },
 
             separatorBuilder: (context, index) => SizedBox(height: 10.0,),
 
-            itemCount: 2,
+            itemCount: cubit.mySavedPosts.length,
           );
 
         },);

@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart' as intl ;
 import 'package:readmore/readmore.dart';
 
 void navTo(BuildContext context, Widget route) {
@@ -151,8 +152,6 @@ Widget defaultElevatedButton({
 Widget bulidPostItem({
   required BuildContext context,
   required PostData model,
-  String user_id = '123',
-  int index = 0
 }) {
   return Padding(
     padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
@@ -200,7 +199,8 @@ Widget bulidPostItem({
                                   style: onBoardingDesc,
                                 ),
                                 Text(
-                                  model.date!,
+                                    // DateTime.parse(model.date!).toString(),
+                                  intl.DateFormat('E, yyyy/MM/dd  hh:mm a').format(intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(model.date!)),
                                   style: const TextStyle(
                                     fontSize: 10,
                                     color: fontColor,
@@ -214,7 +214,7 @@ Widget bulidPostItem({
                             child: Row(
                               children: [
                                 IconButton(
-                                  icon: model.post_user_id == user_id
+                                  icon: model.post_user_id == AppCubit.get(context).userModel!.data!.id
                                       ? const Icon(
                                           Icons.delete_outline,
                                           color: Color(0xffDBBCE1),
@@ -222,7 +222,7 @@ Widget bulidPostItem({
                                       : Image.asset(
                                           'assets/images/partner_reports.png'),
                                   onPressed: () {
-                                    if (!(model.post_user_id == user_id)) {
+                                    if (!(model.post_user_id == AppCubit.get(context).userModel!.data!.id)) {
                                       showDialog(
                                         context: context,
                                         builder: (context) => AlertDialog(
@@ -451,9 +451,7 @@ Widget bulidPostItem({
                       ),
                       onPressed: ()
                       {
-
                         AppCubit.get(context).likeUnlikePost(model);
-
                       },
                     ),
                     Text(
@@ -494,8 +492,10 @@ Widget bulidPostItem({
                             ? const Color(0xff16EA9E)
                             : fontColor,
                       ),
-                      onPressed: () {
+                      onPressed: ()
+                      {
                         // Handle save post
+                        AppCubit.get(context).saveUnsavePost(model);
                       },
                     ),
                     Text(

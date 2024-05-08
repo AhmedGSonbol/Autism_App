@@ -38,6 +38,8 @@ void main() async
       {
         token = CachHelper.getData(key: 'token');
 
+
+
         String user_type = CachHelper.getData(key: 'user_type');
 
         if(user_type == 'patient')

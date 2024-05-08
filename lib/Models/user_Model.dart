@@ -18,6 +18,8 @@ class UserData
   String? email;
   String? image;
   String? user_type;
+  String? city;
+  String? government;
 
 
   // UserData({
@@ -38,6 +40,8 @@ class UserData
     email = json['email'];
     image = json['image'];
     user_type = json['user_type'];
+    city = json['government'];
+    government = json['government'];
   }
 
 }

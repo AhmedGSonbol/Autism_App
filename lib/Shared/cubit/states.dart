@@ -49,3 +49,9 @@ class LoadingLikeUnlikePostState extends AppStates {}
 class SuccessLikeUnlikePostState extends AppStates {}
 
 class ErrorLikeUnlikePostState extends AppStates {}
+
+class LoadingSaveUnsavePostState extends AppStates {}
+
+class SuccessSaveUnsavePostState extends AppStates {}
+
+class ErrorSaveUnsavePostState extends AppStates {}

@@ -73,9 +73,28 @@ class Profile_Screen extends StatelessWidget {
                             {
 
                             },),
-                          const Hero(
+                           Hero(
                             tag: 'profile_image',
-                              child: Image(image: AssetImage('assets/images/Rectangle.png'),width: 100,height: 100,fit: BoxFit.cover,)),
+                              child: CircleAvatar(backgroundImage:
+                              (()
+                              {
+                                if (cubit.userModel != null)
+                                {
+                                  if (cubit.userModel!.data!.image != null && cubit.userModel!.data!.image!.isNotEmpty)
+                                  {
+                                    return NetworkImage(cubit.userModel!.data!.image!) as ImageProvider;
+                                  } else
+                                  {
+                                    return AssetImage('assets/images/Rectangle.png') as ImageProvider;
+                                  }
+                                }
+                                else
+                                {
+                                  return AssetImage('assets/images/Rectangle.png') as ImageProvider;
+                                }
+                              }()),
+                                radius: 70.0,
+                              )),
                           IconButton(
                             iconSize: 25.0,
                             padding: EdgeInsets.zero,
@@ -90,17 +109,17 @@ class Profile_Screen extends StatelessWidget {
                       const SizedBox(height: 10.0,),
 
                       //username
-                      const Text('أحمد سنبل',style: TextStyle(fontSize: 25.0,color: fontColor),),
+                       Text(cubit.userModel != null ? cubit.userModel!.data!.name! :'User Name',style: TextStyle(fontSize: 25.0,color: fontColor),),
 
                       const SizedBox(height: 5.0,),
 
                       //location
-                      const Row(
+                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children:
                         [
-                          Text('مصر - البحيرة',style: onBoardingDesc,),
-                          Icon(Icons.location_on,color: fontColor,)
+                          Text(cubit.userModel != null ? '${cubit.userModel!.data!.city!} - ${cubit.userModel!.data!.government!}' :'Address',style: onBoardingDesc,),
+                          const Icon(Icons.location_on,color: fontColor,)
                         ],
                       ),
 

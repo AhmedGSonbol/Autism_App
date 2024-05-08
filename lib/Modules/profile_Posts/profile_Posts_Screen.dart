@@ -26,15 +26,14 @@ class Profile_Posts_Screen extends StatelessWidget {
             {
               return Directionality(
                   textDirection: TextDirection.rtl,
-                  child: Container()
-                  // bulidPostItem(context: context,model: cubit.usersPosts[index])
+                  child: bulidPostItem(context: context,model: cubit.myPosts[index])
               );
 
             },
 
             separatorBuilder: (context, index) => SizedBox(height: 10.0,),
 
-            itemCount: 0,
+            itemCount: cubit.myPosts.length,
           );
 
         },);

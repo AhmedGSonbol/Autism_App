@@ -499,6 +499,7 @@ class Home_Screen extends StatelessWidget {
                           CachHelper.removeData(key: 'user_type').then((value)
                           {
                             token = '';
+
                             navAndFinishTo(context, Login_Screen());
                           });
                         });

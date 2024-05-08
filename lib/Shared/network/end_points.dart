@@ -13,3 +13,7 @@ const DOCTORS_POSTS = 'posts/doctors';
 const LIKE_POST = 'posts/like';
 
 const UNLIKE_POST = 'posts/unlike';
+
+const SAVE_POST = 'posts/savePost';
+
+const UNSAVE_POST = 'posts/unsavePost';
