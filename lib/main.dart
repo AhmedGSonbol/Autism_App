@@ -7,6 +7,8 @@ import 'package:autism/Modules/home/home_Screen.dart';
 import 'package:autism/Modules/register/register_Screen.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
+import 'package:autism/Shared/cubit/states.dart';
+import 'package:autism/Shared/network/local/Cach_Helper.dart';
 import 'package:autism/Shared/network/remote/dio_Helper.dart';
 import 'package:autism/Shared/styles/app_Themes.dart';
 import 'package:autism/modules/login/login_Screen.dart';
@@ -14,9 +16,10 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'Shared/Classes/bloc_observer.dart';
-import 'shared/network/local/Cach_Helper.dart';
 
-void main() async {
+void main() async
+{
+
   WidgetsFlutterBinding.ensureInitialized();
 
   Bloc.observer = MyBlocObserver();
@@ -26,12 +29,8 @@ void main() async {
   await CachHelper.init();
 
   Widget screen;
-
   if (CachHelper.getData(key: 'ShowBoarding') != null)
   {
-
-    print(CachHelper.getData(key: 'ShowBoarding'));
-
     if(CachHelper.getData(key: 'token') != null )
     {
 
@@ -39,7 +38,7 @@ void main() async {
       {
         token = CachHelper.getData(key: 'token');
 
-        String user_type = CachHelper.getData(key: 'token');
+        String user_type = CachHelper.getData(key: 'user_type');
 
         if(user_type == 'patient')
         {
@@ -72,18 +71,15 @@ void main() async {
     screen = OnBoardingScreen();
   }
 
-  screen = Login_Screen();
+  // screen = Login_Screen();
 
   return runApp(BlocProvider(
-    create: (context) => AppCubit(),
-    child: MaterialApp(
-      debugShowCheckedModeBanner: false,
-      darkTheme: myDarkTheme,
-      themeMode: ThemeMode.dark,
-      home: screen,
-    ),
+  create: (context) => AppCubit()..getAppData(),
+  child: MaterialApp(
+    debugShowCheckedModeBanner: false,
+    darkTheme: myDarkTheme,
+    themeMode: ThemeMode.dark,
+    home: screen,
+  )
   ));
 }
-// OnBoardingScreen
-//home: screen,
-// Home_Screen()

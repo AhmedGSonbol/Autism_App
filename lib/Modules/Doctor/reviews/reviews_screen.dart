@@ -153,12 +153,12 @@ class Reviews_Screen extends StatelessWidget {
                 ),
                 Expanded(
                   child: ListView.separated(
-                    itemBuilder: (context, index) => bulidPostItem(
-                        context: context, model: cubit.doctorsPosts[index]),
+                    itemBuilder: (context, index) =>Container(),
+                        // bulidPostItem(context: context, model: cubit.doctorsPosts[index]),
                     separatorBuilder: (context, index) => SizedBox(
                       height: 10,
                     ),
-                    itemCount: cubit.doctorsPosts.length,
+                    itemCount: 0,
                   ),
                 ),
               ],

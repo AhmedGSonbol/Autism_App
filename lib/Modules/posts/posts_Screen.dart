@@ -19,8 +19,6 @@ class Posts_Screen extends StatelessWidget
   Widget build(BuildContext context)
   {
 
-
-
     return BlocConsumer<AppCubit,AppStates>(
       listener: (context, state) {},
       builder: (context, state)
@@ -61,13 +59,20 @@ class Posts_Screen extends StatelessWidget
                 const SizedBox(
                   height: 10,
                 ),
+                cubit.usersPostsModel == null
+                    ?
+                    CircularProgressIndicator()
+                    :
                 Expanded(
                   child: ListView.separated(
-                    itemBuilder: (context, index) => bulidPostItem(context: context,model: cubit.usersPosts[index]),
+                    itemBuilder: (context, index) => bulidPostItem(
+                        context: context,
+                        model: cubit.usersPostsModel!.postData[index])
+                    ,
                     separatorBuilder: (context, index) => const SizedBox(
                       height: 10,
                     ),
-                    itemCount: cubit.usersPosts.length,
+                    itemCount: cubit.usersPostsModel!.postData.length,
                   ),
                 ),
               ],

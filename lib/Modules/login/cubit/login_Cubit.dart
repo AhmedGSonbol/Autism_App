@@ -1,6 +1,7 @@
 import 'package:autism/Models/Login_Model.dart';
 import 'package:autism/Modules/login/cubit/login_States.dart';
 import 'package:autism/Shared/network/end_points.dart';
+import 'package:autism/Shared/network/local/Cach_Helper.dart';
 import 'package:autism/Shared/network/remote/dio_Helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +13,10 @@ class LoginCubit extends Cubit<LoginStates> {
 
   bool isPassVisible = false;
 
-  void changePassVisibility() {
+  void changePassVisibility()
+  {
+
+
     isPassVisible = !isPassVisible;
     isAdmin = !isAdmin;
 
@@ -23,8 +27,9 @@ class LoginCubit extends Cubit<LoginStates> {
 
   late Login_Model login_model;
 
-  void userLogin({required String Email , required String Password})
+  void userLogin({required String Email , required String Password})async
   {
+
     emit(LoginLoadingState());
 
     DioHelper.postData(
@@ -44,7 +49,7 @@ class LoginCubit extends Cubit<LoginStates> {
     {
       if(err.response?.statusCode == 400)
       {
-        emit(LoginErrorState(err.response.data['Message']));
+        emit(LoginErrorState(err.response.data['message']));
       }
       else
       {

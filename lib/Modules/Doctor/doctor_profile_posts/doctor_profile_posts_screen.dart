@@ -21,13 +21,14 @@ class Doctor_Profile_Posts_Screen extends StatelessWidget {
           itemBuilder: (context, index) {
             return Directionality(
                 textDirection: TextDirection.rtl,
-                child: bulidPostItem(
-                    context: context, model: cubit.usersPosts[index]));
+                child: Container()
+                // bulidPostItem(context: context, model: cubit.usersPosts[index])
+            );
           },
           separatorBuilder: (context, index) => SizedBox(
             height: 10.0,
           ),
-          itemCount: cubit.doctorsPosts.length,
+          itemCount: 0,
         );
       },
     );

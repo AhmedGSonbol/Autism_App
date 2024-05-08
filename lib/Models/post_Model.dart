@@ -1,56 +1,87 @@
 class Post_Model
 {
-  String? name;
-  String? date;
-  String? avatarImage;
-  String? text;
-  String? uId;
+  String? message;
+  List<PostData> postData = [];
 
-  bool? isLiked;
-  bool? isSaved;
 
-  int? postType;
-  int? likesCount;
-  int? commentsCount;
-  int? savesCounts;
 
 
 
   Post_Model.fromJson(Map<String,dynamic> json)
   {
-    name = json['name'];
-    date = json['date'];
-    avatarImage = json['avatarImage'];
-    text = json['text'];
-    uId = json['uId'];
+    message = json['message'];
 
-    isLiked = json['isLiked'];
-    isSaved = json['isSaved'];
-
-    postType = json['postType'];
-    likesCount = json['likesCount'];
-    commentsCount = json['commentsCount'];
-    savesCounts = json['savesCounts'];
+    // print('aaaaaaaaaaa');
+    // print(json['data']);
+    if(json['data'].length != 0)
+    {
+      json['data'].forEach((e)
+      {
+        postData.add(PostData.fromJson(e));
+      });
+    }
 
 
 
   }
+}
 
-  Post_Model(
+class PostData
+{
+  String? name;
+  String? email;
+  String? date;
+  String? image;
+  String? content;
+  String? type;
+
+  bool? isLiked;
+  bool? isSaved;
+
+  int? post_user_id;
+  int? id;
+  int? likes;
+  int? comments;
+  int? saves;
+
+  PostData.fromJson(Map<String,dynamic> json)
   {
-    required this.name,
-    required this.date,
-    required this.avatarImage,
-    required this.text,
-    required this.uId,
 
-    required this.isLiked,
-    required this.isSaved,
+    name = json['name'];
+    email = json['email'];
+    date = json['date'];
+    image = json['image'];
+    content = json['content'];
+    post_user_id = json['post_user_id'];
 
-    required this.postType,
-    required this.likesCount,
-    required this.commentsCount,
-    required this.savesCounts,
+    isLiked = json['isLiked'] == 0 ? false : true;
+    isSaved = json['isSaved'] == 0 ? false : true;
 
-});
+    id = json['id'];
+    type = json['type'];
+    likes = json['likes'];
+    comments = json['comments'];
+    saves = json['saves'];
+
+  }
+
+  PostData(
+      {
+        required this.id,
+        required this.email,
+        required this.name,
+        required this.date,
+        required this.image,
+        required this.content,
+        required this.post_user_id,
+
+        required this.isLiked,
+        required this.isSaved,
+
+        required this.type,
+        required this.likes,
+        required this.comments,
+        required this.saves,
+
+      });
 }

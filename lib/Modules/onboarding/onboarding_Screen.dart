@@ -100,11 +100,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       _pageController.nextPage(
                           duration: Duration(milliseconds: 500),
                           curve: Curves.decelerate);
-                    } else {
-                      navAndFinishTo(context, Login_Screen());
+                    } else
+                    {
+
                       CachHelper.saveData(key: 'ShowBoarding', value: false)
                           .then((value) {
-                        if (value!) {}
+                        navAndFinishTo(context, Login_Screen());
                       });
                     }
                   },

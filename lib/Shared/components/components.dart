@@ -2,6 +2,7 @@
 
 import 'package:autism/Models/post_Model.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
+import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/Shared/styles/text_styles.dart';
 import 'package:flutter/cupertino.dart';
@@ -149,7 +150,9 @@ Widget defaultElevatedButton({
 
 Widget bulidPostItem({
   required BuildContext context,
-  required Post_Model model,
+  required PostData model,
+  String user_id = '123',
+  int index = 0
 }) {
   return Padding(
     padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
@@ -167,8 +170,14 @@ Widget bulidPostItem({
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 IconButton(
-                  // change it to network image
-                  icon: Image(image: AssetImage(model.avatarImage!)),
+
+                  icon: CircleAvatar(
+                      backgroundImage: NetworkImage(model.image!),
+
+
+
+                  )
+                  ,
                   onPressed: () {
                     // go to user porofile
                   },
@@ -205,7 +214,7 @@ Widget bulidPostItem({
                             child: Row(
                               children: [
                                 IconButton(
-                                  icon: model.uId! == uId
+                                  icon: model.post_user_id == user_id
                                       ? const Icon(
                                           Icons.delete_outline,
                                           color: Color(0xffDBBCE1),
@@ -213,7 +222,7 @@ Widget bulidPostItem({
                                       : Image.asset(
                                           'assets/images/partner_reports.png'),
                                   onPressed: () {
-                                    if (!(model.uId == uId)) {
+                                    if (!(model.post_user_id == user_id)) {
                                       showDialog(
                                         context: context,
                                         builder: (context) => AlertDialog(
@@ -379,15 +388,15 @@ Widget bulidPostItem({
                                   },
                                 ),
                                 (() {
-                                  if (model.postType == 0) {
+                                  if (model.type == 'none') {
                                     return Container();
                                   } else {
-                                    if (model.postType == 1) {
+                                    if (model.type == 'advice') {
                                       return const Icon(
                                         Icons.report_gmailerrorred_rounded,
                                         color: Color(0xFFFFB4AB),
                                       );
-                                    } else if (model.postType == 2) {
+                                    } else if (model.type == 'information') {
                                       return const Icon(
                                         Icons.info_outline,
                                         color: Color(0xFF16EA9E),
@@ -409,7 +418,7 @@ Widget bulidPostItem({
                         children: [
                           Expanded(
                             child: ReadMoreText(
-                              model.text!,
+                              model.content!,
                               style: const TextStyle(
                                 fontSize: 15,
                                 color: fontColor,
@@ -435,17 +444,20 @@ Widget bulidPostItem({
                   children: [
                     IconButton(
                       icon: Icon(
-                        model.isSaved! ? Icons.favorite_border : Icons.favorite,
-                        color: model.isSaved!
+                        !model.isLiked! ? Icons.favorite_border : Icons.favorite,
+                        color: !model.isLiked!
                             ? fontColor
                             : const Color(0xffE27676),
                       ),
-                      onPressed: () {
-                        // Handle like post
+                      onPressed: ()
+                      {
+
+                        AppCubit.get(context).likeUnlikePost(model);
+
                       },
                     ),
                     Text(
-                      '${model.likesCount}',
+                      '${model.likes}',
                       style: const TextStyle(color: fontColor, fontSize: 15.0),
                     )
                   ],
@@ -464,7 +476,7 @@ Widget bulidPostItem({
                       },
                     ),
                     Text(
-                      '${model.commentsCount}',
+                      '${model.comments}',
                       style: const TextStyle(color: fontColor, fontSize: 15.0),
                     )
                   ],
@@ -487,7 +499,7 @@ Widget bulidPostItem({
                       },
                     ),
                     Text(
-                      '${model.savesCounts}',
+                      '${model.saves}',
                       style: const TextStyle(color: fontColor, fontSize: 15.0),
                     )
                   ],

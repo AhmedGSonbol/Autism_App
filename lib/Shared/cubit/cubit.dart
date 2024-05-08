@@ -1,5 +1,10 @@
 import 'package:autism/Models/post_Model.dart';
+import 'package:autism/Models/user_Model.dart';
+import 'package:autism/Shared/Constants/Constants.dart';
+import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/cubit/states.dart';
+import 'package:autism/Shared/network/end_points.dart';
+import 'package:autism/Shared/network/remote/dio_Helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,111 +13,184 @@ class AppCubit extends Cubit<AppStates> {
 
   static AppCubit get(context) => BlocProvider.of(context);
 
-  List<Post_Model> usersPosts = [
-    Post_Model(
-        name: 'Ahmed sonbol',
-        date: ' ٢ أكتوبر ٢٠٢٤',
-        avatarImage: 'assets/images/Rectangle.png',
-        text: 'برجاء مراعاة مريض التوحد',
-        uId: '123',
-        isLiked: true,
-        isSaved: true,
-        likesCount: 21,
-        commentsCount: 30,
-        savesCounts: 55,
-        postType: 0),
-    Post_Model(
-        name: 'محمد خميس',
-        date: ' 9 نوفمبر 2023',
-        avatarImage: 'assets/images/Rectangle.png',
-        text: 'السلام عليكم',
-        uId: '335',
-        isLiked: false,
-        isSaved: false,
-        likesCount: 1,
-        commentsCount: 5,
-        savesCounts: 3,
-        postType: 0),
-    Post_Model(
-        name: 'احمد رمضان',
-        date: ' 7 ابريل 2019',
-        avatarImage: 'assets/images/Rectangle.png',
-        text:
-            'مرض التوحد هو اضطراب عصبي يؤثر على التواصل والسلوك الاجتماعي للأفراد المصابين به. يعتبر التوحد جزءًا من طيف اضطرابات التوحد، والتي تشمل مجموعة متنوعة من الأعراض والتحديات. يمكن أن يظهر التوحد في الطفولة المبكرة ويستمر طوال الحياة.بعض الأعراض الشائعة لمرض التوحد تشمل:عدم الاستجابة لاسم الشخص أو عدم الاستماع في بعض الأحيان.مقاومة العناق وعدم الرغبة في التمسك بالآخرين، ويبدو أنه يفضل اللعب بمفرده والانعزال في عالمه الخاص.نقص في الاتصال بالعين وعدم التعبير الوجهي.عدم القدرة على التحدث أو تأخر في الكلام، أو فقدان القدرة السابقة على القول بعض الكلمات أو الجمل.عدم القدرة على بدء محادثة أو الاستمرار فيها، أو البدء في المحادثة فقط لطلب الأشياء أو تسمية العناصر.الكلام بنغمة غير طبيعية أو إيقاع وربما استخدام صوت يشبه الغناء أو الكلام الآلي.تكرار الكلمات أو العبارات حرفيًا، ولكن دون فهم كيفية استخدامها.عدم القدرة على فهم الأسئلة أو التوجيهات البسيطة.عدم التعبير عن المشاعر أو الأحاسيس ويبدو عدم وعيه لمشاعر الآخرين.عدم القدرة على الإشارة إلى الأشياء أو إحضارها لمشاركة الاهتمام.الاقتراب بشكل غير مناسب في التفاعل الاجتماعي عن طريق التكون أو العدوانية أو التشويش.إذا كنت قلقًا بشأن تطور طفلك أو تشتبه في إصابته بمرض التوحد، يُنصح بمناقشة الموضوع مع طبيب الأطفال الخاص بك.',
-        uId: '555',
-        isLiked: true,
-        isSaved: false,
-        likesCount: 0,
-        commentsCount: 0,
-        savesCounts: 0,
-        postType: 0),
-    Post_Model(
-        name: 'Ahmed sonbol',
-        date: ' ٢ أكتوبر ٢٠٢٤',
-        avatarImage: 'assets/images/Rectangle.png',
-        text: 'برجاء مراعاة مريض التوحد',
-        uId: '123',
-        isLiked: true,
-        isSaved: true,
-        likesCount: 21,
-        commentsCount: 30,
-        savesCounts: 55,
-        postType: 0),
-  ];
+  // List<Post_Model> usersPosts = [
+  //   Post_Model(
+  //       name: 'Ahmed sonbol',
+  //       date: ' ٢ أكتوبر ٢٠٢٤',
+  //       avatarImage: 'assets/images/Rectangle.png',
+  //       text: 'برجاء مراعاة مريض التوحد',
+  //       uId: '123',
+  //       isLiked: true,
+  //       isSaved: true,
+  //       likesCount: 21,
+  //       commentsCount: 30,
+  //       savesCounts: 55,
+  //       postType: 0),
+  //   Post_Model(
+  //       name: 'محمد خميس',
+  //       date: ' 9 نوفمبر 2023',
+  //       avatarImage: 'assets/images/Rectangle.png',
+  //       text: 'السلام عليكم',
+  //       uId: '335',
+  //       isLiked: false,
+  //       isSaved: false,
+  //       likesCount: 1,
+  //       commentsCount: 5,
+  //       savesCounts: 3,
+  //       postType: 0),
+  //   Post_Model(
+  //       name: 'احمد رمضان',
+  //       date: ' 7 ابريل 2019',
+  //       avatarImage: 'assets/images/Rectangle.png',
+  //       text:
+  //           'مرض التوحد هو اضطراب عصبي يؤثر على التواصل والسلوك الاجتماعي للأفراد المصابين به. يعتبر التوحد جزءًا من طيف اضطرابات التوحد، والتي تشمل مجموعة متنوعة من الأعراض والتحديات. يمكن أن يظهر التوحد في الطفولة المبكرة ويستمر طوال الحياة.بعض الأعراض الشائعة لمرض التوحد تشمل:عدم الاستجابة لاسم الشخص أو عدم الاستماع في بعض الأحيان.مقاومة العناق وعدم الرغبة في التمسك بالآخرين، ويبدو أنه يفضل اللعب بمفرده والانعزال في عالمه الخاص.نقص في الاتصال بالعين وعدم التعبير الوجهي.عدم القدرة على التحدث أو تأخر في الكلام، أو فقدان القدرة السابقة على القول بعض الكلمات أو الجمل.عدم القدرة على بدء محادثة أو الاستمرار فيها، أو البدء في المحادثة فقط لطلب الأشياء أو تسمية العناصر.الكلام بنغمة غير طبيعية أو إيقاع وربما استخدام صوت يشبه الغناء أو الكلام الآلي.تكرار الكلمات أو العبارات حرفيًا، ولكن دون فهم كيفية استخدامها.عدم القدرة على فهم الأسئلة أو التوجيهات البسيطة.عدم التعبير عن المشاعر أو الأحاسيس ويبدو عدم وعيه لمشاعر الآخرين.عدم القدرة على الإشارة إلى الأشياء أو إحضارها لمشاركة الاهتمام.الاقتراب بشكل غير مناسب في التفاعل الاجتماعي عن طريق التكون أو العدوانية أو التشويش.إذا كنت قلقًا بشأن تطور طفلك أو تشتبه في إصابته بمرض التوحد، يُنصح بمناقشة الموضوع مع طبيب الأطفال الخاص بك.',
+  //       uId: '555',
+  //       isLiked: true,
+  //       isSaved: false,
+  //       likesCount: 0,
+  //       commentsCount: 0,
+  //       savesCounts: 0,
+  //       postType: 0),
+  //   Post_Model(
+  //       name: 'Ahmed sonbol',
+  //       date: ' ٢ أكتوبر ٢٠٢٤',
+  //       avatarImage: 'assets/images/Rectangle.png',
+  //       text: 'برجاء مراعاة مريض التوحد',
+  //       uId: '123',
+  //       isLiked: true,
+  //       isSaved: true,
+  //       likesCount: 21,
+  //       commentsCount: 30,
+  //       savesCounts: 55,
+  //       postType: 0),
+  // ];
 
-  List<Post_Model> doctorsPosts = [
-    Post_Model(
-        name: 'أحمد سنبل',
-        date: ' ٢ أكتوبر ٢٠٢٤',
-        avatarImage: 'assets/images/Rectangle (5).png',
-        text: 'برجاء مراعاة مريض التوحد',
-        uId: '123',
-        isLiked: true,
-        isSaved: true,
-        likesCount: 21,
-        commentsCount: 30,
-        savesCounts: 55,
-        postType: 2),
-    Post_Model(
-        name: 'محمد خميس',
-        date: ' 9 نوفمبر 2023',
-        avatarImage: 'assets/images/Rectangle.png',
-        text: 'السلام عليكم',
-        uId: '335',
-        isLiked: false,
-        isSaved: false,
-        likesCount: 1,
-        commentsCount: 5,
-        savesCounts: 3,
-        postType: 2),
-    Post_Model(
-        name: 'احمد رمضان',
-        date: ' 7 ابريل 2019',
-        avatarImage: 'assets/images/Rectangle.png',
-        text:
-            'مرض التوحد هو اضطراب عصبي يؤثر على التواصل والسلوك الاجتماعي للأفراد المصابين به. يعتبر التوحد جزءًا من طيف اضطرابات التوحد، والتي تشمل مجموعة متنوعة من الأعراض والتحديات. يمكن أن يظهر التوحد في الطفولة المبكرة ويستمر طوال الحياة.بعض الأعراض الشائعة لمرض التوحد تشمل:عدم الاستجابة لاسم الشخص أو عدم الاستماع في بعض الأحيان.مقاومة العناق وعدم الرغبة في التمسك بالآخرين، ويبدو أنه يفضل اللعب بمفرده والانعزال في عالمه الخاص.نقص في الاتصال بالعين وعدم التعبير الوجهي.عدم القدرة على التحدث أو تأخر في الكلام، أو فقدان القدرة السابقة على القول بعض الكلمات أو الجمل.عدم القدرة على بدء محادثة أو الاستمرار فيها، أو البدء في المحادثة فقط لطلب الأشياء أو تسمية العناصر.الكلام بنغمة غير طبيعية أو إيقاع وربما استخدام صوت يشبه الغناء أو الكلام الآلي.تكرار الكلمات أو العبارات حرفيًا، ولكن دون فهم كيفية استخدامها.عدم القدرة على فهم الأسئلة أو التوجيهات البسيطة.عدم التعبير عن المشاعر أو الأحاسيس ويبدو عدم وعيه لمشاعر الآخرين.عدم القدرة على الإشارة إلى الأشياء أو إحضارها لمشاركة الاهتمام.الاقتراب بشكل غير مناسب في التفاعل الاجتماعي عن طريق التكون أو العدوانية أو التشويش.إذا كنت قلقًا بشأن تطور طفلك أو تشتبه في إصابته بمرض التوحد، يُنصح بمناقشة الموضوع مع طبيب الأطفال الخاص بك.',
-        uId: '555',
-        isLiked: true,
-        isSaved: false,
-        likesCount: 0,
-        commentsCount: 0,
-        savesCounts: 0,
-        postType: 3),
-    Post_Model(
-        name: 'Ahmed sonbol',
-        date: ' ٢ أكتوبر ٢٠٢٤',
-        avatarImage: 'assets/images/Rectangle.png',
-        text: 'برجاء مراعاة مريض التوحد',
-        uId: '123',
-        isLiked: true,
-        isSaved: true,
-        likesCount: 21,
-        commentsCount: 30,
-        savesCounts: 55,
-        postType: 1),
-  ];
 
-  void getAppData() {}
+
+  void getAppData()
+  {
+    getUserData().then((value)
+    {
+      getPatientsPosts();
+      getDoctorsPosts();
+    });
+
+
+  }
+
+  User_Model? userModel;
+
+  Future<void> getUserData()async
+  {
+    emit(LoadingGetUserDataState());
+
+    await DioHelper.getData(
+      url: PROFILE ,
+      token: token,
+    )!.then((value)
+    {
+      userModel = User_Model.fromJson(value.data);
+
+       printFullText(userModel!.data!.image.toString());
+
+      emit(SuccessGetUserDataState(userModel!));
+    }).catchError((err)
+    {
+      emit(ErrorGetUserDataState());
+      print(err.toString());
+    });
+
+  }
+
+
+  Post_Model? usersPostsModel ;
+  Post_Model? doctorsPostsModel ;
+
+  void getPatientsPosts()
+  {
+    emit(LoadingGetPatientPostsState());
+
+    DioHelper.getData(
+      url: PATIENTS_POSTS ,
+      token: token,
+    )!.then((value)
+    {
+      usersPostsModel = Post_Model.fromJson(value.data);
+
+      emit(SuccessGetPatientPostsState());
+    })
+        .catchError((err)
+    {
+      emit(ErrorGetPatientPostsState());
+      print(err.toString());
+    })
+    ;
+
+  }
+
+  void getDoctorsPosts()
+  {
+    emit(LoadingGetDoctorPostsState());
+
+    DioHelper.getData(
+      url: DOCTORS_POSTS ,
+      token: token,
+    )!.then((value)
+    {
+      doctorsPostsModel = Post_Model.fromJson(value.data);
+
+      emit(SuccessGetDoctorPostsState());
+    }).catchError((err)
+    {
+      emit(ErrorGetDoctorPostsState());
+      print(err.toString());
+    });
+
+  }
+
+
+  void likeUnlikePost(PostData model)
+  {
+    emit(LoadingLikeUnlikePostState());
+
+    if(model.isLiked!)
+    {
+      model.likes = model.likes! - 1;
+
+    }else
+    {
+      model.likes = model.likes! + 1;
+    }
+    model.isLiked = !model.isLiked!;
+
+    DioHelper.postData(
+      url: model.isLiked! ? LIKE_POST : UNLIKE_POST,
+      token: token,
+      data: {'post_id':model.id}
+    )!.then((value)
+    {
+
+      emit(SuccessLikeUnlikePostState());
+    }).catchError((err)
+    {
+
+      if(model.isLiked!)
+      {
+        model.likes = model.likes! - 1;
+
+      }else
+      {
+        model.likes = model.likes! + 1;
+      }
+      model.isLiked = !model.isLiked!;
+      emit(ErrorLikeUnlikePostState());
+      print(err.response.data['message']);
+      myToast(msg: err.response.data['message'], state: ToastStates.ERROR);
+    });
+
+  }
+
+
 
   int currentTestScreen = 0;
 
@@ -175,9 +253,6 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppPreviousQuestionState());
   }
 
-  ///////////////  REGISTRATION  ////////////
-
-
 
   int currentProfileScreen = 0;
 
@@ -205,5 +280,14 @@ class AppCubit extends Cubit<AppStates> {
     currentAccountsScreen = index;
 
     emit(AppChangeAccountsScreenState());
+  }
+
+  int currentNavBarIndex = 0;
+
+  void changeCurrentNavBarScreen(int index)
+  {
+    currentNavBarIndex = index;
+
+    emit(AppChangeCurrentNavBarScreenState());
   }
 }

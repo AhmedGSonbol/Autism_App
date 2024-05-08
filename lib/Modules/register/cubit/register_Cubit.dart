@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:autism/Modules/register/cubit/register_States.dart';
 import 'package:autism/Shared/network/end_points.dart';
+import 'package:autism/Shared/network/local/Cach_Helper.dart';
 import 'package:autism/Shared/network/remote/dio_Helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -27,7 +28,9 @@ class RegisterCubit extends Cubit<RegisterStates> {
 
   int currentRegScreenType = 0;
 
-  void changeCurrentRegScreenType(int index) {
+  void changeCurrentRegScreenType(int index)
+  {
+
     currentRegScreenType = index;
 
     emit(ChangeRegScreenState());
@@ -142,7 +145,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
     {
       if(err.response?.statusCode == 400)
       {
-        emit(RegisterErrorState(err.response.data['Message']));
+        emit(RegisterErrorState(err.response.data['message']));
       }
       else
       {
@@ -189,15 +192,15 @@ class RegisterCubit extends Cubit<RegisterStates> {
       emit(RegisterSuccessState(isPatient: false));
     }).catchError((err)
     {
-      if(err.response?.statusCode != 7000)
+      if(err.response?.statusCode != 400)
       {
-        emit(RegisterErrorState(err.response.data.toString()));
-        // emit(RegisterErrorState(err.response.data['message']));
+        // emit(RegisterErrorState(err.response.data.toString()));
+        emit(RegisterErrorState(err.response.data['message']));
       }
       else
       {
-        emit(RegisterErrorState(err.toString()));
-        // emit(RegisterErrorState('خطأ في الاتصال بالانترنت'));
+        // emit(RegisterErrorState(err.toString()));
+        emit(RegisterErrorState('خطأ في الاتصال بالانترنت'));
       }
     });
   }
