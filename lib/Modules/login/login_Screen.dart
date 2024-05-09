@@ -1,7 +1,6 @@
 // ignore_for_file: unrelated_type_equality_checks, prefer_const_constructors, unused_import
 
 import 'package:autism/Modules/Admin/home/admin_Home_Screen.dart';
-import 'package:autism/Modules/Doctor/home/doctor_home_Screen.dart';
 import 'package:autism/Modules/home/home_Screen.dart';
 import 'package:autism/Modules/login/cubit/login_Cubit.dart';
 import 'package:autism/Modules/login/cubit/login_States.dart';
@@ -38,13 +37,11 @@ class Login_Screen extends StatelessWidget {
                 CachHelper.saveData(key: 'user_type', value: state.model.data!.user_type).then((value)
                 {
                   token = state.model.token!;
-                  if(state.model.data!.user_type == 'patient')
+                  userType = state.model.data!.user_type!;
+
+                  if(userType == 'patient' || userType == 'doctor')
                   {
                     navAndFinishTo(context, Home_Screen());
-                  }
-                  else if(state.model.data!.user_type == 'doctor')
-                  {
-                    navAndFinishTo(context, Doctor_Home_Screen());
                   }
                   else
                   {

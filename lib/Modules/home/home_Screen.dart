@@ -164,7 +164,13 @@ class Home_Screen extends StatelessWidget {
                               color: Color(0xffE1E2E9),
                               fontWeight: FontWeight.bold),
                         ),
-                        subtitle: Text(
+                        subtitle:
+
+                        Text(
+                          cubit.userModel != null
+                              ?
+                          cubit.userModel!.data!.email!
+                              :
                           'username@gmail.com',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -242,10 +248,9 @@ class Home_Screen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          GestureDetector(
+
+                          if(userType == 'patient')
+                            GestureDetector(
                             onTap: () {
                               Navigator.of(context)
                                   .push(MaterialPageRoute(builder: (context) {
@@ -274,6 +279,8 @@ class Home_Screen extends StatelessWidget {
                               ),
                             ),
                           ),
+                          if(userType == 'patient')
+                            const SizedBox(height: 30,),
                         ],
                       ),
                     ),
@@ -499,6 +506,7 @@ class Home_Screen extends StatelessWidget {
                           CachHelper.removeData(key: 'user_type').then((value)
                           {
                             token = '';
+                            userType = '';
 
                             navAndFinishTo(context, Login_Screen());
                           });
@@ -568,7 +576,8 @@ class Home_Screen extends StatelessWidget {
                               : Icons.reviews_outlined,
                           color: Color(0xffE1E2E9)),
                       label: 'إرشاد'),
-                  NavigationDestination(
+                  if(userType == 'patient')
+                    NavigationDestination(
                       icon: Icon(
                           cubit.currentNavBarIndex == 3
                               ? Icons.local_library

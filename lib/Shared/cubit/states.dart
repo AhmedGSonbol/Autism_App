@@ -55,3 +55,9 @@ class LoadingSaveUnsavePostState extends AppStates {}
 class SuccessSaveUnsavePostState extends AppStates {}
 
 class ErrorSaveUnsavePostState extends AppStates {}
+
+class ImagePickedSuccessState extends AppStates{}
+
+class ImagePickedErrorState extends AppStates{}
+
+class CancelImagePickedState extends AppStates{}

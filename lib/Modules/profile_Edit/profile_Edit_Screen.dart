@@ -1,3 +1,4 @@
+import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
@@ -10,12 +11,18 @@ class Profile_Edit_Screen extends StatelessWidget {
   Profile_Edit_Screen({Key? key}) : super(key: key);
 
   var nameController = TextEditingController();
-  var childNameController = TextEditingController();
-  var childAgeController = TextEditingController();
   var countryController = TextEditingController();
   var governmentController = TextEditingController();
   var phoneController = TextEditingController();
   var passwordController = TextEditingController();
+
+  //patient
+  var childNameController = TextEditingController();
+  var childAgeController = TextEditingController();
+
+  //doctor
+  var clinicController = TextEditingController();
+  var aboutController = TextEditingController();
 
   var formKey = GlobalKey<FormState>();
 
@@ -23,7 +30,9 @@ class Profile_Edit_Screen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
-      builder: (context, state) {
+      builder: (context, state)
+      {
+
         var cubit = AppCubit.get(context);
 
         return Scaffold(
@@ -31,11 +40,12 @@ class Profile_Edit_Screen extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: const Color(0xff43474E),
             title: const Text(
-              'الملف الشخصي',
+              'تعديل الملف الشخصي',
               style: TextStyle(color: fontColor),
             ),
             leading: IconButton(
-              onPressed: () {
+              onPressed: ()
+              {
                 Navigator.pop(context);
               },
               icon: const Icon(Icons.arrow_back),
@@ -62,7 +72,10 @@ class Profile_Edit_Screen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       defaultElevatedButton(
-                        onPressed: () {},
+                        onPressed: ()
+                        {
+                          Navigator.of(context).pop();
+                        },
                         text: 'إلغاء',
                         color: const Color(0xffDBBCE1),
                         textColor: const Color(0xff3E2845),
@@ -83,6 +96,7 @@ class Profile_Edit_Screen extends StatelessWidget {
             ),
           ),
           body: SingleChildScrollView(
+
             padding: EdgeInsets.only(bottom: 30.0),
             child: Column(
               children: [
@@ -101,17 +115,67 @@ class Profile_Edit_Screen extends StatelessWidget {
                           children: [
                             Hero(
                               tag: 'profile_image',
-                              child: Image.asset(
-                                fit: BoxFit.cover,
-                                'assets/images/Rectangle.png',
-                                width: 150,
-                                height: 150,
+                              child: CircleAvatar(backgroundImage:
+                              (()
+                              {
+                                if(cubit.avatarImage != null)
+                                {
+                                  return FileImage(cubit.avatarImage!) as ImageProvider;
+                                }
+                                else
+                                {
+                                  if (cubit.userModel != null)
+                                  {
+                                    if (cubit.userModel!.data!.image != null && cubit.userModel!.data!.image!.isNotEmpty)
+                                    {
+                                      return NetworkImage(cubit.userModel!.data!.image!) as ImageProvider;
+                                    } else
+                                    {
+                                      return AssetImage('assets/images/Rectangle.png') as ImageProvider;
+                                    }
+                                  }
+                                  else
+                                  {
+                                    return AssetImage('assets/images/Rectangle.png') as ImageProvider;
+                                  }
+                                }
+
+                              }()),
+                                radius: 100.0,
                               ),
                             ),
+                            cubit.avatarImage == null
+                                ?
                             IconButton(
-                              icon: Image.asset(
-                                  'assets/images/Icon button toggleable-dark.png'),
-                              onPressed: () {},
+                              icon: const CircleAvatar(
+                                child: Icon(
+                                  Icons.upload,
+                                  size: 20.0,
+                                ),
+                                backgroundColor: mainColor,
+                              ),
+                              onPressed: ()
+                              {//A8C8FF
+                                ///upload image
+                                cubit.pickImage();
+
+                              },
+                            )
+                                :
+                            IconButton(
+                              icon: const CircleAvatar(
+                                child: Icon(
+                                  Icons.close,
+                                  size: 20.0,
+                                ),
+                                backgroundColor: mainColor,
+                              ),
+                              onPressed: ()
+                              {
+                                ///delete image
+                                cubit.cancelUploadedProfileImage();
+
+                              },
                             )
                           ],
                         ),
@@ -135,25 +199,10 @@ class Profile_Edit_Screen extends StatelessWidget {
                       children:
                       [
                         defaultTextFormField(
+
                           controller: nameController,
                           type: TextInputType.name,
-                          label: 'الأسم',
-                        ),
-                        const SizedBox(
-                          height: 20.0,
-                        ),
-                        defaultTextFormField(
-                          controller: childNameController,
-                          type: TextInputType.name,
-                          label: 'اسم الطفل',
-                        ),
-                        const SizedBox(
-                          height: 20.0,
-                        ),
-                        defaultTextFormField(
-                          controller: childAgeController,
-                          type: TextInputType.number,
-                          label: 'عمر الطفل',
+                          hint: 'الأسم',
                         ),
                         const SizedBox(
                           height: 20.0,
@@ -161,24 +210,61 @@ class Profile_Edit_Screen extends StatelessWidget {
                         defaultTextFormField(
                             controller: countryController,
                             type: TextInputType.name,
-                            label: 'الدولة'),
+                            hint: 'الدولة'),
                         const SizedBox(
                           height: 20.0,
                         ),
                         defaultTextFormField(
                             controller: governmentController,
                             type: TextInputType.name,
-                            label: 'المحافظة'),
+                            hint: 'المحافظة'),
                         const SizedBox(
                           height: 20.0,
                         ),
                         defaultTextFormField(
                             controller: phoneController,
                             type: TextInputType.name,
-                            label: 'الهاتف'),
+                            hint: 'الهاتف'),
                         const SizedBox(
                           height: 20.0,
                         ),
+                        userType == 'patient'
+                            ?
+                        defaultTextFormField(
+                          controller: childNameController,
+                          type: TextInputType.name,
+                          hint: 'اسم الطفل',
+                        )
+                            :
+                        defaultTextFormField(
+                            controller: clinicController,
+                            type: TextInputType.name,
+                            hint: 'العيادة'
+                        ),
+                        const SizedBox(
+                          height: 20.0,
+                        ),
+                        userType == 'patient'
+                            ?
+                        defaultTextFormField(
+                          controller: childAgeController,
+                          type: TextInputType.number,
+                          hint: 'عمر الطفل',
+                        )
+                        :
+                        defaultTextFormField(
+                            controller: aboutController,
+                            type: TextInputType.name,
+                            hint: 'التعريف',
+                            maxLines: 3
+
+                        ),
+
+
+
+                        // const SizedBox(
+                        //   height: 20.0,
+                        // ),
                         // defaultTextFormField(
                         //   controller: passwordController,
                         //   type: TextInputType.name,

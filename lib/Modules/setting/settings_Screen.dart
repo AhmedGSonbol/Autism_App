@@ -1,3 +1,4 @@
+import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -81,9 +82,11 @@ class Settings_Screen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
+              if(userType == 'patient')
+                const SizedBox(
                 height: 10,
               ),
+              if(userType == 'patient')
               Container(
                 width: double.infinity,
                 padding: const EdgeInsetsDirectional.only(top: 16),

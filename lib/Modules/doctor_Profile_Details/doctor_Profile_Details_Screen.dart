@@ -9,10 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:readmore/readmore.dart';
 
-class Doctor_Details extends StatelessWidget {
-  Doctor_Details({super.key});
-
-  List<Widget> _list = [];
+class Doctor_Profile_Details_Screen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {

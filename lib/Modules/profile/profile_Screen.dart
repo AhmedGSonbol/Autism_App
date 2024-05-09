@@ -1,3 +1,4 @@
+import 'package:autism/Modules/doctor_Profile_Details/doctor_Profile_Details_Screen.dart';
 import 'package:autism/Modules/profile_Child/profile_Child_Screen.dart';
 import 'package:autism/Modules/profile_Edit/profile_Edit_Screen.dart';
 import 'package:autism/Modules/profile_Posts/profile_Posts_Screen.dart';
@@ -6,6 +7,7 @@ import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
+import 'package:autism/Shared/network/local/Cach_Helper.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/Shared/styles/text_styles.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,10 +18,16 @@ class Profile_Screen extends StatelessWidget {
   Profile_Screen({Key? key}) : super(key: key);
 
 
-  List<Widget> screens =
+  List<Widget> patientScreens =
   [
     const Profile_Posts_Screen(),
     Profile_Child_Screen(),
+    const Profile_Saves_Screen()
+  ];
+  List<Widget> doctorScreens =
+  [
+    const Profile_Posts_Screen(),
+    Doctor_Profile_Details_Screen(),
     const Profile_Saves_Screen()
   ];
 
@@ -36,6 +44,7 @@ class Profile_Screen extends StatelessWidget {
         return Scaffold(
           backgroundColor: backgroundColor,
           appBar: AppBar(
+
             backgroundColor: const Color(0xff43474E),
             title: const Text('الملف الشخصي',style: TextStyle(color: fontColor),),
             leading: IconButton(
@@ -139,7 +148,7 @@ class Profile_Screen extends StatelessWidget {
                       //navBar
                       myNavBar(
                         selectedIndex: cubit.currentProfileScreen,
-                        text: ['منشوراتك','طفلك','المحفوظات'],
+                        text: ['منشوراتك',userType == 'patient' ?'طفلك' : 'أنت','المحفوظات'],
                         onDestinationSelected:(index)
                         {
                           cubit.changeCurrentProfileScreen(index);
@@ -147,8 +156,12 @@ class Profile_Screen extends StatelessWidget {
                       ),
 
                       const SizedBox(height: 20.0,),
+                      userType == 'patient'
+                          ?
+                      patientScreens[cubit.currentProfileScreen]
+                          :
+                      doctorScreens[cubit.currentProfileScreen]
 
-                      screens[cubit.currentProfileScreen]
                     ],
                   ),
                 )

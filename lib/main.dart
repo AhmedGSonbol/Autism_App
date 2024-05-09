@@ -1,7 +1,6 @@
 // ignore_for_file: unused_local_variable, unused_import, unnecessary_import
 
 import 'package:autism/Modules/Admin/home/admin_Home_Screen.dart';
-import 'package:autism/Modules/Doctor/home/doctor_home_Screen.dart';
 import 'package:autism/Modules/onboarding/onboarding_Screen.dart';
 import 'package:autism/Modules/home/home_Screen.dart';
 import 'package:autism/Modules/register/register_Screen.dart';
@@ -38,17 +37,13 @@ void main() async
       {
         token = CachHelper.getData(key: 'token');
 
+        userType = CachHelper.getData(key: 'user_type');
 
 
-        String user_type = CachHelper.getData(key: 'user_type');
 
-        if(user_type == 'patient')
+        if(userType == 'patient' || userType == 'doctor')
         {
           screen = Home_Screen();
-        }
-        else if(user_type == 'doctor')
-        {
-          screen = Doctor_Home_Screen();
         }
         else
         {

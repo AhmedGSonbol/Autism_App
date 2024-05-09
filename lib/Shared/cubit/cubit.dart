@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:autism/Models/post_Model.dart';
 import 'package:autism/Models/user_Model.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
@@ -7,6 +9,8 @@ import 'package:autism/Shared/network/end_points.dart';
 import 'package:autism/Shared/network/remote/dio_Helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());
@@ -210,8 +214,8 @@ class AppCubit extends Cubit<AppStates> {
       }
       model.isLiked = !model.isLiked!;
       emit(ErrorLikeUnlikePostState());
-      print(err.response.data['message']);
-      myToast(msg: err.response.data['message'], state: ToastStates.ERROR);
+      // print(err.response.data['message']);
+      // myToast(msg: err.response.data['message'], state: ToastStates.ERROR);
     });
 
   }
@@ -228,7 +232,7 @@ class AppCubit extends Cubit<AppStates> {
     {
       model.saves = model.saves! + 1;
       mySavedPosts.add(model);
-      mySavedPosts.sort((a, b) => DateTime.parse(b.date!).compareTo(DateTime.parse(a.date!)));
+      mySavedPosts.sort((a, b) => DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(b.date!).compareTo(DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(a.date!)));
     }
     model.isSaved = !model.isSaved!;
 
@@ -255,12 +259,12 @@ class AppCubit extends Cubit<AppStates> {
       {
         model.saves = model.saves! + 1;
         mySavedPosts.add(model);
-        mySavedPosts.sort((a, b) => DateTime.parse(b.date!).compareTo(DateTime.parse(a.date!)));
+        mySavedPosts.sort((a, b) => DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(b.date!).compareTo(DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(a.date!)));
       }
       model.isSaved = !model.isSaved!;
       emit(ErrorSaveUnsavePostState());
-      print(err.response.data['message']);
-      myToast(msg: err.response.data['message'], state: ToastStates.ERROR);
+      // print(err.response.data['message']);
+      // myToast(msg: err.response.data['message'], state: ToastStates.ERROR);
     });
 
   }
@@ -365,4 +369,37 @@ class AppCubit extends Cubit<AppStates> {
 
     emit(AppChangeCurrentNavBarScreenState());
   }
+
+
+  /// Pick Avatar Image
+
+  File? avatarImage;
+
+  final picker = ImagePicker();
+
+  Future pickImage() async
+  {
+    final XFile? pickedImage = await picker.pickImage(
+        source: ImageSource.gallery);
+
+    if (pickedImage != null)
+    {
+      avatarImage = File(pickedImage.path);
+
+      emit(ImagePickedSuccessState());
+    }
+    else {
+      emit(ImagePickedErrorState());
+    }
+  }
+
+  void cancelUploadedProfileImage() {
+    avatarImage = null;
+
+    emit(CancelImagePickedState());
+  }
+
+/// END Pick Avatar Image
+
+
 }

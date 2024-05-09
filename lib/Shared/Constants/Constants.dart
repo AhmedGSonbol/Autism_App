@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 
 
-String token = '';
+String token = '' ;
+String userType = '' ;
 
 
 void printFullText(String text)

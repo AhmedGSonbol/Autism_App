@@ -29,9 +29,15 @@ class Posts_Screen extends StatelessWidget
           textDirection: TextDirection.rtl,
           child: Padding(
             padding: const EdgeInsetsDirectional.all(10.0),
-            child: Column(
+            child:
+            cubit.usersPostsModel == null
+                ?
+            Center(child: CircularProgressIndicator())
+                :
+            Column(
               children: [
-                SizedBox(
+                if(userType == 'patient')
+                  SizedBox(
                   // padding: const EdgeInsetsDirectional.symmetric(vertical: 10),
                   height: 60,
                   child: TextField(
@@ -56,13 +62,11 @@ class Posts_Screen extends StatelessWidget
                     ),
                   ),
                 ),
-                const SizedBox(
+                if(userType == 'patient')
+                  const SizedBox(
                   height: 10,
                 ),
-                cubit.usersPostsModel == null
-                    ?
-                    CircularProgressIndicator()
-                    :
+
                 Expanded(
                   child: ListView.separated(
                     itemBuilder: (context, index) => bulidPostItem(
