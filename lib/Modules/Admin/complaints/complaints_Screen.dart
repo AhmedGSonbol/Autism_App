@@ -22,8 +22,17 @@ class Complaints_Screen extends StatelessWidget {
   {
     AppCubit.get(context).getReportedPosts();
     return BlocConsumer<AppCubit,AppStates>(
-        listener: (
-            context, state) {},
+        listener: (context, state)
+        {
+          if(state is SuccessConfirmReportedPostState)
+          {
+            myToast(msg: state.message, state: ToastStates.SUCCESS);
+          }
+          else if(state is SuccessRejectReportedPostState)
+          {
+            myToast(msg: state.message, state: ToastStates.SUCCESS);
+          }
+        },
         builder: (context, state)
         {
           return Directionality(

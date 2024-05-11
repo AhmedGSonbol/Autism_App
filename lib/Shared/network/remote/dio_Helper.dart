@@ -30,6 +30,7 @@ class DioHelper
   static Future<Response>? getData({
     required String url,
     Map<String , dynamic>? query,
+    var data = '',
 
     String? token,
   })async
@@ -40,7 +41,12 @@ class DioHelper
       'Authorization' : token??''
     };
 
-    return await dio!.get(url , queryParameters: query,);
+    return await dio!.get(
+      url ,
+      queryParameters: query,
+      data: data
+
+    );
   }
 
 

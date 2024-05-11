@@ -18,20 +18,21 @@ class UserData
   String? email;
   String? image;
   String? user_type;
+  String? phone;
   String? city;
   String? government;
 
+  bool? profile_status;
 
-  // UserData({
-  //   required this.id,
-  //   required this.name,
-  //   required this.email,
-  //   required this.Phone,
-  //   required this.Image,
-  //   required this.points,
-  //   required this.credit,
-  //   required this.token,
-  // });
+  //doctor
+  String? about;
+  String? clinicAddress;
+
+  //patient
+  String? age;
+  String? patient_name ;
+
+
 
   UserData.fromJson(Map<String,dynamic> json)
   {
@@ -40,8 +41,15 @@ class UserData
     email = json['email'];
     image = json['image'];
     user_type = json['user_type'];
+    phone = json['phone'];
     city = json['city'];
     government = json['government'];
+    profile_status = json['profile_status'] == null ? null : json['profile_status'] == 0 ? false : true;
+    about = json['about'];
+    clinicAddress = json['clinicAddress'];
+    age = json['age'].toString();
+    patient_name = json['patient_name'];
+
   }
 
 }

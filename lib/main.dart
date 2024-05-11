@@ -73,7 +73,8 @@ void main() async
 
   // screen = Login_Screen();
 
-  return runApp(BlocProvider(
+  return runApp(
+      BlocProvider(
   create: (context) => AppCubit()..getAppData(),
   child: MaterialApp(
     debugShowCheckedModeBanner: false,

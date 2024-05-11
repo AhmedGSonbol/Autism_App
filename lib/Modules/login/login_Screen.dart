@@ -6,6 +6,7 @@ import 'package:autism/Modules/login/cubit/login_States.dart';
 import 'package:autism/Modules/register/register_Screen.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
+import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/network/local/Cach_Helper.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:flutter/material.dart';
@@ -37,12 +38,9 @@ class Login_Screen extends StatelessWidget {
                 {
                   token = state.model.token!;
                   userType = state.model.data!.user_type!;
-                  print(userType);
-                  print(userType);
-                  print(userType);
-                  print(userType);
-                  print(userType);
 
+
+                  AppCubit.get(context).getAppData();
                   navAndFinishTo(context, Home_Screen());
                   // if(userType == 'patient' || userType == 'doctor')
                   // {

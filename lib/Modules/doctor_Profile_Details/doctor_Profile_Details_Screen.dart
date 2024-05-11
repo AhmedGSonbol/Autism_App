@@ -15,7 +15,9 @@ class Doctor_Profile_Details_Screen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
-      builder: (context, state) {
+      builder: (context, state)
+      {
+
         return Directionality(
           textDirection: TextDirection.rtl,
           child: Padding(
@@ -44,7 +46,7 @@ class Doctor_Profile_Details_Screen extends StatelessWidget {
                   height: 20,
                 ),
                 ReadMoreText(
-                  ' الدكتور أحمد عبد الله هو طبيب مصري متخرج من كلية الطب بجامعة دمنهور عام 2020. وهو متخصص في علاج مرض التوحد والاضطرابات النفسية المرتبطة به الدكتور أحمد عبد الله هو طبيب مصري متخرج من كلية الطب بجامعة دمنهور عام 2020. وهو متخصص في علاج مرض التوحد والاضطرابات النفسية المرتبطة بهالدكتور أحمد عبد الله هو طبيب مصري متخرج من كلية الطب بجامعة دمنهور عام 2020. وهو متخصص في علاج مرض التوحد والاضطرابات النفسية المرتبطة به.',
+                  AppCubit.get(context).userModel?.data?.about ?? '',
                   style: Theme.of(context)
                       .textTheme
                       .headline6

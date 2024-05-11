@@ -122,7 +122,11 @@ class SuccessDeleteUserState extends AppStates
   SuccessDeleteUserState(this.message);
 }
 
-class ErrorDeleteUserState extends AppStates {}
+class ErrorDeleteUserState extends AppStates
+{
+  String message;
+  ErrorDeleteUserState(this.message);
+}
 
 class LoadingAddAdminState extends AppStates {}
 
@@ -150,7 +154,11 @@ class ErrorGetReportedPostsState extends AppStates
 
 class LoadingConfirmReportedPostState extends AppStates {}
 
-class SuccessConfirmReportedPostState extends AppStates {}
+class SuccessConfirmReportedPostState extends AppStates
+{
+  String message;
+  SuccessConfirmReportedPostState(this.message);
+}
 
 class ErrorConfirmReportedPostState extends AppStates
 {
@@ -160,7 +168,11 @@ class ErrorConfirmReportedPostState extends AppStates
 
 class LoadingRejectReportedPostState extends AppStates {}
 
-class SuccessRejectReportedPostState extends AppStates {}
+class SuccessRejectReportedPostState extends AppStates
+{
+  String message;
+  SuccessRejectReportedPostState(this.message);
+}
 
 class ErrorRejectReportedPostState extends AppStates
 {

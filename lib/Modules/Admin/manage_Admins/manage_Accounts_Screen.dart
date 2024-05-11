@@ -34,6 +34,11 @@ class Manage_Admins_Screen extends StatelessWidget {
         {
           myToast(msg: state.message, state: ToastStates.SUCCESS);
         }
+        else if (state is ErrorDeleteUserState)
+        {
+          myToast(msg: state.message.contains('Only super admin can delete admins') ? 'يمكن للمسؤول الرئيسي فقط حذف باقي المسؤولين !' : state.message, state: ToastStates.ERROR);
+        }
+
       },
       builder: (context, state) {
         var cubit = AppCubit.get(context);

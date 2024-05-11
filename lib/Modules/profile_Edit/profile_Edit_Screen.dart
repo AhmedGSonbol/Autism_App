@@ -1,3 +1,4 @@
+import 'package:autism/Models/user_Model.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
@@ -14,7 +15,7 @@ class Profile_Edit_Screen extends StatelessWidget
   bool isAddAdmin;
 
   var nameController = TextEditingController();
-  var countryController = TextEditingController();
+  var cityController = TextEditingController();
   var governmentController = TextEditingController();
   var phoneController = TextEditingController();
   var passwordController = TextEditingController();
@@ -24,7 +25,7 @@ class Profile_Edit_Screen extends StatelessWidget
   var childAgeController = TextEditingController();
 
   //doctor
-  var clinicController = TextEditingController();
+  var clinicAddressController = TextEditingController();
   var aboutController = TextEditingController();
 
   //admin
@@ -35,7 +36,11 @@ class Profile_Edit_Screen extends StatelessWidget
   var formKey = GlobalKey<FormState>();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
+
+
+
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state)
       {
@@ -58,8 +63,33 @@ class Profile_Edit_Screen extends StatelessWidget
 
         var cubit = AppCubit.get(context);
 
+        UserData? model = AppCubit.get(context).userModel?.data;
+
+        if(model != null) {
+          nameController.text = model.name ?? '';
+          phoneController.text = model.phone ?? '';
+
+          if (userType != 'admin') {
+            cityController.text = model.city ?? '';
+            governmentController.text = model.government ?? '';
+
+            if (userType == 'patient') {
+              childNameController.text = model.patient_name ?? '';
+              childAgeController.text = model.age ?? '';
+            }
+            else {
+              aboutController.text = model.about ?? '';
+              clinicAddressController.text = model.clinicAddress ?? '';
+            }
+          }
+          else {
+            emailController.text == model.email ?? '';
+          }
+        }
+
         return Stack(
-          children: [
+          children:
+          [
             Scaffold(
               backgroundColor: backgroundColor,
               appBar: AppBar(
@@ -158,8 +188,14 @@ class Profile_Edit_Screen extends StatelessWidget
                                     }
                                     else
                                     {
-                                      return AssetImage('assets/images/Rectangle.png') as ImageProvider;
-
+                                      if(model != null && model.image != null && model.image!.isNotEmpty)
+                                      {
+                                        return NetworkImage(model.image!);
+                                      }
+                                      else
+                                      {
+                                        return AssetImage('assets/images/Rectangle.png') as ImageProvider;
+                                      }
                                     }
 
                                   }()),
@@ -240,7 +276,7 @@ class Profile_Edit_Screen extends StatelessWidget
                             ),
                             if(userType != 'admin' && isAddAdmin == false)
                               defaultTextFormField(
-                                controller: countryController,
+                                controller: cityController,
                                 type: TextInputType.name,
                                 hint: 'الدولة'),
                             if(userType != 'admin')
@@ -281,7 +317,7 @@ class Profile_Edit_Screen extends StatelessWidget
                             )
                                 :
                             defaultTextFormField(
-                                controller: clinicController,
+                                controller: clinicAddressController,
                                 type: TextInputType.name,
                                 hint: 'العيادة'
                             ),

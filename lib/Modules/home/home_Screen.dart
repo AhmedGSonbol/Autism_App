@@ -44,7 +44,9 @@ class Home_Screen extends StatelessWidget {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: BlocConsumer<AppCubit,AppStates>(
@@ -55,6 +57,8 @@ class Home_Screen extends StatelessWidget {
         builder: (context, state)
         {
           var cubit = AppCubit.get(context);
+
+
 
           return Stack(
             children: [
@@ -126,7 +130,21 @@ class Home_Screen extends StatelessWidget {
                           ) ,
                           onTap: () {
                             //go to profile
-                            navTo(context, Profile_Screen());
+                            if(cubit.userModel != null)
+                            {
+                              if(userType != 'admin')
+                              {
+                                navTo(context, Profile_Screen());
+                              }
+                              else
+                              {
+                                navTo(context, Profile_Edit_Screen());
+                              }
+                            }
+                            else
+                            {
+                              myToast(msg: 'جار تحميل بياناتك !', state: ToastStates.WARNING);
+                            }
                           },
                         ),
                         SizedBox(width: 10.0,),
@@ -212,14 +230,23 @@ class Home_Screen extends StatelessWidget {
                               GestureDetector(
                                 onTap: ()
                                 {
-                                  if(userType != 'admin')
+                                  if(cubit.userModel != null)
                                   {
-                                    navTo(context, Profile_Screen());
+                                    if(userType != 'admin')
+                                    {
+                                      navTo(context, Profile_Screen());
+                                    }
+                                    else
+                                    {
+                                      navTo(context, Profile_Edit_Screen());
+                                    }
                                   }
                                   else
                                   {
-                                    navTo(context, Profile_Edit_Screen());
+                                    myToast(msg: 'جار تحميل بياناتك !', state: ToastStates.WARNING);
                                   }
+
+
 
                                 },
                                 child: Row(
@@ -534,6 +561,13 @@ class Home_Screen extends StatelessWidget {
                               {
                                 token = '';
                                 userType = '';
+                                cubit.currentAccountsScreen = 0;
+                                cubit.currentNavBarIndex = 0;
+                                cubit.currentProfileScreen = 0;
+                                cubit.currentTestScreen = 0;
+
+                                cubit.userModel = null;
+                                cubit.viewUserModel = null;
                                 navAndFinishTo(context, Login_Screen());
                               });
                             });
@@ -624,6 +658,10 @@ class Home_Screen extends StatelessWidget {
       ),
     );
   }
+
+
+
+
   List<Widget> getUserDestinations (int index)
   {
     return  [

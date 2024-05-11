@@ -48,17 +48,25 @@ class AppCubit extends Cubit<AppStates>
   }
 
   User_Model? userModel;
+  User_Model? viewUserModel;
 
-  Future<void> getUserData()async
+  Future<void> getUserData({int userID = 0})async
   {
     emit(LoadingGetUserDataState());
 
     await DioHelper.getData(
       url: PROFILE ,
       token: token,
+      data: userID != 0 ? {'user_id':userID} : null
     )!.then((value)
     {
-      userModel = User_Model.fromJson(value.data);
+      print(value.data);
+      if(userID == 0) {
+        userModel = User_Model.fromJson(value.data);
+      }else
+      {
+        viewUserModel = User_Model.fromJson(value.data);
+      }
 
       emit(SuccessGetUserDataState(userModel!));
     }).catchError((err)
@@ -103,10 +111,14 @@ class AppCubit extends Cubit<AppStates>
         .catchError((err)
     {
       emit(ErrorGetPatientPostsState());
-      print(err.response.toString());
+
       if(err.response?.statusCode == 400)
       {
        print(err.response.data['message']);
+      }
+      else
+      {
+        print(err.toString());
       }
 
     })
@@ -564,11 +576,16 @@ class AppCubit extends Cubit<AppStates>
 
       }).catchError((err)
       {
-        emit(ErrorDeleteUserState());
+
         print(err.toString());
         if(err.response?.statusCode == 400)
         {
+          emit(ErrorDeleteUserState(err.response.data['message']));
           print(err.response.data);
+        }
+        else
+        {
+          emit(ErrorDeleteUserState(err.toString()));
         }
       });
 
@@ -666,7 +683,7 @@ class AppCubit extends Cubit<AppStates>
       {
         reportedPosts!.reportedPostData.remove(model);
 
-        emit(SuccessConfirmReportedPostState());
+        emit(SuccessConfirmReportedPostState(value.data['message'].toString()));
       }).catchError((err)
       {
         print(err.toString());
@@ -697,7 +714,7 @@ class AppCubit extends Cubit<AppStates>
     {
       reportedPosts!.reportedPostData.remove(model);
 
-      emit(SuccessRejectReportedPostState());
+      emit(SuccessRejectReportedPostState(value.data['message'].toString()));
     }).catchError((err)
     {
       print(err.toString());
