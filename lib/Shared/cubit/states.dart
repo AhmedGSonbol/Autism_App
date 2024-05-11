@@ -179,3 +179,45 @@ class ErrorRejectReportedPostState extends AppStates
   String message;
   ErrorRejectReportedPostState(this.message);
 }
+
+class LoadingDeletePostState extends AppStates {}
+
+class SuccessDeletePostState extends AppStates
+{
+  String message;
+  SuccessDeletePostState(this.message);
+}
+
+class ErrorDeletePostState extends AppStates
+{
+  String message;
+  ErrorDeletePostState(this.message);
+}
+
+class LoadingAddReportState extends AppStates {}
+
+class SuccessAddReportState extends AppStates
+{
+  String message;
+  SuccessAddReportState(this.message);
+}
+
+class ErrorAddReportState extends AppStates
+{
+  String message;
+  ErrorAddReportState(this.message);
+}
+
+class LoadingAddPostState extends AppStates {}
+
+class SuccessAddPostState extends AppStates
+{
+  String message;
+  SuccessAddPostState(this.message);
+}
+
+class ErrorAddPostState extends AppStates
+{
+  String message;
+  ErrorAddPostState(this.message);
+}

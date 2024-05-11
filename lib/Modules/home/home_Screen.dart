@@ -52,7 +52,34 @@ class Home_Screen extends StatelessWidget {
       child: BlocConsumer<AppCubit,AppStates>(
         listener: (context, state)
         {
+          if(state is SuccessGetUserDataState)
+          {
+            if(userType == 'admin')
+            {
+              // getPending();
 
+            }else
+            {
+              AppCubit.get(context).getPatientsPosts();
+              AppCubit.get(context).getDoctorsPosts();
+            }
+          }
+          if(state is SuccessDeletePostState)
+          {
+            myToast(msg: state.message, state: ToastStates.SUCCESS);
+          }
+          if(state is SuccessAddReportState)
+          {
+            myToast(msg: state.message, state: ToastStates.SUCCESS);
+          }
+          if(state is ErrorAddReportState)
+          {
+            myToast(msg: state.message, state: ToastStates.ERROR);
+          }
+          if(state is SuccessAddPostState)
+          {
+            myToast(msg: state.message, state: ToastStates.SUCCESS);
+          }
         },
         builder: (context, state)
         {
@@ -642,7 +669,16 @@ class Home_Screen extends StatelessWidget {
 
                 }()),
               ),
-              if(state is LoadingRejectDoctorsState ||  state is LoadingConfirmDoctorsState || state is LoadingDeleteUserState || state is LoadingConfirmReportedPostState || state is LoadingRejectReportedPostState)
+              if(
+              state is LoadingRejectDoctorsState
+              ||  state is LoadingConfirmDoctorsState
+              || state is LoadingDeleteUserState
+              || state is LoadingConfirmReportedPostState
+              || state is LoadingRejectReportedPostState
+              || state is LoadingDeletePostState
+              || state is LoadingAddReportState
+              || state is LoadingAddPostState
+              )
                 Positioned.fill(
                   child: Container(
                     color: Colors.grey.withOpacity(0.2),

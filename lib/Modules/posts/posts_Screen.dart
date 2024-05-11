@@ -18,6 +18,7 @@ class Posts_Screen extends StatelessWidget
   @override
   Widget build(BuildContext context)
   {
+    var postContent = TextEditingController();
 
     return BlocConsumer<AppCubit,AppStates>(
       listener: (context, state) {},
@@ -41,6 +42,7 @@ class Posts_Screen extends StatelessWidget
                   // padding: const EdgeInsetsDirectional.symmetric(vertical: 10),
                   height: 60,
                   child: TextField(
+                    controller: postContent,
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -56,6 +58,15 @@ class Posts_Screen extends StatelessWidget
                           ),
                           onPressed: ()
                           {
+                            if(postContent.text.isNotEmpty)
+                            {
+                              cubit.addPost(type: '',content: postContent.text);
+                              postContent.clear();
+                            }
+                            else
+                            {
+                              myToast(msg: 'برجاء كتابة نص للمنشور !', state: ToastStates.WARNING);
+                            }
 
                           },
                         )
@@ -68,15 +79,21 @@ class Posts_Screen extends StatelessWidget
                 ),
 
                 Expanded(
-                  child: ListView.separated(
-                    itemBuilder: (context, index) => bulidPostItem(
-                        context: context,
-                        model: cubit.usersPostsModel!.postData[index])
-                    ,
-                    separatorBuilder: (context, index) => const SizedBox(
-                      height: 10,
+                  child: RefreshIndicator(
+                    onRefresh: ()async
+                    {
+                      await cubit.getPatientsPosts();
+                    },
+                    child: ListView.separated(
+                      itemBuilder: (context, index) => bulidPostItem(
+                          context: context,
+                          model: cubit.usersPostsModel!.postData[index])
+                      ,
+                      separatorBuilder: (context, index) => const SizedBox(
+                        height: 10,
+                      ),
+                      itemCount: cubit.usersPostsModel!.postData.length,
                     ),
-                    itemCount: cubit.usersPostsModel!.postData.length,
                   ),
                 ),
               ],

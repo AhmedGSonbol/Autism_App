@@ -236,108 +236,165 @@ Widget bulidPostItem({
                                     if (!(model.post_user_id == AppCubit.get(context).userModel!.data!.id)) {
                                       showDialog(
                                         context: context,
-                                        builder: (context) => AlertDialog(
-                                          backgroundColor:
-                                              const Color(0xff282a2f),
-                                          title: Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Column(
-                                              mainAxisAlignment:
+                                        builder: (context)
+                                        {
+
+                                          bool checkIncorrect = false;
+                                          bool checkInsult = false;
+                                          bool checkAnnoying = false;
+
+                                          return StatefulBuilder(
+                                            builder: (context, setState)
+                                            {
+
+                                              return AlertDialog(
+                                                backgroundColor:
+                                                const Color(0xff282a2f),
+                                                title: Padding(
+                                                  padding: const EdgeInsets.all(10.0),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                    children: [
+                                                      Image.asset(
+                                                        'assets/images/partner_reports.png',
+                                                        height: 20.0,
+                                                        width: 20.0,
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 20.0,
+                                                      ),
+                                                      const Text(
+                                                        'إبلاغ',
+                                                        style: TextStyle(
+                                                            fontSize: 25.0,
+                                                            color: fontColor),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 20.0,
+                                                      ),
+                                                      const Text(
+                                                          'حدد نوع الإساءة الموجودة في المنشور',
+                                                          textAlign: TextAlign.center,
+                                                          style: onBoardingDesc)
+                                                    ],
+                                                  ),
+                                                ),
+                                                content: Column(
+                                                  mainAxisAlignment:
                                                   MainAxisAlignment.center,
-                                              children: [
-                                                Image.asset(
-                                                  'assets/images/partner_reports.png',
-                                                  height: 20.0,
-                                                  width: 20.0,
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Checkbox(
+                                                            checkColor: Colors.black,
+                                                            activeColor: mainColor,
+                                                            value: checkIncorrect,
+                                                            onChanged: (val)
+                                                            {
+                                                              setState(() => checkIncorrect = !checkIncorrect);
+                                                            }),
+                                                        const Spacer(),
+                                                        Text(
+                                                          'معلومة غير صحيحة',
+                                                          style: onBoardingDesc,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const Divider(),
+                                                    Row(
+                                                      children: [
+                                                        Checkbox(
+                                                            checkColor: Colors.black,
+                                                            activeColor: mainColor,
+                                                            value: checkInsult,
+                                                            onChanged: (val)
+                                                            {
+                                                              setState(() => checkInsult = !checkInsult);
+
+                                                            }),
+                                                        const Spacer(),
+                                                        Text('إساءة باللفظ',
+                                                            style: onBoardingDesc),
+                                                      ],
+                                                    ),
+                                                    const Divider(),
+                                                    Row(
+                                                      children: [
+                                                        Checkbox(
+                                                            checkColor: Colors.black,
+                                                            activeColor: mainColor,
+                                                            value: checkAnnoying,
+                                                            onChanged: (val)
+                                                            {
+                                                              setState(() => checkAnnoying = !checkAnnoying);
+                                                            }),
+                                                        const Spacer(),
+                                                        Text('إزعاج',
+                                                            style: onBoardingDesc),
+                                                      ],
+                                                    ),
+                                                  ],
                                                 ),
-                                                const SizedBox(
-                                                  height: 20.0,
-                                                ),
-                                                const Text(
-                                                  'إبلاغ',
-                                                  style: TextStyle(
-                                                      fontSize: 25.0,
-                                                      color: fontColor),
-                                                ),
-                                                const SizedBox(
-                                                  height: 20.0,
-                                                ),
-                                                const Text(
-                                                    'حدد نوع الإساءة الموجودة في المنشور',
-                                                    textAlign: TextAlign.center,
-                                                    style: onBoardingDesc)
-                                              ],
-                                            ),
-                                          ),
-                                          content: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Checkbox(
-                                                      activeColor: mainColor,
-                                                      value: true,
-                                                      onChanged: (val) {}),
-                                                  const Spacer(),
-                                                  Text(
-                                                    'معلومة غير صحيحة',
-                                                    style: onBoardingDesc,
+
+                                                actions: [
+                                                  TextButton(
+                                                    child: const Text(
+                                                      'إرسال',
+                                                      style: TextStyle(
+                                                          color: secondColor),
+                                                    ),
+                                                    onPressed: ()
+                                                    {
+                                                      if(checkIncorrect == true || checkInsult == true || checkAnnoying == true)
+                                                      {
+                                                        List<String> complaintList = [];
+
+                                                        if(checkIncorrect == true)
+                                                        {
+                                                          complaintList.add('معلومة غير صحيحة');
+                                                        }
+                                                        if(checkInsult == true)
+                                                        {
+                                                          complaintList.add('إساءة باللفظ');
+                                                        }
+                                                        if(checkAnnoying == true)
+                                                        {
+                                                          complaintList.add('إزعاج');
+                                                        }
+
+
+                                                          print(complaintList.join(', '));
+                                                        AppCubit.get(context).addReport(model.id!, complaintList.join(', '));
+                                                        Navigator.pop(context);
+                                                      }
+                                                      else
+                                                      {
+                                                        myToast(msg: 'برجاء اختيار الشكوي !', state: ToastStates.WARNING);
+                                                      }
+
+                                                    },
+                                                  ),
+                                                  TextButton(
+                                                    child: const Text(
+                                                      'إلغاء',
+                                                      style:
+                                                      TextStyle(color: fontColor),
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
                                                   ),
                                                 ],
-                                              ),
-                                              const Divider(),
-                                              Row(
-                                                children: [
-                                                  Checkbox(
-                                                      activeColor: mainColor,
-                                                      value: false,
-                                                      onChanged: (val) {}),
-                                                  const Spacer(),
-                                                  Text('إساءة باللفظ',
-                                                      style: onBoardingDesc),
-                                                ],
-                                              ),
-                                              const Divider(),
-                                              Row(
-                                                children: [
-                                                  Checkbox(
-                                                      activeColor: mainColor,
-                                                      value: true,
-                                                      onChanged: (val) {}),
-                                                  const Spacer(),
-                                                  Text('إزعاج',
-                                                      style: onBoardingDesc),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
 
-                                          actions: [
-                                            TextButton(
-                                              child: const Text(
-                                                'إرسال',
-                                                style: TextStyle(
-                                                    color: secondColor),
-                                              ),
-                                              onPressed: () {},
-                                            ),
-                                            TextButton(
-                                              child: const Text(
-                                                'إلغاء',
-                                                style:
-                                                    TextStyle(color: fontColor),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                            ),
-                                          ],
+                                                // backgroundColor: backgroundColor,
+                                                titlePadding: EdgeInsets.zero,
+                                              );
 
-                                          // backgroundColor: backgroundColor,
-                                          titlePadding: EdgeInsets.zero,
-                                        ),
+                                            },
+                                          );
+                                        },
                                       );
                                     } else {
                                       showDialog(
@@ -377,7 +434,11 @@ Widget bulidPostItem({
                                                 style: TextStyle(
                                                     color: secondColor),
                                               ),
-                                              onPressed: () {},
+                                              onPressed: ()
+                                              {
+                                                AppCubit.get(context).deletePost(model);
+                                                Navigator.pop(context);
+                                              },
                                             ),
                                             TextButton(
                                               child: const Text(
@@ -700,7 +761,6 @@ void myToast({
   required String msg,
   required ToastStates state,
 
-  Color textColor = Colors.white,
   Toast toastLength = Toast.LENGTH_LONG,
   ToastGravity gravity = ToastGravity.BOTTOM,
   int timeInSecForIosWeb = 1,
@@ -715,7 +775,7 @@ void myToast({
     gravity: gravity,
     timeInSecForIosWeb: timeInSecForIosWeb,
     backgroundColor: toastbackgroundColor(state),
-    textColor: textColor,
+    textColor: toastFontColor(state),
     fontSize: fontSize,
   );
 }
@@ -734,11 +794,29 @@ Color toastbackgroundColor(ToastStates state) {
       break;
     case ToastStates.WARNING:
       color = Colors.amber;
+
       break;
   }
   return color;
 }
 
+Color toastFontColor(ToastStates state) {
+  Color color;
+
+  switch (state) {
+    case ToastStates.SUCCESS:
+      color = Colors.white;
+      break;
+    case ToastStates.ERROR:
+      color = Colors.white;
+      break;
+    case ToastStates.WARNING:
+      color = Colors.black;
+
+      break;
+  }
+  return color;
+}
 
 Widget myImageProvider(String? link , {double size = 50})
 {

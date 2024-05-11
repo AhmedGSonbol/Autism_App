@@ -36,4 +36,6 @@ const REPORTEDPOSTS = 'posts/report';
 
 const APPROVEREPORTEDPOSTS = 'posts/report/approve';
 
+const POSTS = 'posts';
+
 

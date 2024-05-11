@@ -29,15 +29,7 @@ class AppCubit extends Cubit<AppStates>
       getUserData().then((value)
       {
 
-        if(userType == 'admin')
-        {
-          // getPending();
 
-        }else
-        {
-          getPatientsPosts();
-          getDoctorsPosts();
-        }
 
 
       });
@@ -83,11 +75,11 @@ class AppCubit extends Cubit<AppStates>
   List<PostData> myPosts  = [];
   List<PostData> mySavedPosts = [];
 
-  void getPatientsPosts()
+  Future<void> getPatientsPosts()async
   {
     emit(LoadingGetPatientPostsState());
 
-    DioHelper.getData(
+    await DioHelper.getData(
       url: PATIENTS_POSTS ,
       token: token,
     )!.then((value)
@@ -731,5 +723,141 @@ class AppCubit extends Cubit<AppStates>
 
 
   }
+
+  Future<void> deletePost(PostData model)async
+  {
+
+    emit(LoadingDeletePostState());
+
+    await DioHelper.deleteData(
+        url: POSTS ,
+        token: token,
+        data: {'post_id':model.id}
+    )!.then((value)
+    {
+      if(userType == 'patient')
+      {
+        usersPostsModel!.postData.remove(model);
+
+      }
+      else
+      {
+        doctorsPostsModel!.postData.remove(model);
+      }
+      myPosts.remove(model);
+      mySavedPosts.removeWhere((element) => element.post_user_id == model.post_user_id);
+
+
+      emit(SuccessDeletePostState(value.data['message'].toString()));
+    }).catchError((err)
+    {
+      print(err.toString());
+      if(err.response?.statusCode == 400)
+      {
+        print(err.response?.data);
+        emit(ErrorDeletePostState(err.response.data['message']));
+      }
+      else
+      {
+        emit(ErrorDeletePostState('خطأ في الاتصال بالانترنت'));
+      }
+    });
+
+
+
+  }
+
+  void addReport(int postID,String complaint)
+  {
+    emit(LoadingAddReportState());
+
+    DioHelper.postData(
+        url: REPORTEDPOSTS,
+        token: token,
+        data: {'post_id':postID,'user_id':userModel!.data!.id,'complaint':complaint}
+    )!.then((value)
+    {
+
+
+      emit(SuccessAddReportState(value.data['message'].toString()));
+
+    }).catchError((err)
+    {
+      if(err.response?.statusCode == 400)
+      {
+        emit(ErrorAddReportState(err.response.data['message']));
+      }
+      else
+      {
+        emit(ErrorAddReportState('خطأ في الاتصال بالانترنت'));
+      }
+
+    });
+
+  }
+
+
+  void addPost({required String type,required String content})
+  {
+    emit(LoadingAddPostState());
+
+    DioHelper.postData(
+        url: POSTS,
+        token: token,
+        data: {'type':type,'content':content}
+    )!.then((value)
+    {
+
+
+      print(value.data['data']);
+      print(value.data['data']['id']);
+      print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+
+      PostData insertedPost = PostData(
+          id: value.data['data']['id'],
+          email: userModel!.data!.email,
+          name: userModel!.data!.name,
+          date: value.data['data']['date'],
+          image: userModel!.data!.image,
+          content: content,
+          post_user_id: value.data['data']['user_id'],
+          isLiked: false,
+          isSaved: false,
+          type: value.data['data']['type'],
+          likes: 0,
+          comments: 0,
+          saves: 0,
+      );
+      if(type.isEmpty)
+      {
+        usersPostsModel!.postData.add(insertedPost);
+        usersPostsModel!.postData.sort((a, b) => DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(b.date!).compareTo(DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(a.date!)));
+      }else
+      {
+        doctorsPostsModel!.postData.add(insertedPost);
+        doctorsPostsModel!.postData.sort((a, b) => DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(b.date!).compareTo(DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(a.date!)));
+      }
+      myPosts.add(insertedPost);
+      myPosts.sort((a, b) => DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(b.date!).compareTo(DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(a.date!)));
+
+      emit(SuccessAddPostState(value.data['message'].toString()));
+
+
+
+    }).catchError((err)
+    {
+      if(err.response?.statusCode == 400)
+      {
+        emit(ErrorAddPostState(err.response.data['message']));
+      }
+      else
+      {
+        emit(ErrorAddPostState('خطأ في الاتصال بالانترنت'));
+      }
+
+    });
+
+  }
+
 
 }
