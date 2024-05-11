@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:autism/Models/admin_Users_Model.dart';
+import 'package:autism/Models/pending_Doctors_Model.dart';
 import 'package:autism/Models/post_Model.dart';
+import 'package:autism/Models/reportedPost_Model.dart';
 import 'package:autism/Models/user_Model.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
@@ -8,76 +11,38 @@ import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/network/end_points.dart';
 import 'package:autism/Shared/network/remote/dio_Helper.dart';
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-class AppCubit extends Cubit<AppStates> {
+class AppCubit extends Cubit<AppStates>
+{
   AppCubit() : super(AppInitialState());
 
   static AppCubit get(context) => BlocProvider.of(context);
 
-  // List<Post_Model> usersPosts = [
-  //   Post_Model(
-  //       name: 'Ahmed sonbol',
-  //       date: ' ٢ أكتوبر ٢٠٢٤',
-  //       avatarImage: 'assets/images/Rectangle.png',
-  //       text: 'برجاء مراعاة مريض التوحد',
-  //       uId: '123',
-  //       isLiked: true,
-  //       isSaved: true,
-  //       likesCount: 21,
-  //       commentsCount: 30,
-  //       savesCounts: 55,
-  //       postType: 0),
-  //   Post_Model(
-  //       name: 'محمد خميس',
-  //       date: ' 9 نوفمبر 2023',
-  //       avatarImage: 'assets/images/Rectangle.png',
-  //       text: 'السلام عليكم',
-  //       uId: '335',
-  //       isLiked: false,
-  //       isSaved: false,
-  //       likesCount: 1,
-  //       commentsCount: 5,
-  //       savesCounts: 3,
-  //       postType: 0),
-  //   Post_Model(
-  //       name: 'احمد رمضان',
-  //       date: ' 7 ابريل 2019',
-  //       avatarImage: 'assets/images/Rectangle.png',
-  //       text:
-  //           'مرض التوحد هو اضطراب عصبي يؤثر على التواصل والسلوك الاجتماعي للأفراد المصابين به. يعتبر التوحد جزءًا من طيف اضطرابات التوحد، والتي تشمل مجموعة متنوعة من الأعراض والتحديات. يمكن أن يظهر التوحد في الطفولة المبكرة ويستمر طوال الحياة.بعض الأعراض الشائعة لمرض التوحد تشمل:عدم الاستجابة لاسم الشخص أو عدم الاستماع في بعض الأحيان.مقاومة العناق وعدم الرغبة في التمسك بالآخرين، ويبدو أنه يفضل اللعب بمفرده والانعزال في عالمه الخاص.نقص في الاتصال بالعين وعدم التعبير الوجهي.عدم القدرة على التحدث أو تأخر في الكلام، أو فقدان القدرة السابقة على القول بعض الكلمات أو الجمل.عدم القدرة على بدء محادثة أو الاستمرار فيها، أو البدء في المحادثة فقط لطلب الأشياء أو تسمية العناصر.الكلام بنغمة غير طبيعية أو إيقاع وربما استخدام صوت يشبه الغناء أو الكلام الآلي.تكرار الكلمات أو العبارات حرفيًا، ولكن دون فهم كيفية استخدامها.عدم القدرة على فهم الأسئلة أو التوجيهات البسيطة.عدم التعبير عن المشاعر أو الأحاسيس ويبدو عدم وعيه لمشاعر الآخرين.عدم القدرة على الإشارة إلى الأشياء أو إحضارها لمشاركة الاهتمام.الاقتراب بشكل غير مناسب في التفاعل الاجتماعي عن طريق التكون أو العدوانية أو التشويش.إذا كنت قلقًا بشأن تطور طفلك أو تشتبه في إصابته بمرض التوحد، يُنصح بمناقشة الموضوع مع طبيب الأطفال الخاص بك.',
-  //       uId: '555',
-  //       isLiked: true,
-  //       isSaved: false,
-  //       likesCount: 0,
-  //       commentsCount: 0,
-  //       savesCounts: 0,
-  //       postType: 0),
-  //   Post_Model(
-  //       name: 'Ahmed sonbol',
-  //       date: ' ٢ أكتوبر ٢٠٢٤',
-  //       avatarImage: 'assets/images/Rectangle.png',
-  //       text: 'برجاء مراعاة مريض التوحد',
-  //       uId: '123',
-  //       isLiked: true,
-  //       isSaved: true,
-  //       likesCount: 21,
-  //       commentsCount: 30,
-  //       savesCounts: 55,
-  //       postType: 0),
-  // ];
-
-
-
   void getAppData()
   {
-    getUserData().then((value)
+    if(userType != '')
     {
-      getPatientsPosts();
-      getDoctorsPosts();
-    });
+      getUserData().then((value)
+      {
+
+        if(userType == 'admin')
+        {
+          // getPending();
+
+        }else
+        {
+          getPatientsPosts();
+          getDoctorsPosts();
+        }
+
+
+      });
+    }
+
 
 
   }
@@ -94,8 +59,6 @@ class AppCubit extends Cubit<AppStates> {
     )!.then((value)
     {
       userModel = User_Model.fromJson(value.data);
-
-       printFullText(userModel!.data!.image.toString());
 
       emit(SuccessGetUserDataState(userModel!));
     }).catchError((err)
@@ -140,7 +103,12 @@ class AppCubit extends Cubit<AppStates> {
         .catchError((err)
     {
       emit(ErrorGetPatientPostsState());
-      print(err.toString());
+      print(err.response.toString());
+      if(err.response?.statusCode == 400)
+      {
+       print(err.response.data['message']);
+      }
+
     })
     ;
 
@@ -400,6 +368,351 @@ class AppCubit extends Cubit<AppStates> {
   }
 
 /// END Pick Avatar Image
+///
+/// ADMIN SECTION ///////////////////////
 
+  Pending_Doctors? pendingDoctors;
+
+  Future<void> getPending({ bool isReferesh = false})async
+  {
+    if(pendingDoctors == null || isReferesh == true) {
+      pendingDoctors = null;
+      emit(LoadingGetPendingDoctorsState());
+
+      await DioHelper.getData(
+        url: PENDING_DOCS,
+        token: token,
+      )!.then((value) {
+        pendingDoctors = Pending_Doctors.fromJson(value.data);
+
+        emit(SuccessGetPendingDoctorsState());
+      }).catchError((err) {
+        emit(ErrorGetPendingDoctorsState());
+        print(err.toString());
+      });
+    }
+
+  }
+
+  void confirmDoctor(PendingData model)
+  {
+    emit(LoadingConfirmDoctorsState());
+
+    DioHelper.postData(
+        url: CONFIRM_DOC,
+        token: token,
+        data: {'doctor_id':model.id}
+    )!.then((value)
+    {
+
+
+      emit(SuccessConfirmDoctorsState(value.data['message'].toString()));
+      pendingDoctors!.pendingData.remove(model);
+    }).catchError((err)
+    {
+      if(err.response?.statusCode == 400)
+      {
+        emit(ErrorConfirmDoctorsState(err.response.data['message']));
+      }
+      else
+      {
+        emit(ErrorConfirmDoctorsState('خطأ في الاتصال بالانترنت'));
+      }
+
+    });
+
+  }
+
+  void rejectDoctor(PendingData model)
+  {
+    emit(LoadingRejectDoctorsState());
+
+    DioHelper.postData(
+        url: REJECT_DOC,
+        token: token,
+        data: {'doctor_id':model.id}
+    )!.then((value)
+    {
+
+
+      emit(SuccessRejectDoctorsState(value.data['message'].toString()));
+      pendingDoctors!.pendingData.remove(model);
+    }).catchError((err)
+    {
+      if(err.response?.statusCode == 400)
+      {
+        emit(ErrorRejectDoctorsState(err.response.data['message']));
+      }
+      else
+      {
+        emit(ErrorRejectDoctorsState('خطأ في الاتصال بالانترنت'));
+      }
+
+    });
+
+  }
+
+  Admin_Users_Model? allAdmins;
+
+  Future<void> getAllAdmins({bool isReferesh = false})async
+  {
+    if(allAdmins == null || isReferesh == true)
+    {
+      allAdmins = null;
+      emit(LoadingGetAllAdminsState());
+
+      await DioHelper.getData(
+        url: GETALLADMINS ,
+        token: token,
+      )!.then((value)
+      {
+        allAdmins = Admin_Users_Model.fromJson(value.data);
+
+        emit(SuccessGetAllAdminsState());
+      }).catchError((err)
+      {
+        emit(ErrorGetAllAdminsState());
+        print(err.toString());
+      });
+    }
+
+
+  }
+
+  Admin_Users_Model? allPatients;
+
+  Future<void> getAllPatients({bool isReferesh = false})async
+  {
+    if(allPatients == null || isReferesh == true)
+    {
+      allPatients = null;
+      emit(LoadingGetAllPatientsState());
+
+      await DioHelper.getData(
+        url: GETALLPATIENTS ,
+        token: token,
+      )!.then((value)
+      {
+        allPatients = Admin_Users_Model.fromJson(value.data);
+
+        emit(SuccessGetAllPatientsState());
+      }).catchError((err)
+      {
+        emit(ErrorGetAllPatientsState());
+        print(err.toString());
+      });
+    }
+
+
+  }
+
+  Admin_Users_Model? allDoctors;
+
+  Future<void> getAllDoctors({bool isReferesh = false})async
+  {
+    if(allDoctors == null || isReferesh == true)
+    {
+      allDoctors = null;
+      emit(LoadingGetAllDoctorsState());
+
+      await DioHelper.getData(
+        url: GETALLDOCTORS ,
+        token: token,
+      )!.then((value)
+      {
+        allDoctors = Admin_Users_Model.fromJson(value.data);
+
+        emit(SuccessGetAllDoctorsState());
+      }).catchError((err)
+      {
+        emit(ErrorGetAllDoctorsState());
+        print(err.toString());
+      });
+    }
+
+
+  }
+
+
+  Future<void> deleteUser(Admin_UsersData model)async
+  {
+
+
+      emit(LoadingDeleteUserState());
+
+      await DioHelper.deleteData(
+        url: DELETEUSER ,
+        token: token,
+        data: {'user_id':model.id},
+      )!.then((value)
+      {
+
+        if(model.user_type == 'patient')
+        {
+          allPatients!.admin_UsersData.remove(model);
+        }
+        else if(model.user_type == 'doctor')
+        {
+          allDoctors!.admin_UsersData.remove(model);
+        }
+        else
+        {
+          allAdmins!.admin_UsersData.remove(model);
+        }
+
+        emit(SuccessDeleteUserState(value.data['message']));
+
+      }).catchError((err)
+      {
+        emit(ErrorDeleteUserState());
+        print(err.toString());
+        if(err.response?.statusCode == 400)
+        {
+          print(err.response.data);
+        }
+      });
+
+
+
+  }
+
+  Future<void> addAdmin({required String name,required String email,required String phone,required String password})async
+  {
+    emit(LoadingAddAdminState());
+
+    var formData = FormData.fromMap(
+        {
+          'avatar' : avatarImage == null ? '' : await MultipartFile.fromFile(avatarImage!.path),
+          'name' : name,
+          'email' : email,
+          'phone' : phone,
+          'password' : password,
+          'type' : 'admin',
+
+        });
+
+    DioHelper.postData(
+        contentType: true,
+        url: REGISTER,
+        token: token,
+        data: formData
+    )!.then((value)
+    {
+
+      avatarImage = null;
+      emit(SuccessAddAdminState(value.data['message'].toString()));
+      // allAdmins!.admin_UsersData.add(Admin_UsersData()); id not found
+      getAllAdmins(isReferesh: true);
+    }).catchError((err)
+    {
+      if(err.response?.statusCode == 400)
+      {
+        emit(ErrorAddAdminState(err.response.data['message']));
+      }
+      else
+      {
+        emit(ErrorAddAdminState('خطأ في الاتصال بالانترنت'));
+      }
+
+    });
+
+  }
+
+
+  ReportedPost_Model? reportedPosts;
+
+  Future<void> getReportedPosts({bool isReferesh = false})async
+  {
+    if(reportedPosts == null || isReferesh == true)
+    {
+      reportedPosts = null;
+      emit(LoadingGetReportedPostsState());
+
+      await DioHelper.getData(
+        url: REPORTEDPOSTS ,
+        token: token,
+      )!.then((value)
+      {
+        reportedPosts = ReportedPost_Model.fromJson(value.data);
+
+        emit(SuccessGetReportedPostsState());
+      }).catchError((err)
+      {
+        print(err.toString());
+        if(err.response?.statusCode == 400)
+        {
+          emit(ErrorGetReportedPostsState(err.response.data['message']));
+        }
+        else
+        {
+          emit(ErrorGetReportedPostsState('خطأ في الاتصال بالانترنت'));
+        }
+      });
+    }
+
+
+  }
+
+  Future<void> confirmReportedPost(ReportedPostData model)async
+  {
+
+      emit(LoadingConfirmReportedPostState());
+
+      await DioHelper.postData(
+        url: APPROVEREPORTEDPOSTS ,
+        token: token,
+          data: {'report_id':model.id}
+      )!.then((value)
+      {
+        reportedPosts!.reportedPostData.remove(model);
+
+        emit(SuccessConfirmReportedPostState());
+      }).catchError((err)
+      {
+        print(err.toString());
+        if(err.response?.statusCode == 400)
+        {
+          emit(ErrorConfirmReportedPostState(err.response.data['message']));
+        }
+        else
+        {
+          emit(ErrorConfirmReportedPostState('خطأ في الاتصال بالانترنت'));
+        }
+      });
+
+
+
+  }
+
+  Future<void> rejectReportedPost(ReportedPostData model)async
+  {
+
+    emit(LoadingRejectReportedPostState());
+
+    await DioHelper.deleteData(
+        url: REPORTEDPOSTS ,
+        token: token,
+        data: {'report_id':model.id}
+    )!.then((value)
+    {
+      reportedPosts!.reportedPostData.remove(model);
+
+      emit(SuccessRejectReportedPostState());
+    }).catchError((err)
+    {
+      print(err.toString());
+      if(err.response?.statusCode == 400)
+      {
+        emit(ErrorRejectReportedPostState(err.response.data['message']));
+      }
+      else
+      {
+        emit(ErrorRejectReportedPostState('خطأ في الاتصال بالانترنت'));
+      }
+    });
+
+
+
+  }
 
 }

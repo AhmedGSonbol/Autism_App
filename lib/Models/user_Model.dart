@@ -40,7 +40,7 @@ class UserData
     email = json['email'];
     image = json['image'];
     user_type = json['user_type'];
-    city = json['government'];
+    city = json['city'];
     government = json['government'];
   }
 

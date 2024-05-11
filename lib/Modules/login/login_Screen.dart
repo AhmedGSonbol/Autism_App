@@ -1,6 +1,5 @@
 // ignore_for_file: unrelated_type_equality_checks, prefer_const_constructors, unused_import
 
-import 'package:autism/Modules/Admin/home/admin_Home_Screen.dart';
 import 'package:autism/Modules/home/home_Screen.dart';
 import 'package:autism/Modules/login/cubit/login_Cubit.dart';
 import 'package:autism/Modules/login/cubit/login_States.dart';
@@ -38,15 +37,21 @@ class Login_Screen extends StatelessWidget {
                 {
                   token = state.model.token!;
                   userType = state.model.data!.user_type!;
+                  print(userType);
+                  print(userType);
+                  print(userType);
+                  print(userType);
+                  print(userType);
 
-                  if(userType == 'patient' || userType == 'doctor')
-                  {
-                    navAndFinishTo(context, Home_Screen());
-                  }
-                  else
-                  {
-                    navAndFinishTo(context, Admin_Home_Screen());
-                  }
+                  navAndFinishTo(context, Home_Screen());
+                  // if(userType == 'patient' || userType == 'doctor')
+                  // {
+                  //   navAndFinishTo(context, Home_Screen());
+                  // }
+                  // else
+                  // {
+                  //   navAndFinishTo(context, Admin_Home_Screen());
+                  // }
 
                 });
               });
@@ -154,7 +159,7 @@ class Login_Screen extends StatelessWidget {
                             onTap: ()
                             {
 
-                              navTo(context, Admin_Home_Screen());
+                              // navTo(context, Admin_Home_Screen());
 
                             },
                             child: const Row(

@@ -1,6 +1,6 @@
 // ignore_for_file: unused_local_variable, unused_import, unnecessary_import
 
-import 'package:autism/Modules/Admin/home/admin_Home_Screen.dart';
+import 'package:autism/Modules/Admin/suggestions/suggestions_screen.dart';
 import 'package:autism/Modules/onboarding/onboarding_Screen.dart';
 import 'package:autism/Modules/home/home_Screen.dart';
 import 'package:autism/Modules/register/register_Screen.dart';
@@ -39,16 +39,17 @@ void main() async
 
         userType = CachHelper.getData(key: 'user_type');
 
+        // userType ='admin';
+        screen = Home_Screen();
 
-
-        if(userType == 'patient' || userType == 'doctor')
-        {
-          screen = Home_Screen();
-        }
-        else
-        {
-          screen = Admin_Home_Screen();
-        }
+        // if(userType == 'patient' || userType == 'doctor')
+        // {
+        //   screen = Home_Screen();
+        // }
+        // else
+        // {
+        //   screen = Admin_Home_Screen();
+        // }
 
       }
       else
@@ -67,6 +68,8 @@ void main() async
   {
     screen = OnBoardingScreen();
   }
+
+  // screen = Suggestions_Screen();
 
   // screen = Login_Screen();
 

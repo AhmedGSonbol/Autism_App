@@ -17,7 +17,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Manage_Admins_Screen extends StatelessWidget {
   Manage_Admins_Screen({super.key});
-  List<Widget> screens = [
+  List<Widget> screens =
+  [
     Admin_Accounts_Screen(),
     Doctor_Accounts_Screen(),
     User_Accounts_Screen(),
@@ -27,63 +28,84 @@ class Manage_Admins_Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
-      listener: (context, state) {},
+      listener: (context, state)
+      {
+        if (state is SuccessDeleteUserState)
+        {
+          myToast(msg: state.message, state: ToastStates.SUCCESS);
+        }
+      },
       builder: (context, state) {
         var cubit = AppCubit.get(context);
         return Directionality(
           textDirection: TextDirection.rtl,
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 10),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: myNavBar(
-                            selectedIndex: cubit.currentAccountsScreen,
-                            text: ['مسؤول', 'طبيب', 'مريض'],
-                            onDestinationSelected: (index) {
-                              cubit.changeCurrentAccountScreen(index);
-                            }),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        height: 50,
-                        child: Padding(
+            child: RefreshIndicator(
+              onRefresh: ()async
+              {
+                if(cubit.currentAccountsScreen == 0)
+                {
+                  await AppCubit.get(context).getAllAdmins(isReferesh: true);
+                }else if(cubit.currentAccountsScreen == 1)
+                {
+                  await AppCubit.get(context).getAllDoctors(isReferesh: true);
+                }else
+                {
+                  await AppCubit.get(context).getAllPatients(isReferesh: true);
+                }
+              },
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Column(
+                      children: [
+                        Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: TextField(
-                            style: const TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(50)),
-                                hintText: 'بحث',
-                                hintStyle: const TextStyle(
-                                  color: Color(0xffE1E2E9),
-                                ),
-                                suffixIcon: IconButton(
-                                  icon: Transform.rotate(
-                                    angle: 0,
-                                    child: const Icon(
-                                      Icons.search,
-                                      color: fontColor,
-                                    ),
+                          child: myNavBar(
+                              selectedIndex: cubit.currentAccountsScreen,
+                              text: ['مسؤول', 'طبيب', 'مريض'],
+                              onDestinationSelected: (index) {
+                                cubit.changeCurrentAccountScreen(index);
+                              }),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        SizedBox(
+                          height: 50,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: TextField(
+                              style: const TextStyle(color: Colors.white),
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(50)),
+                                  hintText: 'بحث',
+                                  hintStyle: const TextStyle(
+                                    color: Color(0xffE1E2E9),
                                   ),
-                                  onPressed: () {},
-                                )),
+                                  suffixIcon: IconButton(
+                                    icon: Transform.rotate(
+                                      angle: 0,
+                                      child: const Icon(
+                                        Icons.search,
+                                        color: fontColor,
+                                      ),
+                                    ),
+                                    onPressed: () {},
+                                  )),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  screens[cubit.currentAccountsScreen]
-                ],
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    screens[cubit.currentAccountsScreen]
+                  ],
+                ),
               ),
             ),
           ),

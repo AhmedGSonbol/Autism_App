@@ -17,3 +17,23 @@ const UNLIKE_POST = 'posts/unlike';
 const SAVE_POST = 'posts/savePost';
 
 const UNSAVE_POST = 'posts/unsavePost';
+
+const PENDING_DOCS = 'users/doctors/pending';
+
+const CONFIRM_DOC = 'users/doctors/confirm';
+
+const REJECT_DOC = 'users/doctors/reject';
+
+const GETALLADMINS = 'users/admins';
+
+const GETALLPATIENTS = 'users/patients';
+
+const GETALLDOCTORS = 'users/doctors';
+
+const DELETEUSER = 'users';
+
+const REPORTEDPOSTS = 'posts/report';
+
+const APPROVEREPORTEDPOSTS = 'posts/report/approve';
+
+

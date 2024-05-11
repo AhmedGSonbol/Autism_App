@@ -173,10 +173,19 @@ Widget bulidPostItem({
                 IconButton(
 
                   icon: CircleAvatar(
-                      backgroundImage: NetworkImage(model.image!),
+                      backgroundImage: (()
+                      {
+                        if (model.image != null && model.image!.isNotEmpty)
+                        {
 
+                            return NetworkImage(model.image!) as ImageProvider;
 
-
+                        }
+                        else
+                        {
+                          return AssetImage('assets/images/Rectangle.png') as ImageProvider;
+                        }
+                      }()),
                   )
                   ,
                   onPressed: () {
@@ -731,176 +740,43 @@ Color toastbackgroundColor(ToastStates state) {
 }
 
 
-// AnimatedSwitcher buildAnimatedSwitcher(
-//   BuildContext context, {
-//   required value1,
-//   required value2,
-//   required text1,
-//   required text2,
-//   required bool isExpanded,
-//   required Function function1,
-//   required Function function2,
-//   required width,
-//   unPressedBColor,
-// }) {
-//   return AnimatedSwitcher(
-//     duration: const Duration(seconds: 6),
-//     child: isExpanded
-//         ? Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: [
-//               Expanded(
-//                 child: AnimatedSwitcher(
-//                   duration: const Duration(milliseconds: 500),
-//                   child: InkWell(
-//                     key: ValueKey<bool>(value1),
-//                     onTap: () {
-//                       function1();
-//                     },
-//                     child: Container(
-//                       width: screenWidth(context, .4),
-//                       decoration: BoxDecoration(
-//                         color: value1
-//                             ? Colors.blue
-//                             : unPressedBColor ??
-//                                 const Color.fromRGBO(0, 9, 23, 0.06),
-//                         borderRadius: BorderRadius.circular(10),
-//                       ),
-//                       child: Center(
-//                         child: Padding(
-//                           padding: const EdgeInsets.all(10),
-//                           child: Text(
-//                             text1,
-//                             style: midTextStyle(
-//                               context,
-//                               value1 ? Colors.white : Colors.black,
-//                             ),
-//                             maxLines: 1,
-//                             overflow: TextOverflow.ellipsis,
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//               Expanded(
-//                 child: AnimatedSwitcher(
-//                   duration: const Duration(milliseconds: 500),
-//                   child: InkWell(
-//                     key: ValueKey<bool>(value2),
-//                     onTap: () {
-//                       function2();
-//                     },
-//                     child: Container(
-//                       width: screenWidth(context, .4),
-//                       decoration: BoxDecoration(
-//                         color: value2
-//                             ? Colors.blue
-//                             : unPressedBColor ??
-//                                 const Color.fromRGBO(0, 9, 23, 0.06),
-//                         borderRadius: BorderRadius.circular(10),
-//                       ),
-//                       child: Center(
-//                         child: Padding(
-//                           padding: const EdgeInsets.all(10),
-//                           child: Text(
-//                             text2,
-//                             style: midTextStyle(
-//                               context,
-//                               value2 ? Colors.white : Colors.black,
-//                             ),
-//                             maxLines: 1,
-//                             overflow: TextOverflow.ellipsis,
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//                 ),
-//               )
-//             ],
-//           )
-//         : Row(
-//             children: [
-//               AnimatedSwitcher(
-//                 duration: const Duration(milliseconds: 500),
-//                 child: InkWell(
-//                   key: ValueKey<bool>(value1),
-//                   onTap: () {
-//                     function1();
-//                   },
-//                   child: Container(
-//                     width: width,
-//                     decoration: BoxDecoration(
-//                       border: Border.all(
-//                         color: value1
-//                             ? Colors.blue
-//                             : const Color.fromRGBO(186, 186, 186, 1),
-//                       ),
-//                       color: value1
-//                           ? Colors.blue
-//                           : unPressedBColor ??
-//                               const Color.fromRGBO(0, 9, 23, 0.06),
-//                       borderRadius: BorderRadius.circular(10),
-//                     ),
-//                     child: Center(
-//                       child: Padding(
-//                         padding: const EdgeInsets.all(10),
-//                         child: Text(
-//                           text1,
-//                           style: midTextStyle(
-//                             context,
-//                             value1 ? Colors.white : Colors.black,
-//                           ),
-//                           maxLines: 1,
-//                           overflow: TextOverflow.ellipsis,
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//               const SizedBox(width: 20),
-//               AnimatedSwitcher(
-//                 duration: const Duration(milliseconds: 500),
-//                 child: InkWell(
-//                   key: ValueKey<bool>(value2),
-//                   onTap: () {
-//                     function2();
-//                   },
-//                   child: Container(
-//                     width: width,
-//                     decoration: BoxDecoration(
-//                       border: Border.all(
-//                         color: value2
-//                             ? Colors.blue
-//                             : const Color.fromRGBO(186, 186, 186, 1),
-//                       ),
-//                       color: value2
-//                           ? Colors.blue
-//                           : unPressedBColor ??
-//                               const Color.fromRGBO(0, 9, 23, 0.06),
-//                       borderRadius: BorderRadius.circular(10),
-//                     ),
-//                     child: Center(
-//                       child: Padding(
-//                         padding: const EdgeInsets.all(10),
-//                         child: Text(
-//                           text2,
-//                           style: midTextStyle(
-//                             context,
-//                             value2 ? Colors.white : Colors.black,
-//                           ),
-//                           maxLines: 1,
-//                           overflow: TextOverflow.ellipsis,
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//   );
-// }
+Widget myImageProvider(String? link , {double size = 50})
+{
+  if(link == null || link.isEmpty)
+  {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(25.0),
+      child:Image.asset('assets/images/Rectangle.png',fit: BoxFit.cover,isAntiAlias: true,width: size,height: size)
+    );
+  }
+  else
+  {
+    try {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(25.0),
+        child: Image.network(fit: BoxFit.cover,
+          isAntiAlias: true,
+          width: 50.0,
+          height: 50.0,
+          link,
+          errorBuilder: (BuildContext context, Object exception,
+              StackTrace? stackTrace) {
+            return Image.asset('assets/images/Rectangle.png', fit: BoxFit.cover,
+                isAntiAlias: true,
+                width: 50.0,
+                height: 50.0);
+          },
+        ),
+      );
+    }catch(e)
+    {
+      return Image.asset('assets/images/Rectangle.png', fit: BoxFit.cover,
+          isAntiAlias: true,
+          width: 50.0,
+          height: 50.0);
+    }
+  }
+
+
+
+}

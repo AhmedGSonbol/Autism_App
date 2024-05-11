@@ -94,6 +94,30 @@ class DioHelper
     );
   }
 
+  static Future<Response>? deleteData({
+    required String url,
+    required var data,
+
+    bool contentType = false,
+    Map<String , dynamic>? query,
+    String? token,
+
+  })async
+  {
+
+    dio!.options.headers =
+    {
+      'Content-Type':contentType == false ? 'application/json' : 'multipart/form-data',
+      'Authorization' : token??''
+    };
+
+    return await dio!.delete(
+      url,
+      queryParameters: query,
+      data: data,
+
+    );
+  }
 }
 
 class ErrorInterceptor extends Interceptor {
