@@ -545,7 +545,7 @@ class AppCubit extends Cubit<AppStates>
       emit(LoadingDeleteUserState());
 
       await DioHelper.deleteData(
-        url: DELETEUSER ,
+        url: DELETE_USER ,
         token: token,
         data: {'user_id':model.id},
       )!.then((value)
@@ -621,6 +621,204 @@ class AppCubit extends Cubit<AppStates>
       else
       {
         emit(ErrorAddAdminState('خطأ في الاتصال بالانترنت'));
+      }
+
+    });
+
+  }
+
+
+
+  Future<void> updatePatientData({
+    required String name,
+    required String phone,
+    required String password,
+    required String government,
+    required String city,
+    required String age,
+    required String patient_name,
+    String? image,
+
+  })async
+  {
+    emit(LoadingUpdatePatientDataState());
+
+    var formData = FormData.fromMap(
+        image != null ?
+        {
+          'avatar' : avatarImage == null ? '' : await MultipartFile.fromFile(image),
+          'name' : name,
+          'phone' : phone,
+          'password' : password,
+          'government' : government,
+          'city' : city,
+          'age' : age,
+          'patient_name' : patient_name,
+          'type' : 'patient',
+
+        }
+        :
+      {
+
+        'name' : name,
+        'phone' : phone,
+        'password' : password,
+        'government' : government,
+        'city' : city,
+        'age' : age,
+        'patient_name' : patient_name,
+        'type' : 'patient',
+
+      }
+        );
+
+    DioHelper.postData(
+        contentType: true,
+        url: UPDATE_USER_DATA,
+        token: token,
+        data: formData
+    )!.then((value)
+    {
+
+
+      getUserData().then((valuee)
+      {
+        avatarImage = null;
+        emit(SuccessUpdatePatientDataState(value.data['message'].toString()));
+
+      });
+
+    }).catchError((err)
+    {
+      if(err.response?.statusCode == 400)
+      {
+        emit(ErrorUpdatePatientDataState(err.response.data['message']));
+      }
+      else
+      {
+        emit(ErrorUpdatePatientDataState('خطأ في الاتصال بالانترنت'));
+      }
+
+    });
+
+  }
+
+  Future<void> updateDoctorData({
+    required String name,
+    required String phone,
+    required String password,
+    required String government,
+    required String city,
+    required String about,
+    required String clinicAddress,
+    String? image,
+
+  })async
+  {
+    emit(LoadingUpdateDoctorDataState());
+
+    var formData = FormData.fromMap(
+        image != null ?
+        {
+          'avatar' : avatarImage == null ? '' : await MultipartFile.fromFile(avatarImage!.path),
+          'name' : name,
+          'phone' : phone,
+          'password' : password,
+          'government' : government,
+          'city' : city,
+          'about' : about,
+          'clinicAddress' : clinicAddress,
+          'type' : 'doctor',
+
+        }
+        :
+        {
+          'name' : name,
+          'phone' : phone,
+          'password' : password,
+          'government' : government,
+          'city' : city,
+          'about' : about,
+          'clinicAddress' : clinicAddress,
+          'type' : 'doctor',
+
+        });
+
+    DioHelper.postData(
+        contentType: true,
+        url: UPDATE_USER_DATA,
+        token: token,
+        data: formData
+    )!.then((value)
+    {
+
+      avatarImage = null;
+      getUserData();
+      emit(SuccessUpdateDoctorDataState(value.data['message'].toString()));
+
+    }).catchError((err)
+    {
+      if(err.response?.statusCode == 400)
+      {
+        emit(ErrorUpdateDoctorDataState(err.response.data['message']));
+      }
+      else
+      {
+        emit(ErrorUpdateDoctorDataState('خطأ في الاتصال بالانترنت'));
+      }
+
+    });
+
+  }
+
+  Future<void> updateAdminData({
+    required String name,
+    required String phone,
+    required String password,
+    String? image,
+  })async
+  {
+    emit(LoadingUpdateAdminDataState());
+
+    var formData = FormData.fromMap(
+        image != null ?
+        {
+          'avatar' : avatarImage == null ? '' : await MultipartFile.fromFile(avatarImage!.path),
+          'name' : name,
+          'phone' : phone,
+          'password' : password,
+          'type' : 'admin',
+        }
+        :
+        {
+          'name' : name,
+          'phone' : phone,
+          'password' : password,
+          'type' : 'admin',
+        });
+
+    DioHelper.postData(
+        contentType: true,
+        url: UPDATE_USER_DATA,
+        token: token,
+        data: formData
+    )!.then((value)
+    {
+
+      avatarImage = null;
+      getUserData();
+      emit(SuccessUpdateAdminDataState(value.data['message'].toString()));
+      // allAdmins!.admin_UsersData.add(Admin_UsersData()); id not found
+      // getAllAdmins(isReferesh: true);
+    }).catchError((err)
+    {
+      if(err.response?.statusCode == 400)
+      {
+        emit(ErrorUpdateAdminDataState(err.response.data['message']));
+      }
+      else
+      {
+        emit(ErrorUpdateAdminDataState('خطأ في الاتصال بالانترنت'));
       }
 
     });

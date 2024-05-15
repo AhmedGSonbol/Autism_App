@@ -142,6 +142,48 @@ class ErrorAddAdminState extends AppStates
   ErrorAddAdminState(this.message);
 }
 
+class LoadingUpdatePatientDataState extends AppStates {}
+
+class SuccessUpdatePatientDataState extends AppStates
+{
+  String message;
+  SuccessUpdatePatientDataState(this.message);
+}
+
+class ErrorUpdatePatientDataState extends AppStates
+{
+  String message;
+  ErrorUpdatePatientDataState(this.message);
+}
+
+class LoadingUpdateDoctorDataState extends AppStates {}
+
+class SuccessUpdateDoctorDataState extends AppStates
+{
+  String message;
+  SuccessUpdateDoctorDataState(this.message);
+}
+
+class ErrorUpdateDoctorDataState extends AppStates
+{
+  String message;
+  ErrorUpdateDoctorDataState(this.message);
+}
+
+class LoadingUpdateAdminDataState extends AppStates {}
+
+class SuccessUpdateAdminDataState extends AppStates
+{
+  String message;
+  SuccessUpdateAdminDataState(this.message);
+}
+
+class ErrorUpdateAdminDataState extends AppStates
+{
+  String message;
+  ErrorUpdateAdminDataState(this.message);
+}
+
 class LoadingGetReportedPostsState extends AppStates {}
 
 class SuccessGetReportedPostsState extends AppStates {}

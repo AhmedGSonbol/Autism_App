@@ -30,7 +30,9 @@ const GETALLPATIENTS = 'users/patients';
 
 const GETALLDOCTORS = 'users/doctors';
 
-const DELETEUSER = 'users';
+const DELETE_USER = 'users';
+
+const UPDATE_USER_DATA = 'users/update';
 
 const REPORTEDPOSTS = 'posts/report';
 

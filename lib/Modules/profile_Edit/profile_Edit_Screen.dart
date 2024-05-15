@@ -35,11 +35,37 @@ class Profile_Edit_Screen extends StatelessWidget
 
   var formKey = GlobalKey<FormState>();
 
+  String? imgPath;
+
   @override
   Widget build(BuildContext context)
   {
 
 
+    UserData? model = AppCubit.get(context).userModel?.data;
+
+    if(model != null) {
+      nameController.text = model.name ?? '';
+      phoneController.text = model.phone ?? '';
+
+      if (userType != 'admin') {
+        cityController.text = model.city ?? '';
+        governmentController.text = model.government ?? '';
+
+        if (userType == 'patient') {
+          childNameController.text = model.patient_name ?? '';
+          childAgeController.text = model.age ?? '';
+        }
+        else {
+          aboutController.text = model.about ?? '';
+          clinicAddressController.text = model.clinicAddress ?? '';
+        }
+      }
+      else
+      {
+        emailController.text == model.email ?? '';
+      }
+    }
 
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state)
@@ -57,35 +83,36 @@ class Profile_Edit_Screen extends StatelessWidget
         {
           myToast(msg: state.message, state: ToastStates.ERROR);
         }
+        else if(state is SuccessUpdateDoctorDataState)
+        {
+          myToast(msg: state.message, state: ToastStates.SUCCESS);
+        }
+        else if(state is ErrorUpdateDoctorDataState)
+        {
+          myToast(msg: state.message, state: ToastStates.ERROR);
+        }
+        else if(state is SuccessUpdateAdminDataState)
+        {
+          myToast(msg: state.message, state: ToastStates.SUCCESS);
+        }
+        else if(state is ErrorUpdateAdminDataState)
+        {
+          myToast(msg: state.message, state: ToastStates.ERROR);
+        }
+        else if(state is SuccessUpdatePatientDataState)
+        {
+          myToast(msg: state.message, state: ToastStates.SUCCESS);
+        }
+        else if(state is ErrorUpdatePatientDataState)
+        {
+          myToast(msg: state.message, state: ToastStates.ERROR);
+        }
       },
       builder: (context, state)
       {
 
         var cubit = AppCubit.get(context);
-
-        UserData? model = AppCubit.get(context).userModel?.data;
-
-        if(model != null) {
-          nameController.text = model.name ?? '';
-          phoneController.text = model.phone ?? '';
-
-          if (userType != 'admin') {
-            cityController.text = model.city ?? '';
-            governmentController.text = model.government ?? '';
-
-            if (userType == 'patient') {
-              childNameController.text = model.patient_name ?? '';
-              childAgeController.text = model.age ?? '';
-            }
-            else {
-              aboutController.text = model.about ?? '';
-              clinicAddressController.text = model.clinicAddress ?? '';
-            }
-          }
-          else {
-            emailController.text == model.email ?? '';
-          }
-        }
+        model = cubit.userModel!.data;
 
         return Stack(
           children:
@@ -145,10 +172,54 @@ class Profile_Edit_Screen extends StatelessWidget
                             onPressed: () {
                               if (formKey.currentState!.validate())
                               {
-                                if(userType == 'admin')
+                                if(isAddAdmin == true)
                                 {
-                                  cubit.addAdmin(name: nameController.text, email: emailController.text, phone: phoneController.text, password: passwordController.text);
+                                  cubit.addAdmin(
+                                      name: nameController.text,
+                                      email: emailController.text,
+                                      phone: phoneController.text,
+                                      password: passwordController.text,
+                                  );
                                 }
+                                else
+                                {
+                                  if(userType == 'admin')
+                                  {
+                                    cubit.updateAdminData(
+                                      name: nameController.text,
+                                      phone: phoneController.text,
+                                      password: passwordController.text,
+                                    );
+                                  }
+                                  else if(userType == 'patient')
+                                  {
+                                    cubit.updatePatientData(
+                                        name: nameController.text,
+                                        phone: phoneController.text,
+                                        password: passwordController.text,
+                                        government: governmentController.text,
+                                        city: cityController.text,
+                                        age: childAgeController.text,
+                                        patient_name: childNameController.text,
+                                      image: imgPath
+                                    );
+
+                                  }
+                                  else
+                                  {
+                                    cubit.updateDoctorData(
+                                      name: nameController.text,
+                                      phone: phoneController.text,
+                                      password: passwordController.text,
+                                      government: governmentController.text,
+                                      city: cityController.text,
+                                      about: aboutController.text,
+                                      clinicAddress: clinicAddressController.text,
+                                    );
+                                  }
+
+                                }
+
                               }
                             },
                             text:!isAddAdmin ? 'حفظ' : 'إضافة',
@@ -188,9 +259,9 @@ class Profile_Edit_Screen extends StatelessWidget
                                     }
                                     else
                                     {
-                                      if(model != null && model.image != null && model.image!.isNotEmpty)
+                                      if(model != null && model!.image != null && model!.image!.isNotEmpty)
                                       {
-                                        return NetworkImage(model.image!);
+                                        return NetworkImage(model!.image!);
                                       }
                                       else
                                       {
@@ -202,39 +273,72 @@ class Profile_Edit_Screen extends StatelessWidget
                                     radius: 100.0,
                                   ),
                                 ),
-                                cubit.avatarImage == null
-                                    ?
-                                IconButton(
-                                  icon: const CircleAvatar(
-                                    child: Icon(
-                                      Icons.upload,
-                                      size: 20.0,
-                                    ),
-                                    backgroundColor: mainColor,
-                                  ),
-                                  onPressed: ()
-                                  {//A8C8FF
-                                    ///upload image
-                                    cubit.pickImage();
-
-                                  },
-                                )
-                                    :
-                                IconButton(
-                                  icon: const CircleAvatar(
-                                    child: Icon(
-                                      Icons.close,
-                                      size: 20.0,
-                                    ),
-                                    backgroundColor: mainColor,
-                                  ),
-                                  onPressed: ()
+                                (()
+                                {
+                                  if(cubit.avatarImage == null) {
+                                    return IconButton(
+                                      icon: const CircleAvatar(
+                                        child: Icon(
+                                          Icons.upload,
+                                          size: 20.0,
+                                        ),
+                                        backgroundColor: mainColor,
+                                      ),
+                                      onPressed: () { //A8C8FF
+                                        ///upload image
+                                        cubit.pickImage().then((value)
+                                        {
+                                          if(cubit.avatarImage != null)
+                                          {
+                                            imgPath = cubit.avatarImage!.path;
+                                          }
+                                        });
+                                      },
+                                    );
+                                  }else
                                   {
-                                    ///delete image
-                                    cubit.cancelUploadedProfileImage();
+                                    // if(cubit.avatarImage != null)
+                                    // {
+                                      return IconButton(
+                                        icon: const CircleAvatar(
+                                          child: Icon(
+                                            Icons.close,
+                                            size: 20.0,
+                                          ),
+                                          backgroundColor: mainColor,
+                                        ),
+                                        onPressed: ()
+                                        {
 
-                                  },
-                                )
+                                          ///delete image
+                                          ///model!.image = '';
+                                          imgPath = null;
+
+                                          cubit.cancelUploadedProfileImage();
+
+                                        },
+                                      );
+                                    // }else
+                                    // {
+                                    //   return IconButton(
+                                    //     icon: const CircleAvatar(
+                                    //       child: Icon(
+                                    //         Icons.close,
+                                    //         size: 20.0,
+                                    //       ),
+                                    //       backgroundColor: mainColor,
+                                    //     ),
+                                    //     onPressed: () {
+                                    //       ///delete image
+                                    //       cubit.cancelUploadedProfileImage();
+                                    //     },
+                                    //   );
+                                    // }
+
+                                  }
+                                }
+                                ()),
+
                               ],
                             ),
                             const SizedBox(
@@ -356,22 +460,22 @@ class Profile_Edit_Screen extends StatelessWidget
                                 }
                               }
                             ),
-                            if(isAddAdmin == true)
+                            // if(isAddAdmin == true)
                             const SizedBox(
                               height: 20.0,
                             ),
-                            if(isAddAdmin == true)
+                            // if(isAddAdmin == true)
                             defaultTextFormField(
                                 controller: passwordController,
                                 type: TextInputType.name,
                                 hint: 'الرقم السري',
                               validate: (value)
                               {
-                                if (value == '') {
-                                  return 'مطلوب*';
-                                }else if (value!.length < 6) {
-                                  return 'لا يمكن انشاء رقم سري اقل من 6 احرف او ارقام';
-                                }
+                                // if (value == '') {
+                                //   return 'مطلوب*';
+                                // }else if (value!.length < 6) {
+                                //   return 'لا يمكن انشاء رقم سري اقل من 6 احرف او ارقام';
+                                // }
                               }
                             ),
                             if(isAddAdmin == true)
@@ -425,7 +529,7 @@ class Profile_Edit_Screen extends StatelessWidget
                 ),
               ),
             ),
-            if(state is LoadingAddAdminState)
+            if(state is LoadingAddAdminState || state is LoadingUpdatePatientDataState || state is LoadingUpdateDoctorDataState || state is LoadingUpdateAdminDataState )
               Positioned.fill(
                 child: Container(
                   color: Colors.grey.withOpacity(0.2),
