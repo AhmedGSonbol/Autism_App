@@ -40,8 +40,11 @@ class Login_Screen extends StatelessWidget {
                   userType = state.model.data!.user_type!;
 
 
-                  AppCubit.get(context).getAppData();
-                  navAndFinishTo(context, Home_Screen());
+                  AppCubit.get(context).getAppData().then((value)
+                  {
+                    navAndFinishTo(context, Home_Screen());
+                  });
+
                   // if(userType == 'patient' || userType == 'doctor')
                   // {
                   //   navAndFinishTo(context, Home_Screen());

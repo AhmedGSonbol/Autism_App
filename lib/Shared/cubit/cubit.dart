@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:autism/Models/admin_Users_Model.dart';
+import 'package:autism/Models/comments_Model.dart';
 import 'package:autism/Models/pending_Doctors_Model.dart';
 import 'package:autism/Models/post_Model.dart';
 import 'package:autism/Models/reportedPost_Model.dart';
@@ -22,13 +23,14 @@ class AppCubit extends Cubit<AppStates>
 
   static AppCubit get(context) => BlocProvider.of(context);
 
-  void getAppData()
+  Future<void> getAppData() async
   {
+    print('11111111111');
     if(userType != '')
     {
-      getUserData().then((value)
+      await getUserData().then((value)
       {
-
+        print('3333333333333333333');
 
 
 
@@ -44,6 +46,7 @@ class AppCubit extends Cubit<AppStates>
 
   Future<void> getUserData({int userID = 0})async
   {
+    print('bbbbbbbbbbbbbbbbbbbb');
     emit(LoadingGetUserDataState());
 
     await DioHelper.getData(
@@ -52,7 +55,9 @@ class AppCubit extends Cubit<AppStates>
       data: userID != 0 ? {'user_id':userID} : null
     )!.then((value)
     {
+      print('aaaaaaaaaaaaaa');
       print(value.data);
+      print('cccccccccccccccc');
       if(userID == 0) {
         userModel = User_Model.fromJson(value.data);
       }else
@@ -241,6 +246,157 @@ class AppCubit extends Cubit<AppStates>
 
   }
 
+  Comments_Model? comments_model;
+
+  Future<void> getPostComments(int postID)async
+  {
+    emit(LoadingGetPostCommentsState());
+
+    await DioHelper.getData(
+      url: POST_COMMENT ,
+      token: token,
+      data: {'post_id':postID}
+    )!.then((value)
+    {
+      print(value.data);
+      comments_model = Comments_Model.fromJson(value.data);
+      comments_model!.commentsData.sort((a, b) => DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(b.date!).compareTo(DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(a.date!)));
+
+      emit(SuccessGetPostCommentsState());
+
+    }).catchError((err)
+    {
+      emit(ErrorGetPostCommentsState());
+      print(err.toString());
+      if(err.response?.statusCode == 400)
+      {
+        print(err.response.data['message']);
+      }
+      else
+      {
+        print(err.toString());
+      }
+
+    });
+
+  }
+
+  Future<void> addComment({required int postID , required String content})async
+  {
+    emit(LoadingAddCommentState());
+
+    await DioHelper.postData(
+        url: POST_COMMENT ,
+        token: token,
+        data: {'post_id':postID,'content':content}
+    )!.then((value)
+    {
+
+      comments_model!.commentsData.add(
+        CommentsData(
+            name: userModel!.data!.name,
+            date: value.data['data']['date'],
+            image: userModel!.data?.image,
+            content: content,
+            is_my_comment: true,
+            id: value.data['data']['id'],
+        )
+      );
+      comments_model!.commentsData.sort((a, b) => DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(b.date!).compareTo(DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(a.date!)));
+
+      if(currentNavBarIndex == 0)
+      {
+        usersPostsModel!.postData.forEach((e)
+        {
+          if(e.id == postID )
+          {
+            e.comments = e.comments! + 1;
+          }
+        });
+      }
+      else
+      {
+        doctorsPostsModel!.postData.forEach((e)
+        {
+          if(e.id == postID )
+          {
+            e.comments = e.comments! + 1;
+          }
+        });
+      }
+
+      emit(SuccessAddCommentState(value.data['message'].toString()));
+
+    }).catchError((err)
+    {
+      emit(ErrorAddCommentState());
+      print(err.toString());
+      if(err.response?.statusCode == 400)
+      {
+        print(err.response.data['message']);
+      }
+      else
+      {
+        print(err.toString());
+      }
+
+    });
+
+  }
+
+  Future<void> deleteComment({required CommentsData model , required int postID})async
+  {
+    emit(LoadingDeleteCommentState());
+
+    await DioHelper.deleteData(
+        url: POST_COMMENT ,
+        token: token,
+        data: {'comment_id':model.id}
+    )!.then((value)
+    {
+      comments_model!.commentsData.remove(model);
+
+      if(currentNavBarIndex == 0)
+      {
+        usersPostsModel!.postData.forEach((e)
+        {
+          if(e.id == postID )
+          {
+            e.comments = e.comments! - 1;
+          }
+        });
+      }
+      else
+      {
+        doctorsPostsModel!.postData.forEach((e)
+        {
+          if(e.id == postID )
+          {
+            e.comments = e.comments! - 1;
+          }
+        });
+      }
+
+
+      emit(SuccessDeleteCommentState(value.data['message'].toString()));
+
+    }).catchError((err)
+    {
+      emit(ErrorDeleteCommentState());
+
+      if(err.response?.statusCode == 400)
+      {
+        print(err.response.data['message']);
+      }
+      else
+      {
+        print(err.toString());
+      }
+
+    });
+
+  }
+
 
 
   int currentTestScreen = 0;
@@ -337,6 +493,10 @@ class AppCubit extends Cubit<AppStates>
 
   void changeCurrentNavBarScreen(int index)
   {
+    if(showAddPostStyle == true)
+    {
+      showAddPostStyle = false;
+    }
     currentNavBarIndex = index;
 
     emit(AppChangeCurrentNavBarScreenState());
@@ -1007,9 +1167,7 @@ class AppCubit extends Cubit<AppStates>
     {
 
 
-      print(value.data['data']);
-      print(value.data['data']['id']);
-      print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+
 
       PostData insertedPost = PostData(
           id: value.data['data']['id'],
@@ -1055,6 +1213,25 @@ class AppCubit extends Cubit<AppStates>
 
     });
 
+  }
+
+
+  bool showAddPostStyle = false;
+
+  void changeAddPostStyle()
+  {
+    showAddPostStyle = !showAddPostStyle;
+
+    emit(ChangeAddDocPostStyle());
+  }
+
+  String docPostType = 'advice';
+
+  void changeDocPostType(String val)
+  {
+    docPostType = val;
+
+    emit(ChangeDocPostType());
   }
 
 

@@ -56,6 +56,31 @@ class SuccessSaveUnsavePostState extends AppStates {}
 
 class ErrorSaveUnsavePostState extends AppStates {}
 
+class LoadingGetPostCommentsState extends AppStates {}
+
+class SuccessGetPostCommentsState extends AppStates {}
+
+class ErrorGetPostCommentsState extends AppStates {}
+
+class LoadingAddCommentState extends AppStates {}
+
+class SuccessAddCommentState extends AppStates {
+  String message;
+  SuccessAddCommentState(this.message);
+}
+
+class LoadingDeleteCommentState extends AppStates {}
+
+class SuccessDeleteCommentState extends AppStates
+{
+  String message;
+  SuccessDeleteCommentState(this.message);
+}
+
+class ErrorDeleteCommentState extends AppStates {}
+
+class ErrorAddCommentState extends AppStates {}
+
 class ImagePickedSuccessState extends AppStates{}
 
 class ImagePickedErrorState extends AppStates{}
@@ -263,3 +288,7 @@ class ErrorAddPostState extends AppStates
   String message;
   ErrorAddPostState(this.message);
 }
+
+class ChangeAddDocPostStyle extends AppStates {}
+
+class ChangeDocPostType extends AppStates {}

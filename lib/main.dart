@@ -75,12 +75,12 @@ void main() async
 
   return runApp(
       BlocProvider(
-  create: (context) => AppCubit()..getAppData(),
-  child: MaterialApp(
-    debugShowCheckedModeBanner: false,
-    darkTheme: myDarkTheme,
-    themeMode: ThemeMode.dark,
-    home: screen,
+          create: (context) => AppCubit()..getAppData(),
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            darkTheme: myDarkTheme,
+            themeMode: ThemeMode.dark,
+            home: screen,
   )
   ));
 }

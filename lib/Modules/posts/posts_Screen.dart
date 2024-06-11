@@ -18,7 +18,7 @@ class Posts_Screen extends StatelessWidget
   @override
   Widget build(BuildContext context)
   {
-    var postContent = TextEditingController();
+    var postContentController = TextEditingController();
 
     return BlocConsumer<AppCubit,AppStates>(
       listener: (context, state) {},
@@ -31,7 +31,7 @@ class Posts_Screen extends StatelessWidget
           child: Padding(
             padding: const EdgeInsetsDirectional.all(10.0),
             child:
-            cubit.usersPostsModel == null
+            cubit.usersPostsModel == null || cubit.usersPostsModel == null
                 ?
             Center(child: CircularProgressIndicator())
                 :
@@ -42,7 +42,7 @@ class Posts_Screen extends StatelessWidget
                   // padding: const EdgeInsetsDirectional.symmetric(vertical: 10),
                   height: 60,
                   child: TextField(
-                    controller: postContent,
+                    controller: postContentController,
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -58,10 +58,10 @@ class Posts_Screen extends StatelessWidget
                           ),
                           onPressed: ()
                           {
-                            if(postContent.text.isNotEmpty)
+                            if(postContentController.text.isNotEmpty)
                             {
-                              cubit.addPost(type: '',content: postContent.text);
-                              postContent.clear();
+                              cubit.addPost(type: '',content: postContentController.text);
+                              postContentController.clear();
                             }
                             else
                             {

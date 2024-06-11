@@ -18,6 +18,8 @@ const SAVE_POST = 'posts/savePost';
 
 const UNSAVE_POST = 'posts/unsavePost';
 
+const POST_COMMENT = 'posts/comment';
+
 const PENDING_DOCS = 'users/doctors/pending';
 
 const CONFIRM_DOC = 'users/doctors/confirm';

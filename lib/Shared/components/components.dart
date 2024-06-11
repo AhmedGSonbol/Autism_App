@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, unnecessary_import, body_might_complete_normally_nullable
 
 import 'package:autism/Models/post_Model.dart';
+import 'package:autism/Modules/comments/comments_Screen.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/styles/colors.dart';
@@ -543,6 +544,12 @@ Widget bulidPostItem({
                       ),
                       onPressed: () {
                         // Handle comment on post
+
+                        AppCubit.get(context).comments_model = null;
+
+                        AppCubit.get(context).getPostComments(model.id!);
+
+                        navTo(context, Comments_Screen(postModel: model));
                       },
                     ),
                     Text(
