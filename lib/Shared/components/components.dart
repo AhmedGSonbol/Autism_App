@@ -403,7 +403,7 @@ Widget bulidPostItem({
                                         builder: (context) => AlertDialog(
                                           backgroundColor:
                                               const Color(0xff282a2f),
-                                          title: const Padding(
+                                          title:  Padding(
                                             padding: EdgeInsets.all(10.0),
                                             child: Column(
                                               mainAxisAlignment:
@@ -693,7 +693,7 @@ Widget myNavBar({
             height: 60.0,
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
-            indicatorColor: Colors.transparent,
+            // indicatorColor: Colors.transparent,
             surfaceTintColor: Colors.transparent,
             labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
             selectedIndex: selectedIndex,

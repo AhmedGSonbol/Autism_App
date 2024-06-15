@@ -279,7 +279,7 @@ class Comments_Screen extends StatelessWidget
                                       builder: (context) => AlertDialog(
                                         backgroundColor:
                                         const Color(0xff282a2f),
-                                        title: const Padding(
+                                        title:  Padding(
                                           padding: EdgeInsets.all(10.0),
                                           child: Column(
                                             mainAxisAlignment:

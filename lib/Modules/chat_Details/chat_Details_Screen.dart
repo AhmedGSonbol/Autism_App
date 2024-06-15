@@ -1,14 +1,32 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:autism/Models/messages_Model.dart';
+import 'package:autism/Models/messengers_Model.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
+import 'package:autism/Shared/components/components.dart';
+import 'package:autism/Shared/cubit/cubit.dart';
+import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/styles/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart' as intl ;
 
 class Chat_Details_Screen extends StatelessWidget {
-  const Chat_Details_Screen({super.key});
+   Chat_Details_Screen({ required this.messengerModel });
+
+  MessengersData messengerModel;
+
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
+
+    var messageController = TextEditingController();
+
+    ScrollController scrollController = ScrollController();
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -18,19 +36,26 @@ class Chat_Details_Screen extends StatelessWidget {
 
           title: Row(
             children: [
-              Spacer(),
-              Text(
-                'د. أحمد',
-                style: TextStyle(color: Colors.white),
+
+              Expanded(
+                child: Hero(
+                  tag: '${messengerModel.id!}_name',
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    reverse: true,
+                    child: Text(
+                      messengerModel.name!,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
               ),
               SizedBox(
                 width: 10.0,
               ),
-              CircleAvatar(
-                backgroundColor: Color(0xff1D2024),
-                child: Image(
-                  image: AssetImage('assets/images/Rectangle (1).png'),
-                ),
+              Hero(
+                  tag: '${messengerModel.id!}_image',
+                  child: myImageProvider(messengerModel.image , size: 40.0)
               ),
               IconButton(
                 onPressed: () {
@@ -42,115 +67,209 @@ class Chat_Details_Screen extends StatelessWidget {
             ],
           ),
           titleSpacing: 0.0,
-          // actions: [
-          //   IconButton(
-          //     onPressed: () {},
-          //     icon: Icon(
-          //       Icons.search,
-          //       color: Color(0xffCCCCCC),
-          //       size: 25,
-          //     ),
-          //   ),
-          //   IconButton(
-          //     onPressed: () {},
-          //     icon: Icon(
-          //       Icons.more_vert,
-          //       color: Color(0xffCCCCCC),
-          //       size: 25,
-          //     ),
-          //   ),
-          // ],
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemBuilder: (context, index) => receiverItemBuilder(),
-                itemCount: 3,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: TextField(
-                maxLines: 1,
-                style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                    hintTextDirection: TextDirection.rtl,
-                    hintText: 'اكتب شيئا هنا',
-                    hintStyle: TextStyle(color: Color(0xffE1E2E9)),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    suffixIcon: IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.send_rounded,
-                        color: Color(0xffE1E2E9),
+        body: BlocConsumer<AppCubit,AppStates>(
+          listener: (context, state)
+          {
+            if(state is SuccessGetNewMessagesState || state is ErrorGetNewMessagesState)
+            {
+              scrollController.animateTo(scrollController.position.maxScrollExtent  +80, duration: Duration(milliseconds: 500), curve: Curves.easeOut);
+            }
+          },
+          builder: (context, state)
+          {
+            var cubit = AppCubit.get(context);
+
+            return Column(
+              children: [
+                Expanded(
+                    child:
+                    (() {
+                      if (cubit.messages_model == null) {
+                        return Center(
+                          child: CircularProgressIndicator(color: mainColor,),
+                        );
+                      }
+                      else if (cubit.messages_model != null &&
+                          cubit.messages_model!.messagesData.isEmpty) {
+                        return Center(
+                          child: Text('لا يوجد رسائل !',
+                            style: TextStyle(color: fontColor),),
+                        );
+                      } else
+                      {
+                        return ListView.builder(
+                          controller: scrollController,
+                          itemBuilder: (context, index)
+                          {
+                            bool showTimeOnly = false;
+
+                            if(DateTime.now().difference( intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(cubit.messages_model!.messagesData[index].date!)).inHours < 24)
+                            {
+                              showTimeOnly = true;
+                            }
+                            else
+                            {
+                              showTimeOnly = false;
+                            }
+                            
+                            if(cubit.messages_model!.messagesData[index].isMyMessage!)
+                            {
+                              return myMessageItemBuilder(cubit.messages_model!.messagesData[index],showTimeOnly);
+                            }
+                            else
+                            {
+                              return receiverMessageItemBuilder(cubit.messages_model!.messagesData[index],showTimeOnly);
+                            }
+                          },
+                          itemCount: cubit.messages_model!.messagesData.length,
+                        );
+                      }
+                    }())
+
+
+                ),
+
+                ///send message section
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: FocusScope(
+                    child: Focus(
+                      onFocusChange: (focus)
+                      {
+                        Future.delayed(Duration(milliseconds: 350),() {
+                          scrollController.animateTo(scrollController.position.maxScrollExtent  +70, duration: Duration(milliseconds: 500), curve: Curves.easeOut);
+                        },);
+
+                      },
+                      child: TextField(
+
+                        controller: messageController,
+                        maxLines: 1,
+                        style: TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+
+                            hintTextDirection: TextDirection.rtl,
+                            hintText: 'اكتب شيئا هنا',
+                            hintStyle: TextStyle(color: Color(0xffE1E2E9)),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            suffixIcon: IconButton(
+                              onPressed: ()
+                              {
+                                if(messageController.text.isNotEmpty)
+                                {
+                                  cubit.sendMessage(messageController.text , messengerModel);
+                                  messageController.clear();
+                                }
+                              },
+                              icon: Icon(
+                                Icons.send_rounded,
+                                color: Color(0xffE1E2E9),
+                              ),
+                            ),
+                            fillColor: Color(0xff33353A),
+                            filled: true,
+                            focusColor: Colors.green,
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(50),
+                                borderSide: BorderSide(
+                                  color: Color(0xff1D2024),
+                                )),
+                            hoverColor: Colors.blue),
                       ),
                     ),
-                    fillColor: Color(0xff33353A),
-                    filled: true,
-                    focusColor: Colors.green,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(50),
-                        borderSide: BorderSide(
-                          color: Color(0xff1D2024),
-                        )),
-                    hoverColor: Colors.blue),
+                  ),
+                ),
+              ],
+            );
+
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget receiverMessageItemBuilder(MessagesData model,bool showTimeOnly) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        margin: EdgeInsets.only(right: 15.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ConstrainedBox(
+              constraints:  BoxConstraints(
+                minWidth: 70.0,
+              ),
+              child: Container(
+                padding: EdgeInsets.all(16.0),
+                margin: EdgeInsets.only(left: 15.0,top: 15.0),
+                decoration: BoxDecoration(
+                 color: Color(0xff43474E),
+                  borderRadius: BorderRadiusDirectional.only(
+                    topStart: Radius.circular(16),
+                    bottomEnd: Radius.circular(16),
+                    bottomStart: Radius.circular(16),
+                  ),
+                ),
+                child: Text(
+                  model.message!,
+                  style: TextStyle(
+                    color: Color(0xffE1E2E9),
+                  ),
+                ),
               ),
             ),
+
+
+            Text(intl.DateFormat(showTimeOnly == true ? 'hh:mm a' : 'yy/M/d').format(intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(model.date!)),
+              style: TextStyle(color: Colors.white,fontSize: 10.0),)
+
           ],
         ),
       ),
     );
   }
 
-  Widget senderItemBuilder() {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Container(
-        //Don`nt use fixed height and width
-        // height: 85,
-        // width: 150,
-        padding: EdgeInsets.all(16.0),
-        margin: EdgeInsets.all(20.0),
-        decoration: BoxDecoration(
-          color: Color(0xffA8C8FF),
-          borderRadius: BorderRadiusDirectional.only(
-            topStart: Radius.circular(16),
-            bottomEnd: Radius.circular(16),
-            bottomStart: Radius.circular(16),
-          ),
-        ),
-        child: Text(
-          'السلام عليكم ورحمة الله',
-          style: TextStyle(
-            color: Color(0xff05305F),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget receiverItemBuilder() {
+  Widget myMessageItemBuilder(MessagesData model, bool showTimeOnly)
+  {
     return Align(
       alignment: Alignment.centerRight,
       child: Container(
-        padding: EdgeInsets.all(16.0),
-        margin: EdgeInsets.all(20.0),
-        decoration: BoxDecoration(
-          color: Color(0xff43474E),
-          borderRadius: BorderRadiusDirectional.only(
-            topEnd: Radius.circular(16),
-            bottomEnd: Radius.circular(16),
-            bottomStart: Radius.circular(16),
-          ),
-        ),
-        child: Text(
-          'السلام عليكم ورحمة الله',
-          style: TextStyle(
-            color: Color(0xffE1E2E9),
-          ),
+        margin: EdgeInsets.only(left: 15.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            ConstrainedBox(
+              constraints:  BoxConstraints(
+                minWidth: 70.0,
+              ),
+              child: Container(
+                padding: EdgeInsets.all(16.0),
+                margin: EdgeInsets.only(right: 15.0,top: 15),
+                decoration: BoxDecoration(
+                  color: Color(0xffA8C8FF),
+                  borderRadius: BorderRadiusDirectional.only(
+                    topEnd: Radius.circular(16),
+                    bottomEnd: Radius.circular(16),
+                    bottomStart: Radius.circular(16),
+                  ),
+                ),
+                child: Text(
+                  model.message!,
+                  style: TextStyle(
+                    color: model.status == true ? Color(0xff05305F) : Colors.red,
+                  ),
+                ),
+              ),
+            ),
+
+            Text(intl.DateFormat(showTimeOnly == true ? 'hh:mm a' : 'yy/M/d').format(intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(model.date!)),
+              style: TextStyle(color: Colors.white,fontSize: 10.0),)
+
+          ],
         ),
       ),
     );

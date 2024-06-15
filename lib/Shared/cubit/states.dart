@@ -292,3 +292,20 @@ class ErrorAddPostState extends AppStates
 class ChangeAddDocPostStyle extends AppStates {}
 
 class ChangeDocPostType extends AppStates {}
+
+class LoadingGetMessengersState extends AppStates {}
+
+class SuccessGetMessengersState extends AppStates {}
+
+class ErrorGetMessengersState extends AppStates{}
+
+
+class LoadingGetUserMessagesState extends AppStates {}
+
+class SuccessGetUserMessagesState extends AppStates {}
+
+class ErrorGetUserMessagesState extends AppStates{}
+
+class SuccessGetNewMessagesState extends AppStates{}
+
+class ErrorGetNewMessagesState extends AppStates{}

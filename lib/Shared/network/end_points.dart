@@ -42,4 +42,7 @@ const APPROVEREPORTEDPOSTS = 'posts/report/approve';
 
 const POSTS = 'posts';
 
+const MESSENGERS = 'users/messengers';
+
+const MESSAGES = 'users/messages';
 

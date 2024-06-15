@@ -64,7 +64,7 @@ class Profile_Child_Screen extends StatelessWidget {
 
               const SizedBox(height: 30.0,),
 
-              const Row(
+               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
 
                 children:

@@ -26,7 +26,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:socket_io_client/socket_io_client.dart' as io;
+
 class Home_Screen extends StatelessWidget {
+
+  io.Socket? socket;
+
+
+  void initSocket()
+  {
+
+    //https://e900-197-63-235-143.ngrok-free.app
+    print('object');
+    socket = io.io('https://autisociety17.serv00.net',{'transports':['websocket'],'autoConnect':false});
+    print('a');
+    // socket = io.io('https://8e5d-154-183-14-146.ngrok-free.app',{'transports':['websocket'],'autoConnect':false});
+    socket!.connect();
+    print('b');
+    socket!.onConnect((data) =>  print('Connected with the serverrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr'));
+    print('c');
+  }
 
 
   List<Widget> screens = [
@@ -116,7 +135,10 @@ class Home_Screen extends StatelessWidget {
                           icon: const Icon(Icons.search),
                           color: const Color(0xffC4C6CF),
                           iconSize: 25,
-                          onPressed: () {},
+                          onPressed: ()
+                          {
+                            initSocket();
+                          },
                         ),
                       ],
                     );
@@ -309,7 +331,7 @@ class Home_Screen extends StatelessWidget {
                                     }),
                                   );
                                 },
-                                child: const Row(
+                                child:  Row(
                                   children: [
                                     Icon(
                                       Icons.settings,
@@ -340,7 +362,7 @@ class Home_Screen extends StatelessWidget {
                                   }));
                                 },
                                 child: Container(
-                                  child: const Row(
+                                  child:  Row(
                                     children: [
                                       Icon(
                                         Icons.quiz,
@@ -398,7 +420,7 @@ class Home_Screen extends StatelessWidget {
                                 onTap: () {
                                   navTo(context, Our_Vision());
                                 },
-                                child: const Row(
+                                child:  Row(
                                   children: [
                                     Icon(
                                       Icons.flag_circle,
@@ -600,7 +622,7 @@ class Home_Screen extends StatelessWidget {
                             });
 
                           },
-                          child: const Row(
+                          child:  Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
@@ -632,7 +654,7 @@ class Home_Screen extends StatelessWidget {
                       )),
                   child: NavigationBar(
                     backgroundColor: const Color(0xff1D2024),
-                    indicatorColor: Color(0xFF3D4758),
+                    // indicatorColor: Color(0xFF3D4758),
                     elevation: 0.0,
 
                     // shadowColor: Colors.yellowAccent,

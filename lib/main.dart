@@ -16,6 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'Shared/Classes/bloc_observer.dart';
 
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+
 void main() async
 {
 
@@ -84,3 +86,17 @@ void main() async
   )
   ));
 }
+// void main() async
+// {
+//
+//   print('sssssss');
+//
+//   IO.Socket socket = IO.io('http://127.0.0.1:5000/',
+//       IO.OptionBuilder()
+//           .setTransports(['websocket']) // for Flutter or Dart VM
+//           .disableAutoConnect()  // disable auto-connection
+//           .setExtraHeaders({'foo': 'bar'}) // optional
+//           .build()
+//   );
+//   socket.connect();
+// }

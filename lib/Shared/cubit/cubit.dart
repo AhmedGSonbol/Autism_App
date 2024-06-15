@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:autism/Models/admin_Users_Model.dart';
 import 'package:autism/Models/comments_Model.dart';
+import 'package:autism/Models/messages_Model.dart';
+import 'package:autism/Models/messengers_Model.dart';
 import 'package:autism/Models/pending_Doctors_Model.dart';
 import 'package:autism/Models/post_Model.dart';
 import 'package:autism/Models/reportedPost_Model.dart';
@@ -17,6 +19,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+
 class AppCubit extends Cubit<AppStates>
 {
   AppCubit() : super(AppInitialState());
@@ -30,10 +34,8 @@ class AppCubit extends Cubit<AppStates>
     {
       await getUserData().then((value)
       {
-        print('3333333333333333333');
-
-
-
+        getMessengers();
+        initSocket();
       });
     }
 
@@ -1232,6 +1234,159 @@ class AppCubit extends Cubit<AppStates>
     docPostType = val;
 
     emit(ChangeDocPostType());
+  }
+
+
+  Messengers_Model? messengers_model;
+
+  void getMessengers()
+  {
+    emit(LoadingGetMessengersState());
+
+    DioHelper.getData(
+      url: MESSENGERS ,
+      token: token,
+    )!.then((value)
+    {
+
+      messengers_model = Messengers_Model.fromJson(value.data);
+
+      messengers_model!.messengersData.sort((a, b) => DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(b.date!).compareTo(DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(a.date!)));
+
+      emit(SuccessGetMessengersState());
+
+    }).catchError((err)
+    {
+      emit(ErrorGetMessengersState());
+      print(err.toString());
+    });
+
+  }
+
+  Messages_Model? messages_model;
+
+  void getUserMessages(int receiver_id)
+  {
+    messages_model = null;
+
+    emit(LoadingGetUserMessagesState());
+
+
+
+    DioHelper.getData(
+        url: MESSAGES ,
+        token: token,
+        data: {'receiver_id':receiver_id}
+    )!.then((value)
+    {
+      print(value.data);
+      messages_model = Messages_Model.fromJson(value.data);
+
+      messages_model!.messagesData.sort((a, b) => DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(b.date!).compareTo(DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(a.date!)));
+
+
+      emit(SuccessGetUserMessagesState());
+
+    }).catchError((err)
+    {
+      emit(ErrorGetUserMessagesState());
+      print(err.toString());
+    });
+
+  }
+
+  IO.Socket? socket;
+
+  initSocket()
+  {
+    print('iniiiiiitiallll sockett');
+    socket = IO.io('https://cdaa-154-183-10-4.ngrok-free.app/',
+        IO.OptionBuilder()
+            .setTransports(['websocket']) // for Flutter or Dart VM
+            .disableAutoConnect()  // disable auto-connection
+            .setExtraHeaders({'foo': 'bar'}) // optional
+            .build()
+    );
+
+    socket!.connect();
+    socket!.onConnect((data) => print('connected to the server !!'));
+
+    socket!.emit('addUserToSocket',userModel!.data!.id!);
+
+    socket!.on('response', (data)
+    {
+      // print(data.toString());
+      print("bring messageeeeeeeeeeeeeeeeeeeeeeeeeeee");
+      if(data['status'] == true)
+      {
+        messages_model!.messagesData.add(
+            MessagesData(date: DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').format(DateTime.now()), message: data['message'].toString(), isMyMessage: data['isMyMessage'], status: true)
+        );
+
+        emit(SuccessGetNewMessagesState());
+      }
+      else
+      {
+
+        messages_model!.messagesData.add(
+            MessagesData(date: DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').format(DateTime.now()) , message: 'فشل إرسال الرسالة !!', isMyMessage: true, status: false)
+        );
+
+        emit(ErrorGetNewMessagesState());
+      }
+      messages_model!.messagesData.sort((a, b) => DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(a.date!).compareTo(DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(b.date!)));
+    }
+    );
+
+    // socketEventsHandler(socket!);
+
+  }
+
+  // socketEventsHandler(IO.Socket socket)
+  // {
+  //   socket.onConnect((data) => print('connected to the server !!'));
+  //
+  //
+  //
+  // }
+
+  sendMessage(String message , MessengersData messengersData)
+  {
+
+    socket!.emit('sendMessage',
+        {
+          'myID':userModel!.data!.id,
+          'receiverID':messengersData.uId,
+          'message':message
+        });
+
+    messengersData.message = message;
+    messengersData.date = DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').format(DateTime.now());
+
+    if(messengers_model == null || messengers_model!.messengersData.isEmpty)
+    {
+      messengers_model!.messengersData.add(messengersData);
+    }
+    else
+    {
+      bool isExist = false;
+      messengers_model!.messengersData.forEach((element)
+      {
+        if(element.uId == messengersData.uId)
+        {
+          element.message = messengersData.message;
+          element.date = messengersData.date;
+          isExist = true;
+        }
+      });
+
+      if(isExist == false)
+      {
+        messengers_model!.messengersData.add(messengersData);
+      }
+
+    }
+    messages_model!.messagesData.sort((a, b) => DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(b.date!).compareTo(DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(a.date!)));
   }
 
 
