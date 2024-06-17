@@ -623,8 +623,8 @@ class AppCubit extends Cubit<AppStates>
 
   void changeCurrentAccountScreen(int index)
   {
+    adminSearchResults = null;
     currentAccountsScreen = index;
-
     emit(AppChangeAccountsScreenState());
   }
 
@@ -836,6 +836,63 @@ class AppCubit extends Cubit<AppStates>
 
   }
 
+  Admin_Users_Model? adminSearchResults ;
+
+  void adminSearch(String searchTest)
+  {
+    adminSearchResults = null;
+    adminSearchResults = Admin_Users_Model.fromJson({'data':[]});
+
+    if(currentAccountsScreen == 0 && allAdmins!.admin_UsersData.isNotEmpty) /// admin
+    {
+
+      allAdmins!.admin_UsersData.forEach((element)
+      {
+
+        bool contain = element.name!.contains(searchTest);
+
+        if(contain)
+        {
+
+          adminSearchResults?.admin_UsersData.add(element);
+        }
+
+
+      });
+    }
+    else if(currentAccountsScreen == 1 && allDoctors!.admin_UsersData.isNotEmpty) /// doctor
+    {
+      allDoctors!.admin_UsersData.forEach((element)
+      {
+
+        bool contain = element.name!.contains(searchTest);
+
+        if(contain)
+        {
+
+          adminSearchResults?.admin_UsersData.add(element);
+        }
+
+
+      });
+    }
+    else if(currentAccountsScreen == 2 && allPatients!.admin_UsersData.isNotEmpty)/// patient
+    {
+      allPatients!.admin_UsersData.forEach((element)
+      {
+
+        bool contain = element.name!.contains(searchTest);
+        if(contain)
+        {
+          adminSearchResults?.admin_UsersData.add(element);
+        }
+      });
+    }
+
+    emit(SearchAdminState());
+
+  }
+
 
   Future<void> deleteUser(Admin_UsersData model)async
   {
@@ -926,6 +983,8 @@ class AppCubit extends Cubit<AppStates>
 
   }
 
+
+  /// END ADMIN SECTION ///////////////////////
 
 
   Future<void> updatePatientData({
@@ -1437,7 +1496,7 @@ class AppCubit extends Cubit<AppStates>
   initSocket()
   {
     print('iniiiiiitiallll sockett');
-    socket = IO.io('https://57b3-197-63-235-225.ngrok-free.app/',
+    socket = IO.io('https://a9f0-197-63-235-225.ngrok-free.app/',
         IO.OptionBuilder()
             .setTransports(['websocket']) // for Flutter or Dart VM
             .disableAutoConnect()  // disable auto-connection

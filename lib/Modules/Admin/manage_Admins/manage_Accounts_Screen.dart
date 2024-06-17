@@ -25,6 +25,8 @@ class Manage_Admins_Screen extends StatelessWidget {
 
   ];
 
+  var searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
@@ -82,10 +84,11 @@ class Manage_Admins_Screen extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: TextField(
+                              controller: searchController,
                               style: const TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(50)),
+                                      borderRadius: BorderRadius.circular(20)),
                                   hintText: 'بحث',
                                   hintStyle: const TextStyle(
                                     color: Color(0xffE1E2E9),
@@ -100,6 +103,11 @@ class Manage_Admins_Screen extends StatelessWidget {
                                     ),
                                     onPressed: () {},
                                   )),
+                              onChanged: (text)
+                              {
+                                print(text);
+                                cubit.adminSearch(text);
+                              },
                             ),
                           ),
                         ),

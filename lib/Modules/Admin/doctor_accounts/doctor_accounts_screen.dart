@@ -16,34 +16,51 @@ class Doctor_Accounts_Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context)
   {
-
-    AppCubit.get(context).getAllDoctors();
+    var cubit = AppCubit.get(context);
+    cubit.getAllDoctors();
 
     return BlocConsumer<AppCubit,AppStates>
       (
       listener: (context, state) {},
-      builder: (context, state) {
-        if (AppCubit.get(context).allDoctors == null) {
-          return Center(
-          child: CircularProgressIndicator(color: mainColor,),
-        );
-        } else {
-          return ListView.separated(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.only(bottom: 20.0),
-          itemBuilder: (context, index) {
-          return Directionality(
-          textDirection: TextDirection.rtl,
-          child: buildDoctorsAccountsItems(context,AppCubit.get(context).allDoctors!.admin_UsersData[index]));
-          },
-          separatorBuilder: (context, index) => SizedBox(
-          height: 10.0,
-          ),
-          itemCount: AppCubit.get(context).allDoctors!.admin_UsersData.length,
-          );
+      builder: (context, state)
+      {
+        return
+        (()
+        {
+          if(cubit.allDoctors != null || cubit.adminSearchResults != null)
+          {
+            return ListView.separated(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.only(bottom: 20.0),
+              itemBuilder: (context, index) {
+                return Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: buildDoctorsAccountsItems(context,
+                        cubit.adminSearchResults != null ?
+                        cubit.adminSearchResults!.admin_UsersData[index]
+                            :
+                        cubit.allDoctors!.admin_UsersData[index]
+                    ));
+              },
+              separatorBuilder: (context, index) => SizedBox(
+                height: 10.0,
+              ),
+              itemCount: cubit.adminSearchResults != null
+                  ? cubit.adminSearchResults!.admin_UsersData.length
+                  :cubit.allDoctors!.admin_UsersData.length,
+            );
+          }
+          else
+          {
+            return Center(
+              child: CircularProgressIndicator(color: mainColor,),
+            );
+          }
         }
-      },);
+          ());
+      },
+    );
 
 
   }

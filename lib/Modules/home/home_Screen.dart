@@ -641,7 +641,7 @@ class Home_Screen extends StatelessWidget {
                       )),
                   child: NavigationBar(
                     backgroundColor: const Color(0xff1D2024),
-                    indicatorColor: Color(0xFF3D4758),
+                    // indicatorColor: Color(0xFF3D4758),
                     elevation: 0.0,
 
                     // shadowColor: Colors.yellowAccent,

@@ -40,13 +40,13 @@ class Admin_UsersData
 
   }
 
-  Admin_UsersData(
-      {
-        required this.id,
-        required this.email,
-        required this.name,
-        required this.image,
-        required this.user_type,
-
-      });
+  // Admin_UsersData(
+  //     {
+  //       required this.id,
+  //       required this.email,
+  //       required this.name,
+  //       required this.image,
+  //       required this.user_type,
+  //
+  //     });
 }

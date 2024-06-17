@@ -53,8 +53,10 @@ class LoginCubit extends Cubit<LoginStates> {
       }
       else
       {
-        emit(LoginErrorState('خطأ في الاتصال بالانترنت'));
+        // emit(LoginErrorState('خطأ في الاتصال بالانترنت'));
+        emit(LoginErrorState(err.response.toString()));
       }
+
     });
   }
 }

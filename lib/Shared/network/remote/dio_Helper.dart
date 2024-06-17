@@ -10,7 +10,7 @@ class DioHelper
     dio = Dio(
       BaseOptions(
         // baseUrl: 'https://autisociety-api.original-business.com/api/',
-        baseUrl: 'https://57b3-197-63-235-225.ngrok-free.app/api/',
+        baseUrl: 'https://a9f0-197-63-235-225.ngrok-free.app/api/',
         receiveDataWhenStatusError: true,
         validateStatus: (int? status) {
           return status != null;

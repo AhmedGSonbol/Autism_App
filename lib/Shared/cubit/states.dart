@@ -155,6 +155,8 @@ class SuccessGetAllDoctorsState extends AppStates {}
 
 class ErrorGetAllDoctorsState extends AppStates {}
 
+class SearchAdminState extends AppStates {}
+
 class LoadingGetAllPatientsState extends AppStates {}
 
 class SuccessGetAllPatientsState extends AppStates {}

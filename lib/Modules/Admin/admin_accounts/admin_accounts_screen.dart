@@ -19,32 +19,50 @@ class Admin_Accounts_Screen extends StatelessWidget {
   Widget build(BuildContext context)
   {
 
-    AppCubit.get(context).getAllAdmins();
+    var cubit = AppCubit.get(context);
+    cubit.getAllAdmins();
 
     return BlocConsumer<AppCubit,AppStates>
       (
         listener: (context, state) {},
-        builder: (context, state) {
-          return AppCubit.get(context).allAdmins == null
-              ?
-          Center(
-            child: CircularProgressIndicator(color: mainColor,),
-          )
-              :
-          ListView.separated(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.only(bottom: 20.0),
-            itemBuilder: (context, index) {
-              return Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: buildAdminsAccountsItems(context,AppCubit.get(context).allAdmins!.admin_UsersData[index]));
-            },
-            separatorBuilder: (context, index) => SizedBox(
-              height: 10.0,
-            ),
-            itemCount: AppCubit.get(context).allAdmins!.admin_UsersData.length,
-          );
+        builder: (context, state)
+        {
+          return
+            (()
+          {
+            if(cubit.allAdmins != null || cubit.adminSearchResults != null)
+            {
+              return ListView.separated(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.only(bottom: 20.0),
+                itemBuilder: (context, index) {
+                  return Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: buildAdminsAccountsItems(context,
+                          cubit.adminSearchResults != null ?
+                          cubit.adminSearchResults!.admin_UsersData[index]
+                              :
+                          cubit.allAdmins!.admin_UsersData[index]
+                      ));
+                },
+                separatorBuilder: (context, index) => SizedBox(
+                  height: 10.0,
+                ),
+                itemCount: cubit.adminSearchResults != null
+                    ? cubit.adminSearchResults!.admin_UsersData.length
+                    :cubit.allAdmins!.admin_UsersData.length,
+              );
+            }
+            else
+            {
+              return Center(
+                child: CircularProgressIndicator(color: mainColor,),
+              );
+            }
+          }
+          ());
+
         },);
 
   }

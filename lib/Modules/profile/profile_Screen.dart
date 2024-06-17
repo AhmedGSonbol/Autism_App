@@ -64,75 +64,78 @@ class Profile_Screen extends StatelessWidget
                     color: Color(0xff43474E),
                     borderRadius: BorderRadius.only(bottomRight: Radius.circular(16.0),bottomLeft: Radius.circular(16.0))
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children:
-                    [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children:
-                        [
-                          IconButton(
-                            iconSize: 25.0,
-                            padding: EdgeInsets.zero,
-                            icon: const SizedBox(),
-                            onPressed: ()
-                            {
-
-                            },),
-                           Hero(
-                            tag: 'profile_image',
-                              child: CircleAvatar(backgroundImage:
-                              (()
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children:
+                      [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children:
+                          [
+                            IconButton(
+                              iconSize: 25.0,
+                              padding: EdgeInsets.zero,
+                              icon: const SizedBox(),
+                              onPressed: ()
                               {
-                                if (cubit.userModel != null)
+
+                              },),
+                             Hero(
+                              tag: 'profile_image',
+                                child: CircleAvatar(backgroundImage:
+                                (()
                                 {
-                                  if (cubit.userModel!.data!.image != null && cubit.userModel!.data!.image!.isNotEmpty)
+                                  if (cubit.userModel != null)
                                   {
-                                    return NetworkImage(cubit.userModel!.data!.image!) as ImageProvider;
-                                  } else
+                                    if (cubit.userModel!.data!.image != null && cubit.userModel!.data!.image!.isNotEmpty)
+                                    {
+                                      return NetworkImage(cubit.userModel!.data!.image!) as ImageProvider;
+                                    } else
+                                    {
+                                      return AssetImage('assets/images/Rectangle.png') as ImageProvider;
+                                    }
+                                  }
+                                  else
                                   {
                                     return AssetImage('assets/images/Rectangle.png') as ImageProvider;
                                   }
-                                }
-                                else
-                                {
-                                  return AssetImage('assets/images/Rectangle.png') as ImageProvider;
-                                }
-                              }()),
-                                radius: 70.0,
-                              )),
-                          IconButton(
-                            iconSize: 25.0,
-                            padding: EdgeInsets.zero,
-                            icon: const Icon(Icons.edit,color: fontColor,),
-                          onPressed: ()
-                          {
-                            navTo(context, Profile_Edit_Screen());
-                          },)
-                        ],
-                      ),
+                                }()),
+                                  radius: 70.0,
+                                )),
+                            IconButton(
+                              iconSize: 25.0,
+                              padding: EdgeInsets.zero,
+                              icon: const Icon(Icons.edit,color: fontColor,),
+                            onPressed: ()
+                            {
+                              navTo(context, Profile_Edit_Screen());
+                            },)
+                          ],
+                        ),
 
-                      const SizedBox(height: 10.0,),
+                        const SizedBox(height: 10.0,),
 
-                      //username
-                       Text(cubit.userModel != null ? cubit.userModel!.data!.name! :'User Name',style: TextStyle(fontSize: 25.0,color: fontColor),),
+                        //username
+                         Text(cubit.userModel != null ? cubit.userModel!.data!.name! :'User Name',style: TextStyle(fontSize: 25.0,color: fontColor),),
 
-                      const SizedBox(height: 5.0,),
+                        const SizedBox(height: 5.0,),
 
-                      //location
-                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children:
-                        [
-                          Text(cubit.userModel != null ? '${cubit.userModel!.data!.city!} - ${cubit.userModel!.data!.government!}' :'Address',style: onBoardingDesc,),
-                          const Icon(Icons.location_on,color: fontColor,)
-                        ],
-                      ),
+                        //location
+                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children:
+                          [
+                            Text(cubit.userModel != null ? '${cubit.userModel!.data!.city!} - ${cubit.userModel!.data!.government!}' :'Address',style: onBoardingDesc,),
+                            const Icon(Icons.location_on,color: fontColor,)
+                          ],
+                        ),
 
-                      const SizedBox(height: 20.0,),
-                    ],
+                        const SizedBox(height: 20.0,),
+                      ],
+                    ),
                   ),
                 ),
 
