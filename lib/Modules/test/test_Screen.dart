@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:lottie/lottie.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class Test_Screen extends StatelessWidget {
@@ -18,19 +19,7 @@ class Test_Screen extends StatelessWidget {
   Widget build(BuildContext context) {
     var dateController = TextEditingController();
 
-    List<String> ethnicityList = [
-      'شرق أوسطي',
-      'أوروبي أبيض',
-      'هسباني',
-      'أسود',
-      'آسيوي',
-      'جنوب آسيوي',
-      'هنود أصليون',
-      'لاتينيون',
-      'مختلطون',
-      'باسيفيكا',
-      'آخرون',
-    ];
+
 
     List<String> testQuestions = [
       'تشخيص أولي مبني على الذكاء  اﻹصطناعي لقياس مدى قابلية طفلك للأصابة بالتوحد و من ثم اتخذ القرار المناسب',
@@ -109,20 +98,43 @@ class Test_Screen extends StatelessWidget {
                       ),
                       defaultElevatedButton(
                         onPressed: () {
-                          if (cubit.currentTestScreen == 0) {
+                          if (cubit.currentTestScreen == 0)
+                          {
                             cubit.nextTestQuestion(null);
-                          } else {
-                            if (cubit.currentTestScreen != 11 &&
-                                cubit.currentTestScreen != 15) {
-                              if (cubit.testQueChecked != null) {
+
+                          }
+                          else
+                          {
+                            if (cubit.currentTestScreen > 11 &&
+                                cubit.currentTestScreen < 15)
+                            {
+                              if (cubit.testQueChecked != null)
+                              {
                                 cubit.nextTestQuestion(cubit.testQueChecked);
-                              } else {
+                              } else
+                              {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         content:
                                             Text('برجاء اختيار إجابة اولاً')));
                               }
-                            } else if (cubit.currentTestScreen == 11) {
+                            }
+                            else if(cubit.currentTestScreen > 0 && cubit.currentTestScreen < 11)
+                            {
+                              if (cubit.testRadioValue != '0')
+                              {
+                                cubit.nextTestQuestion(cubit.testRadioValue);
+                              }
+                              else
+                              {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content:
+                                        Text('برجاء اختيار إجابة اولاً')));
+                              }
+                            }
+                            else if (cubit.currentTestScreen == 11)
+                            {
                               if (dateController.text.isNotEmpty) {
                                 int x = Jiffy.now()
                                     .diff(Jiffy.parse(dateController.text),
@@ -137,25 +149,36 @@ class Test_Screen extends StatelessWidget {
                                           content: Text(
                                               'برجاء اختيار تاريخ صحيح !')));
                                 }
-                              } else {
+                              } else
+                              {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         content: Text(
                                             'برجاء اختيار تاريخ الميلاد اولاً')));
                               }
-                            } else {
-                              if (cubit.selectedEthnicity >= 0) {
+                            }
+                            else if (cubit.currentTestScreen == 15)
+                            {
+                              if (cubit.selectedEthnicity >= 0)
+                              {
                                 cubit.nextTestQuestion(cubit.selectedEthnicity);
-                              } else {
+                                cubit.performTest();
+                              }
+                              else
+                              {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         content:
                                             Text('برجاء اختيار إجابة اولاً')));
                               }
-                            }
+                            }else if (cubit.currentTestScreen == 16)
+                          {
+                            cubit.endTest();
+                            Navigator.of(context).pop();
+                          }
                           }
                         },
-                        text: 'التالي',
+                        text:cubit.currentTestScreen < 15 ? 'التالي' :cubit.currentTestScreen == 15 ? 'فحص' : 'إنهاء',
                       ),
                     ],
                   ),
@@ -192,48 +215,69 @@ class Test_Screen extends StatelessWidget {
                     height: 20.0,
                   ),
 
-                  Center(
-                    child: Image(
-                      //      assets/images/test_images/test0.png
-                      image: AssetImage(
-                          'assets/images/test_images/test${cubit.currentTestScreen}.png'),
-                      fit: BoxFit.cover,
-                      height: MediaQuery.of(context).size.height / 4,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Center(
-                    child: cubit.currentTestScreen != 16
-                        ? Text(
-                            textAlign: TextAlign.center,
-                            testQuestions[cubit.currentTestScreen],
-                            style: const TextStyle(
-                                color: fontColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          )
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                ' عالي',
-                                style: TextStyle(
-                                    color: Color(0xffFFB4AB),
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                ' إحتمال الإصابة',
-                                style: TextStyle(
-                                    color: Color(0xffE3E2E6),
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
+                  (()
+                  {
+                    if(cubit.currentTestScreen == 16 && cubit.testRate == '')
+                    {
+                      return Lottie.asset('assets/lotties/loading.json');
+
+                    }
+                    else
+                    {
+                      return Column(
+                        children:
+                        [
+                          Center(
+                            child: Image(
+                              //      assets/images/test_images/test0.png
+                              image: AssetImage(
+                                  'assets/images/test_images/test${cubit.currentTestScreen}.png'),
+                              fit: BoxFit.cover,
+                              height: MediaQuery.of(context).size.height / 4,
+                            ),
                           ),
-                  ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Center(
+                            child: cubit.currentTestScreen != 16
+                                ? Text(
+                              textAlign: TextAlign.center,
+                              testQuestions[cubit.currentTestScreen],
+                              style: const TextStyle(
+                                  color: fontColor,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            )
+                                : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  cubit.testRate.isNotEmpty && cubit.testRate == 'yes'?
+                                  'عالي'
+                                      :
+                                  'منخفض',
+                                  style: TextStyle(
+                                      color: cubit.testRate == 'no' ? mainColor : Color(0xffFFB4AB),
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  '  إحتمال الإصابة ',
+                                  style: TextStyle(
+                                      color: Color(0xffE3E2E6),
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  }()),
+
+
                   const SizedBox(
                     height: 30,
                   ),
@@ -303,7 +347,7 @@ class Test_Screen extends StatelessWidget {
                                     style: TextStyle(color: Colors.blue),
                                   ),
                                 )),
-                            items: ethnicityList.asMap().entries.map((value) {
+                            items:cubit.ethnicityListAR.asMap().entries.map((value) {
                               return DropdownMenuItem<String>(
                                 alignment: Alignment.centerRight,
                                 value: value.key.toString(),
@@ -318,8 +362,15 @@ class Test_Screen extends StatelessWidget {
                             },
                           ),
                         );
-                      } else {
+                      }
+                      else if (cubit.currentTestScreen > 0 && cubit.currentTestScreen < 11)
+                      {
+                        return chooseWidget(cubit);
+                      }
+                      else
+                      {
                         return YesOrNoWidget(cubit);
+
                       }
                     }()),
                   ///////////////////////////////
@@ -332,7 +383,8 @@ class Test_Screen extends StatelessWidget {
     );
   }
 
-  Widget YesOrNoWidget(AppCubit cubit) {
+  Widget YesOrNoWidget(AppCubit cubit)
+  {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -406,6 +458,136 @@ class Test_Screen extends StatelessWidget {
           onTap: () {
             cubit.checkChanged(true);
           },
+        ),
+      ],
+    );
+  }
+
+  Widget chooseWidget(AppCubit cubit)
+  {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children:
+      [
+        Row(
+          children:
+          [
+            Spacer(),
+            Text(
+              'دائماً',style: TextStyle(
+                color: fontColor,
+                fontSize: 20.0),
+            ),
+            Radio(
+
+                value: '1',
+                groupValue: cubit.testRadioValue,
+
+
+                activeColor: Colors.white,
+
+                onChanged: (val)
+                {
+                  cubit.changeTestRadioValue(val!);
+                }),
+
+          ],
+        ),
+        Row(
+          children:
+          [
+            Spacer(),
+            Text(
+              'عادةً',style: TextStyle(
+                color: fontColor,
+                fontSize: 20.0),
+            ),
+            Radio(
+
+                value: '2',
+                groupValue: cubit.testRadioValue,
+
+
+                activeColor: Colors.white,
+
+                onChanged: (val)
+                {
+                  cubit.changeTestRadioValue(val!);
+                }),
+
+          ],
+        ),
+        Row(
+          children:
+          [
+            Spacer(),
+            Text(
+              'احياناً',style: TextStyle(
+                color: fontColor,
+                fontSize: 20.0),
+            ),
+            Radio(
+
+                value: '3',
+                groupValue: cubit.testRadioValue,
+
+
+                activeColor: Colors.white,
+
+                onChanged: (val)
+                {
+                  cubit.changeTestRadioValue(val!);
+                }),
+
+          ],
+        ),
+        Row(
+          children:
+          [
+            Spacer(),
+            Text(
+              'نادراً',style: TextStyle(
+                color: fontColor,
+                fontSize: 20.0),
+            ),
+            Radio(
+
+                value: '4',
+                groupValue: cubit.testRadioValue,
+
+
+                activeColor: Colors.white,
+
+                onChanged: (val)
+                {
+                  cubit.changeTestRadioValue(val!);
+                }),
+
+          ],
+        ),
+        Row(
+          children:
+          [
+            Spacer(),
+            Text(
+              'ابداً',style: TextStyle(
+                color: fontColor,
+                fontSize: 20.0),
+            ),
+            Radio(
+
+                value: '5',
+                groupValue: cubit.testRadioValue,
+
+
+                activeColor: Colors.white,
+
+                onChanged: (val)
+                {
+                  cubit.changeTestRadioValue(val!);
+                }),
+
+          ],
         ),
       ],
     );

@@ -20,7 +20,6 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 void main() async
 {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   Bloc.observer = MyBlocObserver();
@@ -44,15 +43,6 @@ void main() async
         // userType ='admin';
         screen = Home_Screen();
 
-        // if(userType == 'patient' || userType == 'doctor')
-        // {
-        //   screen = Home_Screen();
-        // }
-        // else
-        // {
-        //   screen = Admin_Home_Screen();
-        // }
-
       }
       else
       {
@@ -68,12 +58,8 @@ void main() async
   }
   else
   {
-    screen = OnBoardingScreen();
+    screen = const OnBoardingScreen();
   }
-
-  // screen = Suggestions_Screen();
-
-  // screen = Login_Screen();
 
   return runApp(
       BlocProvider(
@@ -83,20 +69,6 @@ void main() async
             darkTheme: myDarkTheme,
             themeMode: ThemeMode.dark,
             home: screen,
-  )
-  ));
+  ),
+  ),);
 }
-// void main() async
-// {
-//
-//   print('sssssss');
-//
-//   IO.Socket socket = IO.io('http://127.0.0.1:5000/',
-//       IO.OptionBuilder()
-//           .setTransports(['websocket']) // for Flutter or Dart VM
-//           .disableAutoConnect()  // disable auto-connection
-//           .setExtraHeaders({'foo': 'bar'}) // optional
-//           .build()
-//   );
-//   socket.connect();
-// }

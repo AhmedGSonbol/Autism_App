@@ -26,26 +26,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class Home_Screen extends StatelessWidget {
-
-  io.Socket? socket;
-
-
-  void initSocket()
-  {
-
-    //https://e900-197-63-235-143.ngrok-free.app
-    print('object');
-    socket = io.io('https://autisociety17.serv00.net',{'transports':['websocket'],'autoConnect':false});
-    print('a');
-    // socket = io.io('https://8e5d-154-183-14-146.ngrok-free.app',{'transports':['websocket'],'autoConnect':false});
-    socket!.connect();
-    print('b');
-    socket!.onConnect((data) =>  print('Connected with the serverrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr'));
-    print('c');
-  }
 
 
   List<Widget> screens = [
@@ -137,7 +119,7 @@ class Home_Screen extends StatelessWidget {
                           iconSize: 25,
                           onPressed: ()
                           {
-                            initSocket();
+
                           },
                         ),
                       ],
@@ -245,7 +227,10 @@ class Home_Screen extends StatelessWidget {
                               style: TextStyle(
                                   fontSize: 20,
                                   color: Color(0xffE1E2E9),
-                                  fontWeight: FontWeight.bold),
+                                  fontWeight: FontWeight.bold
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 3,
                             ),
                             subtitle:
 
@@ -259,6 +244,8 @@ class Home_Screen extends StatelessWidget {
                               style: TextStyle(
                                 color: Color(0xffCCCCCC),
                               ),
+                              maxLines: 1,
+
                             ),
                           ),
                         ),
@@ -654,7 +641,7 @@ class Home_Screen extends StatelessWidget {
                       )),
                   child: NavigationBar(
                     backgroundColor: const Color(0xff1D2024),
-                    // indicatorColor: Color(0xFF3D4758),
+                    indicatorColor: Color(0xFF3D4758),
                     elevation: 0.0,
 
                     // shadowColor: Colors.yellowAccent,

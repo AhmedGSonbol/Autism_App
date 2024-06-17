@@ -7,14 +7,13 @@ import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
-import 'package:autism/Shared/network/local/Cach_Helper.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/Shared/styles/text_styles.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Profile_Screen extends StatelessWidget {
+class Profile_Screen extends StatelessWidget
+{
   Profile_Screen({Key? key}) : super(key: key);
 
 

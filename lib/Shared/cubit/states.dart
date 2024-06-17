@@ -10,7 +10,29 @@ class AppPreviousQuestionState extends AppStates {}
 
 class AppQuestionCheckedChangeState extends AppStates {}
 
+class AppChangeTestRadioValueState extends AppStates {}
+
 class AppChangeSelectedEthnicityState extends AppStates {}
+
+class LoadingDeleteUserState extends AppStates {}
+
+class SuccessDeleteUserState extends AppStates
+{
+  String message;
+  SuccessDeleteUserState(this.message);
+}
+
+class ErrorDeleteUserState extends AppStates
+{
+  String message;
+  ErrorDeleteUserState(this.message);
+}
+
+class LoadingPerformTestState extends AppStates {}
+
+class SuccessPerformTestState extends AppStates {}
+
+class ErrorPerformTestState extends AppStates {}
 
 class AppChangeRegScreenState extends AppStates {}
 
@@ -138,20 +160,6 @@ class LoadingGetAllPatientsState extends AppStates {}
 class SuccessGetAllPatientsState extends AppStates {}
 
 class ErrorGetAllPatientsState extends AppStates {}
-
-class LoadingDeleteUserState extends AppStates {}
-
-class SuccessDeleteUserState extends AppStates
-{
-  String message;
-  SuccessDeleteUserState(this.message);
-}
-
-class ErrorDeleteUserState extends AppStates
-{
-  String message;
-  ErrorDeleteUserState(this.message);
-}
 
 class LoadingAddAdminState extends AppStates {}
 

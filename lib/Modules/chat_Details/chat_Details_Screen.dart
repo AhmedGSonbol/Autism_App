@@ -38,15 +38,12 @@ class Chat_Details_Screen extends StatelessWidget {
             children: [
 
               Expanded(
-                child: Hero(
-                  tag: '${messengerModel.id!}_name',
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    reverse: true,
-                    child: Text(
-                      messengerModel.name!,
-                      style: TextStyle(color: Colors.white),
-                    ),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  reverse: true,
+                  child: Text(
+                    messengerModel.name!,
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),

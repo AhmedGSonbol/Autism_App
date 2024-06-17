@@ -29,7 +29,6 @@ class AppCubit extends Cubit<AppStates>
 
   Future<void> getAppData() async
   {
-    print('11111111111');
     if(userType != '')
     {
       await getUserData().then((value)
@@ -48,18 +47,15 @@ class AppCubit extends Cubit<AppStates>
 
   Future<void> getUserData({int userID = 0})async
   {
-    print('bbbbbbbbbbbbbbbbbbbb');
     emit(LoadingGetUserDataState());
-
     await DioHelper.getData(
       url: PROFILE ,
       token: token,
       data: userID != 0 ? {'user_id':userID} : null
     )!.then((value)
     {
-      print('aaaaaaaaaaaaaa');
       print(value.data);
-      print('cccccccccccccccc');
+
       if(userID == 0) {
         userModel = User_Model.fromJson(value.data);
       }else
@@ -73,7 +69,6 @@ class AppCubit extends Cubit<AppStates>
       emit(ErrorGetUserDataState());
       print(err.toString());
     });
-
   }
 
 
@@ -405,7 +400,24 @@ class AppCubit extends Cubit<AppStates>
 
   bool? testQueChecked;
 
-  List<dynamic> testAnswers = [];
+  List<dynamic> testScreenAnswers = [];
+
+  List<String> ethnicityListAR = [
+    'شرق أوسطي',
+    'أوروبي أبيض',
+    'هسباني',
+    'أسود',
+    'آسيوي',
+    'جنوب آسيوي',
+    'هنود أصليون',
+    'لاتينيون',
+    'مختلطون',
+    'باسيفيكا',
+    'آخرون',
+  ];
+
+  List<String> ethnicityListEN =  ['middle eastern','White European','Hispanic','black','asian','south asian',
+      'Native Indian','Latino','mixed','Pacifica','Others'] ;
 
   int selectedEthnicity = -1;
 
@@ -421,12 +433,27 @@ class AppCubit extends Cubit<AppStates>
     emit(AppQuestionCheckedChangeState());
   }
 
+  String testRadioValue = '0';
+
+  void changeTestRadioValue(String val)
+  {
+    testRadioValue = val;
+
+    emit(AppChangeTestRadioValueState());
+  }
+
+
+
   void nextTestQuestion(var val) {
-    if (val != null) {
-      if (testAnswers.asMap().containsKey(currentTestScreen - 1)) {
-        testAnswers[currentTestScreen - 1] = val;
-      } else {
-        testAnswers.insert(currentTestScreen - 1, val);
+
+    if (val != null)
+    {
+      if (testScreenAnswers.asMap().containsKey(currentTestScreen - 1))
+      {
+        testScreenAnswers[currentTestScreen - 1] = val;
+      } else
+      {
+        testScreenAnswers.insert(currentTestScreen - 1, val);
       }
     }
 
@@ -434,33 +461,142 @@ class AppCubit extends Cubit<AppStates>
       testQueChecked = null;
     }
 
+    if(val is String)
+    {
+      testRadioValue = '0';
+    }
+
     currentTestScreen += 1;
 
-    if (testAnswers.asMap().containsKey(currentTestScreen - 1)) {
-      if (testAnswers[currentTestScreen - 1] is bool) {
-        testQueChecked = testAnswers[currentTestScreen - 1];
+    if (testScreenAnswers.asMap().containsKey(currentTestScreen - 1))
+    {
+      if (testScreenAnswers[currentTestScreen - 1] is bool)
+      {
+        testQueChecked = testScreenAnswers[currentTestScreen - 1];
+      }
+      else if (testScreenAnswers[currentTestScreen - 1] is String)
+      {
+        testRadioValue = testScreenAnswers[currentTestScreen - 1];
       }
     }
 
-    print(testAnswers);
+    print(testScreenAnswers);
     print(currentTestScreen);
 
     emit(AppNextQuestionState());
   }
 
+
   void previousTestQuestion() {
     currentTestScreen -= 1;
-    if (testAnswers.asMap().containsKey(currentTestScreen - 1)) {
-      if (testAnswers[currentTestScreen - 1] is bool) {
-        testQueChecked = testAnswers[currentTestScreen - 1];
+    if (testScreenAnswers.asMap().containsKey(currentTestScreen - 1))
+    {
+      if (testScreenAnswers[currentTestScreen - 1] is bool)
+      {
+        testQueChecked = testScreenAnswers[currentTestScreen - 1];
+      }
+      else if (testScreenAnswers[currentTestScreen - 1] is String)
+      {
+        testRadioValue = testScreenAnswers[currentTestScreen - 1];
       }
     }
 
-    print(testAnswers);
+    print(testScreenAnswers);
     print(currentTestScreen);
 
     emit(AppPreviousQuestionState());
   }
+
+  String testRate = '';
+
+  void performTest()
+  {
+    List<dynamic> testAnswers =[];
+    testAnswers.addAll(testScreenAnswers);
+
+    for(int x = 0 ; x < testAnswers.length ; x++)
+    {
+      if(x <= 8 )
+      {
+
+        if(int.parse(testAnswers[x]) > 2)
+        {
+          testAnswers[x] = 1;
+        }
+        else
+        {
+          testAnswers[x] = 0;
+        }
+      }
+      else if( x == 9)
+      {
+        if(int.parse(testAnswers[x]) > 3)
+        {
+          testAnswers[x] = 0;
+        }
+        else
+        {
+          testAnswers[x] = 1;
+        }
+      }
+      else if( x > 10 && x < 14)
+      {
+        if(testAnswers[x] == true)
+        {
+          testAnswers[x] = 1;
+        }
+        else
+        {
+          testAnswers[x] = 0;
+        }
+      }
+      else if( x == 14)
+      {
+        // print('zzzzzzz');
+        // print(ethnicityListEN[testAnswers[x]]);
+        testAnswers[x] = ethnicityListEN[testAnswers[x]];
+
+      }
+
+
+    }
+    print('testAnswers');
+    print(testAnswers);
+
+    testRate = '';
+
+    emit(LoadingPerformTestState());
+
+    DioHelper.postData(
+        url: TEST,
+        token: token,
+        data: testAnswers
+    )!.then((value)
+    {
+      print(value.data);
+
+      testRate = value.data['result'];
+
+      emit(SuccessPerformTestState());
+    }).catchError((err)
+    {
+
+      emit(ErrorPerformTestState());
+
+    });
+
+  }
+
+  void endTest()
+  {
+    testScreenAnswers.clear();
+    selectedEthnicity = -1;
+    testRadioValue = '0';
+    testQueChecked = null;
+    currentTestScreen = 0;
+    testRate = '';
+  }
+
 
 
   int currentProfileScreen = 0;
@@ -473,7 +609,8 @@ class AppCubit extends Cubit<AppStates>
 
   bool isPassVisible = false;
 
-  void changePassVisibility() {
+  void changePassVisibility()
+  {
     isPassVisible = !isPassVisible;
     isAdmin = !isAdmin;
 
@@ -1282,7 +1419,7 @@ class AppCubit extends Cubit<AppStates>
       print(value.data);
       messages_model = Messages_Model.fromJson(value.data);
 
-      messages_model!.messagesData.sort((a, b) => DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(b.date!).compareTo(DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(a.date!)));
+      messages_model!.messagesData.sort((a, b) => DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(a.date!).compareTo(DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(b.date!)));
 
 
       emit(SuccessGetUserMessagesState());
@@ -1300,7 +1437,7 @@ class AppCubit extends Cubit<AppStates>
   initSocket()
   {
     print('iniiiiiitiallll sockett');
-    socket = IO.io('https://cdaa-154-183-10-4.ngrok-free.app/',
+    socket = IO.io('https://57b3-197-63-235-225.ngrok-free.app/',
         IO.OptionBuilder()
             .setTransports(['websocket']) // for Flutter or Dart VM
             .disableAutoConnect()  // disable auto-connection

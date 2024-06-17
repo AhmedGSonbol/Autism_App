@@ -3,16 +3,13 @@ class Login_Model
   String? token;
   String? message;
   UserData? data;
-
   Login_Model.fromJson(Map<String,dynamic> json)
   {
     token = json['token'];
     message = json['message'];
     data = json['data'] != null ? UserData.fromJson(json['data']) : null ;
-
   }
 }
-
 class UserData
 {
   int? id;
@@ -20,18 +17,6 @@ class UserData
   String? email;
   String? image;
   String? user_type;
-
-
-  // UserData({
-  //   required this.id,
-  //   required this.name,
-  //   required this.email,
-  //   required this.Phone,
-  //   required this.Image,
-  //   required this.points,
-  //   required this.credit,
-  //   required this.token,
-  // });
 
   UserData.fromJson(Map<String,dynamic> json)
   {
@@ -41,5 +26,4 @@ class UserData
     image = json['image'];
     user_type = json['user_type'];
   }
-
 }

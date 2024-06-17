@@ -46,3 +46,5 @@ const MESSENGERS = 'users/messengers';
 
 const MESSAGES = 'users/messages';
 
+const TEST = 'users/test';
+

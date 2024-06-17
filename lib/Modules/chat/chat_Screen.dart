@@ -115,12 +115,9 @@ class Chat_Screen extends StatelessWidget
                     ),
                     Expanded(
                       child: SingleChildScrollView(
-                        child: Hero(
-                          tag: '${model.id!}_name',
-                          child: Text(
-                            model.name!,
-                            style: onBoardingDesc,
-                          ),
+                        child: Text(
+                          model.name!,
+                          style: onBoardingDesc,
                         ),
 
                         scrollDirection: Axis.horizontal,
