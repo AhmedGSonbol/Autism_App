@@ -36,6 +36,8 @@ const DELETE_USER = 'users';
 
 const UPDATE_USER_DATA = 'users/update';
 
+const UPDATE_USER_PASSWORD = 'users/update/password';
+
 const REPORTEDPOSTS = 'posts/report';
 
 const APPROVEREPORTEDPOSTS = 'posts/report/approve';
@@ -47,4 +49,6 @@ const MESSENGERS = 'users/messengers';
 const MESSAGES = 'users/messages';
 
 const TEST = 'users/test';
+
+
 

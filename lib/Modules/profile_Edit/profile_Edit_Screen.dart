@@ -1,4 +1,5 @@
 import 'package:autism/Models/user_Model.dart';
+import 'package:autism/Modules/change_Password/change_Password_Screen.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
@@ -460,7 +461,7 @@ class Profile_Edit_Screen extends StatelessWidget
                                 }
                               }
                             ),
-                            // if(isAddAdmin == true)
+                             if(isAddAdmin == true)
                             const SizedBox(
                               height: 20.0,
                             ),
@@ -499,28 +500,30 @@ class Profile_Edit_Screen extends StatelessWidget
                                   }
                                 }),
 
+                            if(isAddAdmin == false)
+                              const SizedBox(
+                                height: 20,
+                              ),
+                            if(isAddAdmin == false)
+                            Row(
+                             children:
+                             [
+                               defaultElevatedButton(
+                                   text: 'تعديل',
+                                   onPressed: ()
+                                   {
+                                     navTo(context, Change_Password_Screen());
+                                   }
+                               ),
+                               Spacer(),
+
+                               Text('تعديل الرقم السري',style: TextStyle(color: fontColor,fontSize: 20.0),),
+
+                             ],
+
+                            )
 
 
-                            // const SizedBox(
-                            //   height: 20.0,
-                            // ),
-                            // defaultTextFormField(
-                            //   controller: passwordController,
-                            //   type: TextInputType.name,
-                            //   isPass: !cubit.isPassVisible,
-                            //   label: 'الرقم السري',
-                            //   iconButton: IconButton(
-                            //     onPressed: () {
-                            //       cubit.changePassVisibility();
-                            //     },
-                            //     icon: Icon(
-                            //       cubit.isPassVisible
-                            //           ? Icons.visibility
-                            //           : Icons.visibility_off,
-                            //       color: fontColor,
-                            //     ),
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),

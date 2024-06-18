@@ -219,6 +219,20 @@ class ErrorUpdateAdminDataState extends AppStates
   ErrorUpdateAdminDataState(this.message);
 }
 
+class LoadingUpdatePasswordState extends AppStates {}
+
+class SuccessUpdatePasswordState extends AppStates
+{
+  String message;
+  SuccessUpdatePasswordState(this.message);
+}
+
+class ErrorUpdatePasswordState extends AppStates
+{
+  String message;
+  ErrorUpdatePasswordState(this.message);
+}
+
 class LoadingGetReportedPostsState extends AppStates {}
 
 class SuccessGetReportedPostsState extends AppStates {}

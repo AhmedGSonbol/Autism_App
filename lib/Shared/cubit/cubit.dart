@@ -1183,6 +1183,41 @@ class AppCubit extends Cubit<AppStates>
 
   }
 
+  Future<void> updatePassword({
+    required String oldPassword,
+    required String newPassword,
+  })async
+  {
+    emit(LoadingUpdatePasswordState());
+
+    DioHelper.postData(
+        url: UPDATE_USER_PASSWORD,
+        token: token,
+        data: {
+          "old_password":oldPassword,
+          "new_password":newPassword
+        }
+    )!.then((value)
+    {
+
+
+      emit(SuccessUpdatePasswordState(value.data['message'].toString()));
+
+    }).catchError((err)
+    {
+      if(err.response?.statusCode == 400)
+      {
+        emit(ErrorUpdatePasswordState(err.response.data['message']));
+      }
+      else
+      {
+        emit(ErrorUpdateAdminDataState('خطأ في الاتصال بالانترنت'));
+      }
+
+    });
+
+  }
+
 
   ReportedPost_Model? reportedPosts;
 
