@@ -7,11 +7,13 @@ import 'package:autism/Models/messengers_Model.dart';
 import 'package:autism/Models/pending_Doctors_Model.dart';
 import 'package:autism/Models/post_Model.dart';
 import 'package:autism/Models/reportedPost_Model.dart';
+import 'package:autism/Models/search_Model.dart';
 import 'package:autism/Models/user_Model.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/network/end_points.dart';
+import 'package:autism/Shared/network/local/Cach_Helper.dart';
 import 'package:autism/Shared/network/remote/dio_Helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -37,9 +39,6 @@ class AppCubit extends Cubit<AppStates>
         initSocket();
       });
     }
-
-
-
   }
 
   User_Model? userModel;
@@ -47,8 +46,13 @@ class AppCubit extends Cubit<AppStates>
 
   Future<void> getUserData({int userID = 0})async
   {
+    if(userID > 0)
+    {
+      viewUserModel = null;
+    }
+
     emit(LoadingGetUserDataState());
-    await DioHelper.getData(
+    await DioHelper.putData(
       url: PROFILE ,
       token: token,
       data: userID != 0 ? {'user_id':userID} : null
@@ -58,12 +62,14 @@ class AppCubit extends Cubit<AppStates>
 
       if(userID == 0) {
         userModel = User_Model.fromJson(value.data);
+        emit(SuccessGetUserDataState(false));
       }else
       {
         viewUserModel = User_Model.fromJson(value.data);
+        emit(SuccessGetUserDataState(true));
       }
 
-      emit(SuccessGetUserDataState(userModel!));
+
     }).catchError((err)
     {
       emit(ErrorGetUserDataState());
@@ -82,7 +88,7 @@ class AppCubit extends Cubit<AppStates>
     emit(LoadingGetPatientPostsState());
 
     await DioHelper.getData(
-      url: PATIENTS_POSTS ,
+      url: PATIENTS_POSTS,
       token: token,
     )!.then((value)
     {
@@ -101,8 +107,7 @@ class AppCubit extends Cubit<AppStates>
       });
 
       emit(SuccessGetPatientPostsState());
-    })
-        .catchError((err)
+    }).catchError((err)
     {
       emit(ErrorGetPatientPostsState());
 
@@ -115,8 +120,7 @@ class AppCubit extends Cubit<AppStates>
         print(err.toString());
       }
 
-    })
-    ;
+    });
 
   }
 
@@ -152,6 +156,18 @@ class AppCubit extends Cubit<AppStates>
 
   }
 
+  bool isDarkMode = false;
+
+  void changeMode()
+  {
+    isDarkMode = !isDarkMode;
+    CachHelper.saveData(key: 'isdarkmode', value: isDarkMode).then((value)
+    {
+      emit(AppChangeAppModeState());
+
+    });
+  }
+
 
   void likeUnlikePost(PostData model)
   {
@@ -168,7 +184,7 @@ class AppCubit extends Cubit<AppStates>
     emit(LoadingLikeUnlikePostState());
 
     DioHelper.postData(
-      url: model.isLiked! ? LIKE_POST : UNLIKE_POST,
+      url: LIKE_POST ,
       token: token,
       data: {'post_id':model.id}
     )!.then((value)
@@ -215,7 +231,7 @@ class AppCubit extends Cubit<AppStates>
     emit(LoadingSaveUnsavePostState());
 
     DioHelper.postData(
-        url: model.isSaved! ? SAVE_POST : UNSAVE_POST,
+        url:SAVE_POST,
         token: token,
         data: {'post_id':model.id}
     )!.then((value)
@@ -249,7 +265,7 @@ class AppCubit extends Cubit<AppStates>
   {
     emit(LoadingGetPostCommentsState());
 
-    await DioHelper.getData(
+    await DioHelper.putData(
       url: POST_COMMENT ,
       token: token,
       data: {'post_id':postID}
@@ -560,22 +576,30 @@ class AppCubit extends Cubit<AppStates>
 
 
     }
-    print('testAnswers');
-    print(testAnswers);
+    // print('testAnswers');
+    // print(testAnswers);
 
     testRate = '';
 
     emit(LoadingPerformTestState());
 
+    Map<String,dynamic> dataToSend = {'data':testAnswers ,'user_id' :  userModel!.data!.id};
+
+    // if(token != '')
+    // {
+    //   dataToSend['user_id'] = userModel!.data!.id;
+    // }
+
     DioHelper.postData(
         url: TEST,
         token: token,
-        data: testAnswers
+        data: dataToSend
     )!.then((value)
     {
       print(value.data);
 
       testRate = value.data['result'];
+      userModel!.data!.test_result = testRate;
 
       emit(SuccessPerformTestState());
     }).catchError((err)
@@ -990,24 +1014,25 @@ class AppCubit extends Cubit<AppStates>
   Future<void> updatePatientData({
     required String name,
     required String phone,
-    required String password,
+    required String email,
     required String government,
     required String city,
     required String age,
     required String patient_name,
-    String? image,
+
 
   })async
   {
     emit(LoadingUpdatePatientDataState());
 
-    var formData = FormData.fromMap(
-        image != null ?
+    FormData formData = FormData.fromMap(
+        // image != null
+        //     ?
         {
-          'avatar' : avatarImage == null ? '' : await MultipartFile.fromFile(image),
+          'avatar' : avatarImage == null ? MultipartFile.fromString('',filename: '' ) : await MultipartFile.fromFile(avatarImage!.path),
           'name' : name,
+          'email':email,
           'phone' : phone,
-          'password' : password,
           'government' : government,
           'city' : city,
           'age' : age,
@@ -1015,19 +1040,6 @@ class AppCubit extends Cubit<AppStates>
           'type' : 'patient',
 
         }
-        :
-      {
-
-        'name' : name,
-        'phone' : phone,
-        'password' : password,
-        'government' : government,
-        'city' : city,
-        'age' : age,
-        'patient_name' : patient_name,
-        'type' : 'patient',
-
-      }
         );
 
     DioHelper.postData(
@@ -1064,24 +1076,24 @@ class AppCubit extends Cubit<AppStates>
   Future<void> updateDoctorData({
     required String name,
     required String phone,
-    required String password,
+    required String email,
     required String government,
     required String city,
     required String about,
     required String clinicAddress,
-    String? image,
+
 
   })async
   {
     emit(LoadingUpdateDoctorDataState());
 
     var formData = FormData.fromMap(
-        image != null ?
+        // image != null ?
         {
-          'avatar' : avatarImage == null ? '' : await MultipartFile.fromFile(avatarImage!.path),
+          'avatar' : avatarImage == null ? MultipartFile.fromString('',filename: '' ) : await MultipartFile.fromFile(avatarImage!.path),
           'name' : name,
           'phone' : phone,
-          'password' : password,
+          'email':email,
           'government' : government,
           'city' : city,
           'about' : about,
@@ -1089,18 +1101,19 @@ class AppCubit extends Cubit<AppStates>
           'type' : 'doctor',
 
         }
-        :
-        {
-          'name' : name,
-          'phone' : phone,
-          'password' : password,
-          'government' : government,
-          'city' : city,
-          'about' : about,
-          'clinicAddress' : clinicAddress,
-          'type' : 'doctor',
-
-        });
+        // :
+        // {
+        //   'name' : name,
+        //   'phone' : phone,
+        //   'email':email,
+        //   'government' : government,
+        //   'city' : city,
+        //   'about' : about,
+        //   'clinicAddress' : clinicAddress,
+        //   'type' : 'doctor',
+        //
+        // }
+        );
 
     DioHelper.postData(
         contentType: true,
@@ -1110,9 +1123,13 @@ class AppCubit extends Cubit<AppStates>
     )!.then((value)
     {
 
-      avatarImage = null;
-      getUserData();
-      emit(SuccessUpdateDoctorDataState(value.data['message'].toString()));
+
+      getUserData().then((valuee)
+      {
+        avatarImage = null;
+        emit(SuccessUpdateDoctorDataState(value.data['message'].toString()));
+      });
+
 
     }).catchError((err)
     {
@@ -1132,28 +1149,29 @@ class AppCubit extends Cubit<AppStates>
   Future<void> updateAdminData({
     required String name,
     required String phone,
-    required String password,
-    String? image,
+    required String email,
+
   })async
   {
     emit(LoadingUpdateAdminDataState());
 
     var formData = FormData.fromMap(
-        image != null ?
+        // image != null ?
         {
-          'avatar' : avatarImage == null ? '' : await MultipartFile.fromFile(avatarImage!.path),
+          'avatar' : avatarImage == null ? MultipartFile.fromString('',filename: '' ) : await MultipartFile.fromFile(avatarImage!.path),
           'name' : name,
           'phone' : phone,
-          'password' : password,
+          'email':email,
           'type' : 'admin',
         }
-        :
-        {
-          'name' : name,
-          'phone' : phone,
-          'password' : password,
-          'type' : 'admin',
-        });
+        // :
+        // {
+        //   'name' : name,
+        //   'phone' : phone,
+        //   'email':email,
+        //   'type' : 'admin',
+        // }
+        );
 
     DioHelper.postData(
         contentType: true,
@@ -1163,9 +1181,13 @@ class AppCubit extends Cubit<AppStates>
     )!.then((value)
     {
 
-      avatarImage = null;
-      getUserData();
-      emit(SuccessUpdateAdminDataState(value.data['message'].toString()));
+
+      getUserData().then((valuee)
+      {
+        avatarImage = null;
+        emit(SuccessUpdateAdminDataState(value.data['message'].toString()));
+      });
+
       // allAdmins!.admin_UsersData.add(Admin_UsersData()); id not found
       // getAllAdmins(isReferesh: true);
     }).catchError((err)
@@ -1504,7 +1526,7 @@ class AppCubit extends Cubit<AppStates>
 
 
 
-    DioHelper.getData(
+    DioHelper.putData(
         url: MESSAGES ,
         token: token,
         data: {'receiver_id':receiver_id}
@@ -1531,7 +1553,7 @@ class AppCubit extends Cubit<AppStates>
   initSocket()
   {
     print('iniiiiiitiallll sockett');
-    socket = IO.io('https://a9f0-197-63-235-225.ngrok-free.app/',
+    socket = IO.io('$baseURL/',
         IO.OptionBuilder()
             .setTransports(['websocket']) // for Flutter or Dart VM
             .disableAutoConnect()  // disable auto-connection
@@ -1540,19 +1562,82 @@ class AppCubit extends Cubit<AppStates>
     );
 
     socket!.connect();
-    socket!.onConnect((data) => print('connected to the server !!'));
-
-    socket!.emit('addUserToSocket',userModel!.data!.id!);
-
-    socket!.on('response', (data)
+    socket!.onConnect((data)
     {
-      // print(data.toString());
+      socket!.emit('addUserToSocket',userModel!.data!.id!);
+      print('connected to the server !!');
+    });
+
+
+
+    socket!.on('response', (dataa)
+    {
+      Map<String,dynamic> data = dataa;
+      print(data.toString());
       print("bring messageeeeeeeeeeeeeeeeeeeeeeeeeeee");
+
       if(data['status'] == true)
       {
-        messages_model!.messagesData.add(
+        if(messages_model == null)
+        {
+          print('printtttt');
+          List<MessagesData> messagesDataList =
+          [
             MessagesData(date: DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').format(DateTime.now()), message: data['message'].toString(), isMyMessage: data['isMyMessage'], status: true)
-        );
+          ];
+          messages_model = Messages_Model(messagesData: messagesDataList);
+        }
+        else
+        {
+          print('continueeeeeee');
+          messages_model!.messagesData.add(
+              MessagesData(date: DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').format(DateTime.now()), message: data['message'].toString(), isMyMessage: data['isMyMessage'], status: true)
+
+          );
+        }
+
+
+        // messengers_model!.messengersData.sort((a, b) => DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(b.date!).compareTo(DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(a.date!)));
+
+        if(messengers_model == null || messengers_model!.messengersData.isEmpty)
+        {
+          if(data.containsKey('messengerData'))
+          {
+            messengers_model!.messengersData.add(MessengersData.fromJson(data['messengerData']));
+          }
+
+        }
+        else
+        {
+          bool isExist = false;
+          messengers_model!.messengersData.forEach((element)
+          {
+            if(data.containsKey('messengerData'))
+            {
+              if(element.uId == data['messengerData']['uId'])
+              {
+                element.message = data['message'].toString();
+                element.date = DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').format(DateTime.now());
+                isExist = true;
+              }
+            }
+
+          });
+
+          if(isExist == false)
+          {
+            if(data.containsKey('messengerData'))
+            {
+              messengers_model!.messengersData.add(MessengersData.fromJson(data['messengerData']));
+            }
+
+          }
+
+        }
+
+
+
+
 
         emit(SuccessGetNewMessagesState());
       }
@@ -1573,52 +1658,148 @@ class AppCubit extends Cubit<AppStates>
 
   }
 
-  // socketEventsHandler(IO.Socket socket)
-  // {
-  //   socket.onConnect((data) => print('connected to the server !!'));
-  //
-  //
-  //
-  // }
-
   sendMessage(String message , MessengersData messengersData)
   {
+    messengersData.message = message;
+    messengersData.date = DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').format(DateTime.now());
 
     socket!.emit('sendMessage',
         {
           'myID':userModel!.data!.id,
           'receiverID':messengersData.uId,
-          'message':message
+          'message':message,
+          'messengerData':messengersData.toMap()
         });
 
-    messengersData.message = message;
-    messengersData.date = DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').format(DateTime.now());
+  }
 
-    if(messengers_model == null || messengers_model!.messengersData.isEmpty)
+
+
+
+  void changeProfileStatus(bool value)
+  {
+    if(userModel!.data!.profile_status == true)
     {
-      messengers_model!.messengersData.add(messengersData);
+      userModel!.data!.profile_status == false;
     }
     else
     {
-      bool isExist = false;
-      messengers_model!.messengersData.forEach((element)
-      {
-        if(element.uId == messengersData.uId)
-        {
-          element.message = messengersData.message;
-          element.date = messengersData.date;
-          isExist = true;
-        }
-      });
+      userModel!.data!.profile_status == true;
+    }
 
-      if(isExist == false)
+    emit(LoadingChangeProfileStatusState());
+
+    DioHelper.postData(
+        url: PROFILE_STATUS,
+        token: token,
+      data: null
+    )!.then((value)
+    {
+
+      emit(SuccessChangeProfileStatusState(value.data['message']));
+
+
+
+    }).catchError((err)
+    {
+      print(err.toString());
+
+      if(userModel!.data!.profile_status == true)
       {
-        messengers_model!.messengersData.add(messengersData);
+        userModel!.data!.profile_status == false;
+      }
+      else
+      {
+        userModel!.data!.profile_status == true;
       }
 
-    }
-    messages_model!.messagesData.sort((a, b) => DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(b.date!).compareTo(DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(a.date!)));
+      if(err.response?.statusCode == 400)
+      {
+        emit(ErrorChangeProfileStatusState(err.response.data['message']));
+      }
+      else
+      {
+        emit(ErrorChangeProfileStatusState('خطأ في الاتصال بالانترنت'));
+      }
+
+
+    });
+    print('sssssssssssssssss');
+    print(userModel!.data!.profile_status);
+
   }
+
+  String countryValue = 'بدون';
+  String governmentValue = 'بدون';
+
+  List<Map<String,String>> governments = [{"label": "بدون", "value": "بدون"}];
+
+
+  void changeCountryValue(String val)
+  {
+    countryValue = val;
+
+    print(val);
+
+    COUNTRIES.map((e)
+    {
+      if(e['value'] == val)
+      {
+        governments = e['cities'];
+        governmentValue = e['cities'][0]['value'];
+        print(governments);
+      }
+    }).toList();
+
+    emit(RegisterChangeCountryValueState());
+  }
+
+  void changeGovernmentValue(String val)
+  {
+    governmentValue = val;
+
+    emit(RegisterChangeGovernmentValueState());
+  }
+
+  Search_Model? search_model;
+  void searchForUser(String text)
+  {
+    search_model = null;
+
+    Map<String,dynamic> searchData = {'name':text};
+
+    if(countryValue != 'بدون')
+    {
+      searchData['country'] =countryValue;
+    }
+    if(governmentValue != 'بدون')
+    {
+      searchData['government'] =governmentValue;
+    }
+
+    emit(LoadingSearchForUserState());
+
+    DioHelper.postData(
+        url: SEARCH,
+        token: token,
+        data: searchData
+    )!.then((value)
+    {
+      search_model = Search_Model.fromJson(value.data);
+
+      emit(SuccessSearchForUserState());
+    }).catchError((err)
+    {
+
+
+      emit(ErrorSearchForUserState());
+      print(err);
+
+    });
+
+  }
+
+
 
 
 }

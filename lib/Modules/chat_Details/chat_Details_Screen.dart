@@ -23,61 +23,67 @@ class Chat_Details_Screen extends StatelessWidget {
   Widget build(BuildContext context)
   {
 
+
+
     var messageController = TextEditingController();
 
     ScrollController scrollController = ScrollController();
 
     return Directionality(
       textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: backgroundColor,
-        appBar: AppBar(
-          backgroundColor: Color(0xff1D2024),
-
-          title: Row(
-            children: [
-
-              Expanded(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  reverse: true,
-                  child: Text(
-                    messengerModel.name!,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 10.0,
-              ),
-              Hero(
-                  tag: '${messengerModel.id!}_image',
-                  child: myImageProvider(messengerModel.image , size: 40.0)
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(Icons.arrow_forward),
-                color: const Color(0xffE1E2E9),
-              ),
-            ],
-          ),
-          titleSpacing: 0.0,
-        ),
-        body: BlocConsumer<AppCubit,AppStates>(
-          listener: (context, state)
+      child: BlocConsumer<AppCubit,AppStates>(
+        listener: (context, state) {
+          if(state is SuccessGetNewMessagesState || state is ErrorGetNewMessagesState || state is SuccessGetUserMessagesState)
           {
-            if(state is SuccessGetNewMessagesState || state is ErrorGetNewMessagesState)
+            if(AppCubit.get(context).messages_model?.messagesData != null && AppCubit.get(context).messages_model!.messagesData.isNotEmpty)
             {
-              scrollController.animateTo(scrollController.position.maxScrollExtent  +80, duration: Duration(milliseconds: 500), curve: Curves.easeOut);
+              Future.delayed(Duration(milliseconds: 350),() {
+                scrollController.animateTo(scrollController.position.maxScrollExtent  +70, duration: Duration(milliseconds: 500), curve: Curves.easeOut);
+              },);
             }
-          },
-          builder: (context, state)
-          {
-            var cubit = AppCubit.get(context);
+            // scrollController.animateTo(scrollController.position.maxScrollExtent  +80, duration: Duration(milliseconds: 500), curve: Curves.easeOut);
+          }
+        },
+        builder: (context, state)
+        {
+          var cubit = AppCubit.get(context);
+          AppColors colors = AppColors(context);
 
-            return Column(
+          return Scaffold(
+            appBar: AppBar(
+              title: Row(
+                children: [
+
+                  Expanded(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      reverse: true,
+                      child: Text(
+                        messengerModel.name!,
+                        style: TextStyle(color: colors.fontColor()),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  Hero(
+                      tag: '${messengerModel.uId!}_image',
+                      child: myImageProvider(messengerModel.image , size: 40.0)
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_forward),
+                    color:  colors.fontColor(),
+                  ),
+                ],
+              ),
+              leading: SizedBox(),
+              titleSpacing: 0.0,
+            ),
+            body: Column(
               children: [
                 Expanded(
                     child:
@@ -91,7 +97,7 @@ class Chat_Details_Screen extends StatelessWidget {
                           cubit.messages_model!.messagesData.isEmpty) {
                         return Center(
                           child: Text('لا يوجد رسائل !',
-                            style: TextStyle(color: fontColor),),
+                            style: TextStyle(color: colors.fontColor()),),
                         );
                       } else
                       {
@@ -109,14 +115,14 @@ class Chat_Details_Screen extends StatelessWidget {
                             {
                               showTimeOnly = false;
                             }
-                            
+
                             if(cubit.messages_model!.messagesData[index].isMyMessage!)
                             {
-                              return myMessageItemBuilder(cubit.messages_model!.messagesData[index],showTimeOnly);
+                              return myMessageItemBuilder(cubit.messages_model!.messagesData[index],showTimeOnly,colors);
                             }
                             else
                             {
-                              return receiverMessageItemBuilder(cubit.messages_model!.messagesData[index],showTimeOnly);
+                              return receiverMessageItemBuilder(cubit.messages_model!.messagesData[index],showTimeOnly,colors);
                             }
                           },
                           itemCount: cubit.messages_model!.messagesData.length,
@@ -134,23 +140,27 @@ class Chat_Details_Screen extends StatelessWidget {
                     child: Focus(
                       onFocusChange: (focus)
                       {
-                        Future.delayed(Duration(milliseconds: 350),() {
-                          scrollController.animateTo(scrollController.position.maxScrollExtent  +70, duration: Duration(milliseconds: 500), curve: Curves.easeOut);
-                        },);
+                        if(cubit.messages_model?.messagesData != null && cubit.messages_model!.messagesData.isNotEmpty)
+                        {
+                          Future.delayed(Duration(milliseconds: 350),() {
+                            scrollController.animateTo(scrollController.position.maxScrollExtent  +70, duration: Duration(milliseconds: 500), curve: Curves.easeOut);
+                          },);
+                        }
+
 
                       },
                       child: TextField(
 
                         controller: messageController,
                         maxLines: 1,
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: colors.fontColor()),
                         decoration: InputDecoration(
 
                             hintTextDirection: TextDirection.rtl,
                             hintText: 'اكتب شيئا هنا',
-                            hintStyle: TextStyle(color: Color(0xffE1E2E9)),
+                            hintStyle: TextStyle(color: colors.fontColor()),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(50),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                             suffixIcon: IconButton(
                               onPressed: ()
@@ -163,32 +173,32 @@ class Chat_Details_Screen extends StatelessWidget {
                               },
                               icon: Icon(
                                 Icons.send_rounded,
-                                color: Color(0xffE1E2E9),
+                                color: colors.fontColor(),
                               ),
                             ),
-                            fillColor: Color(0xff33353A),
+                            fillColor: colors.backgroundColor(),
                             filled: true,
-                            focusColor: Colors.green,
+
                             focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
+                                borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide(
-                                  color: Color(0xff1D2024),
+                                  color: colors.fontColor(),
                                 )),
-                            hoverColor: Colors.blue),
+                            hoverColor: mainColor),
                       ),
                     ),
                   ),
                 ),
               ],
-            );
+            ),
+          );
 
-          },
-        ),
+        },
       ),
     );
   }
 
-  Widget receiverMessageItemBuilder(MessagesData model,bool showTimeOnly) {
+  Widget receiverMessageItemBuilder(MessagesData model,bool showTimeOnly,AppColors colors) {
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
@@ -204,7 +214,7 @@ class Chat_Details_Screen extends StatelessWidget {
                 padding: EdgeInsets.all(16.0),
                 margin: EdgeInsets.only(left: 15.0,top: 15.0),
                 decoration: BoxDecoration(
-                 color: Color(0xff43474E),
+                 color: colors.home_drawer_item_background(),
                   borderRadius: BorderRadiusDirectional.only(
                     topStart: Radius.circular(16),
                     bottomEnd: Radius.circular(16),
@@ -214,7 +224,7 @@ class Chat_Details_Screen extends StatelessWidget {
                 child: Text(
                   model.message!,
                   style: TextStyle(
-                    color: Color(0xffE1E2E9),
+                    color: colors.fontColor(),
                   ),
                 ),
               ),
@@ -222,7 +232,7 @@ class Chat_Details_Screen extends StatelessWidget {
 
 
             Text(intl.DateFormat(showTimeOnly == true ? 'hh:mm a' : 'yy/M/d').format(intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(model.date!)),
-              style: TextStyle(color: Colors.white,fontSize: 10.0),)
+              style: TextStyle(color: colors.fontColor(),fontSize: 10.0),)
 
           ],
         ),
@@ -230,7 +240,7 @@ class Chat_Details_Screen extends StatelessWidget {
     );
   }
 
-  Widget myMessageItemBuilder(MessagesData model, bool showTimeOnly)
+  Widget myMessageItemBuilder(MessagesData model, bool showTimeOnly,AppColors colors)
   {
     return Align(
       alignment: Alignment.centerRight,
@@ -247,7 +257,7 @@ class Chat_Details_Screen extends StatelessWidget {
                 padding: EdgeInsets.all(16.0),
                 margin: EdgeInsets.only(right: 15.0,top: 15),
                 decoration: BoxDecoration(
-                  color: Color(0xffA8C8FF),
+                  color: mainColor,
                   borderRadius: BorderRadiusDirectional.only(
                     topEnd: Radius.circular(16),
                     bottomEnd: Radius.circular(16),
@@ -257,14 +267,14 @@ class Chat_Details_Screen extends StatelessWidget {
                 child: Text(
                   model.message!,
                   style: TextStyle(
-                    color: model.status == true ? Color(0xff05305F) : Colors.red,
+                    color: model.status == true ? Color(0xffE1E2E9) : Colors.red,
                   ),
                 ),
               ),
             ),
 
             Text(intl.DateFormat(showTimeOnly == true ? 'hh:mm a' : 'yy/M/d').format(intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(model.date!)),
-              style: TextStyle(color: Colors.white,fontSize: 10.0),)
+              style: TextStyle(color: colors.fontColor(),fontSize: 10.0),)
 
           ],
         ),

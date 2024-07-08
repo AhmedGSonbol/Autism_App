@@ -32,7 +32,9 @@ class _Info_ScreenState extends State<Info_Screen> {
   // }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
+    AppColors colors = AppColors(context);
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: ListView(
@@ -89,7 +91,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             style: Theme.of(context)
                 .textTheme
                 .headline6
-                ?.copyWith(color: fontColor),
+                ?.copyWith(color: colors.fontColor()),
           ),
           SizedBox(
             height: 30,
@@ -99,7 +101,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             style: Theme.of(context)
                 .textTheme
                 .headline6
-                ?.copyWith(color: fontColor),
+                ?.copyWith(color: colors.fontColor()),
           ),
           SizedBox(
             height: 30,
@@ -109,7 +111,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             style: Theme.of(context)
                 .textTheme
                 .headline6
-                ?.copyWith(color: fontColor),
+                ?.copyWith(color: colors.fontColor()),
           ),
           SizedBox(
             height: 30,
@@ -144,7 +146,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             style: Theme.of(context)
                 .textTheme
                 .headline6
-                ?.copyWith(color: fontColor, fontSize: 21),
+                ?.copyWith(color: colors.fontColor(), fontSize: 21),
           ),
           SizedBox(
             height: 30,
@@ -154,7 +156,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             style: Theme.of(context)
                 .textTheme
                 .headline6
-                ?.copyWith(color: fontColor, fontSize: 20),
+                ?.copyWith(color: colors.fontColor(), fontSize: 20),
           ),
           SizedBox(
             height: 30,
@@ -164,7 +166,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             style: Theme.of(context)
                 .textTheme
                 .headline6
-                ?.copyWith(color: fontColor, fontSize: 21),
+                ?.copyWith(color: colors.fontColor(), fontSize: 21),
           ),
           SizedBox(
             height: 20,
@@ -174,42 +176,42 @@ class _Info_ScreenState extends State<Info_Screen> {
             style: Theme.of(context)
                 .textTheme
                 .headline6
-                ?.copyWith(color: fontColor),
+                ?.copyWith(color: colors.fontColor()),
           ),
           Text(
             'صعوبة في التواصل مع الآخرين',
             style: Theme.of(context)
                 .textTheme
                 .headline6
-                ?.copyWith(color: fontColor),
+                ?.copyWith(color: colors.fontColor()),
           ),
           Text(
             'صعوبة تعلم أشياء جديدة',
             style: Theme.of(context)
                 .textTheme
                 .headline6
-                ?.copyWith(color: fontColor),
+                ?.copyWith(color: colors.fontColor()),
           ),
           Text(
             'مشاكل في التعامل مع التغييرات الجديدة',
             style: Theme.of(context)
                 .textTheme
                 .headline6
-                ?.copyWith(color: fontColor),
+                ?.copyWith(color: colors.fontColor()),
           ),
           Text(
             'التفاعل بقوة مع الأصوات العالية والأضواء الساطعة',
             style: Theme.of(context)
                 .textTheme
                 .headline6
-                ?.copyWith(color: fontColor),
+                ?.copyWith(color: colors.fontColor()),
           ),
           Text(
             'إظهار سلوكيات متكررة مثل التصفيق بأيديهم بشكل متكرر أو هز أجسادهم ذهابًا وإيابًا',
             style: Theme.of(context)
                 .textTheme
                 .headline6
-                ?.copyWith(color: fontColor),
+                ?.copyWith(color: colors.fontColor()),
           ),
           SizedBox(
             height: 20,
@@ -244,7 +246,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             style: Theme.of(context)
                 .textTheme
                 .headline6
-                ?.copyWith(color: fontColor, fontSize: 21),
+                ?.copyWith(color: colors.fontColor(), fontSize: 21),
           ),
           SizedBox(
             height: 30,
@@ -260,7 +262,7 @@ class _Info_ScreenState extends State<Info_Screen> {
               style: Theme.of(context)
                   .textTheme
                   .headline6
-                  ?.copyWith(color: fontColor, fontSize: 21),
+                  ?.copyWith(color: colors.fontColor(), fontSize: 21),
             ),
           ),
           SizedBox(
@@ -269,7 +271,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           Text(
             'تتضمن بعض العلامات التي سيبحث عنها الطبيب عند الأطفال عند محاولة تحديد ما إذا كانوا مصابين باضطراب طيف التوحد ما يلي:',
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           SizedBox(
@@ -278,37 +280,37 @@ class _Info_ScreenState extends State<Info_Screen> {
           Text(
             '- عدم القدرة على التواصل بالعين .',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           Text(
             '- عدم التحدث لمدة ١٦ شهرًا . ',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           Text(
             '- التحدث قليلاً جدًا أو التحدث بصوت غير عادي .',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           Text(
             '- عدم القدرة على التواصل بأيديهم عندما يبلغون سنة واحدة . ',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           Text(
             '- إذا بدا أنهم يفقدون المهارات الاجتماعية أو اللغوية .',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           Text(
             '- إظهار سلوك متكرر مثل تكرار كل كلمة يسمعونها أو تكرار إيماءة معينة بشكل متكرر .',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           SizedBox(
@@ -342,7 +344,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           Text(
             'من الصعب تحديد أسباب مرض التوحد لدى الأطفال أو البالغين. ومع ذلك، هناك العديد من عوامل الخطر التي يعتقد أنها تساهم في تطور الحالة.',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           SizedBox(
@@ -359,7 +361,7 @@ class _Info_ScreenState extends State<Info_Screen> {
               style: Theme.of(context)
                   .textTheme
                   .headline6
-                  ?.copyWith(color: fontColor, fontSize: 21),
+                  ?.copyWith(color: colors.fontColor(), fontSize: 21),
             ),
           ),
           SizedBox(
@@ -368,7 +370,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           Text(
             'تظهر الأبحاث أن أدمغة الأطفال المصابين بالتوحد تبدو مختلفة قليلاً عن أدمغة الأطفال الذين لا يعانون من هذه الحالة. في السنوات الأولى، يبدو أن أدمغة الأطفال المصابين بالتوحد تنمو بشكل أسرع من أدمغة الأطفال الآخرين. ليس من الواضح ما الذي يسبب هذا النمو المتسارع، لكنه يؤثر على الطريقة التي يتصرف بها الدماغ.',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           SizedBox(
@@ -377,7 +379,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           Text(
             'تاريخيًا، تم ربط اللقاحات بشكل خاطئ بتطور مرض التوحد لدى الأطفال. ومع ذلك، فقد تم إجراء عقود من الأبحاث لفضح هذه الفكرة. لا توجد لقاحات يمكن ربطها بالتوحد لدى الأطفال أو تعرضهم لخطر الإصابة بالحالة.',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           SizedBox(
@@ -411,7 +413,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           Text(
             'لا يوجد حاليا علاج لمرض التوحد. ومع ذلك، مع العلاج المناسب، يمكن إدارة أعراضه بشكل مناسب. يعتمد علاج اضطراب طيف التوحد عند الأطفال على شدة الأعراض التي يعانون منها. تتم مناقشة علاج اضطراب طيف التوحد عند الأطفال أدناه.',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           SizedBox(
@@ -430,7 +432,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           Text(
             'لا يوجد دواء معتمد خصيصًا من قبل إدارة الغذاء والدواء الأمريكية لعلاج مرض التوحد. ومع ذلك، يمكن وصف بعض الأدوية لعلاج أعراض أو حالات معينة قد تكون تطورت نتيجة لمرض التوحد.',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           SizedBox(
@@ -442,7 +444,7 @@ class _Info_ScreenState extends State<Info_Screen> {
               style: Theme.of(context)
                   .textTheme
                   .headline4
-                  ?.copyWith(color: fontColor, fontWeight: FontWeight.bold),
+                  ?.copyWith(color: colors.fontColor(), fontWeight: FontWeight.bold),
             ),
           ),
           SizedBox(
@@ -451,7 +453,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           Text(
             'يتم استخدام أشكال مختلفة من العلاجات لعلاج مرض التوحد عند الأطفال. يعتمد شكل العلاج المستخدم على الاحتياجات الفريدة للطفل. العلاجات التالية هي الأكثر شيوعا لعلاج مرض التوحد:',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           SizedBox(
@@ -460,7 +462,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           Text(
             'العلاج الوظيفي : يهدف العلاج الوظيفي إلى تزويد الأطفال المصابين بالتوحد بالمهارات اللازمة للعمل في حياتهم اليومية.',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           SizedBox(
@@ -469,7 +471,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           Text(
             'تحليل السلوك التطبيقي : تظهر الأبحاث أن تحليل السلوك التطبيقي هو أحد أكثر أشكال العلاج فعالية للأطفال المصابين بالتوحد، سواء ظهرت عليهم أعراض خفيفة أو شديدة. إنه يزود الأطفال بمهارات التواصل والمهارات الاجتماعية لمساعدتهم على التفاعل مع الآخرين.',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           SizedBox(
@@ -503,7 +505,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           Text(
             'فيما يلي بعض النصائح التي يمكنك استخدامها لمساعدة طفلك على إدارة حالته:',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           SizedBox(
@@ -512,7 +514,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           Text(
             'ابق على اطلاع بخطة علاج طفلك المصاب بالتوحد. يتضمن هذا عادةً مزيجًا من الأدوية والعلاج. مع خطة العلاج الصحيحة، يمكن لطفلك المصاب بالتوحد أن يعيش حياة صحية.',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           SizedBox(
@@ -521,7 +523,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           Text(
             'انضم إلى مجموعات الدعم المحلية, و أيضا يمكن أن يكون التحدث مع الآباء الآخرين للأطفال المصابين بالتوحد والاستماع إليهم مفيدًا.',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           SizedBox(
@@ -530,7 +532,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           Text(
             'ولا تنس أن تعتني بنفسك أيضًا. من السهل جدًا أن تصاب بالإرهاق أثناء محاولتك تلبية جميع احتياجات طفلك المصاب بالتوحد. ومع ذلك، إذا لم تكن في أفضل حالاتك، فلن تتمكن من منح طفلك الرعاية المناسبة.',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           SizedBox(
@@ -539,7 +541,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           Text(
             'بحث عن العلامات المبكرة للحالة لدى أطفالك. إن إنجاب طفل واحد مصاب بالتوحد يعني أن الأطفال اللاحقين يكونون أكثر عرضة لخطر الولادة بهذه الحالة, و لهذا السبب عليك بالمبادرة لزيارة الطبيب المختص.',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           SizedBox(
@@ -548,7 +550,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           Text(
             'قد تكون تربية طفل مصاب بالتوحد أمرًا صعبًا في بعض الأحيان. في حين أنه يمكن إدارة اضطراب طيف التوحد بالعلاج المناسب، إلا أنه لا يوجد علاج له. وهذا يعني أنها حالة تستمر مدى الحياة ويحتاج الأشخاص الذين يعانون منها باستمرار إلى إدارتها.',
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
           ),
           SizedBox(
@@ -560,7 +562,7 @@ class _Info_ScreenState extends State<Info_Screen> {
               style: Theme.of(context)
                   .textTheme
                   .headline4
-                  ?.copyWith(color: fontColor, fontWeight: FontWeight.bold),
+                  ?.copyWith(color: colors.fontColor(), fontWeight: FontWeight.bold),
             ),
           ),
           SizedBox(
@@ -570,7 +572,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             child: Text(
               'فيديوهات مفيده في جانب الحديث عن طيف التوحد بالعربية',
               style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: fontColor, fontSize: 16, fontWeight: FontWeight.bold),
+                  color: colors.fontColor(), fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
           SizedBox(

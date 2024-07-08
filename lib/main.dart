@@ -4,6 +4,7 @@ import 'package:autism/Modules/Admin/suggestions/suggestions_screen.dart';
 import 'package:autism/Modules/onboarding/onboarding_Screen.dart';
 import 'package:autism/Modules/home/home_Screen.dart';
 import 'package:autism/Modules/register/register_Screen.dart';
+import 'package:autism/Modules/search/search_Screen.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
@@ -15,11 +16,14 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'Shared/Classes/bloc_observer.dart';
-
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'dart:io';
+// import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 void main() async
 {
+
+  HttpOverrides.global = MyHttpOverrides();
+
   WidgetsFlutterBinding.ensureInitialized();
 
   Bloc.observer = MyBlocObserver();
@@ -61,14 +65,44 @@ void main() async
     screen = const OnBoardingScreen();
   }
 
+  bool isDark = CachHelper.getData(key: 'isdarkmode') ?? false;
+
   return runApp(
       BlocProvider(
-          create: (context) => AppCubit()..getAppData(),
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            darkTheme: myDarkTheme,
-            themeMode: ThemeMode.dark,
-            home: screen,
-  ),
+        create: (context) => AppCubit()..isDarkMode = isDark..getAppData(),
+        // create: (context) => AppCubit()..getAppData(),
+          child: BlocConsumer<AppCubit,AppStates>(
+            listener: (context, state) {},
+            builder: (context, state)
+            {
+              return MaterialApp(
+                // localizationsDelegates:
+                // const [
+                //   S.delegate,
+                //   GlobalMaterialLocalizations.delegate,
+                //   GlobalWidgetsLocalizations.delegate,
+                //   GlobalCupertinoLocalizations.delegate,
+                // ],
+                // supportedLocales: S.delegate.supportedLocales,
+                //
+                // locale:  Locale(current_lang),
+                debugShowCheckedModeBanner: false,
+                darkTheme: myDarkTheme,
+                theme: myLightTheme,
+                themeMode: AppCubit.get(context).isDarkMode ? ThemeMode.dark : ThemeMode.light,
+                home: screen,
+                // home: Search_Screen(),
+              );
+
+            },
+          )
   ),);
+}
+
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  }
 }

@@ -29,19 +29,32 @@ class MessengersData
   String? image;
   String? message;
 
-  int? id;
+  // int? id;
   int? uId;
 
   MessengersData.fromJson(Map<String,dynamic> json)
   {
-
     name = json['name'];
     date = json['date'];
     image = json['image'];
     message = json['message'];
 
-    id = json['id'];
-    uId = json['uId'];
+    // id = json['id'];
+    uId = json['id'];
+
+  }
+
+  Map<String,dynamic> toMap()
+  {
+    return
+      {
+        'name':name,
+        'date':date,
+        'image':image,
+        'message':message,
+        'uId':uId
+
+      };
 
   }
 
@@ -52,7 +65,7 @@ class MessengersData
         required this.image,
         required this.message,
 
-        required this.id,
+        // required this.id,
         required this.uId,
 
       });

@@ -7,11 +7,12 @@ class Suggestions_Screen extends StatelessWidget {
   const Suggestions_Screen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
+    AppColors colors = AppColors(context);
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: backgroundColor,
         appBar: AppBar(
           backgroundColor: appBarColor,
           actions: [
@@ -45,14 +46,14 @@ class Suggestions_Screen extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .headline5
-                    ?.copyWith(color: fontColor, fontWeight: FontWeight.bold),
+                    ?.copyWith(color: colors.fontColor(), fontWeight: FontWeight.bold),
               ),
               Text(
                 'وفقاً ﻹقتراحات اﻵخرين',
                 style: Theme.of(context)
                     .textTheme
                     .headline6
-                    ?.copyWith(color: fontColor),
+                    ?.copyWith(color: colors.fontColor()),
               ),
               SizedBox(
                 height: 30,
@@ -74,7 +75,7 @@ class Suggestions_Screen extends StatelessWidget {
                         ),
                         Text(
                           'الذكاء اﻹصطناعي',
-                          style: TextStyle(color: fontColor, fontSize: 20),
+                          style: TextStyle(color: colors.fontColor(), fontSize: 20),
                         ),
                       ]),
                       SizedBox(
@@ -94,7 +95,7 @@ class Suggestions_Screen extends StatelessWidget {
                           ),
                           Text(
                             'التصميم',
-                            style: TextStyle(color: fontColor, fontSize: 20),
+                            style: TextStyle(color: colors.fontColor(), fontSize: 20),
                           ),
                         ],
                       ),
@@ -113,7 +114,7 @@ class Suggestions_Screen extends StatelessWidget {
                           ),
                           Text(
                             'اﻷداء',
-                            style: TextStyle(color: fontColor, fontSize: 20),
+                            style: TextStyle(color: colors.fontColor(), fontSize: 20),
                           ),
                         ],
                       ),
@@ -130,7 +131,7 @@ class Suggestions_Screen extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .headline5
-                    ?.copyWith(color: fontColor, fontWeight: FontWeight.bold),
+                    ?.copyWith(color: colors.fontColor(), fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 50,
@@ -147,7 +148,7 @@ class Suggestions_Screen extends StatelessWidget {
                       Text(
                         '178',
                         style: Theme.of(context).textTheme.headline6?.copyWith(
-                            color: fontColor, fontWeight: FontWeight.bold),
+                            color: colors.fontColor(), fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
                         height: 20,
@@ -156,7 +157,7 @@ class Suggestions_Screen extends StatelessWidget {
                           style: Theme.of(context)
                               .textTheme
                               .headline6
-                              ?.copyWith(color: fontColor)),
+                              ?.copyWith(color: colors.fontColor())),
                     ],
                   ),
                   Column(
@@ -168,7 +169,7 @@ class Suggestions_Screen extends StatelessWidget {
                       Text(
                         '45',
                         style: Theme.of(context).textTheme.headline6?.copyWith(
-                            color: fontColor, fontWeight: FontWeight.bold),
+                            color: colors.fontColor(), fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
                         height: 20,
@@ -177,7 +178,7 @@ class Suggestions_Screen extends StatelessWidget {
                           style: Theme.of(context)
                               .textTheme
                               .headline6
-                              ?.copyWith(color: fontColor)),
+                              ?.copyWith(color: colors.fontColor())),
                     ],
                   ),
                 ],

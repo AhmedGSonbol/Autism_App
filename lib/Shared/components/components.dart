@@ -2,10 +2,12 @@
 
 import 'package:autism/Models/post_Model.dart';
 import 'package:autism/Modules/comments/comments_Screen.dart';
+import 'package:autism/Modules/profile/profile_Screen.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/Shared/styles/text_styles.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -30,6 +32,7 @@ Widget defaultTextFormField({
   required TextEditingController controller,
   required TextInputType type,
   Function(String?)? onSaved,
+  required BuildContext context,
   String? label,
   bool isPass = false,
   Widget? iconButton,
@@ -48,7 +51,10 @@ Widget defaultTextFormField({
   Widget? prefixIcon,
   int maxLines = 1,
   GlobalKey<FormState>? formKey,
-}) {
+})
+{
+  AppColors colors = AppColors(context);
+
   return Directionality(
     textDirection: hintRt1!,
     child: TextFormField(
@@ -64,17 +70,25 @@ Widget defaultTextFormField({
       // onChanged: (value) { },
 
       decoration: InputDecoration(
+
         border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
           borderSide: BorderSide(
-            color: Color(0xffA8C8FF),
+            color: colors.fontColor(),
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderSide: BorderSide(
+            color: colors.fontColor(),
           ),
         ),
         labelText: hint,
-        labelStyle: const TextStyle(
-            color: Color(0xffD9D9D9),
+        labelStyle:  TextStyle(
+            color: colors.fontColor(),
             fontSize: 18,
             fontWeight: FontWeight.bold),
-        hintStyle: const TextStyle(color: Color(0xffD9D9D9), fontSize: 18),
+        hintStyle:  TextStyle(color: colors.fontColor(), fontSize: 18),
         suffixIcon: iconButton,
       ),
       onTap: onTap,
@@ -83,7 +97,7 @@ Widget defaultTextFormField({
           return 'مطلوب*';
         }
       },
-      style: const TextStyle(color: Colors.white),
+      style:  TextStyle(color: colors.fontColor()),
     ),
   );
 }
@@ -113,7 +127,7 @@ Widget defaultButton({
       child: Text(
         isUpperCase ? text.toUpperCase() : text,
         style: const TextStyle(
-            color: Color(0xff05305F),
+            color: Colors.white,
             fontSize: 16,
             fontWeight: FontWeight.bold),
       ),
@@ -127,8 +141,8 @@ Widget defaultElevatedButton({
   double height = 50,
   required void Function() onPressed,
   required String text,
-  Color? color,
-  Color? textColor,
+  Color? color ,
+  Color? textColor = Colors.white,
 }) =>
     ElevatedButton(
       style: ButtonStyle(
@@ -137,7 +151,7 @@ Widget defaultElevatedButton({
           const Size(90, 30), // Set the desired width and height
         ),
         backgroundColor: MaterialStatePropertyAll(
-          color ?? const Color(0xffA8C8FF),
+          color ?? mainColor,
         ),
       ),
       onPressed: onPressed,
@@ -155,13 +169,17 @@ Widget defaultElevatedButton({
 Widget bulidPostItem({
   required BuildContext context,
   required PostData model,
-}) {
+  bool enableOpenProfile = true,
+})
+{
+  AppColors colors = AppColors(context);
+
   return Padding(
     padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
     child: Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: const Color(0xff292A2D),
+        color: colors.post_background_color(),
         borderRadius: BorderRadiusDirectional.circular(10),
       ),
       child: Padding(
@@ -189,8 +207,27 @@ Widget bulidPostItem({
                       }()),
                   )
                   ,
-                  onPressed: () {
+                  onPressed: ()
+                  {
                     // go to user porofile
+
+                    if(enableOpenProfile)
+                    {
+                      if(AppCubit.get(context).userModel!.data!.id != model.post_user_id!)
+                      {
+                        AppCubit.get(context).getUserData(userID: model.post_user_id!);
+                        navTo(context, Profile_Screen(isView: true));
+                      }
+                      else
+                      {
+
+                        navTo(context, Profile_Screen(isView: false));
+                      }
+                    }
+
+
+
+
                   },
                 ),
                 const SizedBox(
@@ -208,14 +245,18 @@ Widget bulidPostItem({
                               children: [
                                 Text(
                                   model.name!,
-                                  style: onBoardingDesc,
+                                  style: TextStyle(
+                                    color: colors.fontColor(),
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.bold
+                                  ),
                                 ),
                                 Text(
                                     // DateTime.parse(model.date!).toString(),
                                   intl.DateFormat('E, yyyy/MM/dd  hh:mm a').format(intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(model.date!)),
-                                  style: const TextStyle(
+                                  style:  TextStyle(
                                     fontSize: 10,
-                                    color: fontColor,
+                                    color: colors.fontColor(),
                                   ),
                                 ),
                               ],
@@ -229,10 +270,12 @@ Widget bulidPostItem({
                                   icon: model.post_user_id == AppCubit.get(context).userModel!.data!.id
                                       ? const Icon(
                                           Icons.delete_outline,
-                                          color: Color(0xffDBBCE1),
+                                          color: secondColor,
                                         )
-                                      : Image.asset(
-                                          'assets/images/partner_reports.png'),
+                                      : const Icon(
+                                    Icons.error_outline,
+                                    color: secondColor,
+                                  ),
                                   onPressed: () {
                                     if (!(model.post_user_id == AppCubit.get(context).userModel!.data!.id)) {
                                       showDialog(
@@ -249,35 +292,37 @@ Widget bulidPostItem({
                                             {
 
                                               return AlertDialog(
-                                                backgroundColor:
-                                                const Color(0xff282a2f),
+                                                backgroundColor: colors.home_drawer_background_color(),
                                                 title: Padding(
                                                   padding: const EdgeInsets.all(10.0),
                                                   child: Column(
                                                     mainAxisAlignment:
                                                     MainAxisAlignment.center,
                                                     children: [
-                                                      Image.asset(
-                                                        'assets/images/partner_reports.png',
-                                                        height: 20.0,
-                                                        width: 20.0,
+                                                      Icon(
+                                                        Icons.error_outline,
+                                                        color: secondColor,
                                                       ),
                                                       const SizedBox(
                                                         height: 20.0,
                                                       ),
-                                                      const Text(
+                                                       Text(
                                                         'إبلاغ',
                                                         style: TextStyle(
                                                             fontSize: 25.0,
-                                                            color: fontColor),
+                                                            color: colors.fontColor()),
                                                       ),
                                                       const SizedBox(
                                                         height: 20.0,
                                                       ),
-                                                      const Text(
+                                                       Text(
                                                           'حدد نوع الإساءة الموجودة في المنشور',
                                                           textAlign: TextAlign.center,
-                                                          style: onBoardingDesc)
+                                                          style: TextStyle(
+                                                            fontSize: 17.0,
+                                                            color: colors.fontColor()
+                                                          ),
+                                                       )
                                                     ],
                                                   ),
                                                 ),
@@ -289,7 +334,7 @@ Widget bulidPostItem({
                                                     Row(
                                                       children: [
                                                         Checkbox(
-                                                            checkColor: Colors.black,
+                                                            checkColor: Colors.white,
                                                             activeColor: mainColor,
                                                             value: checkIncorrect,
                                                             onChanged: (val)
@@ -299,7 +344,10 @@ Widget bulidPostItem({
                                                         const Spacer(),
                                                         Text(
                                                           'معلومة غير صحيحة',
-                                                          style: onBoardingDesc,
+                                                          style: TextStyle(
+                                                              fontSize: 17.0,
+                                                              color: colors.fontColor()
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
@@ -307,7 +355,7 @@ Widget bulidPostItem({
                                                     Row(
                                                       children: [
                                                         Checkbox(
-                                                            checkColor: Colors.black,
+                                                            checkColor: Colors.white,
                                                             activeColor: mainColor,
                                                             value: checkInsult,
                                                             onChanged: (val)
@@ -317,14 +365,18 @@ Widget bulidPostItem({
                                                             }),
                                                         const Spacer(),
                                                         Text('إساءة باللفظ',
-                                                            style: onBoardingDesc),
+                                                          style: TextStyle(
+                                                              fontSize: 17.0,
+                                                              color: colors.fontColor()
+                                                          ),
+                                                        ),
                                                       ],
                                                     ),
                                                     const Divider(),
                                                     Row(
                                                       children: [
                                                         Checkbox(
-                                                            checkColor: Colors.black,
+                                                            checkColor: Colors.white,
                                                             activeColor: mainColor,
                                                             value: checkAnnoying,
                                                             onChanged: (val)
@@ -333,7 +385,11 @@ Widget bulidPostItem({
                                                             }),
                                                         const Spacer(),
                                                         Text('إزعاج',
-                                                            style: onBoardingDesc),
+                                                          style: TextStyle(
+                                                              fontSize: 17.0,
+                                                              color: colors.fontColor()
+                                                          ),
+                                                        ),
                                                       ],
                                                     ),
                                                   ],
@@ -341,10 +397,13 @@ Widget bulidPostItem({
 
                                                 actions: [
                                                   TextButton(
-                                                    child: const Text(
+                                                    child: Text(
                                                       'إرسال',
                                                       style: TextStyle(
-                                                          color: secondColor),
+                                                          fontSize: 16.0,
+                                                          fontWeight: FontWeight.bold,
+                                                          color: mainColor
+                                                      ),
                                                     ),
                                                     onPressed: ()
                                                     {
@@ -378,10 +437,14 @@ Widget bulidPostItem({
                                                     },
                                                   ),
                                                   TextButton(
-                                                    child: const Text(
+                                                    child:  Text(
                                                       'إلغاء',
                                                       style:
-                                                      TextStyle(color: fontColor),
+                                                      TextStyle(
+                                                          fontSize: 16.0,
+                                                          fontWeight: FontWeight.bold,
+                                                          color: colors.fontColor()
+                                                      ),
                                                     ),
                                                     onPressed: () {
                                                       Navigator.pop(context);
@@ -397,12 +460,14 @@ Widget bulidPostItem({
                                           );
                                         },
                                       );
-                                    } else {
+                                    } else
+                                    {
+
                                       showDialog(
                                         context: context,
                                         builder: (context) => AlertDialog(
                                           backgroundColor:
-                                              const Color(0xff282a2f),
+                                               colors.home_drawer_background_color(),
                                           title:  Padding(
                                             padding: EdgeInsets.all(10.0),
                                             child: Column(
@@ -411,7 +476,7 @@ Widget bulidPostItem({
                                               children: [
                                                 Icon(
                                                   Icons.delete,
-                                                  color: secondColor,
+                                                  color: mainColor,
                                                 ),
                                                 SizedBox(
                                                   height: 20.0,
@@ -420,7 +485,7 @@ Widget bulidPostItem({
                                                   'هل تريد حذف المنشور ؟',
                                                   style: TextStyle(
                                                       fontSize: 25.0,
-                                                      color: fontColor),
+                                                      color: colors.fontColor()),
                                                 ),
                                                 SizedBox(
                                                   height: 20.0,
@@ -430,10 +495,13 @@ Widget bulidPostItem({
                                           ),
                                           actions: [
                                             TextButton(
-                                              child: const Text(
+                                              child:  Text(
                                                 'حذف',
                                                 style: TextStyle(
-                                                    color: secondColor),
+                                                    fontSize: 16.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: mainColor
+                                                ),
                                               ),
                                               onPressed: ()
                                               {
@@ -442,10 +510,14 @@ Widget bulidPostItem({
                                               },
                                             ),
                                             TextButton(
-                                              child: const Text(
+                                              child:  Text(
                                                 'إلغاء',
                                                 style:
-                                                    TextStyle(color: fontColor),
+                                                TextStyle(
+                                                    fontSize: 16.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: colors.fontColor()
+                                                ),
                                               ),
                                               onPressed: () {
                                                 Navigator.pop(context);
@@ -467,17 +539,17 @@ Widget bulidPostItem({
                                     if (model.type == 'advice') {
                                       return const Icon(
                                         Icons.report_gmailerrorred_rounded,
-                                        color: Color(0xFFFFB4AB),
+                                        color: appRedColor,
                                       );
                                     } else if (model.type == 'information') {
                                       return const Icon(
                                         Icons.info_outline,
-                                        color: Color(0xFF16EA9E),
+                                        color: appGreenColor,
                                       );
                                     } else {
                                       return const Icon(
                                         Icons.help_outline,
-                                        color: Color(0xFF569CFF),
+                                        color: mainColor,
                                       );
                                     }
                                   }
@@ -492,13 +564,13 @@ Widget bulidPostItem({
                           Expanded(
                             child: ReadMoreText(
                               model.content!,
-                              style: const TextStyle(
+                              style:  TextStyle(
                                 fontSize: 15,
-                                color: fontColor,
+                                color: colors.fontColor(),
                                 overflow: TextOverflow.ellipsis,
                               ),
                               trimLines: 2,
-                              colorClickableText: Colors.grey,
+                              colorClickableText: mainColor,
                             ),
                           ),
                         ],
@@ -519,7 +591,7 @@ Widget bulidPostItem({
                       icon: Icon(
                         !model.isLiked! ? Icons.favorite_border : Icons.favorite,
                         color: !model.isLiked!
-                            ? fontColor
+                            ? colors.fontColor()
                             : const Color(0xffE27676),
                       ),
                       onPressed: ()
@@ -529,7 +601,7 @@ Widget bulidPostItem({
                     ),
                     Text(
                       '${model.likes}',
-                      style: const TextStyle(color: fontColor, fontSize: 15.0),
+                      style:  TextStyle(color: colors.fontColor(), fontSize: 15.0),
                     )
                   ],
                 ),
@@ -538,9 +610,9 @@ Widget bulidPostItem({
                 Column(
                   children: [
                     IconButton(
-                      icon: const Icon(
+                      icon:  Icon(
                         Icons.comment,
-                        color: fontColor,
+                        color: colors.fontColor(),
                       ),
                       onPressed: () {
                         // Handle comment on post
@@ -554,7 +626,7 @@ Widget bulidPostItem({
                     ),
                     Text(
                       '${model.comments}',
-                      style: const TextStyle(color: fontColor, fontSize: 15.0),
+                      style:  TextStyle(color: colors.fontColor(), fontSize: 15.0),
                     )
                   ],
                 ),
@@ -568,8 +640,8 @@ Widget bulidPostItem({
                             ? Icons.bookmark_added_outlined
                             : Icons.bookmark_add_outlined,
                         color: model.isSaved!
-                            ? const Color(0xff16EA9E)
-                            : fontColor,
+                            ? const Color(0xFF00d184)
+                            : colors.fontColor(),
                       ),
                       onPressed: ()
                       {
@@ -579,7 +651,7 @@ Widget bulidPostItem({
                     ),
                     Text(
                       '${model.saves}',
-                      style: const TextStyle(color: fontColor, fontSize: 15.0),
+                      style:  TextStyle(color: colors.fontColor(), fontSize: 15.0),
                     )
                   ],
                 ),
@@ -675,11 +747,14 @@ Widget bulidPostItem({
 //   );
 // }
 
-Widget myNavBar({
+Widget myNavBar(BuildContext context,{
   required int selectedIndex,
   required List<String> text,
   required Function(int index) onDestinationSelected,
-}) {
+}){
+
+  AppColors colors = AppColors(context);
+
   return Container(
     decoration: BoxDecoration(
       border: Border.all(color: Color(0xff8E9199), width: 1.0),
@@ -712,9 +787,9 @@ Widget myNavBar({
                             child: Row(
                               children: [
                                 if (entry.key == selectedIndex)
-                                  const Icon(
+                                   Icon(
                                     Icons.check,
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     size: 18.0,
                                   ),
                                 Expanded(
@@ -723,8 +798,8 @@ Widget myNavBar({
                                       entry.value,
                                       style: TextStyle(
                                           color: entry.key == selectedIndex
-                                              ? Colors.black
-                                              : fontColor),
+                                              ? Colors.white
+                                              : colors.fontColor()),
                                     ),
                                   ),
                                 ),
@@ -825,13 +900,63 @@ Color toastFontColor(ToastStates state) {
   return color;
 }
 
+// Widget myImageProvider(String? link , {double size = 50})
+// {
+//   if(link == null || link.isEmpty)
+//   {
+//     return ClipRRect(
+//       borderRadius: BorderRadius.circular(25.0),
+//       child:Image.asset('assets/images/Rectangle.png',fit: BoxFit.cover,isAntiAlias: true,width: size,height: size)
+//     );
+//   }
+//   else
+//   {
+//     try {
+//       return ClipRRect(
+//         borderRadius: BorderRadius.circular(25.0),
+//         child: Image.network(fit: BoxFit.cover,
+//           isAntiAlias: true,
+//           width: 50.0,
+//           height: 50.0,
+//           link,
+//           errorBuilder: (BuildContext context, Object exception,
+//               StackTrace? stackTrace) {
+//             return Image.asset('assets/images/Rectangle.png', fit: BoxFit.cover,
+//                 isAntiAlias: true,
+//                 width: 50.0,
+//                 height: 50.0);
+//           },
+//         ),
+//       );
+//     }catch(e)
+//     {
+//       return Image.asset('assets/images/Rectangle.png', fit: BoxFit.cover,
+//           isAntiAlias: true,
+//           width: 50.0,
+//           height: 50.0);
+//     }
+//   }
+//
+// }
+
 Widget myImageProvider(String? link , {double size = 50})
 {
+
+  return ClipRRect(
+    borderRadius: BorderRadius.circular(25.0),
+    child: FancyShimmerImage(
+      width: size,
+      height: size,
+      boxFit: BoxFit.fill,
+      imageUrl: link!,
+      errorWidget:Image(image: AssetImage('assets/images/Ellipse 18.png'),),
+    ),
+  );
   if(link == null || link.isEmpty)
   {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(25.0),
-      child:Image.asset('assets/images/Rectangle.png',fit: BoxFit.cover,isAntiAlias: true,width: size,height: size)
+        borderRadius: BorderRadius.circular(25.0),
+        child:Image.asset('assets/images/Rectangle.png',fit: BoxFit.cover,isAntiAlias: true,width: size,height: size)
     );
   }
   else
@@ -861,7 +986,5 @@ Widget myImageProvider(String? link , {double size = 50})
           height: 50.0);
     }
   }
-
-
 
 }

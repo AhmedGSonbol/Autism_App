@@ -31,6 +31,9 @@ class UserData
   //patient
   String? age;
   String? patient_name ;
+  String? test_result;
+
+  List<UserImages> userImages = [];
 
 
 
@@ -47,9 +50,32 @@ class UserData
     profile_status = json['profile_status'] == null ? null : json['profile_status'] == 0 ? false : true;
     about = json['about'];
     clinicAddress = json['clinicAddress'];
-    age = json['age'].toString();
-    patient_name = json['patient_name'];
+    age = json['age'].toString() ?? '';
+    patient_name = json['patient_name'] ?? '';
+    test_result = json['test_result'] ?? '';
+
+
+    if(json.containsKey('images') && json['images'].length != 0)
+    {
+      json['images'].forEach((e)
+      {
+        userImages.add(UserImages.fromJson(e));
+      });
+    }
 
   }
 
+
+}
+
+class UserImages
+{
+
+  String? imagePath;
+
+  UserImages.fromJson(Map<String,dynamic> json)
+  {
+    imagePath = json['image'];
+
+  }
 }

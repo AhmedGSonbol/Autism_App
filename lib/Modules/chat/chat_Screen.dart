@@ -31,6 +31,7 @@ class Chat_Screen extends StatelessWidget
         builder: (context, state)
         {
           var cubit = AppCubit.get(context);
+          AppColors colors = AppColors(context);
 
 
           return Directionality(
@@ -49,12 +50,12 @@ class Chat_Screen extends StatelessWidget
                 else if(cubit.messengers_model != null && cubit.messengers_model!.messengersData.length == 0)
                 {
                   return Center(
-                    child: Text('لا يوجد محادثات !',style: TextStyle(color: fontColor),),
+                    child: Text('لا يوجد محادثات !',style: TextStyle(color: colors.fontColor()),),
                   );
                 }else
                 {
                   return ListView.separated(
-                    itemBuilder: ((context, index) => buildChatItems(context,cubit.messengers_model!.messengersData[index])),
+                    itemBuilder: ((context, index) => buildChatItems(context,cubit.messengers_model!.messengersData[index],colors)),
                     separatorBuilder: ((context, index) => SizedBox(
                       height: 10,
                     )),
@@ -69,7 +70,7 @@ class Chat_Screen extends StatelessWidget
         },);
   }
 
-  Widget buildChatItems(BuildContext context , MessengersData model)
+  Widget buildChatItems(BuildContext context , MessengersData model, AppColors colors)
   {
     bool showTimeOnly;
 
@@ -94,11 +95,12 @@ class Chat_Screen extends StatelessWidget
           height: 130,
           width: double.infinity,
           decoration: BoxDecoration(
-            color: const Color(0xff292A2D),
-            borderRadius: BorderRadiusDirectional.circular(15),
+            color: colors.post_background_color(),
+            borderRadius: BorderRadiusDirectional.circular(16),
           ),
           child: Column(
-            children: [
+            children:
+            [
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -107,7 +109,7 @@ class Chat_Screen extends StatelessWidget
                       width: 10,
                     ),
                     Hero(
-                        tag: '${model.id!}_image',
+                        tag: '${model.uId!}_image',
                         child: myImageProvider(model.image)
                     ),
                     const SizedBox(
@@ -117,7 +119,11 @@ class Chat_Screen extends StatelessWidget
                       child: SingleChildScrollView(
                         child: Text(
                           model.name!,
-                          style: onBoardingDesc,
+                          style: TextStyle(
+                              color: colors.fontColor(),
+                              fontSize: 17.0,
+                              fontWeight: FontWeight.bold
+                          ),
                         ),
 
                         scrollDirection: Axis.horizontal,
@@ -126,7 +132,7 @@ class Chat_Screen extends StatelessWidget
                     SizedBox(width: 15.0,),
                     Text(
                       intl.DateFormat(showTimeOnly == true ? 'hh:mm a' : 'yy/M/d').format(intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(model.date!)),
-                      style: TextStyle(color: Color(0xffE1E2E9), fontSize: 15 ),
+                      style: TextStyle(color: colors.fontColor(), fontSize: 15 ),
                       textDirection: TextDirection.rtl,
                     ),
                     const SizedBox(
@@ -144,7 +150,7 @@ class Chat_Screen extends StatelessWidget
                       Expanded(
                         child: Text(
                           model.message!,
-                          style: TextStyle(color: Color(0xffE1E2E9), fontSize: 20),
+                          style: TextStyle(color: colors.fontColor(), fontSize: 20),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),

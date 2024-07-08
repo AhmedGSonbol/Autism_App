@@ -20,6 +20,8 @@ class Messages_Model
 
 
   }
+
+  Messages_Model({required this.messagesData});
 }
 
 class MessagesData

@@ -15,7 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Manage_Admins_Screen extends StatelessWidget {
+class Manage_Admins_Screen extends StatelessWidget
+{
   Manage_Admins_Screen({super.key});
   List<Widget> screens =
   [
@@ -42,7 +43,10 @@ class Manage_Admins_Screen extends StatelessWidget {
         }
 
       },
-      builder: (context, state) {
+      builder: (context, state)
+      {
+        AppColors colors = AppColors(context);
+
         var cubit = AppCubit.get(context);
         return Directionality(
           textDirection: TextDirection.rtl,
@@ -70,6 +74,7 @@ class Manage_Admins_Screen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: myNavBar(
+                            context,
                               selectedIndex: cubit.currentAccountsScreen,
                               text: ['مسؤول', 'طبيب', 'مريض'],
                               onDestinationSelected: (index) {
@@ -84,31 +89,36 @@ class Manage_Admins_Screen extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: TextField(
-                              controller: searchController,
-                              style: const TextStyle(color: Colors.white),
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  hintText: 'بحث',
-                                  hintStyle: const TextStyle(
-                                    color: Color(0xffE1E2E9),
-                                  ),
-                                  suffixIcon: IconButton(
-                                    icon: Transform.rotate(
-                                      angle: 0,
-                                      child: const Icon(
-                                        Icons.search,
-                                        color: fontColor,
-                                      ),
-                                    ),
-                                    onPressed: () {},
-                                  )),
-                              onChanged: (text)
-                              {
-                                print(text);
-                                cubit.adminSearch(text);
-                              },
+                            controller: searchController,
+                            style:  TextStyle(color: colors.fontColor()),
+                            decoration: InputDecoration(
+
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              enabledBorder:  OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                  borderSide: BorderSide(color: colors.fontColor())
+                              ),
+                              hintText: 'إكتب شئ',
+
+                              suffixIcon: IconButton(
+                                icon: Transform.rotate(
+                                  angle: 0,
+                                  child:  Icon(Icons.search,color: colors.fontColor(),),
+                                ),
+                                onPressed: ()
+                                {
+                                  cubit.adminSearch(searchController.text);
+                                },
+                              ),
                             ),
+                            onSubmitted: (val)
+                            {
+                              cubit.adminSearch(val);
+                            },
+                          ),
+
                           ),
                         ),
                       ],

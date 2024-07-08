@@ -1,3 +1,5 @@
+import 'package:autism/Models/messengers_Model.dart';
+import 'package:autism/Modules/chat_Details/chat_Details_Screen.dart';
 import 'package:autism/Modules/doctor_Profile_Details/doctor_Profile_Details_Screen.dart';
 import 'package:autism/Modules/profile_Child/profile_Child_Screen.dart';
 import 'package:autism/Modules/profile_Edit/profile_Edit_Screen.dart';
@@ -11,11 +13,13 @@ import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/Shared/styles/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class Profile_Screen extends StatelessWidget
 {
-  Profile_Screen({Key? key}) : super(key: key);
+  Profile_Screen({Key? key , required this.isView}) : super(key: key);
 
+  bool isView;
 
   List<Widget> patientScreens =
   [
@@ -37,31 +41,75 @@ class Profile_Screen extends StatelessWidget
       listener: (context, state) {},
       builder: (context, state)
       {
+        AppColors colors = AppColors(context);
 
         var cubit = AppCubit.get(context);
+        print(isView);
+
 
         return Scaffold(
-          backgroundColor: backgroundColor,
           appBar: AppBar(
+            backgroundColor: colors.home_drawer_item_background(),
 
-            backgroundColor: const Color(0xff43474E),
-            title: const Text('الملف الشخصي',style: TextStyle(color: fontColor),),
+            title:  Text('الملف الشخصي',style: TextStyle(color: colors.fontColor()),),
             leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
               },
               icon: const Icon(Icons.arrow_back),
-              color: const Color(0xffE1E2E9),
+              color: colors.fontColor(),
             ),
           ),
-          body: SingleChildScrollView(
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+          floatingActionButton: (()
+          {
+            if(isView == true && cubit.viewUserModel != null && cubit.viewUserModel!.data!.profile_status == true)
+            {
+              return FloatingActionButton(
+                onPressed: ()
+                {
+                  cubit.getUserMessages(cubit.viewUserModel!.data!.id!);
+                  navTo(context, Chat_Details_Screen(
+                    messengerModel: MessengersData(
+                      name: cubit.viewUserModel!.data!.name,
+                      uId: cubit.viewUserModel!.data!.id,
+                      message: '',
+                      date: DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').format(DateTime.now()).toString(),
+                      image: cubit.viewUserModel!.data!.image,
+                    ),));
+                },
+                child:  Icon(
+                  Icons.message,
+                  color: colors.backgroundColor(),
+                ),
+                backgroundColor: mainColor,
+
+              );
+            }
+
+          }()),
+          body: (cubit.userModel == null && isView == false) || (cubit.viewUserModel == null && isView == true)
+              ?
+              const Center(
+                child: CircularProgressIndicator(color: mainColor,),
+              )
+              :
+              isView == true &&  cubit.viewUserModel != null && cubit.viewUserModel!.data!.profile_status == false
+                  ?
+                   Center(
+                    child: Text('لا يمكن عرض الملف الشخصي الخاص بهذا المستخدم',
+                      style: TextStyle(fontSize: 20.0,color: colors.fontColor()),
+                    ),
+                  )
+                  :
+          SingleChildScrollView(
             child: Column(
               children:
               [
                 //User info
                 Container(
-                  decoration: const BoxDecoration(
-                    color: Color(0xff43474E),
+                  decoration:  BoxDecoration(
+                    color: colors.home_drawer_item_background(),
                     borderRadius: BorderRadius.only(bottomRight: Radius.circular(16.0),bottomLeft: Radius.circular(16.0))
                   ),
                   child: Padding(
@@ -70,66 +118,106 @@ class Profile_Screen extends StatelessWidget
                       mainAxisAlignment: MainAxisAlignment.center,
                       children:
                       [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children:
-                          [
-                            IconButton(
-                              iconSize: 25.0,
-                              padding: EdgeInsets.zero,
-                              icon: const SizedBox(),
-                              onPressed: ()
-                              {
+                        Stack(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children:
+                              [
+                                // IconButton(
+                                //   iconSize: 25.0,
+                                //   padding: EdgeInsets.zero,
+                                //   icon: const SizedBox(),
+                                //   onPressed: ()
+                                //   {
+                                //
+                                //   },),
+                                 Hero(
+                                  tag: 'profile_image',
+                                    child: CircleAvatar(backgroundImage:
+                                    (()
+                                    {
+                                      if(isView == true)
+                                      {
+                                        if (cubit.viewUserModel != null)
+                                        {
+                                          if (cubit.viewUserModel!.data!.image != null && cubit.viewUserModel!.data!.image!.isNotEmpty)
+                                          {
+                                            return NetworkImage(cubit.viewUserModel!.data!.image!) as ImageProvider;
+                                          } else
+                                          {
+                                            return AssetImage('assets/images/Rectangle.png') as ImageProvider;
+                                          }
+                                        }
+                                        else
+                                        {
+                                          return AssetImage('assets/images/Rectangle.png') as ImageProvider;
+                                        }
+                                      }
+                                      else
+                                      {
+                                        if (cubit.userModel != null)
+                                        {
+                                          if (cubit.userModel!.data!.image != null && cubit.userModel!.data!.image!.isNotEmpty)
+                                          {
+                                            return NetworkImage(cubit.userModel!.data!.image!) as ImageProvider;
+                                          } else
+                                          {
+                                            return AssetImage('assets/images/Rectangle.png') as ImageProvider;
+                                          }
+                                        }
+                                        else
+                                        {
+                                          return AssetImage('assets/images/Rectangle.png') as ImageProvider;
+                                        }
+                                      }
 
-                              },),
-                             Hero(
-                              tag: 'profile_image',
-                                child: CircleAvatar(backgroundImage:
-                                (()
-                                {
-                                  if (cubit.userModel != null)
+                                    }()),
+                                      radius: 70.0,
+                                    )),
+
+                              ],
+                            ),
+                            if(isView == false)
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: IconButton(
+                                  iconSize: 25.0,
+                                  padding: EdgeInsets.zero,
+                                  icon:  Icon(Icons.edit,color: colors.fontColor(),),
+                                  onPressed: ()
                                   {
-                                    if (cubit.userModel!.data!.image != null && cubit.userModel!.data!.image!.isNotEmpty)
-                                    {
-                                      return NetworkImage(cubit.userModel!.data!.image!) as ImageProvider;
-                                    } else
-                                    {
-                                      return AssetImage('assets/images/Rectangle.png') as ImageProvider;
-                                    }
-                                  }
-                                  else
-                                  {
-                                    return AssetImage('assets/images/Rectangle.png') as ImageProvider;
-                                  }
-                                }()),
-                                  radius: 70.0,
-                                )),
-                            IconButton(
-                              iconSize: 25.0,
-                              padding: EdgeInsets.zero,
-                              icon: const Icon(Icons.edit,color: fontColor,),
-                            onPressed: ()
-                            {
-                              navTo(context, Profile_Edit_Screen());
-                            },)
+                                    navTo(context, Profile_Edit_Screen());
+                                  },),
+                              )
                           ],
                         ),
 
                         const SizedBox(height: 10.0,),
 
+
                         //username
-                         Text(cubit.userModel != null ? cubit.userModel!.data!.name! :'User Name',style: TextStyle(fontSize: 25.0,color: fontColor),),
+                        if(isView == false)
+                          Text(cubit.userModel != null ? cubit.userModel!.data!.name! :'User Name',style: TextStyle(fontSize: 25.0,color: colors.fontColor()),),
+
+                        if(isView == true)
+                          Text(cubit.viewUserModel != null ? cubit.viewUserModel!.data!.name! :'User Name',style: TextStyle(fontSize: 25.0,color: colors.fontColor(),fontWeight: FontWeight.bold),),
 
                         const SizedBox(height: 5.0,),
 
-                        //location
+                        ///location
                          Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children:
                           [
-                            Text(cubit.userModel != null ? '${cubit.userModel!.data!.city!} - ${cubit.userModel!.data!.government!}' :'Address',style: onBoardingDesc,),
-                            const Icon(Icons.location_on,color: fontColor,)
+                            if(isView == false)
+                              Text(cubit.userModel != null ? '${cubit.userModel!.data!.city!} - ${cubit.userModel!.data!.government!}' :'Address',style: TextStyle(fontSize: 18.0,color: colors.fontColor()),),
+
+                            if(isView == true)
+                              Text(cubit.viewUserModel != null ? '${cubit.viewUserModel!.data!.city!} - ${cubit.viewUserModel!.data!.government!}' :'Address',style: TextStyle(fontSize: 18.0,color: colors.fontColor()),),
+
+                             Icon(Icons.location_on,color: colors.fontColor(),)
                           ],
                         ),
 
@@ -141,7 +229,8 @@ class Profile_Screen extends StatelessWidget
 
                 const SizedBox(height: 20.0,),
 
-                Padding(
+                if(isView == false)
+                  Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: Column(
 
@@ -149,6 +238,7 @@ class Profile_Screen extends StatelessWidget
                     [
                       //navBar
                       myNavBar(
+                        context,
                         selectedIndex: cubit.currentProfileScreen,
                         text: ['منشوراتك',userType == 'patient' ?'طفلك' : 'أنت','المحفوظات'],
                         onDestinationSelected:(index)
@@ -166,7 +256,27 @@ class Profile_Screen extends StatelessWidget
 
                     ],
                   ),
-                )
+                ),
+
+                if(isView == true)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Column(
+
+                      children:
+                      [
+
+                        const SizedBox(height: 20.0,),
+
+                        cubit.viewUserModel!.data!.user_type == 'patient'
+                            ?
+                        Profile_Child_Screen(isView: true,)
+                            :
+                        Doctor_Profile_Details_Screen(isView: true,),
+
+                      ],
+                    ),
+                  )
 
 
               ],

@@ -36,7 +36,7 @@ class Profile_Edit_Screen extends StatelessWidget
 
   var formKey = GlobalKey<FormState>();
 
-  String? imgPath;
+  // String? imgPath;
 
   @override
   Widget build(BuildContext context)
@@ -45,9 +45,10 @@ class Profile_Edit_Screen extends StatelessWidget
 
     UserData? model = AppCubit.get(context).userModel?.data;
 
-    if(model != null) {
+    if(model != null && isAddAdmin == false) {
       nameController.text = model.name ?? '';
       phoneController.text = model.phone ?? '';
+      emailController.text = model.email ?? '';
 
       if (userType != 'admin') {
         cityController.text = model.city ?? '';
@@ -111,6 +112,7 @@ class Profile_Edit_Screen extends StatelessWidget
       },
       builder: (context, state)
       {
+        AppColors colors = AppColors(context);
 
         var cubit = AppCubit.get(context);
         model = cubit.userModel!.data;
@@ -119,15 +121,14 @@ class Profile_Edit_Screen extends StatelessWidget
           children:
           [
             Scaffold(
-              backgroundColor: backgroundColor,
               appBar: AppBar(
-                backgroundColor: const Color(0xff43474E),
+                backgroundColor: colors.home_drawer_item_background(),
                 title:  Text(
                   isAddAdmin == false ?
                   'تعديل الملف الشخصي'
                       :
                   'إضافة مسئول جديد',
-                  style: TextStyle(color: fontColor),
+                  style: TextStyle(color: colors.fontColor()),
                 ),
                 leading: IconButton(
                   onPressed: ()
@@ -135,7 +136,7 @@ class Profile_Edit_Screen extends StatelessWidget
                     Navigator.pop(context);
                   },
                   icon: const Icon(Icons.arrow_back),
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
               ),
               bottomNavigationBar: BottomAppBar(
@@ -163,8 +164,8 @@ class Profile_Edit_Screen extends StatelessWidget
                               Navigator.of(context).pop();
                             },
                             text: 'إلغاء',
-                            color: const Color(0xffDBBCE1),
-                            textColor: const Color(0xff3E2845),
+                            color: appRedColor
+
                           ),
                           const SizedBox(
                             width: 15,
@@ -189,7 +190,7 @@ class Profile_Edit_Screen extends StatelessWidget
                                     cubit.updateAdminData(
                                       name: nameController.text,
                                       phone: phoneController.text,
-                                      password: passwordController.text,
+                                      email: emailController.text,
                                     );
                                   }
                                   else if(userType == 'patient')
@@ -197,12 +198,12 @@ class Profile_Edit_Screen extends StatelessWidget
                                     cubit.updatePatientData(
                                         name: nameController.text,
                                         phone: phoneController.text,
-                                        password: passwordController.text,
+                                        email: emailController.text,
                                         government: governmentController.text,
                                         city: cityController.text,
                                         age: childAgeController.text,
                                         patient_name: childNameController.text,
-                                      image: imgPath
+                                      // image: imgPath
                                     );
 
                                   }
@@ -211,7 +212,7 @@ class Profile_Edit_Screen extends StatelessWidget
                                     cubit.updateDoctorData(
                                       name: nameController.text,
                                       phone: phoneController.text,
-                                      password: passwordController.text,
+                                      email: emailController.text,
                                       government: governmentController.text,
                                       city: cityController.text,
                                       about: aboutController.text,
@@ -238,8 +239,8 @@ class Profile_Edit_Screen extends StatelessWidget
                   children: [
                     //User info
                     Container(
-                      decoration: const BoxDecoration(
-                          color: Color(0xff43474E),
+                      decoration:  BoxDecoration(
+                          color: colors.home_drawer_item_background(),
                           borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(16.0),
                               bottomLeft: Radius.circular(16.0))),
@@ -287,13 +288,14 @@ class Profile_Edit_Screen extends StatelessWidget
                                       ),
                                       onPressed: () { //A8C8FF
                                         ///upload image
-                                        cubit.pickImage().then((value)
-                                        {
-                                          if(cubit.avatarImage != null)
-                                          {
-                                            imgPath = cubit.avatarImage!.path;
-                                          }
-                                        });
+                                        cubit.pickImage();
+                                        //     .then((value)
+                                        // {
+                                        //   if(cubit.avatarImage != null)
+                                        //   {
+                                        //     imgPath = cubit.avatarImage!.path;
+                                        //   }
+                                        // });
                                       },
                                     );
                                   }else
@@ -313,7 +315,7 @@ class Profile_Edit_Screen extends StatelessWidget
 
                                           ///delete image
                                           ///model!.image = '';
-                                          imgPath = null;
+                                          // imgPath = null;
 
                                           cubit.cancelUploadedProfileImage();
 
@@ -362,7 +364,7 @@ class Profile_Edit_Screen extends StatelessWidget
                           children:
                           [
                             defaultTextFormField(
-
+                              context: context,
                               controller: nameController,
                               type: TextInputType.name,
                               hint: 'الأسم',
@@ -373,7 +375,27 @@ class Profile_Edit_Screen extends StatelessWidget
                               {
                                 return 'الأسم يجب الا يقل عن 5 حروف !';
                               }
+                              return null;
                             },
+                            ),
+                            const SizedBox(
+                              height: 20.0,
+                            ),
+                            defaultTextFormField(
+                                context: context,
+                                controller: emailController,
+                                type: TextInputType.emailAddress,
+                                hint: 'الإيميل',
+                                validate: (value)
+                                {
+                                  if (value == '') {
+                                    return 'مطلوب*';
+                                  }else if(!value!.contains('@') || !value.contains('.') || value.length < 7)
+                                  {
+                                    return 'برجاء كتابة الايميل بشكل صحيح !';
+                                  }
+                                  return null;
+                                }
                             ),
                             if(userType != 'admin')
                             const SizedBox(
@@ -381,6 +403,7 @@ class Profile_Edit_Screen extends StatelessWidget
                             ),
                             if(userType != 'admin' && isAddAdmin == false)
                               defaultTextFormField(
+                                  context: context,
                                 controller: cityController,
                                 type: TextInputType.name,
                                 hint: 'الدولة'),
@@ -389,6 +412,7 @@ class Profile_Edit_Screen extends StatelessWidget
                               height: 20.0,
                             ),if(userType != 'admin' && isAddAdmin == false)
                             defaultTextFormField(
+                                context: context,
                                 controller: governmentController,
                                 type: TextInputType.name,
                                 hint: 'المحافظة'),
@@ -398,6 +422,7 @@ class Profile_Edit_Screen extends StatelessWidget
                             ),
                             // if(userType != 'admin' && isAddAdmin == false)
                             defaultTextFormField(
+                                context: context,
                                 controller: phoneController,
                                 type: TextInputType.phone,
                                 hint: 'الهاتف',
@@ -407,6 +432,7 @@ class Profile_Edit_Screen extends StatelessWidget
                                   }else if (value!.length != 11) {
                                     return 'رقم الهاتف يجب ان يكون 11 رقم !';
                                   }
+                                  return null;
                                 }),
                             // if(userType != 'admin' && isAddAdmin == false)
                             const SizedBox(
@@ -416,15 +442,23 @@ class Profile_Edit_Screen extends StatelessWidget
                             userType == 'patient'
                                 ?
                             defaultTextFormField(
+                              context: context,
                               controller: childNameController,
                               type: TextInputType.name,
                               hint: 'اسم الطفل',
+                                validate: (val){
+                                  return null;
+                                }
                             )
                                 :
                             defaultTextFormField(
+                                context: context,
                                 controller: clinicAddressController,
                                 type: TextInputType.name,
-                                hint: 'العيادة'
+                                hint: 'العيادة',
+                              validate: (val){
+                                return null;
+                              }
                             ),
                             if(userType != 'admin')
                             const SizedBox(
@@ -434,44 +468,39 @@ class Profile_Edit_Screen extends StatelessWidget
                             userType == 'patient'
                                 ?
                             defaultTextFormField(
+                              context: context,
                               controller: childAgeController,
                               type: TextInputType.number,
-                              hint: 'عمر الطفل',
+                              hint: 'عمر الطفل'
                             )
                             :
                             defaultTextFormField(
+                                context: context,
                                 controller: aboutController,
                                 type: TextInputType.name,
                                 hint: 'التعريف',
+                                validate: (val){
+                                  return null;
+                                },
                                 maxLines: 3
 
                             ),
+
                             if(isAddAdmin == true)
-                            defaultTextFormField(
-                                controller: emailController,
-                                type: TextInputType.emailAddress,
-                                hint: 'الإيميل',
-                              validate: (value)
-                              {
-                                if (value == '') {
-                                  return 'مطلوب*';
-                                }else if(!value!.contains('@') || !value.contains('.') || value.length < 7)
-                                {
-                                  return 'برجاء كتابة الايميل بشكل صحيح !';
-                                }
-                              }
-                            ),
-                             if(isAddAdmin == true)
                             const SizedBox(
                               height: 20.0,
                             ),
-                            // if(isAddAdmin == true)
+
+                            if(isAddAdmin == true)
                             defaultTextFormField(
+                                context: context,
                                 controller: passwordController,
                                 type: TextInputType.name,
                                 hint: 'الرقم السري',
                               validate: (value)
                               {
+                                return null;
+
                                 // if (value == '') {
                                 //   return 'مطلوب*';
                                 // }else if (value!.length < 6) {
@@ -485,6 +514,7 @@ class Profile_Edit_Screen extends StatelessWidget
                             ),
                             if(isAddAdmin == true)
                             defaultTextFormField(
+                                context: context,
                                 controller: confirmPassController,
                                 type: TextInputType.text,
 
@@ -498,6 +528,7 @@ class Profile_Edit_Screen extends StatelessWidget
                                   {
                                     return 'برجاء إعادة كتابة كلمة السر بشكل صحيح !';
                                   }
+                                  return null;
                                 }),
 
                             if(isAddAdmin == false)
@@ -517,7 +548,7 @@ class Profile_Edit_Screen extends StatelessWidget
                                ),
                                Spacer(),
 
-                               Text('تعديل الرقم السري',style: TextStyle(color: fontColor,fontSize: 20.0),),
+                               Text('تعديل الرقم السري',style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
 
                              ],
 

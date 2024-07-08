@@ -25,6 +25,7 @@ class Posts_Screen extends StatelessWidget
       builder: (context, state)
       {
         var cubit = AppCubit.get(context);
+        AppColors colors = AppColors(context);
 
         return Directionality(
           textDirection: TextDirection.rtl,
@@ -43,18 +44,24 @@ class Posts_Screen extends StatelessWidget
                   height: 60,
                   child: TextField(
                     controller: postContentController,
-                    style: const TextStyle(color: Colors.white),
+                    style:  TextStyle(color: colors.fontColor()),
                     decoration: InputDecoration(
+
+
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16)),
-                        hintText: 'إكتب شئ',
-                        hintStyle: const TextStyle(
-                          color: Color(0xffE1E2E9),
+                            borderRadius: BorderRadius.circular(16),
                         ),
+                        enabledBorder:  OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide(color: colors.fontColor())
+                        ),
+
+                        hintText: 'إكتب شئ',
+
                         suffixIcon: IconButton(
                           icon: Transform.rotate(
                             angle: 0,
-                            child: const Icon(Icons.send,color: fontColor,),
+                            child:  Icon(Icons.send,color: colors.fontColor(),),
                           ),
                           onPressed: ()
                           {

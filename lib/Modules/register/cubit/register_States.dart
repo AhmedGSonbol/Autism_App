@@ -35,3 +35,7 @@ class RegisterErrorState extends RegisterStates
   final String error;
 }
 
+class RegisterChangeCountryValueState extends RegisterStates{}
+
+class RegisterChangeGovernmentValueState extends RegisterStates{}
+

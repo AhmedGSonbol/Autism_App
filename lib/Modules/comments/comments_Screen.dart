@@ -39,17 +39,14 @@ class Comments_Screen extends StatelessWidget
       builder: (context, state)
       {
         var cubit = AppCubit.get(context);
+        AppColors colors = AppColors(context);
 
         return Stack(
           children: [
             Scaffold(
-              backgroundColor: backgroundColor,
               appBar: AppBar(
-                scrolledUnderElevation: 0,
-                elevation: 0,
-                backgroundColor: const Color(0xff292A2D),
                 title:  Text('التعليقات',
-                  style: TextStyle(color: fontColor),
+
                 ),
                 leading: IconButton(
                   onPressed: ()
@@ -57,7 +54,7 @@ class Comments_Screen extends StatelessWidget
                     Navigator.pop(context);
                   },
                   icon: const Icon(Icons.arrow_back),
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
               ),
               body: Directionality(
@@ -102,7 +99,7 @@ class Comments_Screen extends StatelessWidget
                               else if(cubit.comments_model != null && cubit.comments_model!.commentsData.length == 0)
                               {
                                 return Center(
-                                  child: Text('لا يوجد تعليقات !',style: TextStyle(color: fontColor),),
+                                  child: Text('لا يوجد تعليقات !',style: TextStyle(color: colors.fontColor()),),
                                 );
                               }else
                               {
@@ -111,6 +108,7 @@ class Comments_Screen extends StatelessWidget
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) => bulidCommentItem(
+                                      colors: colors,
                                         context: context,
                                         model: cubit.comments_model!.commentsData[index]),
                                     separatorBuilder: (context, index) => SizedBox(height: 5,),
@@ -118,11 +116,6 @@ class Comments_Screen extends StatelessWidget
                                 );
                               }
                             }())
-
-
-
-
-
                           ],
                         ),
                       ),
@@ -132,24 +125,28 @@ class Comments_Screen extends StatelessWidget
                       child: Align(
                         alignment: Alignment.bottomCenter,
                         child: Container(
-                          color: backgroundColor,
+                          color: colors.backgroundColor(),
                         height: 60,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
                           child: TextField(
                             controller: commentContentController,
-                            style: const TextStyle(color: Colors.white),
+                            style:  TextStyle(color: colors.fontColor()),
                             decoration: InputDecoration(
+
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16)),
-                                hintText: 'إكتب شئ',
-                                hintStyle: const TextStyle(
-                                  color: Color(0xffE1E2E9),
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
+                                enabledBorder:  OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                    borderSide: BorderSide(color: colors.fontColor())
+                                ),
+                                hintText: 'إكتب شئ',
+
                                 suffixIcon: IconButton(
                                   icon: Transform.rotate(
                                     angle: 0,
-                                    child: const Icon(Icons.send,color: fontColor,),
+                                    child:  Icon(Icons.send,color: colors.fontColor(),),
                                   ),
                                   onPressed: ()
                                   {
@@ -197,13 +194,14 @@ class Comments_Screen extends StatelessWidget
   Widget bulidCommentItem({
     required BuildContext context,
     required CommentsData model,
+    required AppColors colors
   }) {
     return Padding(
       padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: const Color(0xff292A2D),
+          color: colors.post_background_color(),
           borderRadius: BorderRadiusDirectional.circular(10),
         ),
         child: Padding(
@@ -250,14 +248,18 @@ class Comments_Screen extends StatelessWidget
                                 children: [
                                   Text(
                                     model.name!,
-                                    style: onBoardingDesc,
+                                    style: TextStyle(
+                                        color: colors.fontColor(),
+                                        fontSize: 17.0,
+                                        fontWeight: FontWeight.bold
+                                    ),
                                   ),
                                   Text(
                                     // DateTime.parse(model.date!).toString(),
                                     intl.DateFormat('E, yyyy/MM/dd  hh:mm a').format(intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(model.date!)),
-                                    style: const TextStyle(
+                                    style:  TextStyle(
                                       fontSize: 10,
-                                      color: fontColor,
+                                      color: colors.fontColor(),
                                     ),
                                   ),
                                 ],
@@ -269,7 +271,7 @@ class Comments_Screen extends StatelessWidget
                               child:IconButton(
                                 icon: const Icon(
                                   Icons.delete_outline,
-                                  color: Color(0xffDBBCE1),
+                                  color: mainColor,
                                 ),
 
                                 onPressed: () {
@@ -278,7 +280,7 @@ class Comments_Screen extends StatelessWidget
                                       context: context,
                                       builder: (context) => AlertDialog(
                                         backgroundColor:
-                                        const Color(0xff282a2f),
+                                        colors.home_drawer_background_color(),
                                         title:  Padding(
                                           padding: EdgeInsets.all(10.0),
                                           child: Column(
@@ -287,7 +289,7 @@ class Comments_Screen extends StatelessWidget
                                             children: [
                                               Icon(
                                                 Icons.delete,
-                                                color: secondColor,
+                                                color: mainColor,
                                               ),
                                               SizedBox(
                                                 height: 20.0,
@@ -296,7 +298,7 @@ class Comments_Screen extends StatelessWidget
                                                 'هل تريد حذف التعليق ؟',
                                                 style: TextStyle(
                                                     fontSize: 25.0,
-                                                    color: fontColor),
+                                                    color: colors.fontColor()),
                                               ),
                                               SizedBox(
                                                 height: 20.0,
@@ -309,7 +311,10 @@ class Comments_Screen extends StatelessWidget
                                             child: const Text(
                                               'حذف',
                                               style: TextStyle(
-                                                  color: secondColor),
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: mainColor
+                                              ),
                                             ),
                                             onPressed: ()
                                             {
@@ -319,10 +324,14 @@ class Comments_Screen extends StatelessWidget
                                             },
                                           ),
                                           TextButton(
-                                            child: const Text(
+                                            child:  Text(
                                               'إلغاء',
                                               style:
-                                              TextStyle(color: fontColor),
+                                              TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: colors.fontColor()
+                                              ),
                                             ),
                                             onPressed: () {
                                               Navigator.pop(context);
@@ -345,13 +354,13 @@ class Comments_Screen extends StatelessWidget
                             Expanded(
                               child: ReadMoreText(
                                 model.content!,
-                                style: const TextStyle(
+                                style:  TextStyle(
                                   fontSize: 15,
-                                  color: fontColor,
+                                  color: colors.fontColor(),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 trimLines: 2,
-                                colorClickableText: Colors.grey,
+                                colorClickableText: mainColor,
                               ),
                             ),
                           ],

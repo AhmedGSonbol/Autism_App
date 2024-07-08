@@ -12,11 +12,11 @@ const DOCTORS_POSTS = 'posts/doctors';
 
 const LIKE_POST = 'posts/like';
 
-const UNLIKE_POST = 'posts/unlike';
+// const UNLIKE_POST = 'posts/unlike';
 
 const SAVE_POST = 'posts/savePost';
 
-const UNSAVE_POST = 'posts/unsavePost';
+// const UNSAVE_POST = 'posts/unsavePost';
 
 const POST_COMMENT = 'posts/comment';
 
@@ -49,6 +49,10 @@ const MESSENGERS = 'users/messengers';
 const MESSAGES = 'users/messages';
 
 const TEST = 'users/test';
+
+const PROFILE_STATUS = 'users/update/profile_status';
+
+const SEARCH = 'users/search';
 
 
 

@@ -10,6 +10,7 @@ import 'package:autism/Modules/login/login_Screen.dart';
 import 'package:autism/Modules/profile/profile_Screen.dart';
 import 'package:autism/Modules/profile_Edit/profile_Edit_Screen.dart';
 import 'package:autism/Modules/reviews/reviews_Screen.dart';
+import 'package:autism/Modules/search/search_Screen.dart';
 import 'package:autism/Modules/setting/settings_Screen.dart';
 import 'package:autism/Modules/test/test_Screen.dart';
 import 'package:autism/Modules/posts/posts_Screen.dart';
@@ -55,15 +56,19 @@ class Home_Screen extends StatelessWidget {
         {
           if(state is SuccessGetUserDataState)
           {
-            if(userType == 'admin')
+            if(state.isView == false)
             {
-              // getPending();
+              if(userType == 'admin')
+              {
+                // getPending();
 
-            }else
-            {
-              AppCubit.get(context).getPatientsPosts();
-              AppCubit.get(context).getDoctorsPosts();
+              }else
+              {
+                AppCubit.get(context).getPatientsPosts();
+                AppCubit.get(context).getDoctorsPosts();
+              }
             }
+
           }
           if(state is SuccessDeletePostState)
           {
@@ -86,17 +91,15 @@ class Home_Screen extends StatelessWidget {
         {
           var cubit = AppCubit.get(context);
 
+          AppColors colors = AppColors(context);
 
 
           return Stack(
             children: [
               Scaffold(
-                backgroundColor: backgroundColor,
                 appBar: AppBar(
-                  scrolledUnderElevation: 0,
-                  elevation: 0,
+
                   // toolbarHeight: 64,
-                  backgroundColor: const Color(0xff292A2D),
 
                   //Avatar image
                   leading: Builder(builder: (context) {
@@ -107,18 +110,20 @@ class Home_Screen extends StatelessWidget {
                           onPressed: () {
                             Scaffold.of(context).openDrawer(); // Open the drawer
                           },
-                          icon: const Icon(
+                          icon:  Icon(
                             Icons.menu,
-                            color: Color(0xffC4C6CF),
+                            color: colors.fontColor(),
                             size: 25,
                           ),
                         ),
+                        if(userType != 'admin')
                         IconButton(
                           icon: const Icon(Icons.search),
-                          color: const Color(0xffC4C6CF),
+                          color: colors.fontColor(),
                           iconSize: 25,
                           onPressed: ()
                           {
+                            navTo(context, Search_Screen());
 
                           },
                         ),
@@ -126,10 +131,10 @@ class Home_Screen extends StatelessWidget {
                     );
                   }),
                   leadingWidth: 100,
-                  title: const Text(
+                  title:  Text(
                     'مجتمع التوحد',
                     style: TextStyle(
-                        color: Color(0xffE1E2E9),
+                        color: colors.fontColor(),
                         fontSize: 24,
                         fontWeight: FontWeight.bold),
                   ),
@@ -165,7 +170,7 @@ class Home_Screen extends StatelessWidget {
                             {
                               if(userType != 'admin')
                               {
-                                navTo(context, Profile_Screen());
+                                navTo(context, Profile_Screen(isView: false,));
                               }
                               else
                               {
@@ -184,7 +189,6 @@ class Home_Screen extends StatelessWidget {
                   ],
                 ),
                 drawer: Drawer(
-                  backgroundColor: const Color(0xff282a2f),
                   child: ListView(
                     physics: BouncingScrollPhysics(),
                     padding: const EdgeInsets.only(bottom: 40.0),
@@ -194,7 +198,7 @@ class Home_Screen extends StatelessWidget {
                           height: 70,
                           padding: const EdgeInsetsDirectional.all(10),
                           decoration: BoxDecoration(
-                              color: const Color(0xff43474E),
+                              color: colors.home_drawer_item_background(),
                               borderRadius: BorderRadius.circular(20)),
                           child:  ListTile(
                             leading: CircleAvatar(
@@ -226,7 +230,7 @@ class Home_Screen extends StatelessWidget {
                               'User Name',
                               style: TextStyle(
                                   fontSize: 20,
-                                  color: Color(0xffE1E2E9),
+                                  color: colors.fontColor(),
                                   fontWeight: FontWeight.bold
                               ),
                               overflow: TextOverflow.ellipsis,
@@ -242,15 +246,15 @@ class Home_Screen extends StatelessWidget {
                               'username@gmail.com',
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                color: Color(0xffCCCCCC),
+                                color: colors.home_drawer_email_color(),
                               ),
                               maxLines: 1,
 
                             ),
                           ),
                         ),
-                        decoration: const BoxDecoration(
-                          color: Color(0xff282a2f),
+                        decoration:  BoxDecoration(
+                          color: colors.home_drawer_background_color(),
                         ),
                       ),
                       Padding(
@@ -259,7 +263,7 @@ class Home_Screen extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsetsDirectional.all(20),
                           decoration: BoxDecoration(
-                              color: const Color(0xff43474E),
+                              color: colors.home_drawer_item_background(),
                               borderRadius: BorderRadius.circular(20)),
                           child: Column(
                             children: [
@@ -270,7 +274,7 @@ class Home_Screen extends StatelessWidget {
                                   {
                                     if(userType != 'admin')
                                     {
-                                      navTo(context, Profile_Screen());
+                                      navTo(context, Profile_Screen(isView: false,));
                                     }
                                     else
                                     {
@@ -290,7 +294,7 @@ class Home_Screen extends StatelessWidget {
                                     Icon(
                                       Icons.account_circle,
                                       size: 30,
-                                      color: Color(0xffA8C8FF),
+                                      color: mainColor,
                                     ),
                                     SizedBox(
                                       width: 15,
@@ -298,7 +302,7 @@ class Home_Screen extends StatelessWidget {
                                     Text(
                                       'الملف الشخصي',
                                       style: TextStyle(
-                                          color: Color(0xffE1E2E9),
+                                          color: colors.fontColor(),
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),
                                     )
@@ -323,7 +327,7 @@ class Home_Screen extends StatelessWidget {
                                     Icon(
                                       Icons.settings,
                                       size: 30,
-                                      color: Color(0xffA8C8FF),
+                                      color: mainColor,
                                     ),
                                     SizedBox(
                                       width: 15,
@@ -331,7 +335,7 @@ class Home_Screen extends StatelessWidget {
                                     Text(
                                       ' اﻹعدادات',
                                       style: TextStyle(
-                                          color: Color(0xffE1E2E9),
+                                          color: colors.fontColor(),
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),
                                     )
@@ -354,7 +358,7 @@ class Home_Screen extends StatelessWidget {
                                       Icon(
                                         Icons.quiz,
                                         size: 30,
-                                        color: Color(0xffA8C8FF),
+                                        color: mainColor,
                                       ),
                                       SizedBox(
                                         width: 15,
@@ -362,7 +366,7 @@ class Home_Screen extends StatelessWidget {
                                       Text(
                                         'شخص طفلك ',
                                         style: TextStyle(
-                                            color: Color(0xffE1E2E9),
+                                            color: colors.fontColor(),
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15),
                                       )
@@ -381,20 +385,24 @@ class Home_Screen extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsetsDirectional.all(20),
                           decoration: BoxDecoration(
-                              color: const Color(0xff43474E),
+                              color: colors.home_drawer_item_background(),
                               borderRadius: BorderRadius.circular(20)),
                           child: Column(
                             children: [
                               Row(
                                 children: [
-                                  Image.asset('assets/images/captive_portal.png'),
+                                  Icon(
+                                    Icons.web,
+                                    size: 30,
+                                    color: mainColor,
+                                  ),
                                   const SizedBox(
                                     width: 15,
                                   ),
-                                  const Text(
+                                   Text(
                                     ' موقعنا',
                                     style: TextStyle(
-                                        color: Color(0xffE1E2E9),
+                                        color: colors.fontColor(),
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
                                   )
@@ -412,7 +420,7 @@ class Home_Screen extends StatelessWidget {
                                     Icon(
                                       Icons.flag_circle,
                                       size: 30,
-                                      color: Color(0xffA8C8FF),
+                                      color: mainColor,
                                     ),
                                     SizedBox(
                                       width: 15,
@@ -420,7 +428,7 @@ class Home_Screen extends StatelessWidget {
                                     Text(
                                       ' رؤيتنا',
                                       style: TextStyle(
-                                          color: Color(0xffE1E2E9),
+                                          color: colors.fontColor(),
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),
                                     )
@@ -435,15 +443,20 @@ class Home_Screen extends StatelessWidget {
                                   navTo(context, About_Screen());
                                 },
                                 child: Row(
-                                  children: [
-                                    Image.asset('assets/images/crowdsource.png'),
+                                  children:
+                                  [
+                                    Icon(
+                                      Icons.groups,
+                                      size: 30,
+                                      color: mainColor,
+                                    ),
                                     const SizedBox(
                                       width: 15,
                                     ),
-                                    const Text(
+                                     Text(
                                       ' عنا ',
                                       style: TextStyle(
-                                          color: Color(0xffE1E2E9),
+                                          color: colors.fontColor(),
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),
                                     ),
@@ -565,7 +578,7 @@ class Home_Screen extends StatelessWidget {
                               //       const Text(
                               //         'إقتراح',
                               //         style: TextStyle(
-                              //             color: Color(0xffE1E2E9),
+                              //             color: colors.fontColor(),
                               //             fontWeight: FontWeight.bold,
                               //             fontSize: 15),
                               //       ),
@@ -604,6 +617,11 @@ class Home_Screen extends StatelessWidget {
 
                                 cubit.userModel = null;
                                 cubit.viewUserModel = null;
+
+                                cubit.myPosts  = [];
+                                cubit.mySavedPosts  = [];
+                                cubit.usersPostsModel = null;
+                                cubit.doctorsPostsModel = null;
                                 navAndFinishTo(context, Login_Screen());
                               });
                             });
@@ -631,31 +649,24 @@ class Home_Screen extends StatelessWidget {
                   ),
                 ),
                 body: userType == 'admin' ? adminScreens[cubit.currentNavBarIndex] : screens[cubit.currentNavBarIndex],
-                bottomNavigationBar: NavigationBarTheme(
-                  data: NavigationBarThemeData(
-                      labelTextStyle: MaterialStateProperty.resolveWith<TextStyle>(
-                            (Set<MaterialState> states) =>
-                        states.contains(MaterialState.selected)
-                            ? const TextStyle(color: fontColor)
-                            : const TextStyle(color: Colors.black),
-                      )),
-                  child: NavigationBar(
-                    backgroundColor: const Color(0xff1D2024),
-                    // indicatorColor: Color(0xFF3D4758),
-                    elevation: 0.0,
 
-                    // shadowColor: Colors.yellowAccent,
-                    // surfaceTintColor: Colors.red,
+                bottomNavigationBar: NavigationBar(
 
-                    selectedIndex: cubit.currentNavBarIndex,
-                    labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-                    onDestinationSelected: (index)
-                    {
-                      cubit.changeCurrentNavBarScreen(index);
+                  // backgroundColor: const Color(0xff1D2024),
+                  // indicatorColor: Color(0xFF3D4758),
+                  elevation: 0.0,
 
-                    },
-                    destinations: userType != 'admin' ? getUserDestinations(cubit.currentNavBarIndex) :  getAdminDestinations(cubit.currentNavBarIndex),
-                  ),
+                  // shadowColor: Colors.yellowAccent,
+                  // surfaceTintColor: Colors.red,
+
+                  selectedIndex: cubit.currentNavBarIndex,
+                  labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+                  onDestinationSelected: (index)
+                  {
+                    cubit.changeCurrentNavBarScreen(index);
+
+                  },
+                  destinations: userType != 'admin' ? getUserDestinations(cubit.currentNavBarIndex,colors) :  getAdminDestinations(cubit.currentNavBarIndex,colors),
                 ),
                 floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
                 floatingActionButton: (()
@@ -707,25 +718,25 @@ class Home_Screen extends StatelessWidget {
 
 
 
-  List<Widget> getUserDestinations (int index)
+  List<Widget> getUserDestinations (int index , AppColors colors)
   {
     return  [
       NavigationDestination(
           icon: Icon(
               index == 0 ? Icons.forum : Icons.forum_outlined,
-              color: Color(0xffE1E2E9)),
+              color: colors.fontColor()),
           label: 'الرئيسية'),
       NavigationDestination(
           icon: Icon(
               index == 1 ? Icons.chat : Icons.chat_outlined,
-              color: Color(0xffE1E2E9)),
+              color: colors.fontColor()),
           label: 'تحدث'),
       NavigationDestination(
           icon: Icon(
               index == 2
                   ? Icons.reviews
                   : Icons.reviews_outlined,
-              color: Color(0xffE1E2E9)),
+              color: colors.fontColor()),
           label: 'إرشاد'),
       if(userType == 'patient')
         NavigationDestination(
@@ -733,30 +744,30 @@ class Home_Screen extends StatelessWidget {
                 index == 3
                     ? Icons.local_library
                     : Icons.local_library_outlined,
-                color: Color(0xffE1E2E9)),
+                color: colors.fontColor()),
             label: 'عن التوحد')
     ];
   }
 
-  List<Widget> getAdminDestinations (int index)
+  List<Widget> getAdminDestinations (int index , AppColors colors)
   {
     return  [
       NavigationDestination(
           icon: Icon(
               index == 0 ? Icons.forum : Icons.forum_outlined,
-              color: const Color(0xffE1E2E9)),
+              color: colors.fontColor()),
           label: 'الإنضمام'),
       NavigationDestination(
           icon: Icon(
               index == 1 ? Icons.chat : Icons.chat_outlined,
-              color: const Color(0xffE1E2E9)),
+              color: colors.fontColor()),
           label: 'الشكاوي'),
       NavigationDestination(
           icon: Icon(
               index == 2
                   ? Icons.reviews
                   : Icons.reviews_outlined,
-              color: const Color(0xffE1E2E9)),
+              color: colors.fontColor()),
           label: 'الحسابات'),
     ];
   }

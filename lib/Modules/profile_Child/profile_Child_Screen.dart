@@ -8,11 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Profile_Child_Screen extends StatelessWidget {
-  Profile_Child_Screen({Key? key}) : super(key: key);
+  Profile_Child_Screen({Key? key , this.isView = false}) : super(key: key);
+
+  bool isView;
 
 
-  var nameController = TextEditingController();
-  var ageController = TextEditingController();
   @override
   Widget build(BuildContext context)
   {
@@ -20,10 +20,17 @@ class Profile_Child_Screen extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state)
         {
+
+          var cubit = AppCubit.get(context);
+          AppColors colors = AppColors(context);
+
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children:
             [
+              Text('بيانات المريض',style: TextStyle(color: mainColor,fontSize: 25.0),),
+              const SizedBox(height: 20.0,),
+
                Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children:
@@ -32,9 +39,9 @@ class Profile_Child_Screen extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children:
                     [
-                      Text(AppCubit.get(context).userModel!.data!.patient_name!,style: TextStyle(color: fontColor,fontSize: 20.0),),
+                      Text(isView == false ? cubit.userModel!.data!.patient_name! ?? '' : cubit.viewUserModel!.data!.patient_name! ,style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
                       SizedBox(height: 10.0,),
-                      Text('2',style: TextStyle(color: fontColor,fontSize: 20.0),),
+                      Text(isView == false ? cubit.userModel!.data!.age! ?? '' : cubit.viewUserModel!.data!.age!,style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
                     ],
                   ),
                   SizedBox(width: 10.0,),
@@ -42,9 +49,9 @@ class Profile_Child_Screen extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children:
                     [
-                      Text(': اسم الطفل',style: TextStyle(color: fontColor,fontSize: 20.0),),
+                      Text(': اسم الطفل',style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
                       SizedBox(height: 10.0,),
-                      Text(': عمر الطفل',style: TextStyle(color: fontColor,fontSize: 20.0),),
+                      Text(': عمر الطفل',style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
                     ],
                   ),
                   SizedBox(width: 10.0,),
@@ -61,25 +68,90 @@ class Profile_Child_Screen extends StatelessWidget {
 
                 ],
               ),
+              if((isView == false && cubit.userModel?.data?.test_result != null) || (isView == true && cubit.viewUserModel?.data?.test_result != null))
+              Column(
+                children:
+                [
 
-              const SizedBox(height: 30.0,),
+                  const SizedBox(height: 40.0,),
+                  Text('إختبار مرض التوحد',style: TextStyle(color: mainColor,fontSize: 25.0),),
+                  const SizedBox(height: 20.0,),
+                  if((isView == false && cubit.userModel?.data?.test_result != null) || (isView == true && cubit.viewUserModel?.data?.test_result != null))
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children:
+                      [
+                        ((){
 
-               Row(
+                          String result = 'بدون';
+                          Color color = Colors.white;
+
+                          if(isView == false && cubit.userModel?.data?.test_result != null)
+                          {
+                            if(cubit.userModel?.data?.test_result == 'yes')
+                            {
+                              result = 'عالي';
+                              color = Color(0xffFFB4AB);
+                            }
+                            else
+                            {
+                              result = 'منخفض';
+                              color = Colors.green;
+                            }
+                          }
+                          else if(isView == true && cubit.viewUserModel?.data?.test_result != null)
+                          {
+                            if(cubit.viewUserModel?.data?.test_result == 'yes')
+                            {
+                              result = 'عالي';
+                              color = Color(0xffFFB4AB);
+                            }
+                            else
+                            {
+                              result = 'منخفض';
+                              color = mainColor;
+                            }
+                          }
+
+
+
+                          return Text(result,style: TextStyle(color: color,fontSize: 20.0),);
+                        }()),
+
+                        SizedBox(width: 10.0,),
+                        Text('إحتمال الإصابة بالتوحد',style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
+                        SizedBox(width: 10.0,),
+                        Icon(Icons.person_pin,color: mainColor,),
+                      ],),
+
+                ],
+              ),
+
+
+
+               if(isView == false)
+                 Row(
                 mainAxisAlignment: MainAxisAlignment.end,
 
                 children:
                 [
-                  Text('قم بتشخيص طفلك الآن',style: TextStyle(color: fontColor,fontSize: 20.0),),
+                  Text('قم بتشخيص طفلك الآن',style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
                   SizedBox(width: 10.0,),
                   Icon(Icons.badge_outlined,color: mainColor,),
                 ],),
+
+
+
               const SizedBox(height: 10.0,),
-              defaultElevatedButton(text: 'اختبر',
+              if(isView == false)
+                defaultElevatedButton(text: 'اختبر',
                 onPressed: ()
                 {
                   navTo(context, const Test_Screen());
                 },
               ),
+
+
               ///Images
               // const SizedBox(height: 30.0,),
               // Column(
@@ -91,7 +163,7 @@ class Profile_Child_Screen extends StatelessWidget {
               //       children:
               //       [
               //
-              //         Text('صور',style: TextStyle(color: fontColor,fontSize: 25.0),),
+              //         Text('صور',style: TextStyle(color: colors.fontColor(),fontSize: 25.0),),
               //         SizedBox(width: 10.0,),
               //         Icon(Icons.image_outlined,color: fontColor,),
               //       ],

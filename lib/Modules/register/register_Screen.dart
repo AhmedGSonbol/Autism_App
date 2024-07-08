@@ -3,6 +3,7 @@
 import 'package:autism/Modules/login/login_Screen.dart';
 import 'package:autism/Modules/register/cubit/register_Cubit.dart';
 import 'package:autism/Modules/register/cubit/register_States.dart';
+import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/Shared/styles/text_styles.dart';
@@ -22,8 +23,7 @@ class Register_Screen extends StatelessWidget {
 
   final TextEditingController nameCon = TextEditingController();
   final TextEditingController ageCon = TextEditingController();
-  final TextEditingController cityCon = TextEditingController();
-  final TextEditingController governmentCon = TextEditingController();
+
   var formKey = GlobalKey<FormState>();
 
   @override
@@ -57,6 +57,7 @@ class Register_Screen extends StatelessWidget {
       builder: (context, state)
       {
 
+        AppColors colors = AppColors(context);
         var cubit = RegisterCubit.get(context);
 
 
@@ -64,7 +65,17 @@ class Register_Screen extends StatelessWidget {
           children: [
             Scaffold(
               appBar: AppBar(
-                backgroundColor: backgroundColor,
+                title: Text(
+        cubit.currentRegScreen == 2
+        ? 'إكتمل إنشاء حسابك'
+          : 'إنشاء حساب جديد',
+          style: TextStyle(
+            color: colors.fontColor(),
+            height: 2,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
                 leading: IconButton(
                   onPressed: ()
                   {
@@ -73,10 +84,10 @@ class Register_Screen extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   icon: const Icon(Icons.arrow_back),
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
               ),
-              backgroundColor: backgroundColor,
+              // backgroundColor: backgroundColor,
 
               body: Stack(
                 children:
@@ -88,30 +99,22 @@ class Register_Screen extends StatelessWidget {
                         // mainAxisSize: MainAxisSize.min,
                         // mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text(
-                            cubit.currentRegScreen == 2
-                                ? 'إكتمل إنشاء حسابك'
-                                : 'إنشاء حساب جديد',
-                            style: TextStyle(
-                              color: Color(0xffD9D9D9),
-                              height: 2,
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+
                           const SizedBox(
-                            height: 30,
+                            height: 10,
                           ),
                           if (cubit.currentRegScreen == 0)
                             myNavBar(
+                              context,
                               selectedIndex: cubit.currentRegScreenType,
                               text: ['طبيب', 'أب / أم'],
                               onDestinationSelected: (index)
                               {
                                 nameCon.clear();
                                 emailCon.clear();
-                                cityCon.clear();
-                                governmentCon.clear();
+                                cubit.countryValue='بدون';
+                                cubit.governments =[{"label": "بدون", "value": "بدون"}];
+                                cubit.governmentValue='بدون';
                                 phoneCon.clear();
                                 passCon.clear();
                                 confirmPassCon.clear();
@@ -149,6 +152,7 @@ class Register_Screen extends StatelessWidget {
                                     children:
                                     [
                                       defaultTextFormField(
+                                        context: context,
                                           controller: nameCon,
                                           type: TextInputType.name,
 
@@ -160,42 +164,13 @@ class Register_Screen extends StatelessWidget {
                                             {
                                               return 'الأسم يجب الا يقل عن 5 حروف !';
                                             }
-                                          }),
-
-                                      const SizedBox(
-                                        height: 40,
-                                      ),
-                                      defaultTextFormField(
-                                          controller: cityCon,
-                                          type: TextInputType.text,
-
-                                          hint: 'الدولة',
-                                          validate: (value) {
-                                            if (value == '') {
-                                              return 'مطلوب*';
-                                            }else  if (value!.length <3) {
-                                              return 'الدولة يجب الا تقل عن 3 احرف';
-                                            }
+                                            return null;
                                           }),
                                       const SizedBox(
                                         height: 40,
                                       ),
                                       defaultTextFormField(
-                                          controller: governmentCon,
-                                          type: TextInputType.text,
-
-                                          hint: 'المحافظة',
-                                          validate: (value) {
-                                            if (value == '') {
-                                              return 'مطلوب* ';
-                                            } else  if (value!.length <3) {
-                                              return 'المحافظة يجب الا تقل عن 3 احرف';
-                                            }
-                                          }),
-                                      const SizedBox(
-                                        height: 40,
-                                      ),
-                                      defaultTextFormField(
+                                        context: context,
                                           controller: phoneCon,
                                           type: TextInputType.phone,
                                           hint: 'الهاتف',
@@ -205,7 +180,99 @@ class Register_Screen extends StatelessWidget {
                                             }else if (value!.length != 11) {
                                               return 'رقم الهاتف يجب ان يكون 11 رقم !';
                                             }
+                                            return null;
                                           }),
+
+                                      const SizedBox(
+                                        height: 40,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+
+                                          DropdownButton(
+
+                                            menuMaxHeight: 200.0,
+                                            dropdownColor:  colors.home_drawer_item_background(),
+
+                                            alignment: Alignment.centerRight,
+                                            value: cubit.countryValue,
+                                            onChanged: (val)
+                                            {
+                                              cubit.changeCountryValue(val.toString());
+                                            },
+                                            style:TextStyle(color: colors.fontColor() , fontSize: 20.0),
+                                            items:
+                                            COUNTRIES.map((e)
+                                            {
+                                              return DropdownMenuItem(
+                                                child: Text(e['label'].toString(),
+                                                  style: TextStyle(color: colors.fontColor()),
+                                                  textAlign: TextAlign.left,
+                                                  textDirection: TextDirection.rtl,
+                                                ),
+                                                alignment: Alignment.centerRight,
+                                                value: e['value'],);
+
+                                            } ).toList(),
+
+                                          ),
+                                          SizedBox(width: 20.0,),
+                                          Text(' : الدولة',
+                                            style: TextStyle(
+                                                color: colors.fontColor() ,
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.bold
+                                            ),),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 40,
+                                      ),
+
+
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+
+                                          DropdownButton(
+
+                                            menuMaxHeight: 200.0,
+                                            dropdownColor:  colors.home_drawer_item_background(),
+
+                                            alignment: Alignment.centerRight,
+                                            value: cubit.governmentValue,
+                                            onChanged: (val)
+                                            {
+                                              cubit.changeGovernmentValue(val.toString());
+                                            },
+                                            style:TextStyle(color: colors.fontColor() , fontSize: 20.0),
+                                            items:
+
+                                            cubit.governments.map((e)
+                                            {
+                                              return DropdownMenuItem(
+                                                child: Text(e['label'].toString(),
+                                                  style: TextStyle(color: colors.fontColor() ),
+                                                  textAlign: TextAlign.left,
+                                                  textDirection: TextDirection.rtl,
+                                                ),
+                                                alignment: Alignment.centerRight,
+                                                value: e['value'],);
+
+                                            } ).toList(),
+
+                                          ),
+                                          SizedBox(width: 20.0,),
+                                          Text(' : المحافظة',
+                                            style: TextStyle(
+                                                color: colors.fontColor() ,
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.bold
+                                            ),),
+                                        ],
+                                      ),
+
                                     ],
                                   ),
                                 );
@@ -219,6 +286,7 @@ class Register_Screen extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       defaultTextFormField(
+                                        context: context,
                                           controller: emailCon,
                                           type: TextInputType.emailAddress,
                                           hint: 'الإيميل',
@@ -229,11 +297,13 @@ class Register_Screen extends StatelessWidget {
                                             {
                                               return 'برجاء كتابة الايميل بشكل صحيح !';
                                             }
+                                            return null;
                                           }),
                                       const SizedBox(
                                         height: 40,
                                       ),
                                       defaultTextFormField(
+                                        context: context,
                                           controller: passCon,
                                           type: TextInputType.text,
                                           hint: 'إنشاء الرقم سري',
@@ -243,11 +313,13 @@ class Register_Screen extends StatelessWidget {
                                             }else if (value!.length < 6) {
                                               return 'لا يمكن انشاء رقم سري اقل من 6 احرف او ارقام';
                                             }
+                                            return null;
                                           }),
                                       const SizedBox(
                                         height: 40,
                                       ),
                                       defaultTextFormField(
+                                        context: context,
                                           controller: confirmPassCon,
                                           type: TextInputType.text,
                                           hint: 'تأكيد الرقم السري',
@@ -258,6 +330,7 @@ class Register_Screen extends StatelessWidget {
                                             {
                                               return 'برجاء إعادة كتابة كلمة السر بشكل صحيح !';
                                             }
+                                            return null;
                                           }),
                                       const SizedBox(
                                         height: 40,
@@ -305,13 +378,11 @@ class Register_Screen extends StatelessWidget {
 
                                               },
                                             ),
-                                            const SizedBox(
-                                              width: 20,
-                                            ),
+                                            Spacer(),
                                             const Text(
                                               'PDF',
                                               style: TextStyle(
-                                                color: Color(0xffFFB4AB),
+                                                color: appRedColor,
                                               ),
                                             ),
                                             const SizedBox(
@@ -325,7 +396,9 @@ class Register_Screen extends StatelessWidget {
                                                     :
                                                 basename(cubit.cv!.path),
 
-                                                style: onBoardingDesc,
+                                                style: TextStyle(
+                                                  color: colors.fontColor()
+                                                ),
                                                 maxLines: 1,
                                               ),
                                             ),
@@ -350,7 +423,7 @@ class Register_Screen extends StatelessWidget {
 
                                           backgroundImage: cubit.avatarImage == null ? AssetImage('assets/images/account_circle.png') : FileImage(cubit.avatarImage!) as ImageProvider  ,
                                           radius: 64.0,
-                                          backgroundColor: backgroundColor,
+                                          backgroundColor: colors.backgroundColor(),
                                         ),
                                         cubit.avatarImage == null
                                             ?
@@ -422,6 +495,7 @@ class Register_Screen extends StatelessWidget {
                                     [
 
                                       defaultTextFormField(
+                                        context: context,
                                           controller: nameCon,
                                           type: TextInputType.name,
                                           hint: 'الأسم',
@@ -433,11 +507,13 @@ class Register_Screen extends StatelessWidget {
                                             {
                                               return 'الأسم يجب الا يقل عن 5 حروف !';
                                             }
+                                            return null;
                                           }),
                                       const SizedBox(
                                         height: 40,
                                       ),
                                       defaultTextFormField(
+                                        context: context,
                                           controller: ageCon,
                                           type: TextInputType.number,
 
@@ -446,40 +522,113 @@ class Register_Screen extends StatelessWidget {
                                             if (value == '') {
                                               return 'مطلوب*';
                                             }
-                                            else if (int.parse(value!) > 3 || int.parse(value) < 0) {
-                                              return 'العمر يجب ان يكون ما بين سنه الي 3 سنوات';
-                                            }
+                                            // else if (int.parse(value!) > 3 || int.parse(value) < 0) {
+                                            //   return 'العمر يجب ان يكون ما بين سنه الي 3 سنوات';
+                                            // }
+                                            return null;
                                           }),
                                       const SizedBox(
                                         height: 40,
                                       ),
-                                      defaultTextFormField(
-                                          controller: cityCon,
-                                          type: TextInputType.text,
+                                      // defaultTextFormField(
+                                      // context: context,
+                                      //     controller: cityCon,
+                                      //     type: TextInputType.text,
+                                      //
+                                      //     hint: 'الدولة',
+                                      //     validate: (value) {
+                                      //       if (value == '') {
+                                      //         return 'مطلوب*';
+                                      //       } else  if (value!.length <3) {
+                                      //         return 'الدولة يجب الا تقل عن 3 احرف';
+                                      //       }
+                                      //     }),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
 
-                                          hint: 'الدولة',
-                                          validate: (value) {
-                                            if (value == '') {
-                                              return 'مطلوب*';
-                                            } else  if (value!.length <3) {
-                                              return 'الدولة يجب الا تقل عن 3 احرف';
-                                            }
-                                          }),
+                                          DropdownButton(
+
+                                            menuMaxHeight: 200.0,
+                                            dropdownColor:  colors.home_drawer_item_background(),
+
+                                            alignment: Alignment.centerRight,
+                                            value: cubit.countryValue,
+                                            onChanged: (val)
+                                            {
+                                              cubit.changeCountryValue(val.toString());
+                                            },
+                                            style:TextStyle(color: colors.fontColor() , fontSize: 20.0),
+                                            items:
+                                            COUNTRIES.map((e)
+                                            {
+                                              return DropdownMenuItem(
+                                                child: Text(e['label'].toString(),
+                                                style: TextStyle(color: colors.fontColor()),
+                                                  textAlign: TextAlign.left,
+                                                  textDirection: TextDirection.rtl,
+                                              ),
+                                              alignment: Alignment.centerRight,
+                                              value: e['value'],);
+
+                                            } ).toList(),
+
+                                          ),
+                                          SizedBox(width: 20.0,),
+                                          Text(' : الدولة',
+                                            style: TextStyle(
+                                                color: colors.fontColor() ,
+                                              fontSize: 20.0,
+                                              fontWeight: FontWeight.bold
+                                            ),),
+                                        ],
+                                      ),
                                       const SizedBox(
                                         height: 40,
                                       ),
-                                      defaultTextFormField(
-                                          controller: governmentCon,
-                                          type: TextInputType.text,
 
-                                          hint: 'المحافظة',
-                                          validate: (value) {
-                                            if (value == '') {
-                                              return 'مطلوب* ';
-                                            } else  if (value!.length <3) {
-                                              return 'المحافظة يجب الا تقل عن 3 احرف';
-                                            }
-                                          }),
+
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+
+                                          DropdownButton(
+
+                                            menuMaxHeight: 200.0,
+                                            dropdownColor:  colors.home_drawer_item_background(),
+
+                                            alignment: Alignment.centerRight,
+                                            value: cubit.governmentValue,
+                                            onChanged: (val)
+                                            {
+                                              cubit.changeGovernmentValue(val.toString());
+                                            },
+                                            style:TextStyle(color: colors.fontColor() , fontSize: 20.0),
+                                            items:
+
+                                            cubit.governments.map((e)
+                                            {
+                                              return DropdownMenuItem(
+                                                child: Text(e['label'].toString(),
+                                                  style: TextStyle(color: colors.fontColor()),
+                                                  textAlign: TextAlign.left,
+                                                  textDirection: TextDirection.rtl,
+                                                ),
+                                                alignment: Alignment.centerRight,
+                                                value: e['value'],);
+
+                                            } ).toList(),
+
+                                          ),
+                                          SizedBox(width: 20.0,),
+                                          Text(' : المحافظة',
+                                            style: TextStyle(
+                                                color: colors.fontColor() ,
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.bold
+                                            ),),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                 );
@@ -493,6 +642,7 @@ class Register_Screen extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       defaultTextFormField(
+                                        context: context,
                                           controller: phoneCon,
                                           type: TextInputType.phone,
 
@@ -503,11 +653,13 @@ class Register_Screen extends StatelessWidget {
                                             }else if (value!.length != 11) {
                                               return 'رقم الهاتف يجب ان يكون 11 رقم !';
                                             }
+                                            return null;
                                           }),
                                       const SizedBox(
                                         height: 40,
                                       ),
                                       defaultTextFormField(
+                                        context: context,
                                           controller: emailCon,
                                           type: TextInputType.emailAddress,
 
@@ -519,11 +671,13 @@ class Register_Screen extends StatelessWidget {
                                             {
                                               return 'برجاء كتابة الايميل بشكل صحيح !';
                                             }
+                                            return null;
                                           }),
                                       const SizedBox(
                                         height: 40,
                                       ),
                                       defaultTextFormField(
+                                        context: context,
                                           controller: passCon,
                                           type: TextInputType.text,
 
@@ -534,11 +688,13 @@ class Register_Screen extends StatelessWidget {
                                             }else if (value!.length < 6) {
                                               return 'لا يمكن انشاء رقم سري اقل من 6 احرف او ارقام';
                                             }
+                                            return null;
                                           }),
                                       const SizedBox(
                                         height: 40,
                                       ),
                                       defaultTextFormField(
+                                        context: context,
                                           controller: confirmPassCon,
                                           type: TextInputType.text,
 
@@ -552,6 +708,7 @@ class Register_Screen extends StatelessWidget {
                                             {
                                               return 'برجاء إعادة كتابة كلمة السر بشكل صحيح !';
                                             }
+                                            return null;
                                           }),
                                     ],
                                   ),
@@ -570,7 +727,7 @@ class Register_Screen extends StatelessWidget {
 
                                           backgroundImage: cubit.avatarImage == null ? AssetImage('assets/images/account_circle.png') : FileImage(cubit.avatarImage!) as ImageProvider  ,
                                           radius: 64.0,
-                                          backgroundColor: backgroundColor,
+                                          backgroundColor: colors.backgroundColor(),
                                           ),
                                         cubit.avatarImage == null
                                             ?
@@ -647,6 +804,23 @@ class Register_Screen extends StatelessWidget {
                                 width:cubit.currentRegScreen != 2 ? 100 : 120 ,
                                 function: ()
                                 {
+
+                                  if(cubit.currentRegScreen == 0)
+                                  {
+                                    if(cubit.countryValue == 'بدون')
+                                    {
+                                      myToast(msg: 'برجاء اختيار الدولة', state: ToastStates.ERROR);
+                                      return;
+                                    }
+                                    if(cubit.governmentValue == 'بدون')
+                                    {
+                                      myToast(msg: 'برجاء اختيار المحافظة', state: ToastStates.ERROR);
+                                      return;
+                                    }
+
+                                  }
+
+
                                   if(cubit.currentRegScreen != 2)
                                   {
                                     if (formKey.currentState!.validate())
@@ -673,8 +847,8 @@ class Register_Screen extends StatelessWidget {
                                         email: emailCon.text,
                                         phone: phoneCon.text,
                                         password: passCon.text,
-                                        government: governmentCon.text,
-                                        city: cityCon.text,
+                                        government: cubit.governmentValue,
+                                        city: cubit.countryValue,
 
                                       );
                                     }
@@ -687,8 +861,8 @@ class Register_Screen extends StatelessWidget {
                                         email: emailCon.text,
                                         phone: phoneCon.text,
                                         password: passCon.text,
-                                        government: governmentCon.text,
-                                        city: cityCon.text,
+                                        government: cubit.governmentValue,
+                                        city: cubit.countryValue,
                                         age: ageCon.text,
                                       );
                                     }

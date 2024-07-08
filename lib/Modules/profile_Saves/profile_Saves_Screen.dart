@@ -26,7 +26,7 @@ class Profile_Saves_Screen extends StatelessWidget {
             {
               return Directionality(
                   textDirection: TextDirection.rtl,
-                  child: bulidPostItem(context: context ,model: cubit.mySavedPosts[index]));
+                  child: bulidPostItem(context: context ,model: cubit.mySavedPosts[index],enableOpenProfile: false));
 
             },
 

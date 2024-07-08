@@ -8,30 +8,30 @@ class Our_Vision extends StatelessWidget {
   const Our_Vision({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
+    AppColors colors = AppColors(context);
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: backgroundColor,
         appBar: AppBar(
-          scrolledUnderElevation: 0,
-          backgroundColor: appBarColor,
           actions: [
             IconButton(
               onPressed: () {
                 Navigator.pop(context);
               },
               icon: const Icon(Icons.arrow_forward),
-              color: fontColor,
+              color: colors.fontColor(),
             ),
           ],
+          leading: SizedBox(),
           centerTitle: true,
-          title: const Text(
+          title:  Text(
             'رؤيتنا',
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: fontColor,
+              color: colors.fontColor(),
             ),
           ),
         ),
@@ -71,11 +71,11 @@ class Our_Vision extends StatelessWidget {
                   height: 10,
                 ),
                 Text(
-                  'AutiSocity',
+                  'AutiSociety',
                   style: Theme.of(context)
                       .textTheme
                       .headlineLarge
-                      ?.copyWith(color: fontColor, fontWeight: FontWeight.w900),
+                      ?.copyWith(color: colors.fontColor(), fontWeight: FontWeight.w900),
                 ),
                 SizedBox(
                   height: 30,
@@ -96,7 +96,7 @@ class Our_Vision extends StatelessWidget {
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     decoration: BoxDecoration(
-                      color: Colors.grey[800],
+                      color: colors.home_drawer_item_background(),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
@@ -104,7 +104,7 @@ class Our_Vision extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
-                          ?.copyWith(color: fontColor, fontSize: 20),
+                          ?.copyWith(color: colors.fontColor(), fontSize: 20),
                     ),
                   ),
                 ),

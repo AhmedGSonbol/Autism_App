@@ -38,6 +38,7 @@ class Change_Password_Screen extends StatelessWidget {
       },
       builder: (context, state)
       {
+        AppColors colors = AppColors(context);
 
         var cubit = AppCubit.get(context);
 
@@ -45,13 +46,11 @@ class Change_Password_Screen extends StatelessWidget {
           children:
           [
             Scaffold(
-              backgroundColor: backgroundColor,
               appBar: AppBar(
-                backgroundColor: const Color(0xff43474E),
                 title:  Text(
 
                   'تعديل الرقم السري',
-                  style: TextStyle(color: fontColor),
+                  style: TextStyle(color: colors.fontColor()),
                 ),
                 leading: IconButton(
                   onPressed: ()
@@ -59,7 +58,7 @@ class Change_Password_Screen extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   icon: const Icon(Icons.arrow_back),
-                  color: fontColor,
+                  color: colors.fontColor(),
                 ),
               ),
               bottomNavigationBar: BottomAppBar(
@@ -126,13 +125,14 @@ class Change_Password_Screen extends StatelessWidget {
                             ),
 
                             defaultTextFormField(
-
+                              context: context,
                               controller: oldPassController,
                               type: TextInputType.name,
                               hint: 'الرقم السري القديم',
                               validate: (value)
                               {
-                                if (value == '') {
+                                if (value == '')
+                                {
                                   return 'مطلوب*';
                                 }
                               },
@@ -143,6 +143,7 @@ class Change_Password_Screen extends StatelessWidget {
                               ),
 
                               defaultTextFormField(
+                                  context: context,
                                   controller: newPassController,
                                   type: TextInputType.name,
                                   hint: 'الرقم السري الجديد',
@@ -161,6 +162,7 @@ class Change_Password_Screen extends StatelessWidget {
                             ),
 
                             defaultTextFormField(
+                                context: context,
                                 controller: reTryNewPassController,
                                 type: TextInputType.name,
                                 hint: 'إعادة كتابة الرقم السري الجديد',

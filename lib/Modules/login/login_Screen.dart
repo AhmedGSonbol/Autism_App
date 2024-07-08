@@ -40,10 +40,10 @@ class Login_Screen extends StatelessWidget {
                   userType = state.model.data!.user_type!;
 
 
-                  AppCubit.get(context).getAppData().then((value)
-                  {
-                    navAndFinishTo(context, Home_Screen());
-                  });
+                  AppCubit.get(context).getAppData();
+
+                  navAndFinishTo(context, Home_Screen());
+
 
                   // if(userType == 'patient' || userType == 'doctor')
                   // {
@@ -69,13 +69,12 @@ class Login_Screen extends StatelessWidget {
         },
         builder: (context, state)
         {
-
+          AppColors colors = AppColors(context);
           var cubit = LoginCubit.get(context);
 
           return Stack(
             children: [
               Scaffold(
-                backgroundColor: backgroundColor,
                 body: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
                   child: Padding(
@@ -95,10 +94,10 @@ class Login_Screen extends StatelessWidget {
                           const SizedBox(
                             height: 30,
                           ),
-                          const Text(
+                           Text(
                             'تسجيل الدخول',
                             style: TextStyle(
-                                color: Color(0xffD9D9D9),
+                                color: colors.fontColor(),
                                 // fontFamily: 'Roboto',
                                 // height: 2,
                                 fontSize: 26,
@@ -107,10 +106,10 @@ class Login_Screen extends StatelessWidget {
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text(
+                           Text(
                             'إلى حسابك في مجتمع التوحد',
                             style: TextStyle(
-                              color: Color(0xffD9D9D9),
+                              color: colors.fontColor(),
                               // fontFamily: 'Roboto',
                               // height: 2,
                               fontSize: 18,
@@ -120,6 +119,7 @@ class Login_Screen extends StatelessWidget {
                             height: 31,
                           ),
                           defaultTextFormField(
+                              context: context,
                               controller: emailCon,
                               type: TextInputType.emailAddress,
                               hint: 'الإيميل',
@@ -127,11 +127,13 @@ class Login_Screen extends StatelessWidget {
                                 if (value == '') {
                                   return 'مطلوب*';
                                 }
+                                return null;
                               }),
                           const SizedBox(
                             height: 20,
                           ),
                           defaultTextFormField(
+                              context: context,
                               controller: passCon,
                               type: TextInputType.visiblePassword,
                               hint: 'الرقم السري',
@@ -140,7 +142,7 @@ class Login_Screen extends StatelessWidget {
                                   cubit.isPassVisible
                                       ? Icons.visibility
                                       : Icons.visibility_off,
-                                  color: fontColor,
+                                  color: colors.fontColor(),
                                 ),
                                 onPressed: () {
                                   cubit.changePassVisibility();
@@ -166,12 +168,12 @@ class Login_Screen extends StatelessWidget {
                             child:  Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Text(
-                                  'هل نسيت الرقم السري ؟',
-                                  style: TextStyle(
-                                    color: Color(0xffA8C8FF),
-                                  ),
-                                ),
+                                // Text(
+                                //   'هل نسيت الرقم السري ؟',
+                                //   style: TextStyle(
+                                //     color: Color(0xffA8C8FF),
+                                //   ),
+                                // ),
                                 SizedBox(
                                   width: 16,
                                 )
@@ -187,46 +189,51 @@ class Login_Screen extends StatelessWidget {
                             color: mainColor,
                           )
                               :
-                          ElevatedButton(
-                            onPressed: ()
-                            {
-                              if(formKey.currentState!.validate())
+                              defaultButton(text: 'دخول', function: ()
                               {
-                                cubit.userLogin(Email: emailCon.text, Password: passCon.text);
-                              }
-
-
-
-                              // if (cubit.isAdmin) {
-                              //   // navTo(context, Admin_Home_Screen());
-                              //   navTo(context, Doctor_Home_Screen());
-                              // } else {
-                              //   navTo(context, Home_Screen());
-                              //   // navTo(context, Doctor_Home_Screen());
-                              // }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xffA8C8FF),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(70),
-                              ),
-                            ),
-                            // shape: RoundedRectangleBorder(
-                            // borderRadius: BorderRadius.circular(5.0),
-                            child:  SizedBox(
-                              width: 60,
-                              height: 40,
-                              child: Center(
-                                child: Text(
-                                  'دخول',
-                                  style: TextStyle(
-                                      color: Color(0xff05305F),
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                          ),
+                                if(formKey.currentState!.validate())
+                                {
+                                  cubit.userLogin(Email: emailCon.text, Password: passCon.text);
+                                }
+                              },
+                                radius: 50 ,),
+                          // ElevatedButton(
+                          //   onPressed: ()
+                          //   {
+                          //
+                          //
+                          //
+                          //
+                          //     // if (cubit.isAdmin) {
+                          //     //   // navTo(context, Admin_Home_Screen());
+                          //     //   navTo(context, Doctor_Home_Screen());
+                          //     // } else {
+                          //     //   navTo(context, Home_Screen());
+                          //     //   // navTo(context, Doctor_Home_Screen());
+                          //     // }
+                          //   },
+                          //   style: ElevatedButton.styleFrom(
+                          //     backgroundColor: const Color(0xffA8C8FF),
+                          //     shape: RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(70),
+                          //     ),
+                          //   ),
+                          //   // shape: RoundedRectangleBorder(
+                          //   // borderRadius: BorderRadius.circular(5.0),
+                          //   child:  SizedBox(
+                          //     width: 60,
+                          //     height: 40,
+                          //     child: Center(
+                          //       child: Text(
+                          //         'دخول',
+                          //         style: TextStyle(
+                          //             color: Color(0xff05305F),
+                          //             fontSize: 17,
+                          //             fontWeight: FontWeight.bold),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
                           const SizedBox(
                             height: 40,
                           ),
@@ -234,36 +241,38 @@ class Login_Screen extends StatelessWidget {
                             width: double.infinity,
                             height: 50,
                             decoration: BoxDecoration(
-                              color: const Color(0xff43474E),
+                              color: colors.home_drawer_item_background(),
                               borderRadius: BorderRadius.circular(5),
                             ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    navTo(context, Register_Screen());
-                                  },
-                                  child: const Text(
-                                    'إنشاء',
-                                    style: TextStyle(
-                                        color: Color(0xffA8C8FF), fontSize: 16),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  TextButton(
+                                    onPressed: () {
+                                      navTo(context, Register_Screen());
+                                    },
+                                    child:  Text(
+                                      'إنشاء',
+                                      style: TextStyle(
+                                          color: mainColor, fontSize: 16,
+                                        fontWeight: FontWeight.bold
+                                      ),
+                                    ),
                                   ),
-                                ),
-                                ////////////////////////////
-                                // SizedBox(
-                                //   width: 60,
-                                // ),
-                                const Spacer(),
-                                const Padding(
-                                  padding: EdgeInsets.only(right: 5),
-                                  child: Text(
-                                    'يمكنك انشاء حساب جديد من هنا',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
-                                  ),
-                                ),
-                              ],
+                                  ////////////////////////////
+                                  // SizedBox(
+                                  //   width: 60,
+                                  // ),
+                                  const Spacer(),
+                                   Text(
+                                     'يمكنك انشاء حساب جديد من هنا',
+                                     style: TextStyle(
+                                         color: colors.fontColor(), fontSize: 16),
+                                   ),
+                                ],
+                              ),
                             ),
                           ),
                         ],

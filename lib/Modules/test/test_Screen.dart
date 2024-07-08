@@ -42,26 +42,26 @@ class Test_Screen extends StatelessWidget {
 
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
-      builder: (context, state) {
+      builder: (context, state)
+      {
+        AppColors colors = AppColors(context);
         var cubit = AppCubit.get(context);
 
         return Scaffold(
-          backgroundColor: backgroundColor,
           appBar: AppBar(
-            backgroundColor: appBarColor,
             leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
               },
               icon: const Icon(Icons.arrow_back),
-              color: fontColor,
+              color: colors.fontColor(),
             ),
-            title: const Text(
+            title:  Text(
               'التشخيص',
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
-                color: fontColor,
+                color: colors.fontColor(),
               ),
             ),
           ),
@@ -90,8 +90,8 @@ class Test_Screen extends StatelessWidget {
                             cubit.previousTestQuestion();
                           },
                           text: 'السابق',
-                          color: const Color(0xffDBBCE1),
-                          textColor: const Color(0xff3E2845),
+                          color: appRedColor,
+                          textColor: Colors.white,
                         ),
                       const SizedBox(
                         width: 15,
@@ -144,6 +144,7 @@ class Test_Screen extends StatelessWidget {
                                 if (x >= 0) {
                                   cubit.nextTestQuestion(x);
                                 } else {
+
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                           content: Text(
@@ -178,6 +179,7 @@ class Test_Screen extends StatelessWidget {
                           }
                           }
                         },
+                        textColor: Colors.white,
                         text:cubit.currentTestScreen < 15 ? 'التالي' :cubit.currentTestScreen == 15 ? 'فحص' : 'إنهاء',
                       ),
                     ],
@@ -201,8 +203,8 @@ class Test_Screen extends StatelessWidget {
                         totalSteps: 15,
                         currentStep: cubit.currentTestScreen - 1,
                         stepSize: 6,
-                        selectedColor: Color(0xffA8C8FF),
-                        unselectedColor: Color(0xff254777),
+                        selectedColor: mainColor,
+                        unselectedColor: Color(0xffA8C8FF),
                         padding: 0,
                         width: 50,
                         height: 50,
@@ -244,8 +246,8 @@ class Test_Screen extends StatelessWidget {
                                 ? Text(
                               textAlign: TextAlign.center,
                               testQuestions[cubit.currentTestScreen],
-                              style: const TextStyle(
-                                  color: fontColor,
+                              style:  TextStyle(
+                                  color: colors.fontColor(),
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold),
                             )
@@ -258,7 +260,7 @@ class Test_Screen extends StatelessWidget {
                                       :
                                   'منخفض',
                                   style: TextStyle(
-                                      color: cubit.testRate == 'no' ? mainColor : Color(0xffFFB4AB),
+                                      color: cubit.testRate == 'no' ? mainColor : appRedColor,
                                       fontSize: 25,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -291,10 +293,10 @@ class Test_Screen extends StatelessWidget {
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: TextField(
-                            style: const TextStyle(
+                            style:  TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xffCCCCCC)),
+                                color: colors.fontColor()),
                             textAlign: TextAlign.center,
                             keyboardType: TextInputType.none,
                             decoration: InputDecoration(
@@ -304,7 +306,7 @@ class Test_Screen extends StatelessWidget {
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color:
-                                      const Color(0xffCCCCCC).withOpacity(0.5)),
+                                       colors.fontColor()),
                             ),
                             controller: dateController,
                             onTap: () async {
@@ -337,14 +339,14 @@ class Test_Screen extends StatelessWidget {
                             icon: const SizedBox(),
                             isExpanded: true,
                             iconSize: 30.0,
-                            style: const TextStyle(color: Colors.blue),
-                            hint: const Align(
+                            style:  TextStyle(color: colors.fontColor()),
+                            hint:  Align(
                                 alignment: Alignment.centerRight,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(right: 10.0),
+                                  padding:  EdgeInsets.only(right: 10.0),
                                   child: Text(
                                     'العرق',
-                                    style: TextStyle(color: Colors.blue),
+                                    style: TextStyle(color: colors.fontColor()),
                                   ),
                                 )),
                             items:cubit.ethnicityListAR.asMap().entries.map((value) {
@@ -365,11 +367,11 @@ class Test_Screen extends StatelessWidget {
                       }
                       else if (cubit.currentTestScreen > 0 && cubit.currentTestScreen < 11)
                       {
-                        return chooseWidget(cubit);
+                        return chooseWidget(cubit,colors);
                       }
                       else
                       {
-                        return YesOrNoWidget(cubit);
+                        return YesOrNoWidget(cubit,colors);
 
                       }
                     }()),
@@ -383,7 +385,7 @@ class Test_Screen extends StatelessWidget {
     );
   }
 
-  Widget YesOrNoWidget(AppCubit cubit)
+  Widget YesOrNoWidget(AppCubit cubit,AppColors colors)
   {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -397,7 +399,7 @@ class Test_Screen extends StatelessWidget {
                   ? Colors.transparent
                   : (cubit.testQueChecked == true
                       ? Colors.transparent
-                      : const Color(0xffA8C8FF)),
+                      : mainColor),
               border: Border.all(
                 width: .5,
                 color: const Color(0xff8E9199),
@@ -411,9 +413,9 @@ class Test_Screen extends StatelessWidget {
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                     color: cubit.testQueChecked == null
-                        ? const Color(0xffCCCCCC)
+                        ?  colors.fontColor()
                         : (cubit.testQueChecked == true
-                            ? const Color(0xffCCCCCC)
+                            ?  colors.fontColor()
                             : const Color(0xff05305F))),
               ),
             ),
@@ -433,7 +435,7 @@ class Test_Screen extends StatelessWidget {
               color: cubit.testQueChecked == null
                   ? Colors.transparent
                   : (cubit.testQueChecked == true
-                      ? const Color(0xffA8C8FF)
+                      ? mainColor
                       : Colors.transparent),
               border: Border.all(
                 width: .5,
@@ -448,10 +450,10 @@ class Test_Screen extends StatelessWidget {
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                     color: cubit.testQueChecked == null
-                        ? const Color(0xffCCCCCC)
+                        ?  colors.fontColor()
                         : (cubit.testQueChecked == true
                             ? const Color(0xff05305F)
-                            : const Color(0xffCCCCCC))),
+                            :  colors.fontColor())),
               ),
             ),
           ),
@@ -463,7 +465,7 @@ class Test_Screen extends StatelessWidget {
     );
   }
 
-  Widget chooseWidget(AppCubit cubit)
+  Widget chooseWidget(AppCubit cubit,AppColors colors)
   {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -475,7 +477,7 @@ class Test_Screen extends StatelessWidget {
             Spacer(),
             Text(
               'دائماً',style: TextStyle(
-                color: fontColor,
+                color: colors.fontColor(),
                 fontSize: 20.0),
             ),
             Radio(
@@ -484,7 +486,7 @@ class Test_Screen extends StatelessWidget {
                 groupValue: cubit.testRadioValue,
 
 
-                activeColor: Colors.white,
+                activeColor: colors.fontColor(),
 
                 onChanged: (val)
                 {
@@ -499,7 +501,7 @@ class Test_Screen extends StatelessWidget {
             Spacer(),
             Text(
               'عادةً',style: TextStyle(
-                color: fontColor,
+                color: colors.fontColor(),
                 fontSize: 20.0),
             ),
             Radio(
@@ -508,7 +510,7 @@ class Test_Screen extends StatelessWidget {
                 groupValue: cubit.testRadioValue,
 
 
-                activeColor: Colors.white,
+                activeColor: colors.fontColor(),
 
                 onChanged: (val)
                 {
@@ -523,7 +525,7 @@ class Test_Screen extends StatelessWidget {
             Spacer(),
             Text(
               'احياناً',style: TextStyle(
-                color: fontColor,
+                color: colors.fontColor(),
                 fontSize: 20.0),
             ),
             Radio(
@@ -532,7 +534,7 @@ class Test_Screen extends StatelessWidget {
                 groupValue: cubit.testRadioValue,
 
 
-                activeColor: Colors.white,
+                activeColor: colors.fontColor(),
 
                 onChanged: (val)
                 {
@@ -547,7 +549,7 @@ class Test_Screen extends StatelessWidget {
             Spacer(),
             Text(
               'نادراً',style: TextStyle(
-                color: fontColor,
+                color: colors.fontColor(),
                 fontSize: 20.0),
             ),
             Radio(
@@ -556,7 +558,7 @@ class Test_Screen extends StatelessWidget {
                 groupValue: cubit.testRadioValue,
 
 
-                activeColor: Colors.white,
+                activeColor: colors.fontColor(),
 
                 onChanged: (val)
                 {
@@ -571,7 +573,7 @@ class Test_Screen extends StatelessWidget {
             Spacer(),
             Text(
               'ابداً',style: TextStyle(
-                color: fontColor,
+                color: colors.fontColor(),
                 fontSize: 20.0),
             ),
             Radio(
@@ -580,7 +582,7 @@ class Test_Screen extends StatelessWidget {
                 groupValue: cubit.testRadioValue,
 
 
-                activeColor: Colors.white,
+                activeColor: colors.fontColor(),
 
                 onChanged: (val)
                 {

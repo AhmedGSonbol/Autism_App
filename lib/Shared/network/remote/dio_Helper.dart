@@ -1,4 +1,5 @@
 
+import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:dio/dio.dart';
 
 class DioHelper
@@ -10,7 +11,7 @@ class DioHelper
     dio = Dio(
       BaseOptions(
         // baseUrl: 'https://autisociety-api.original-business.com/api/',
-        baseUrl: 'https://a9f0-197-63-235-225.ngrok-free.app/api/',
+        baseUrl: 'https://s3.autisociety17.serv00.net/api/',
         receiveDataWhenStatusError: true,
         validateStatus: (int? status) {
           return status != null;
@@ -21,6 +22,8 @@ class DioHelper
     dio!.interceptors.addAll([
       ErrorInterceptor(),
     ]);
+
+    print('initial dio');
   }
 
 
@@ -78,7 +81,7 @@ class DioHelper
 
   static Future<Response>? putData({
     required String url,
-    required Map<String , dynamic> data,
+    required Map<String , dynamic>? data,
 
     Map<String , dynamic>? query,
     String? token,

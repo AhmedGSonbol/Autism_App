@@ -35,6 +35,7 @@ class Complaints_Screen extends StatelessWidget {
         },
         builder: (context, state)
         {
+          AppColors colors = AppColors(context);
           return Directionality(
             textDirection: TextDirection.rtl,
             child: Padding(
@@ -53,7 +54,7 @@ class Complaints_Screen extends StatelessWidget {
 
                 },
                 child: ListView.separated(
-                  itemBuilder: ((context, index) => buildComplaintItems(context,AppCubit.get(context).reportedPosts!.reportedPostData[index])),
+                  itemBuilder: ((context, index) => buildComplaintItems(context,AppCubit.get(context).reportedPosts!.reportedPostData[index],colors)),
                   separatorBuilder: ((context, index) => SizedBox(
                     height: 10,
                   )),
@@ -66,115 +67,127 @@ class Complaints_Screen extends StatelessWidget {
         },);
   }
 
-  Widget buildComplaintItems(BuildContext context, ReportedPostData model) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Container(
-          padding: EdgeInsets.all(10.0),
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: const Color(0xff292A2D),
-            borderRadius: BorderRadiusDirectional.circular(30),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const SizedBox(
-                    width: 10,
-                  ),
+  Widget buildComplaintItems(BuildContext context, ReportedPostData model,AppColors colors)
+  {
+    AppColors colors = AppColors(context);
+
+    return  Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Container(
+        padding: EdgeInsets.all(10.0),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: colors.post_background_color(),
+          borderRadius: BorderRadiusDirectional.circular(30),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const SizedBox(
+                  width: 10,
+                ),
 
 
-                  myImageProvider(model.image) ,
+                myImageProvider(model.image) ,
 
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerRight,
                     child: Text(
                       textDirection: TextDirection.ltr,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       model.comp_to!,
-                      style: onBoardingDesc,
+                      style: TextStyle(
+                          color: colors.fontColor(),
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold
+                      ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
 
-                  Text(
-                    intl.DateFormat('yyyy/MM/dd').format(intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(model.date!)),
-                    style: TextStyle(color: Color(0xffE1E2E9), fontSize: 16),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 15.0,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    model.content!,
-                    style: TextStyle(color: fontColor, fontSize: 20),
-                  ),
-                  SizedBox(
-                    height: 15.0,
-                  ),
-                  Text(
-                    'الشكوه :  ${model.complaint}',
-                    style: TextStyle(color: fontColor, fontSize: 18),
-                  ),
-                  SizedBox(
-                    height: 15.0,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'الشاكي :  ',
-                        style: TextStyle(color: fontColor, fontSize: 18,),
-                      ),
-                      Text(
-                        model.comp_from!,
-                        style: TextStyle(color: mainColor, fontSize: 18,),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 15.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  defaultElevatedButton(
-                    text: 'إبقاء',
-                    onPressed: ()
-                    {
-                      AppCubit.get(context).confirmReportedPost(model);
-                    },
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  defaultElevatedButton(
-                    text: 'حذف',
-                    color: secondColor,
-                    onPressed: ()
-                    {
-                      AppCubit.get(context).rejectReportedPost(model);
-                    },
-                  ),
-                ],
-              )
-            ],
-          ),
+                Text(
+                  intl.DateFormat('yyyy/MM/dd').format(intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(model.date!)),
+                  style: TextStyle(color: colors.fontColor(), fontSize: 16),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 15.0,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  model.content!,
+                  style: TextStyle(color: colors.fontColor(), fontSize: 20),
+                ),
+                SizedBox(
+                  height: 15.0,
+                ),
+                Text(
+                  'الشكوه :  ${model.complaint}',
+                  style: TextStyle(color: colors.fontColor(), fontSize: 18),
+                ),
+                SizedBox(
+                  height: 15.0,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'الشاكي :  ',
+                      style: TextStyle(color: colors.fontColor(), fontSize: 18,),
+                    ),
+                    Text(
+                      model.comp_from!,
+                      style: TextStyle(color: mainColor, fontSize: 18,),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 15.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                defaultElevatedButton(
+                  text: 'إبقاء',
+                  onPressed: ()
+                  {
+                    AppCubit.get(context).confirmReportedPost(model);
+                  },
+                ),
+                SizedBox(
+                  width: 10.0,
+                ),
+                defaultElevatedButton(
+                  text: 'حذف',
+                  color: secondColor,
+                  onPressed: ()
+                  {
+                    AppCubit.get(context).rejectReportedPost(model);
+                  },
+                ),
+              ],
+            )
+          ],
         ),
-      );
+      ),
+    );
+  }
 }

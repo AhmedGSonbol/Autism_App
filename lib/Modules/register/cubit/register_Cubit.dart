@@ -1,7 +1,9 @@
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:autism/Modules/register/cubit/register_States.dart';
+import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/network/end_points.dart';
 import 'package:autism/Shared/network/local/Cach_Helper.dart';
 import 'package:autism/Shared/network/remote/dio_Helper.dart';
@@ -204,6 +206,41 @@ class RegisterCubit extends Cubit<RegisterStates> {
       }
     });
   }
+
+
+
+  String countryValue = 'بدون';
+  String governmentValue = 'بدون';
+
+  List<Map<String,String>> governments = [{"label": "بدون", "value": "بدون"}];
+
+
+  void changeCountryValue(String val)
+  {
+    countryValue = val;
+
+    print(val);
+
+    COUNTRIES.map((e)
+    {
+      if(e['value'] == val)
+      {
+        governments = e['cities'];
+        governmentValue = e['cities'][0]['value'];
+        print(governments);
+      }
+    }).toList();
+
+    emit(RegisterChangeCountryValueState());
+  }
+
+  void changeGovernmentValue(String val)
+  {
+    governmentValue = val;
+
+    emit(RegisterChangeGovernmentValueState());
+  }
+
 
 
 }

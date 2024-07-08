@@ -48,8 +48,8 @@ class LoadingGetUserDataState extends AppStates {}
 
 class SuccessGetUserDataState extends AppStates
 {
-  User_Model userModel;
-  SuccessGetUserDataState(this.userModel);
+  bool isView;
+  SuccessGetUserDataState(this.isView);
 }
 
 class ErrorGetUserDataState extends AppStates {}
@@ -67,6 +67,8 @@ class SuccessGetDoctorPostsState extends AppStates {}
 class ErrorGetDoctorPostsState extends AppStates {}
 
 class LoadingLikeUnlikePostState extends AppStates {}
+
+class AppChangeAppModeState extends AppStates {}
 
 class SuccessLikeUnlikePostState extends AppStates {}
 
@@ -333,3 +335,27 @@ class ErrorGetUserMessagesState extends AppStates{}
 class SuccessGetNewMessagesState extends AppStates{}
 
 class ErrorGetNewMessagesState extends AppStates{}
+
+class LoadingChangeProfileStatusState extends AppStates {}
+
+class SuccessChangeProfileStatusState extends AppStates
+{
+  String message;
+  SuccessChangeProfileStatusState(this.message);
+}
+
+class ErrorChangeProfileStatusState extends AppStates
+{
+  String message;
+  ErrorChangeProfileStatusState(this.message);
+}
+
+class RegisterChangeCountryValueState extends AppStates {}
+
+class RegisterChangeGovernmentValueState extends AppStates {}
+
+class LoadingSearchForUserState extends AppStates {}
+
+class SuccessSearchForUserState extends AppStates {}
+
+class ErrorSearchForUserState extends AppStates {}

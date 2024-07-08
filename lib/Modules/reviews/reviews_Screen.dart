@@ -21,6 +21,7 @@ class Reviews_Screen extends StatelessWidget {
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
       builder: (context, state) {
+        AppColors colors = AppColors(context);
         var cubit = AppCubit.get(context);
 
         return Padding(
@@ -64,11 +65,11 @@ class Reviews_Screen extends StatelessWidget {
                                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
                                           child: Row(
                                             children:
-                                            const [
+                                             [
                                               Text(
                                                 'نشر',
                                                 style: TextStyle(
-                                                  color: fontColor,
+                                                  color: colors.fontColor(),
                                                   fontSize: 20,
                                                 ),
                                               ),
@@ -88,7 +89,7 @@ class Reviews_Screen extends StatelessWidget {
                                               Text(
                                                 'أو',
                                                 style: TextStyle(
-                                                  color: fontColor,
+                                                  color: colors.fontColor(),
                                                   fontSize: 16,
                                                 ),
                                               ),
@@ -108,7 +109,7 @@ class Reviews_Screen extends StatelessWidget {
                                               Text(
                                                 'أو',
                                                 style: TextStyle(
-                                                  color: fontColor,
+                                                  color: colors.fontColor(),
                                                   fontSize: 16,
                                                 ),
                                               ),
@@ -134,7 +135,7 @@ class Reviews_Screen extends StatelessWidget {
                                             minLines: 3,
                                             maxLines: 3,
                                             controller: postContentController,
-                                            style: const TextStyle(color: Colors.white),
+                                            style:  TextStyle(color: colors.fontColor()),
                                             decoration: InputDecoration(
 
                                                 border: InputBorder.none,
@@ -147,7 +148,7 @@ class Reviews_Screen extends StatelessWidget {
                                                 label: Row(
                                                   children:
                                                    [
-                                                    Text('إكتب'),
+                                                    Text('إكتب',style: TextStyle(color: colors.fontColor()),),
                                                     SizedBox(width: 3,),
                                                     (()
                                                     {
@@ -156,7 +157,7 @@ class Reviews_Screen extends StatelessWidget {
                                                         return Text(
                                                           'نصيحة',
                                                           style: TextStyle(
-                                                              color: Color(0xffFFB4AB),
+                                                              color: appRedColor,
                                                               fontSize: 17,
                                                               fontWeight: FontWeight.bold),
                                                         );
@@ -166,7 +167,7 @@ class Reviews_Screen extends StatelessWidget {
                                                         return Text(
                                                         'معلومة',
                                                         style: TextStyle(
-                                                      color: Color(0xff61FD7D),
+                                                      color: appGreenColor,
                                                       fontSize: 17,
                                                       fontWeight: FontWeight.bold),
                                                       );
@@ -176,7 +177,7 @@ class Reviews_Screen extends StatelessWidget {
                                                         return Text(
                                                         'سؤال',
                                                         style: TextStyle(
-                                                      color: Color(0xffA8C8FF),
+                                                      color: mainColor,
                                                       fontSize: 17,
                                                       fontWeight: FontWeight.bold),
                                                       );
@@ -185,8 +186,8 @@ class Reviews_Screen extends StatelessWidget {
 
                                                   ],
                                                 ),
-                                                labelStyle: const TextStyle(
-                                                  color: Color(0xffE1E2E9),
+                                                labelStyle:  TextStyle(
+                                                  color: colors.fontColor(),
                                                 ),
 
                                             ),
@@ -206,21 +207,21 @@ class Reviews_Screen extends StatelessWidget {
                                         children: const [
                                           Icon(
                                             Icons.report_gmailerrorred_rounded,
-                                            color: Color(0xffFFB4AB),
+                                            color: appRedColor,
                                           ),
                                           SizedBox(
                                             height: 5,
                                           ),
                                           Icon(
                                             Icons.info_outline,
-                                            color: Color(0xff16EA9E),
+                                            color: appGreenColor,
                                           ),
                                           SizedBox(
                                             height: 5,
                                           ),
                                           Icon(
                                             Icons.help_outline,
-                                            color: Color(0xff569CFF),
+                                            color: mainColor,
                                           ),
                                         ],
                                       ),
@@ -232,27 +233,59 @@ class Reviews_Screen extends StatelessWidget {
                                         },
 
                                         items:
-                                        const [
-                                          DropdownMenuItem(child: Icon(
-                                            Icons.report_gmailerrorred_rounded,
-                                            color: Color(0xffFFB4AB),
-                                          ),
+                                         [
+                                          DropdownMenuItem(
                                             value: 'advice',
+                                            child: Center(
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                              children:
+                                              [
+
+                                                Icon(
+                                                  Icons.report_gmailerrorred_rounded,
+                                                  color: appRedColor,
+                                                ),
+                                                SizedBox(width: 10.0,),
+                                                Text('نصيحة',style: TextStyle(color: colors.fontColor()),),
+                                              ],
+                                              ),
+                                            ),
                                           ),
-                                          DropdownMenuItem(child: Icon(
-                                            Icons.info_outline,
-                                            color: Color(0xff16EA9E),
+                                          DropdownMenuItem(value: 'information',child: Center(
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children:
+                                              [
+
+                                                Icon(
+                                                  Icons.info_outline,
+                                                  color: appGreenColor,
+                                                ),
+                                                SizedBox(width: 10.0,),
+                                                Text('معلومة',style: TextStyle(color: colors.fontColor()),),
+                                              ],
+                                            ),
                                           ),
-                                            value: 'information',
                                           ),
-                                          DropdownMenuItem(child: Icon(
-                                            Icons.help_outline,
-                                            color: Color(0xff569CFF),
+                                          DropdownMenuItem(value: 'question',child: Center(
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children:
+                                              [
+
+                                                Icon(
+                                                  Icons.help_outline,
+                                                  color: mainColor,
+                                                ),
+                                                SizedBox(width: 10.0,),
+                                                Text('سؤال',style: TextStyle(color: colors.fontColor()),),
+                                              ],
+                                            ),
                                           ),
-                                            value: 'question',
                                           ),
                                         ],
-                                        dropdownColor: backgroundColor,
+                                        dropdownColor: colors.backgroundColor(),
 
                                       )
                                     ),
@@ -267,7 +300,7 @@ class Reviews_Screen extends StatelessWidget {
                                 firstChild: SizedBox(),
                                 secondChild: ElevatedButton(
 
-                                  child: Text('نشر',style: TextStyle(color: Colors.black , fontSize: 15.0),),
+                                  child: Text('نشر',style: TextStyle(color: Colors.white , fontSize: 15.0),),
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: mainColor,
                                     ),
