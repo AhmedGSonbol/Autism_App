@@ -81,7 +81,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             la.whatIsAutism,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headlineSmall
                 ?.copyWith(color: mainColor, fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -91,7 +91,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             la.paragraph1,
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .headlineSmall
                 ?.copyWith(color: colors.fontColor()),
           ),
           SizedBox(
@@ -101,7 +101,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             la.paragraph2,
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .headlineSmall
                 ?.copyWith(color: colors.fontColor()),
           ),
           SizedBox(
@@ -111,7 +111,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             la.paragraph3,
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .headlineSmall
                 ?.copyWith(color: colors.fontColor()),
           ),
           SizedBox(
@@ -134,7 +134,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             la.image2Description,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headlineSmall
                 ?.copyWith(color: mainColor, fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -144,7 +144,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             la.paragraph4,
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .headlineSmall
                 ?.copyWith(color: colors.fontColor(), fontSize: 21),
           ),
           SizedBox(
@@ -154,7 +154,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             la.paragraph5,
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .headlineSmall
                 ?.copyWith(color: colors.fontColor(), fontSize: 20),
           ),
           SizedBox(
@@ -164,7 +164,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             la.paragraph6,
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .headlineSmall
                 ?.copyWith(color: colors.fontColor(), fontSize: 21),
           ),
           SizedBox(
@@ -174,42 +174,42 @@ class _Info_ScreenState extends State<Info_Screen> {
             la.pa7,
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .headlineSmall
                 ?.copyWith(color: colors.fontColor()),
           ),
           Text(
             la.pa8,
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .headlineSmall
                 ?.copyWith(color: colors.fontColor()),
           ),
           Text(
             la.pa9,
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .headlineSmall
                 ?.copyWith(color: colors.fontColor()),
           ),
           Text(
             la.pa10,
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .headlineSmall
                 ?.copyWith(color: colors.fontColor()),
           ),
           Text(
             la.pa11,
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .headlineSmall
                 ?.copyWith(color: colors.fontColor()),
           ),
           Text(
             la.pa12,
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .headlineSmall
                 ?.copyWith(color: colors.fontColor()),
           ),
           SizedBox(
@@ -232,7 +232,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             la.pa13,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headlineSmall
                 ?.copyWith(color: mainColor, fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -242,7 +242,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             la.pa14,
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .headlineSmall
                 ?.copyWith(color: colors.fontColor(), fontSize: 21),
           ),
           SizedBox(
@@ -257,7 +257,7 @@ class _Info_ScreenState extends State<Info_Screen> {
               la.pa15,
               style: Theme.of(context)
                   .textTheme
-                  .headline6
+                  .headlineSmall
                   ?.copyWith(color: colors.fontColor(), fontSize: 21),
             ),
           ),
@@ -275,37 +275,37 @@ class _Info_ScreenState extends State<Info_Screen> {
           ),
           Text(
             la.pa17,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
           Text(
             la.pa18,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
           Text(
             la.pa19,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
           Text(
             la.pa20,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
           Text(
             la.pa21,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
           Text(
             la.pa22,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
@@ -329,7 +329,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             la.pa23,
             style: Theme.of(context)
                 .textTheme
-                .headline5
+                .headlineSmall
                 ?.copyWith(color: mainColor, fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -337,7 +337,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           ),
           Text(
             la.pa24,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
@@ -353,7 +353,7 @@ class _Info_ScreenState extends State<Info_Screen> {
               la.pa25,
               style: Theme.of(context)
                   .textTheme
-                  .headline6
+                  .headlineSmall
                   ?.copyWith(color: colors.fontColor(), fontSize: 21),
             ),
           ),
@@ -362,7 +362,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           ),
           Text(
             la.pa26,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
@@ -371,7 +371,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           ),
           Text(
             la.pa27,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
@@ -395,7 +395,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             la.pa28,
             style: Theme.of(context)
                 .textTheme
-                .headline5
+                .headlineSmall
                 ?.copyWith(color: mainColor, fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -403,7 +403,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           ),
           Text(
             la.pa29,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
@@ -412,7 +412,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           ),
           Text(
             la.pa30,
-            style: Theme.of(context).textTheme.headline4?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 color: mainColor, fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -420,7 +420,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           ),
           Text(
             la.pa31,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
@@ -431,7 +431,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             la.pa32,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headlineSmall
                 ?.copyWith(color: mainColor, fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -439,7 +439,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           ),
           Text(
             la.pa33,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
@@ -448,7 +448,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           ),
           Text(
             la.pa34,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
@@ -457,7 +457,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           ),
           Text(
             la.pa35,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
@@ -481,7 +481,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             la.pa36,
             style: Theme.of(context)
                 .textTheme
-                .headline5
+                .headlineSmall
                 ?.copyWith(color: mainColor, fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -489,7 +489,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           ),
           Text(
             la.pa37,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
@@ -498,7 +498,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           ),
           Text(
             la.pa38,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
@@ -507,7 +507,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           ),
           Text(
             la.pa39,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
@@ -516,7 +516,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           ),
           Text(
             la.pa40,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
@@ -525,7 +525,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           ),
           Text(
             la.pa41,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
@@ -534,7 +534,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           ),
           Text(
             la.pa42,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: colors.fontColor(),
                 ),
           ),
@@ -545,7 +545,7 @@ class _Info_ScreenState extends State<Info_Screen> {
             la.pa43,
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headlineSmall
                 ?.copyWith(color: mainColor, fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -553,7 +553,7 @@ class _Info_ScreenState extends State<Info_Screen> {
           ),
           Text(
             la.pa44,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 color: colors.fontColor(), fontSize: 16, fontWeight: FontWeight.bold),
           ),
           SizedBox(

@@ -81,7 +81,7 @@ class About_Screen extends StatelessWidget {
               la.autiSociety,
               style: Theme.of(context)
                   .textTheme
-                  .headline3
+                  .headlineMedium
                   ?.copyWith(color: colors.fontColor()),
             ),
             SizedBox(
@@ -97,7 +97,7 @@ class About_Screen extends StatelessWidget {
                     la.projectDescription,
                     style: Theme.of(context)
                         .textTheme
-                        .headline6
+                        .headlineSmall
                         ?.copyWith(color: colors.fontColor()),
                   ),
                   SizedBox(

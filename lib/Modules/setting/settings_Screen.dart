@@ -18,8 +18,8 @@ class Settings_Screen extends StatelessWidget {
     {
       'en':'English',
       'ar':'العربية',
-      'fr':'Français',
-      'es':'Español',
+      // 'fr':'Français',
+      // 'es':'Español',
     };
 
     return BlocConsumer<AppCubit,AppStates>
@@ -301,21 +301,21 @@ class Settings_Screen extends StatelessWidget {
                                         {
                                           cubit.changeLang(val!);
                                         }
-                                        else if(val == 'fr' && current_lang != 'fr')
-                                        {
-                                          cubit.changeLang(val!);
-                                        }
-                                        else if(val == 'es' && current_lang != 'es')
-                                        {
-                                          cubit.changeLang(val!);
-                                        }
+                                        // else if(val == 'fr' && current_lang != 'fr')
+                                        // {
+                                        //   cubit.changeLang(val!);
+                                        // }
+                                        // else if(val == 'es' && current_lang != 'es')
+                                        // {
+                                        //   cubit.changeLang(val!);
+                                        // }
                                       },
                                       items:
                                       [
                                         DropdownMenuItem(child: Text(langs['en']!),value: 'en',),
                                         DropdownMenuItem(child: Text(langs['ar']!) , value: 'ar',),
-                                        DropdownMenuItem(child: Text(langs['fr']!) , value: 'fr',),
-                                        DropdownMenuItem(child: Text(langs['es']!) , value: 'es',),
+                                        // DropdownMenuItem(child: Text(langs['fr']!) , value: 'fr',),
+                                        // DropdownMenuItem(child: Text(langs['es']!) , value: 'es',),
                                       ],
                                       style: TextStyle(fontSize: 17.0,color: colors.fontColor()),
                                       dropdownColor: colors.home_drawer_background_color(),

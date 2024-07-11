@@ -45,14 +45,14 @@ class Suggestions_Screen extends StatelessWidget {
                 'أكثر جانب في حاجة للتطوير',
                 style: Theme.of(context)
                     .textTheme
-                    .headline5
+                    .headlineSmall
                     ?.copyWith(color: colors.fontColor(), fontWeight: FontWeight.bold),
               ),
               Text(
                 'وفقاً ﻹقتراحات اﻵخرين',
                 style: Theme.of(context)
                     .textTheme
-                    .headline6
+                    .headlineSmall
                     ?.copyWith(color: colors.fontColor()),
               ),
               SizedBox(
@@ -130,7 +130,7 @@ class Suggestions_Screen extends StatelessWidget {
                 'المشاركون في اﻹقتراحات',
                 style: Theme.of(context)
                     .textTheme
-                    .headline5
+                    .headlineSmall
                     ?.copyWith(color: colors.fontColor(), fontWeight: FontWeight.bold),
               ),
               SizedBox(
@@ -147,7 +147,7 @@ class Suggestions_Screen extends StatelessWidget {
                       ),
                       Text(
                         '178',
-                        style: Theme.of(context).textTheme.headline6?.copyWith(
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                             color: colors.fontColor(), fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
@@ -156,7 +156,7 @@ class Suggestions_Screen extends StatelessWidget {
                       Text('أب و أم',
                           style: Theme.of(context)
                               .textTheme
-                              .headline6
+                              .headlineSmall
                               ?.copyWith(color: colors.fontColor())),
                     ],
                   ),
@@ -168,7 +168,7 @@ class Suggestions_Screen extends StatelessWidget {
                       ),
                       Text(
                         '45',
-                        style: Theme.of(context).textTheme.headline6?.copyWith(
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                             color: colors.fontColor(), fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
@@ -177,7 +177,7 @@ class Suggestions_Screen extends StatelessWidget {
                       Text('أب و أم',
                           style: Theme.of(context)
                               .textTheme
-                              .headline6
+                              .headlineSmall
                               ?.copyWith(color: colors.fontColor())),
                     ],
                   ),

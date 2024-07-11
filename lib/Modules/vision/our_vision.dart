@@ -47,10 +47,11 @@ class Our_Vision extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children:
+                [
                   Text(
                     la.autiSociety,
-                    style: Theme.of(context).textTheme.headline3?.copyWith(
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         color: mainColor, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(

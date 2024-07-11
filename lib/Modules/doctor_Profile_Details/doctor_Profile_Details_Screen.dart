@@ -36,7 +36,7 @@ class Doctor_Profile_Details_Screen extends StatelessWidget
             [
               Text(
                 la.docDef,
-                style: Theme.of(context).textTheme.headline4?.copyWith(
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                     color: colors.fontColor(), fontWeight: FontWeight.bold),
               ),
               SizedBox(
@@ -50,7 +50,7 @@ class Doctor_Profile_Details_Screen extends StatelessWidget
                 AppCubit.get(context).viewUserModel?.data?.about ?? '-',
                   style: Theme.of(context)
                     .textTheme
-                    .headline6
+                    .headlineSmall
                     ?.copyWith(color: colors.fontColor()),
                 trimLines: 2,
                 trimLength: 300,
@@ -65,7 +65,7 @@ class Doctor_Profile_Details_Screen extends StatelessWidget
                 children: [
                   Text(
                     la.docClinicAddress,
-                    style: Theme.of(context).textTheme.headline4?.copyWith(
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                         color: colors.fontColor(), fontWeight: FontWeight.bold),
                   ),
                   ///location
