@@ -3,7 +3,6 @@
 
 - AutiSocity is one of the apps that help patients communicate with professional doctors all over the world without any need to leave their country or even home.
 - This App leads to help parents to review their children health especially in autism spectrum disorder (ASD) diseases using AI and ML technology to give a preliminary diagnosis to the patient upon answering some questions.
-- <br>
 
 - Project characteristics:-
 
