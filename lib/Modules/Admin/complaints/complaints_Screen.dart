@@ -8,6 +8,7 @@ import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/Shared/styles/text_styles.dart';
+import 'package:autism/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -20,46 +21,48 @@ class Complaints_Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context)
   {
+    var la = S.of(context);
+
     AppCubit.get(context).getReportedPosts();
     return BlocConsumer<AppCubit,AppStates>(
         listener: (context, state)
         {
+
+          var la = S.of(context);
+
           if(state is SuccessConfirmReportedPostState)
           {
-            myToast(msg: state.message, state: ToastStates.SUCCESS);
+            myToast(msg: la.postStayed, state: ToastStates.SUCCESS);
           }
           else if(state is SuccessRejectReportedPostState)
           {
-            myToast(msg: state.message, state: ToastStates.SUCCESS);
+            myToast(msg: la.postDeleted, state: ToastStates.SUCCESS);
           }
         },
         builder: (context, state)
         {
           AppColors colors = AppColors(context);
-          return Directionality(
-            textDirection: TextDirection.rtl,
-            child: Padding(
-              padding: const EdgeInsetsDirectional.symmetric(vertical: 10),
-              child:
-              AppCubit.get(context).reportedPosts == null
-                ?
-            Center(
-              child: CircularProgressIndicator(color: mainColor,),
-            )
-                :
-              RefreshIndicator(
-                onRefresh: ()async
-                {
-                  await AppCubit.get(context).getReportedPosts(isReferesh: true);
+          return Padding(
+            padding: const EdgeInsetsDirectional.symmetric(vertical: 10),
+            child:
+            AppCubit.get(context).reportedPosts == null
+              ?
+          Center(
+            child: CircularProgressIndicator(color: mainColor,),
+          )
+              :
+            RefreshIndicator(
+              onRefresh: ()async
+              {
+                await AppCubit.get(context).getReportedPosts(isReferesh: true);
 
-                },
-                child: ListView.separated(
-                  itemBuilder: ((context, index) => buildComplaintItems(context,AppCubit.get(context).reportedPosts!.reportedPostData[index],colors)),
-                  separatorBuilder: ((context, index) => SizedBox(
-                    height: 10,
-                  )),
-                  itemCount: AppCubit.get(context).reportedPosts!.reportedPostData.length,
-                ),
+              },
+              child: ListView.separated(
+                itemBuilder: ((context, index) => buildComplaintItems(context,AppCubit.get(context).reportedPosts!.reportedPostData[index],colors,la)),
+                separatorBuilder: ((context, index) => SizedBox(
+                  height: 10,
+                )),
+                itemCount: AppCubit.get(context).reportedPosts!.reportedPostData.length,
               ),
             ),
           );
@@ -67,8 +70,9 @@ class Complaints_Screen extends StatelessWidget {
         },);
   }
 
-  Widget buildComplaintItems(BuildContext context, ReportedPostData model,AppColors colors)
+  Widget buildComplaintItems(BuildContext context, ReportedPostData model,AppColors colors,S la)
   {
+
     AppColors colors = AppColors(context);
 
     return  Padding(
@@ -97,18 +101,15 @@ class Complaints_Screen extends StatelessWidget {
                   width: 10,
                 ),
                 Expanded(
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      textDirection: TextDirection.ltr,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                      model.comp_to!,
-                      style: TextStyle(
-                          color: colors.fontColor(),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold
-                      ),
+                  child: Text(
+                    // textDirection: TextDirection.ltr,
+                    // textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    model.comp_to!,
+                    style: TextStyle(
+                        color: colors.fontColor(),
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold
                     ),
                   ),
                 ),
@@ -117,7 +118,7 @@ class Complaints_Screen extends StatelessWidget {
                 ),
 
                 Text(
-                  intl.DateFormat('yyyy/MM/dd').format(intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(model.date!)),
+                  intl.DateFormat('yyyy/MM/dd').format(intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz','en').parse(model.date!)),
                   style: TextStyle(color: colors.fontColor(), fontSize: 16),
                 ),
                 const SizedBox(
@@ -139,7 +140,7 @@ class Complaints_Screen extends StatelessWidget {
                   height: 15.0,
                 ),
                 Text(
-                  'الشكوه :  ${model.complaint}',
+                  la.complaint + ' : ' + model.complaint!,
                   style: TextStyle(color: colors.fontColor(), fontSize: 18),
                 ),
                 SizedBox(
@@ -148,7 +149,7 @@ class Complaints_Screen extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'الشاكي :  ',
+                      la.whoComplaint + ' : ',
                       style: TextStyle(color: colors.fontColor(), fontSize: 18,),
                     ),
                     Text(
@@ -166,7 +167,7 @@ class Complaints_Screen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 defaultElevatedButton(
-                  text: 'إبقاء',
+                  text: la.stay,
                   onPressed: ()
                   {
                     AppCubit.get(context).confirmReportedPost(model);
@@ -176,7 +177,7 @@ class Complaints_Screen extends StatelessWidget {
                   width: 10.0,
                 ),
                 defaultElevatedButton(
-                  text: 'حذف',
+                  text: la.delete,
                   color: secondColor,
                   onPressed: ()
                   {

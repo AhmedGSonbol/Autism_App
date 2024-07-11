@@ -2,6 +2,7 @@ import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/styles/colors.dart';
+import 'package:autism/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,12 +20,13 @@ class Change_Password_Screen extends StatelessWidget {
    @override
   Widget build(BuildContext context)
   {
+    var la = S.of(context);
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state)
       {
         if(state is SuccessUpdatePasswordState)
         {
-          myToast(msg: state.message, state: ToastStates.SUCCESS);
+          myToast(msg: la.updateSuccessMessage, state: ToastStates.SUCCESS);
 
           oldPassController.clear();
           reTryNewPassController.clear();
@@ -32,7 +34,7 @@ class Change_Password_Screen extends StatelessWidget {
         }
         else if(state is ErrorUpdatePasswordState)
         {
-          myToast(msg: state.message, state: ToastStates.ERROR);
+          myToast(msg: la.updateErrorMessage, state: ToastStates.ERROR);
         }
 
       },
@@ -49,7 +51,7 @@ class Change_Password_Screen extends StatelessWidget {
               appBar: AppBar(
                 title:  Text(
 
-                  'تعديل الرقم السري',
+                  la.changePasswordTitle,
                   style: TextStyle(color: colors.fontColor()),
                 ),
                 leading: IconButton(
@@ -85,9 +87,8 @@ class Change_Password_Screen extends StatelessWidget {
                             {
                               Navigator.of(context).pop();
                             },
-                            text: 'إلغاء',
-                            color: const Color(0xffDBBCE1),
-                            textColor: const Color(0xff3E2845),
+                            text: la.cancelButton,
+                            color: appRedColor,
                           ),
                           const SizedBox(
                             width: 15,
@@ -99,7 +100,7 @@ class Change_Password_Screen extends StatelessWidget {
                                 cubit.updatePassword(oldPassword: oldPassController.text, newPassword: newPassController.text);
                               }
                             },
-                            text:'تعديل',
+                            text:la.updateButton,
                           ),
                         ],
                       ),
@@ -128,12 +129,12 @@ class Change_Password_Screen extends StatelessWidget {
                               context: context,
                               controller: oldPassController,
                               type: TextInputType.name,
-                              hint: 'الرقم السري القديم',
+                              hint: la.oldPasswordLabel,
                               validate: (value)
                               {
                                 if (value == '')
                                 {
-                                  return 'مطلوب*';
+                                  return la.Required;
                                 }
                               },
                             ),
@@ -146,13 +147,13 @@ class Change_Password_Screen extends StatelessWidget {
                                   context: context,
                                   controller: newPassController,
                                   type: TextInputType.name,
-                                  hint: 'الرقم السري الجديد',
+                                  hint: la.newPasswordLabel,
                                 validate: (value)
                                 {
                                   if (value == '') {
-                                    return 'مطلوب*';
+                                    return la.Required;
                                   }else if (value!.length < 6) {
-                                    return 'لا يمكن انشاء رقم سري اقل من 6 احرف او ارقام';
+                                    return la.newPasswordLengthError;
                                   }
                                 }
                               ),
@@ -165,16 +166,16 @@ class Change_Password_Screen extends StatelessWidget {
                                 context: context,
                                 controller: reTryNewPassController,
                                 type: TextInputType.name,
-                                hint: 'إعادة كتابة الرقم السري الجديد',
+                                hint: la.confirmPasswordLabel,
                                 validate: (value)
                                 {
                                   if (value == '')
                                   {
-                                    return 'مطلوب*';
+                                    return la.Required;
                                   }
                                   else if(newPassController.text != value)
                                   {
-                                    return 'برجاء إعادة كتابة كلمة السر بشكل صحيح !';
+                                    return la.confirmPasswordError;
                                   }
                                 }
                             ),

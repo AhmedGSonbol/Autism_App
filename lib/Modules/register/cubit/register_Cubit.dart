@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:autism/Modules/register/cubit/register_States.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
+import 'package:autism/Shared/Constants/Countries.dart';
 import 'package:autism/Shared/network/end_points.dart';
 import 'package:autism/Shared/network/local/Cach_Helper.dart';
 import 'package:autism/Shared/network/remote/dio_Helper.dart';
@@ -221,7 +222,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
 
     print(val);
 
-    COUNTRIES.map((e)
+    countriesAR.map((e)
     {
       if(e['value'] == val)
       {

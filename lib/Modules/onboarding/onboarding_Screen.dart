@@ -38,19 +38,19 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   List<onBoardingModel> screens = [
     onBoardingModel(
       image: 'assets/images/Exams-rafiki 1.png',
-      title: 'تشخيص',
+      title: 'Diagnosis',
       description:
-          'تشخيص مبدائي مبني على الذكاء اﻷصطناعي لقياس مدى قابلية طفلك للإصابة بطيف التوحد',
+          'An initial diagnosis based on artificial intelligence to measure your child’s susceptibility to the autism spectrum',
     ),
     onBoardingModel(
       image: 'assets/images/Online Doctor-rafiki 1.png',
-      title: 'محادثات',
-      description: 'محادثات بين الطبيب المختص و ولي أمر طفل التوحد',
+      title: 'Chats',
+      description: 'Conversations between the specialist doctor and the parent of an autistic child',
     ),
     onBoardingModel(
       image: 'assets/images/Messages-pana 1.png',
-      title: 'مجتمع',
-      description: 'مجتمع مخصص للأطباء و مجتمع للأباء و اﻷمهات و اﻷطباء',
+      title: 'Society',
+      description: 'A community dedicated to doctors and a community for parents and doctors',
     ),
   ];
 
@@ -91,7 +91,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
 
                   child: Text(
-                    'التالي',
+                    'Next',
                     style: TextStyle(color: mainColor),
                   ),
                   onPressed: () {
@@ -130,13 +130,19 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         const SizedBox(height: 30),
         Text(
           model.title,
-          style: onBoardingTitle,
+          style: TextStyle(
+            color: Color(0xff1e1d16),
+            fontSize: 18,
+          ),
         ),
         const SizedBox(height: 10),
         Text(
           textAlign: TextAlign.center,
           model.description,
-          style: onBoardingDesc,
+          style: TextStyle(
+            color: Color(0xff1e1d16),
+            fontSize: 18,
+          ),
         ),
       ],
     );

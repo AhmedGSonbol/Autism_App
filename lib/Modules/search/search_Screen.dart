@@ -5,11 +5,13 @@ import 'package:autism/Models/search_Model.dart';
 import 'package:autism/Modules/Admin/manage_Admins/manage_Accounts_Screen.dart';
 import 'package:autism/Modules/profile/profile_Screen.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
+import 'package:autism/Shared/Constants/Countries.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/Shared/styles/text_styles.dart';
+import 'package:autism/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -25,6 +27,7 @@ class Search_Screen extends StatelessWidget {
     AppColors colors = AppColors(context);
 
     var cubit = AppCubit.get(context);
+    var la = S.of(context);
     // cubit.getAllAdmins();
 
     return BlocConsumer<AppCubit,AppStates>
@@ -34,7 +37,7 @@ class Search_Screen extends StatelessWidget {
       {
         return Scaffold(
           appBar: AppBar(
-            title: Text('البحث',style: TextStyle(color: colors.fontColor()),),
+            title: Text(la.search,style: TextStyle(color: colors.fontColor()),),
             leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -65,7 +68,7 @@ class Search_Screen extends StatelessWidget {
                                 MainAxisAlignment.center,
                                 children: [
                                    Text(
-                                    'البحث',
+                                    la.search,
                                     style: TextStyle(
                                         fontSize: 25.0,
                                         color: colors.fontColor()),
@@ -103,7 +106,7 @@ class Search_Screen extends StatelessWidget {
                                       },
                                       style:TextStyle(color: colors.fontColor() , fontSize: 20.0),
                                       items:
-                                      COUNTRIES.map((e)
+                                      countriesAR.map((e)
                                       {
                                         return DropdownMenuItem(
                                           child: Text(e['label'].toString(),
@@ -118,7 +121,7 @@ class Search_Screen extends StatelessWidget {
 
                                     ),
                                     SizedBox(width: 20.0,),
-                                    Text(' : الدولة',
+                                    Text(la.country,
                                       style: TextStyle(
                                           color: colors.fontColor() ,
                                           fontSize: 20.0,
@@ -164,7 +167,7 @@ class Search_Screen extends StatelessWidget {
 
                                     ),
                                     SizedBox(width: 20.0,),
-                                    Text(' : المحافظة',
+                                    Text(la.government,
                                       style: TextStyle(
                                           color: colors.fontColor() ,
                                           fontSize: 18.0,
@@ -179,8 +182,8 @@ class Search_Screen extends StatelessWidget {
 
                             actions: [
                               TextButton(
-                                child: const Text(
-                                  'موافق',
+                                child:  Text(
+                                  la.ok,
                                   style: TextStyle(
                                       color: mainColor,
                                     fontWeight: FontWeight.bold,
@@ -206,85 +209,83 @@ class Search_Screen extends StatelessWidget {
             ],
           ),
 
-          body: Directionality(
-            textDirection: TextDirection.rtl,
-            child: SingleChildScrollView(
-              child: Column(
-                children:
-                [
-                  Container(
-                    margin: EdgeInsets.only(bottom: 15.0,top: 5.0),
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        color: colors.backgroundColor(),
-                        height: 60,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: TextField(
-                            controller: searchController,
-                            style:  TextStyle(color: colors.fontColor()),
-                            decoration: InputDecoration(
+          body: SingleChildScrollView(
+            child: Column(
+              children:
+              [
+                SizedBox(height: 20.0,),
+                Container(
+                  margin: EdgeInsets.only(bottom: 15.0,top: 5.0),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      color: colors.backgroundColor(),
+                      height: 60,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: TextField(
+                          controller: searchController,
+                          style:  TextStyle(color: colors.fontColor()),
+                          decoration: InputDecoration(
 
-                                border: OutlineInputBorder(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              enabledBorder:  OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16),
-                                ),
-                                enabledBorder:  OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                    borderSide: BorderSide(color: colors.fontColor())
-                                ),
-                                hintText: 'إكتب شئ',
+                                  borderSide: BorderSide(color: colors.fontColor())
+                              ),
+                              hintText: la.writeSomethingHere,
 
-                                suffixIcon: IconButton(
-                                  icon: Transform.rotate(
-                                    angle: 0,
-                                    child:  Icon(Icons.search,color: colors.fontColor(),),
-                                  ),
-                                  onPressed: ()
-                                  {
-                                      cubit.searchForUser(searchController.text);
-                                  },
+                              suffixIcon: IconButton(
+                                icon: Transform.rotate(
+                                  angle: 0,
+                                  child:  Icon(Icons.search,color: colors.fontColor(),),
                                 ),
-                            ),
-                            onSubmitted: (val)
-                            {
-                              cubit.searchForUser(val);
-                            },
+                                onPressed: ()
+                                {
+                                    cubit.searchForUser(searchController.text);
+                                },
+                              ),
                           ),
+                          onSubmitted: (val)
+                          {
+                            cubit.searchForUser(val);
+                          },
                         ),
                       ),
                     ),
                   ),
+                ),
 
-                  state is LoadingSearchForUserState
-                      ?
-                  Center(
-                    child: CircularProgressIndicator(color: mainColor,),
-                  )
-                      :
-                  cubit.search_model == null
-                      ?
-                      Center(
-                        child: Text('! لا يوجد بيانات',style: TextStyle(color: colors.fontColor(),fontSize: 22.0),),
-                      )
-                      :
+                state is LoadingSearchForUserState
+                    ?
+                Center(
+                  child: CircularProgressIndicator(color: mainColor,),
+                )
+                    :
+                cubit.search_model == null
+                    ?
+                    Center(
+                      child: Text(la.noData,style: TextStyle(color: colors.fontColor(),fontSize: 22.0),),
+                    )
+                    :
 
-                  ListView.separated(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.only(bottom: 20.0),
-                    itemBuilder: (context, index) {
-                      return Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: buildSearchItems(context,cubit.search_model!.data[index],colors));
-                    },
-                    separatorBuilder: (context, index) => SizedBox(
-                      height: 10.0,
-                    ),
-                    itemCount: cubit.search_model!.data.length,
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.only(bottom: 20.0),
+                  itemBuilder: (context, index) {
+                    return Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: buildSearchItems(context,cubit.search_model!.data[index],colors));
+                  },
+                  separatorBuilder: (context, index) => SizedBox(
+                    height: 10.0,
                   ),
-                ],
-              ),
+                  itemCount: cubit.search_model!.data.length,
+                ),
+              ],
             ),
           ),
         );
@@ -302,7 +303,6 @@ Widget buildSearchItems(BuildContext context,SearchData model,AppColors colors )
     {
       navTo(context, Profile_Screen(isView: true));
       AppCubit.get(context).getUserData(userID: model.id!);
-      navTo(context, Profile_Screen(isView: true));
     },
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),

@@ -10,6 +10,7 @@ import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/Shared/styles/text_styles.dart';
+import 'package:autism/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -29,17 +30,19 @@ class Manage_Admins_Screen extends StatelessWidget
   var searchController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
+    var la = S.of(context);
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state)
       {
         if (state is SuccessDeleteUserState)
         {
-          myToast(msg: state.message, state: ToastStates.SUCCESS);
+          myToast(msg: la.deletedSuccessfully, state: ToastStates.SUCCESS);
         }
         else if (state is ErrorDeleteUserState)
         {
-          myToast(msg: state.message.contains('Only super admin can delete admins') ? 'يمكن للمسؤول الرئيسي فقط حذف باقي المسؤولين !' : state.message, state: ToastStates.ERROR);
+          myToast(msg: state.message.contains('Only super admin can delete admins') ? la.onlyAdmin : la.connectioError, state: ToastStates.ERROR);
         }
 
       },
@@ -48,87 +51,84 @@ class Manage_Admins_Screen extends StatelessWidget
         AppColors colors = AppColors(context);
 
         var cubit = AppCubit.get(context);
-        return Directionality(
-          textDirection: TextDirection.rtl,
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: RefreshIndicator(
-              onRefresh: ()async
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: RefreshIndicator(
+            onRefresh: ()async
+            {
+              if(cubit.currentAccountsScreen == 0)
               {
-                if(cubit.currentAccountsScreen == 0)
-                {
-                  await AppCubit.get(context).getAllAdmins(isReferesh: true);
-                }else if(cubit.currentAccountsScreen == 1)
-                {
-                  await AppCubit.get(context).getAllDoctors(isReferesh: true);
-                }else
-                {
-                  await AppCubit.get(context).getAllPatients(isReferesh: true);
-                }
-              },
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Column(
-                      children: [
-                        Padding(
+                await AppCubit.get(context).getAllAdmins(isReferesh: true);
+              }else if(cubit.currentAccountsScreen == 1)
+              {
+                await AppCubit.get(context).getAllDoctors(isReferesh: true);
+              }else
+              {
+                await AppCubit.get(context).getAllPatients(isReferesh: true);
+              }
+            },
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: myNavBar(
+                          context,
+                            selectedIndex: cubit.currentAccountsScreen,
+                            text: [la.admin, la.doctor, la.patient],
+                            onDestinationSelected: (index) {
+                              cubit.changeCurrentAccountScreen(index);
+                            }),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        height: 50,
+                        child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: myNavBar(
-                            context,
-                              selectedIndex: cubit.currentAccountsScreen,
-                              text: ['مسؤول', 'طبيب', 'مريض'],
-                              onDestinationSelected: (index) {
-                                cubit.changeCurrentAccountScreen(index);
-                              }),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        SizedBox(
-                          height: 50,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: TextField(
-                            controller: searchController,
-                            style:  TextStyle(color: colors.fontColor()),
-                            decoration: InputDecoration(
+                          child: TextField(
+                          controller: searchController,
+                          style:  TextStyle(color: colors.fontColor()),
+                          decoration: InputDecoration(
 
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              enabledBorder:  OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                  borderSide: BorderSide(color: colors.fontColor())
-                              ),
-                              hintText: 'إكتب شئ',
-
-                              suffixIcon: IconButton(
-                                icon: Transform.rotate(
-                                  angle: 0,
-                                  child:  Icon(Icons.search,color: colors.fontColor(),),
-                                ),
-                                onPressed: ()
-                                {
-                                  cubit.adminSearch(searchController.text);
-                                },
-                              ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
                             ),
-                            onSubmitted: (val)
-                            {
-                              cubit.adminSearch(val);
-                            },
-                          ),
+                            enabledBorder:  OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide: BorderSide(color: colors.fontColor())
+                            ),
+                            hintText: la.writeSomethingHere,
 
+                            suffixIcon: IconButton(
+                              icon: Transform.rotate(
+                                angle: 0,
+                                child:  Icon(Icons.search,color: colors.fontColor(),),
+                              ),
+                              onPressed: ()
+                              {
+                                cubit.adminSearch(searchController.text);
+                              },
+                            ),
                           ),
+                          onSubmitted: (val)
+                          {
+                            cubit.adminSearch(val);
+                          },
                         ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    screens[cubit.currentAccountsScreen]
-                  ],
-                ),
+
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  screens[cubit.currentAccountsScreen]
+                ],
               ),
             ),
           ),

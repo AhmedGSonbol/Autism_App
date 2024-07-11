@@ -8,6 +8,7 @@ import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/Shared/styles/text_styles.dart';
+import 'package:autism/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -33,38 +34,37 @@ class Chat_Screen extends StatelessWidget
           var cubit = AppCubit.get(context);
           AppColors colors = AppColors(context);
 
+          var la = S.of(context);
 
-          return Directionality(
-            textDirection: TextDirection.rtl,
-            child: Padding(
-              padding: const EdgeInsetsDirectional.symmetric(vertical: 10),
-              child:
-              (()
+
+          return Padding(
+            padding: const EdgeInsetsDirectional.symmetric(vertical: 10),
+            child:
+            (()
+            {
+              if(cubit.messengers_model == null)
               {
-                if(cubit.messengers_model == null)
-                {
-                  return Center(
-                    child: CircularProgressIndicator(color: mainColor,),
-                  );
-                }
-                else if(cubit.messengers_model != null && cubit.messengers_model!.messengersData.length == 0)
-                {
-                  return Center(
-                    child: Text('لا يوجد محادثات !',style: TextStyle(color: colors.fontColor()),),
-                  );
-                }else
-                {
-                  return ListView.separated(
-                    itemBuilder: ((context, index) => buildChatItems(context,cubit.messengers_model!.messengersData[index],colors)),
-                    separatorBuilder: ((context, index) => SizedBox(
-                      height: 10,
-                    )),
-                    itemCount: cubit.messengers_model!.messengersData.length,
-                  );
-                }
-              }())
+                return Center(
+                  child: CircularProgressIndicator(color: mainColor,),
+                );
+              }
+              else if(cubit.messengers_model != null && cubit.messengers_model!.messengersData.length == 0)
+              {
+                return Center(
+                  child: Text(la.noChatsMessage,style: TextStyle(color: colors.fontColor()),),
+                );
+              }else
+              {
+                return ListView.separated(
+                  itemBuilder: ((context, index) => buildChatItems(context,cubit.messengers_model!.messengersData[index],colors)),
+                  separatorBuilder: ((context, index) => SizedBox(
+                    height: 10,
+                  )),
+                  itemCount: cubit.messengers_model!.messengersData.length,
+                );
+              }
+            }())
 
-            ),
           );
 
         },);
@@ -74,7 +74,7 @@ class Chat_Screen extends StatelessWidget
   {
     bool showTimeOnly;
 
-    if(DateTime.now().difference( intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(model.date!)).inHours < 24)
+    if(DateTime.now().difference( intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz','en').parse(model.date!)).inHours < 24)
     {
       showTimeOnly = true;
     }
@@ -88,6 +88,7 @@ class Chat_Screen extends StatelessWidget
       {
         AppCubit.get(context).getUserMessages(model.uId!);
         navTo(context, Chat_Details_Screen(messengerModel: model,));
+
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -131,7 +132,7 @@ class Chat_Screen extends StatelessWidget
                     ),
                     SizedBox(width: 15.0,),
                     Text(
-                      intl.DateFormat(showTimeOnly == true ? 'hh:mm a' : 'yy/M/d').format(intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(model.date!)),
+                      intl.DateFormat(showTimeOnly == true ? 'hh:mm a' : 'yy/M/d').format(intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz','en').parse(model.date!)),
                       style: TextStyle(color: colors.fontColor(), fontSize: 15 ),
                       textDirection: TextDirection.rtl,
                     ),

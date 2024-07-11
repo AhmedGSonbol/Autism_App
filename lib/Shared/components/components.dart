@@ -7,6 +7,7 @@ import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/Shared/styles/text_styles.dart';
+import 'package:autism/generated/l10n.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart' as intl ;
 import 'package:readmore/readmore.dart';
+
 
 void navTo(BuildContext context, Widget route) {
   Navigator.of(context).push(MaterialPageRoute(builder: (context) {
@@ -42,6 +44,7 @@ Widget defaultTextFormField({
   Color? prefixColor,
   double? prefixIconSize,
   onTap,
+  void Function(String)? onFieldSubmitted,
   bool isClickable = true,
   // IconData? suffix
   TextStyle? style,
@@ -58,6 +61,7 @@ Widget defaultTextFormField({
   return Directionality(
     textDirection: hintRt1!,
     child: TextFormField(
+
       key: formKey,
       onSaved: onSaved,
       maxLines: maxLines,
@@ -65,7 +69,7 @@ Widget defaultTextFormField({
       keyboardType: type,
       obscureText: isPass,
       enabled: isClickable,
-      onFieldSubmitted: (value) {},
+      onFieldSubmitted: onFieldSubmitted,
 
       // onChanged: (value) { },
 
@@ -137,8 +141,8 @@ Widget defaultButton({
 
 Widget defaultElevatedButton({
   double elevation = 0,
-  double width = 100,
-  double height = 50,
+  double width = 110,
+  double height = 30,
   required void Function() onPressed,
   required String text,
   Color? color ,
@@ -148,7 +152,7 @@ Widget defaultElevatedButton({
       style: ButtonStyle(
         elevation: MaterialStatePropertyAll(elevation),
         fixedSize: MaterialStateProperty.all<Size>(
-          const Size(90, 30), // Set the desired width and height
+           Size(width, height), // Set the desired width and height
         ),
         backgroundColor: MaterialStatePropertyAll(
           color ?? mainColor,
@@ -173,6 +177,7 @@ Widget bulidPostItem({
 })
 {
   AppColors colors = AppColors(context);
+  var la = S.of(context);
 
   return Padding(
     padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
@@ -191,21 +196,7 @@ Widget bulidPostItem({
               children: [
                 IconButton(
 
-                  icon: CircleAvatar(
-                      backgroundImage: (()
-                      {
-                        if (model.image != null && model.image!.isNotEmpty)
-                        {
-
-                            return NetworkImage(model.image!) as ImageProvider;
-
-                        }
-                        else
-                        {
-                          return AssetImage('assets/images/Rectangle.png') as ImageProvider;
-                        }
-                      }()),
-                  )
+                  icon: myImageProvider(model.image)
                   ,
                   onPressed: ()
                   {
@@ -252,8 +243,7 @@ Widget bulidPostItem({
                                   ),
                                 ),
                                 Text(
-                                    // DateTime.parse(model.date!).toString(),
-                                  intl.DateFormat('E, yyyy/MM/dd  hh:mm a').format(intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(model.date!)),
+                                  intl.DateFormat('E, yyyy/MM/dd  hh:mm a').format(intl.DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'",'en').parse(model.date!)),
                                   style:  TextStyle(
                                     fontSize: 10,
                                     color: colors.fontColor(),
@@ -307,7 +297,7 @@ Widget bulidPostItem({
                                                         height: 20.0,
                                                       ),
                                                        Text(
-                                                        'إبلاغ',
+                                                        la.report,
                                                         style: TextStyle(
                                                             fontSize: 25.0,
                                                             color: colors.fontColor()),
@@ -316,7 +306,7 @@ Widget bulidPostItem({
                                                         height: 20.0,
                                                       ),
                                                        Text(
-                                                          'حدد نوع الإساءة الموجودة في المنشور',
+                                                          la.reportKind,
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
                                                             fontSize: 17.0,
@@ -343,7 +333,7 @@ Widget bulidPostItem({
                                                             }),
                                                         const Spacer(),
                                                         Text(
-                                                          'معلومة غير صحيحة',
+                                                          la.incorrectInfo,
                                                           style: TextStyle(
                                                               fontSize: 17.0,
                                                               color: colors.fontColor()
@@ -364,7 +354,7 @@ Widget bulidPostItem({
 
                                                             }),
                                                         const Spacer(),
-                                                        Text('إساءة باللفظ',
+                                                        Text(la.VerbalAbuse,
                                                           style: TextStyle(
                                                               fontSize: 17.0,
                                                               color: colors.fontColor()
@@ -384,7 +374,7 @@ Widget bulidPostItem({
                                                               setState(() => checkAnnoying = !checkAnnoying);
                                                             }),
                                                         const Spacer(),
-                                                        Text('إزعاج',
+                                                        Text(la.annoying,
                                                           style: TextStyle(
                                                               fontSize: 17.0,
                                                               color: colors.fontColor()
@@ -398,7 +388,7 @@ Widget bulidPostItem({
                                                 actions: [
                                                   TextButton(
                                                     child: Text(
-                                                      'إرسال',
+                                                      la.send,
                                                       style: TextStyle(
                                                           fontSize: 16.0,
                                                           fontWeight: FontWeight.bold,
@@ -413,15 +403,15 @@ Widget bulidPostItem({
 
                                                         if(checkIncorrect == true)
                                                         {
-                                                          complaintList.add('معلومة غير صحيحة');
+                                                          complaintList.add(la.incorrectInfo);
                                                         }
                                                         if(checkInsult == true)
                                                         {
-                                                          complaintList.add('إساءة باللفظ');
+                                                          complaintList.add(la.VerbalAbuse);
                                                         }
                                                         if(checkAnnoying == true)
                                                         {
-                                                          complaintList.add('إزعاج');
+                                                          complaintList.add(la.annoying);
                                                         }
 
 
@@ -431,14 +421,14 @@ Widget bulidPostItem({
                                                       }
                                                       else
                                                       {
-                                                        myToast(msg: 'برجاء اختيار الشكوي !', state: ToastStates.WARNING);
+                                                        myToast(msg: la.chooseComplaint, state: ToastStates.WARNING);
                                                       }
 
                                                     },
                                                   ),
                                                   TextButton(
                                                     child:  Text(
-                                                      'إلغاء',
+                                                      la.cancelButton,
                                                       style:
                                                       TextStyle(
                                                           fontSize: 16.0,
@@ -482,7 +472,7 @@ Widget bulidPostItem({
                                                   height: 20.0,
                                                 ),
                                                 Text(
-                                                  'هل تريد حذف المنشور ؟',
+                                                  la.deletePost,
                                                   style: TextStyle(
                                                       fontSize: 25.0,
                                                       color: colors.fontColor()),
@@ -496,7 +486,7 @@ Widget bulidPostItem({
                                           actions: [
                                             TextButton(
                                               child:  Text(
-                                                'حذف',
+                                                la.delete,
                                                 style: TextStyle(
                                                     fontSize: 16.0,
                                                     fontWeight: FontWeight.bold,
@@ -511,7 +501,7 @@ Widget bulidPostItem({
                                             ),
                                             TextButton(
                                               child:  Text(
-                                                'إلغاء',
+                                                la.cancelButton,
                                                 style:
                                                 TextStyle(
                                                     fontSize: 16.0,
@@ -941,14 +931,16 @@ Color toastFontColor(ToastStates state) {
 
 Widget myImageProvider(String? link , {double size = 50})
 {
+  link = link ?? '';
 
   return ClipRRect(
-    borderRadius: BorderRadius.circular(25.0),
+    borderRadius: BorderRadius.circular(100.0),
     child: FancyShimmerImage(
       width: size,
       height: size,
-      boxFit: BoxFit.fill,
-      imageUrl: link!,
+      boxFit: BoxFit.cover,
+      alignment: Alignment.centerRight,
+      imageUrl: link,
       errorWidget:Image(image: AssetImage('assets/images/Ellipse 18.png'),),
     ),
   );

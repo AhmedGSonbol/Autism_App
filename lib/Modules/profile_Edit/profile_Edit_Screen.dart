@@ -5,6 +5,7 @@ import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/styles/colors.dart';
+import 'package:autism/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,6 +43,7 @@ class Profile_Edit_Screen extends StatelessWidget
   Widget build(BuildContext context)
   {
 
+    var la = S.of(context);
 
     UserData? model = AppCubit.get(context).userModel?.data;
 
@@ -125,9 +127,9 @@ class Profile_Edit_Screen extends StatelessWidget
                 backgroundColor: colors.home_drawer_item_background(),
                 title:  Text(
                   isAddAdmin == false ?
-                  'تعديل الملف الشخصي'
+                  la.edit_profile
                       :
-                  'إضافة مسئول جديد',
+                  la.add_admin,
                   style: TextStyle(color: colors.fontColor()),
                 ),
                 leading: IconButton(
@@ -163,7 +165,7 @@ class Profile_Edit_Screen extends StatelessWidget
                             {
                               Navigator.of(context).pop();
                             },
-                            text: 'إلغاء',
+                            text: la.cancel,
                             color: appRedColor
 
                           ),
@@ -224,7 +226,7 @@ class Profile_Edit_Screen extends StatelessWidget
 
                               }
                             },
-                            text:!isAddAdmin ? 'حفظ' : 'إضافة',
+                            text:!isAddAdmin ? la.save : la.add,
                           ),
                         ],
                       ),
@@ -249,31 +251,30 @@ class Profile_Edit_Screen extends StatelessWidget
                           children: [
                             Stack(
                               alignment: Alignment.bottomRight,
-                              children: [
+                              children:
+                              [
+
                                 Hero(
                                   tag: 'profile_image',
-                                  child: CircleAvatar(backgroundImage:
+                                  child:
                                   (()
                                   {
                                     if(cubit.avatarImage != null)
                                     {
-                                      return FileImage(cubit.avatarImage!) as ImageProvider;
+                                      return CircleAvatar(
+                                        radius: 100.0,
+                                        backgroundImage: FileImage(cubit.avatarImage!) as ImageProvider,
+                                      );
+
                                     }
                                     else
                                     {
-                                      if(model != null && model!.image != null && model!.image!.isNotEmpty)
-                                      {
-                                        return NetworkImage(model!.image!);
-                                      }
-                                      else
-                                      {
-                                        return AssetImage('assets/images/Rectangle.png') as ImageProvider;
-                                      }
+                                      return myImageProvider(model?.image,size: 200.0);
                                     }
 
                                   }()),
-                                    radius: 100.0,
-                                  ),
+
+
                                 ),
                                 (()
                                 {
@@ -367,13 +368,13 @@ class Profile_Edit_Screen extends StatelessWidget
                               context: context,
                               controller: nameController,
                               type: TextInputType.name,
-                              hint: 'الأسم',
+                              hint: la.name,
                             validate: (value) {
                               if (value == '') {
-                                return 'مطلوب*';
+                                return la.Required;
                               }else if(value!.length < 5)
                               {
-                                return 'الأسم يجب الا يقل عن 5 حروف !';
+                                return la.nameLimitation;
                               }
                               return null;
                             },
@@ -385,14 +386,14 @@ class Profile_Edit_Screen extends StatelessWidget
                                 context: context,
                                 controller: emailController,
                                 type: TextInputType.emailAddress,
-                                hint: 'الإيميل',
+                                hint: la.email,
                                 validate: (value)
                                 {
                                   if (value == '') {
-                                    return 'مطلوب*';
+                                    return la.Required;
                                   }else if(!value!.contains('@') || !value.contains('.') || value.length < 7)
                                   {
-                                    return 'برجاء كتابة الايميل بشكل صحيح !';
+                                    return la.writeCorrectEmail;
                                   }
                                   return null;
                                 }
@@ -406,7 +407,7 @@ class Profile_Edit_Screen extends StatelessWidget
                                   context: context,
                                 controller: cityController,
                                 type: TextInputType.name,
-                                hint: 'الدولة'),
+                                hint: la.country),
                             if(userType != 'admin')
                             const SizedBox(
                               height: 20.0,
@@ -415,7 +416,7 @@ class Profile_Edit_Screen extends StatelessWidget
                                 context: context,
                                 controller: governmentController,
                                 type: TextInputType.name,
-                                hint: 'المحافظة'),
+                                hint: la.government),
                             // if(userType != 'admin')
                             const SizedBox(
                               height: 20.0,
@@ -425,12 +426,12 @@ class Profile_Edit_Screen extends StatelessWidget
                                 context: context,
                                 controller: phoneController,
                                 type: TextInputType.phone,
-                                hint: 'الهاتف',
+                                hint: la.phone,
                                 validate: (value) {
                                   if (value == '') {
-                                    return 'مطلوب*';
+                                    return la.Required;
                                   }else if (value!.length != 11) {
-                                    return 'رقم الهاتف يجب ان يكون 11 رقم !';
+                                    return la.phoneLimitation;
                                   }
                                   return null;
                                 }),
@@ -445,7 +446,7 @@ class Profile_Edit_Screen extends StatelessWidget
                               context: context,
                               controller: childNameController,
                               type: TextInputType.name,
-                              hint: 'اسم الطفل',
+                              hint: la.child_name,
                                 validate: (val){
                                   return null;
                                 }
@@ -455,7 +456,7 @@ class Profile_Edit_Screen extends StatelessWidget
                                 context: context,
                                 controller: clinicAddressController,
                                 type: TextInputType.name,
-                                hint: 'العيادة',
+                                hint: la.clinic_address,
                               validate: (val){
                                 return null;
                               }
@@ -471,14 +472,14 @@ class Profile_Edit_Screen extends StatelessWidget
                               context: context,
                               controller: childAgeController,
                               type: TextInputType.number,
-                              hint: 'عمر الطفل'
+                              hint: la.patienTAge
                             )
                             :
                             defaultTextFormField(
                                 context: context,
                                 controller: aboutController,
                                 type: TextInputType.name,
-                                hint: 'التعريف',
+                                hint: la.docDef,
                                 validate: (val){
                                   return null;
                                 },
@@ -496,7 +497,7 @@ class Profile_Edit_Screen extends StatelessWidget
                                 context: context,
                                 controller: passwordController,
                                 type: TextInputType.name,
-                                hint: 'الرقم السري',
+                                hint: la.password,
                               validate: (value)
                               {
                                 return null;
@@ -518,15 +519,15 @@ class Profile_Edit_Screen extends StatelessWidget
                                 controller: confirmPassController,
                                 type: TextInputType.text,
 
-                                hint: 'تأكيد الرقم السري',
+                                hint: la.confirmPass,
                                 validate: (value) {
                                   if (value == '')
                                   {
-                                    return 'مطلوب*';
+                                    return la.Required;
                                   }
                                   else if(passwordController.text != value)
                                   {
-                                    return 'برجاء إعادة كتابة كلمة السر بشكل صحيح !';
+                                    return la.passLimitation;
                                   }
                                   return null;
                                 }),
@@ -539,17 +540,17 @@ class Profile_Edit_Screen extends StatelessWidget
                             Row(
                              children:
                              [
+                               Text(la.editPassword,style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
+                               Spacer(),
+
+
                                defaultElevatedButton(
-                                   text: 'تعديل',
+                                   text: la.edit,
                                    onPressed: ()
                                    {
                                      navTo(context, Change_Password_Screen());
                                    }
                                ),
-                               Spacer(),
-
-                               Text('تعديل الرقم السري',style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
-
                              ],
 
                             )

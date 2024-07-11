@@ -5,6 +5,7 @@ import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/Shared/styles/text_styles.dart';
+import 'package:autism/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,112 +24,111 @@ class Doctor_Profile_Details_Screen extends StatelessWidget
       listener: (context, state) {},
       builder: (context, state)
       {
+        var la = S.of(context);
         AppColors colors = AppColors(context);
         var cubit = AppCubit.get(context);
 
-        return Directionality(
-          textDirection: TextDirection.rtl,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'التعريف',
-                  style: Theme.of(context).textTheme.headline4?.copyWith(
-                      color: colors.fontColor(), fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                ReadMoreText(
-                  isView == false
-                      ?
-                  AppCubit.get(context).userModel?.data?.about ?? '-'
-                      :
-                  AppCubit.get(context).viewUserModel?.data?.about ?? '-',
-                    style: Theme.of(context)
-                      .textTheme
-                      .headline6
-                      ?.copyWith(color: colors.fontColor()),
-                  trimLines: 2,
-                  trimLength: 300,
-                  colorClickableText: Colors.grey,
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  height: 40,
-                ),
-                if((isView == false && cubit.userModel?.data?.clinicAddress != null && cubit.userModel!.data!.clinicAddress!.isNotEmpty) || (isView == true && cubit.viewUserModel?.data?.clinicAddress != null && cubit.viewUserModel!.data!.clinicAddress!.isNotEmpty))
-                Column(
-                  children: [
-                    Text(
-                      'عنوان العيادة',
-                      style: Theme.of(context).textTheme.headline4?.copyWith(
-                          color: colors.fontColor(), fontWeight: FontWeight.bold),
-                    ),
-                    ///location
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children:
-                      [
-                         Icon(Icons.location_on,color: colors.fontColor(),),
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: Column(
 
-                        SizedBox(width: 5.0,),
+            children:
+            [
+              Text(
+                la.docDef,
+                style: Theme.of(context).textTheme.headline4?.copyWith(
+                    color: colors.fontColor(), fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              ReadMoreText(
+                isView == false
+                    ?
+                AppCubit.get(context).userModel?.data?.about ?? '-'
+                    :
+                AppCubit.get(context).viewUserModel?.data?.about ?? '-',
+                  style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    ?.copyWith(color: colors.fontColor()),
+                trimLines: 2,
+                trimLength: 300,
+                colorClickableText: Colors.grey,
+                // textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              if((isView == false && cubit.userModel?.data?.clinicAddress != null && cubit.userModel!.data!.clinicAddress!.isNotEmpty) || (isView == true && cubit.viewUserModel?.data?.clinicAddress != null && cubit.viewUserModel!.data!.clinicAddress!.isNotEmpty))
+              Column(
+                children: [
+                  Text(
+                    la.docClinicAddress,
+                    style: Theme.of(context).textTheme.headline4?.copyWith(
+                        color: colors.fontColor(), fontWeight: FontWeight.bold),
+                  ),
+                  ///location
+                  Row(
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    children:
+                    [
+                       Icon(Icons.location_on,color: colors.fontColor(),),
 
-                        if(isView == false)
-                          Text( cubit.userModel!.data!.clinicAddress!,style: onBoardingDesc,),
+                      SizedBox(width: 5.0,),
 
-                        if(isView == true)
-                          Text(cubit.viewUserModel!.data!.clinicAddress!,style: onBoardingDesc,),
+                      if(isView == false)
+                        Text( cubit.userModel!.data!.clinicAddress!,style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
+
+                      if(isView == true)
+                        Text(cubit.viewUserModel!.data!.clinicAddress!,style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
 
 
-                      ],
-                    ),
-                  ],
-                ),
-
+                    ],
+                  ),
+                ],
+              ),
 
 
 
 
-                ///reviews
-                // Text(
-                //   'أراء  الآخرين',
-                //   style: Theme.of(context)
-                //       .textTheme
-                //       .headline5
-                //       ?.copyWith(color: fontColor, fontWeight: FontWeight.bold),
-                // ),
-                // SizedBox(
-                //   height: 10,
-                // ),
-                // Text(
-                //   'تعرف على ما يقوله آولياء اﻷمور و اﻷطباء الآخرين عنك',
-                //   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                //         color: fontColor,
-                //       ),
-                // ),
-                // SizedBox(
-                //   height: 20,
-                // ),
-                // ListView.separated(
-                //   shrinkWrap: true,
-                //   physics: NeverScrollableScrollPhysics(),
-                //   padding: EdgeInsets.only(bottom: 20.0),
-                //   itemBuilder: (context, index) {
-                //     return Directionality(
-                //       textDirection: TextDirection.rtl,
-                //       child: buildViewsPosts(),
-                //     );
-                //   },
-                //   separatorBuilder: (context, index) => SizedBox(
-                //     height: 10.0,
-                //   ),
-                //   itemCount: 5,
-                // )
-              ],
-            ),
+
+              ///reviews
+              // Text(
+              //   'أراء  الآخرين',
+              //   style: Theme.of(context)
+              //       .textTheme
+              //       .headline5
+              //       ?.copyWith(color: fontColor, fontWeight: FontWeight.bold),
+              // ),
+              // SizedBox(
+              //   height: 10,
+              // ),
+              // Text(
+              //   'تعرف على ما يقوله آولياء اﻷمور و اﻷطباء الآخرين عنك',
+              //   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              //         color: fontColor,
+              //       ),
+              // ),
+              // SizedBox(
+              //   height: 20,
+              // ),
+              // ListView.separated(
+              //   shrinkWrap: true,
+              //   physics: NeverScrollableScrollPhysics(),
+              //   padding: EdgeInsets.only(bottom: 20.0),
+              //   itemBuilder: (context, index) {
+              //     return Directionality(
+              //       textDirection: TextDirection.rtl,
+              //       child: buildViewsPosts(),
+              //     );
+              //   },
+              //   separatorBuilder: (context, index) => SizedBox(
+              //     height: 10.0,
+              //   ),
+              //   itemCount: 5,
+              // )
+            ],
           ),
         );
       },

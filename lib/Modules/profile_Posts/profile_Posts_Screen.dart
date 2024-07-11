@@ -24,10 +24,7 @@ class Profile_Posts_Screen extends StatelessWidget {
 
             itemBuilder: (context, index)
             {
-              return Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: bulidPostItem(context: context,model: cubit.myPosts[index],enableOpenProfile: false)
-              );
+              return bulidPostItem(context: context,model: cubit.myPosts[index],enableOpenProfile: false);
 
             },
 

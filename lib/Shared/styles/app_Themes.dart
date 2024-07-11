@@ -2,18 +2,14 @@ import 'package:autism/Shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// ThemeData myDarkThem = ThemeData(
-//     useMaterial3: true,
-//     scaffoldBackgroundColor: Color(0xff111318),
-//     fontFamily: 'Roboto',
-//
-//
-//
-// );
 
 ThemeData myDarkTheme = ThemeData(
 
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: Color(0xff254777)
+  ),
 
+    unselectedWidgetColor:Colors.yellowAccent,
 
   dividerTheme: const DividerThemeData(color: Colors.transparent),
 
@@ -86,6 +82,13 @@ ThemeData myDarkTheme = ThemeData(
 );
 
 ThemeData myLightTheme = ThemeData(
+
+
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: Color(0xff254777)
+  ),
+
+  unselectedWidgetColor:Colors.yellowAccent,
 
   drawerTheme: DrawerThemeData(
     backgroundColor: const Color(0xffE1E2E9),

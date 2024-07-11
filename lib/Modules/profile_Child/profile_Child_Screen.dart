@@ -3,6 +3,7 @@ import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/styles/colors.dart';
+import 'package:autism/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +21,7 @@ class Profile_Child_Screen extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state)
         {
-
+          var la = S.of(context);
           var cubit = AppCubit.get(context);
           AppColors colors = AppColors(context);
 
@@ -28,33 +29,12 @@ class Profile_Child_Screen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children:
             [
-              Text('بيانات المريض',style: TextStyle(color: mainColor,fontSize: 25.0),),
+              Text(la.patientsData,style: TextStyle(color: mainColor,fontSize: 25.0),),
               const SizedBox(height: 20.0,),
 
                Row(
-                mainAxisAlignment: MainAxisAlignment.end,
                 children:
                 [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children:
-                    [
-                      Text(isView == false ? cubit.userModel!.data!.patient_name! ?? '' : cubit.viewUserModel!.data!.patient_name! ,style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
-                      SizedBox(height: 10.0,),
-                      Text(isView == false ? cubit.userModel!.data!.age! ?? '' : cubit.viewUserModel!.data!.age!,style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
-                    ],
-                  ),
-                  SizedBox(width: 10.0,),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children:
-                    [
-                      Text(': اسم الطفل',style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
-                      SizedBox(height: 10.0,),
-                      Text(': عمر الطفل',style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
-                    ],
-                  ),
-                  SizedBox(width: 10.0,),
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     children:
@@ -62,6 +42,27 @@ class Profile_Child_Screen extends StatelessWidget {
                       Icon(Icons.badge_outlined,color: mainColor,),
                       SizedBox(height: 20.0,),
                       Icon(Icons.calendar_month_outlined,color: mainColor,),
+                    ],
+                  ),
+
+                  SizedBox(width: 10.0,),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children:
+                    [
+                      Text(la.patientName,style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
+                      SizedBox(height: 10.0,),
+                      Text(la.patientAge,style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
+                    ],
+                  ),
+                  SizedBox(width: 10.0,),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children:
+                    [
+                      Text(isView == false ? cubit.userModel!.data!.patient_name! ?? '' : cubit.viewUserModel!.data!.patient_name! ,style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
+                      SizedBox(height: 10.0,),
+                      Text(isView == false ? cubit.userModel!.data!.age! ?? '' : cubit.viewUserModel!.data!.age!,style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
                     ],
                   ),
 
@@ -74,28 +75,33 @@ class Profile_Child_Screen extends StatelessWidget {
                 [
 
                   const SizedBox(height: 40.0,),
-                  Text('إختبار مرض التوحد',style: TextStyle(color: mainColor,fontSize: 25.0),),
+                  Text(la.autismTest,style: TextStyle(color: mainColor,fontSize: 25.0),),
                   const SizedBox(height: 20.0,),
                   if((isView == false && cubit.userModel?.data?.test_result != null) || (isView == true && cubit.viewUserModel?.data?.test_result != null))
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
                       children:
                       [
+                        Icon(Icons.person_pin,color: mainColor,),
+
+
+                        SizedBox(width: 10.0,),
+                        Text(la.mayHaveAutism,style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
+                        SizedBox(width: 10.0,),
                         ((){
 
-                          String result = 'بدون';
+                          String result = la.none;
                           Color color = Colors.white;
 
                           if(isView == false && cubit.userModel?.data?.test_result != null)
                           {
                             if(cubit.userModel?.data?.test_result == 'yes')
                             {
-                              result = 'عالي';
-                              color = Color(0xffFFB4AB);
+                              result = la.high;
+                              color = appRedColor;
                             }
                             else
                             {
-                              result = 'منخفض';
+                              result = la.low;
                               color = Colors.green;
                             }
                           }
@@ -103,13 +109,13 @@ class Profile_Child_Screen extends StatelessWidget {
                           {
                             if(cubit.viewUserModel?.data?.test_result == 'yes')
                             {
-                              result = 'عالي';
-                              color = Color(0xffFFB4AB);
+                              result = la.high;
+                              color = appRedColor;
                             }
                             else
                             {
-                              result = 'منخفض';
-                              color = mainColor;
+                              result = la.low;
+                              color = Colors.green;
                             }
                           }
 
@@ -117,11 +123,6 @@ class Profile_Child_Screen extends StatelessWidget {
 
                           return Text(result,style: TextStyle(color: color,fontSize: 20.0),);
                         }()),
-
-                        SizedBox(width: 10.0,),
-                        Text('إحتمال الإصابة بالتوحد',style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
-                        SizedBox(width: 10.0,),
-                        Icon(Icons.person_pin,color: mainColor,),
                       ],),
 
                 ],
@@ -131,20 +132,21 @@ class Profile_Child_Screen extends StatelessWidget {
 
                if(isView == false)
                  Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+
 
                 children:
                 [
-                  Text('قم بتشخيص طفلك الآن',style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
-                  SizedBox(width: 10.0,),
                   Icon(Icons.badge_outlined,color: mainColor,),
+
+                  SizedBox(width: 10.0,),
+                  Text(la.doTestNow,style: TextStyle(color: colors.fontColor(),fontSize: 20.0),),
                 ],),
 
 
 
               const SizedBox(height: 10.0,),
               if(isView == false)
-                defaultElevatedButton(text: 'اختبر',
+                defaultElevatedButton(text: la.test,
                 onPressed: ()
                 {
                   navTo(context, const Test_Screen());
@@ -171,7 +173,7 @@ class Profile_Child_Screen extends StatelessWidget {
               //     const Text('قم بإضافة بعض الصور لمساعدة الطبيب المختص',style: TextStyle(color: fontColor,fontSize: 15.0),),
               //     const SizedBox(height: 20.0,),
               //     const Row(
-              //       mainAxisAlignment: MainAxisAlignment.end,
+              //
               //       children:
               //       [
               //         ClipRRect(

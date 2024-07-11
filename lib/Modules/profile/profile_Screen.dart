@@ -11,6 +11,7 @@ import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/Shared/styles/text_styles.dart';
+import 'package:autism/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -41,6 +42,8 @@ class Profile_Screen extends StatelessWidget
       listener: (context, state) {},
       builder: (context, state)
       {
+        var la = S.of(context);
+
         AppColors colors = AppColors(context);
 
         var cubit = AppCubit.get(context);
@@ -51,7 +54,7 @@ class Profile_Screen extends StatelessWidget
           appBar: AppBar(
             backgroundColor: colors.home_drawer_item_background(),
 
-            title:  Text('الملف الشخصي',style: TextStyle(color: colors.fontColor()),),
+            title:  Text(la.profile,style: TextStyle(color: colors.fontColor()),),
             leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -135,47 +138,22 @@ class Profile_Screen extends StatelessWidget
                                 //   },),
                                  Hero(
                                   tag: 'profile_image',
-                                    child: CircleAvatar(backgroundImage:
+                                    child:
+
                                     (()
                                     {
                                       if(isView == true)
                                       {
-                                        if (cubit.viewUserModel != null)
-                                        {
-                                          if (cubit.viewUserModel!.data!.image != null && cubit.viewUserModel!.data!.image!.isNotEmpty)
-                                          {
-                                            return NetworkImage(cubit.viewUserModel!.data!.image!) as ImageProvider;
-                                          } else
-                                          {
-                                            return AssetImage('assets/images/Rectangle.png') as ImageProvider;
-                                          }
-                                        }
-                                        else
-                                        {
-                                          return AssetImage('assets/images/Rectangle.png') as ImageProvider;
-                                        }
+                                        return myImageProvider(cubit.viewUserModel!.data!.image,size: 150.0);
                                       }
                                       else
                                       {
-                                        if (cubit.userModel != null)
-                                        {
-                                          if (cubit.userModel!.data!.image != null && cubit.userModel!.data!.image!.isNotEmpty)
-                                          {
-                                            return NetworkImage(cubit.userModel!.data!.image!) as ImageProvider;
-                                          } else
-                                          {
-                                            return AssetImage('assets/images/Rectangle.png') as ImageProvider;
-                                          }
-                                        }
-                                        else
-                                        {
-                                          return AssetImage('assets/images/Rectangle.png') as ImageProvider;
-                                        }
+                                       return myImageProvider(cubit.userModel!.data!.image,size: 150.0);
                                       }
 
                                     }()),
-                                      radius: 70.0,
-                                    )),
+
+                                    ),
 
                               ],
                             ),
@@ -199,10 +177,10 @@ class Profile_Screen extends StatelessWidget
 
                         //username
                         if(isView == false)
-                          Text(cubit.userModel != null ? cubit.userModel!.data!.name! :'User Name',style: TextStyle(fontSize: 25.0,color: colors.fontColor()),),
+                          Text(cubit.userModel != null ? cubit.userModel!.data!.name! :la.userName,style: TextStyle(fontSize: 25.0,color: colors.fontColor()),),
 
                         if(isView == true)
-                          Text(cubit.viewUserModel != null ? cubit.viewUserModel!.data!.name! :'User Name',style: TextStyle(fontSize: 25.0,color: colors.fontColor(),fontWeight: FontWeight.bold),),
+                          Text(cubit.viewUserModel != null ? cubit.viewUserModel!.data!.name! :la.userName,style: TextStyle(fontSize: 25.0,color: colors.fontColor(),fontWeight: FontWeight.bold),),
 
                         const SizedBox(height: 5.0,),
 
@@ -240,7 +218,7 @@ class Profile_Screen extends StatelessWidget
                       myNavBar(
                         context,
                         selectedIndex: cubit.currentProfileScreen,
-                        text: ['منشوراتك',userType == 'patient' ?'طفلك' : 'أنت','المحفوظات'],
+                        text: [la.yourPosts,userType == 'patient' ?la.yourChild : la.you,la.saves],
                         onDestinationSelected:(index)
                         {
                           cubit.changeCurrentProfileScreen(index);

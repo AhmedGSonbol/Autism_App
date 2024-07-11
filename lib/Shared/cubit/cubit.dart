@@ -10,6 +10,7 @@ import 'package:autism/Models/reportedPost_Model.dart';
 import 'package:autism/Models/search_Model.dart';
 import 'package:autism/Models/user_Model.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
+import 'package:autism/Shared/Constants/Countries.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/network/end_points.dart';
@@ -164,6 +165,22 @@ class AppCubit extends Cubit<AppStates>
     CachHelper.saveData(key: 'isdarkmode', value: isDarkMode).then((value)
     {
       emit(AppChangeAppModeState());
+
+    });
+  }
+
+  void changeLang(String language)
+  {
+
+
+    CachHelper.saveData(key: 'lang', value: language).then((value)
+    {
+      print(language);
+      current_lang = language;
+
+      emit(AppChangeAppLangState());
+
+      // refresh();
 
     });
   }
@@ -1741,7 +1758,7 @@ class AppCubit extends Cubit<AppStates>
 
     print(val);
 
-    COUNTRIES.map((e)
+    countriesAR.map((e)
     {
       if(e['value'] == val)
       {

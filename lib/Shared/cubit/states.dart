@@ -70,6 +70,8 @@ class LoadingLikeUnlikePostState extends AppStates {}
 
 class AppChangeAppModeState extends AppStates {}
 
+class AppChangeAppLangState extends AppStates {}
+
 class SuccessLikeUnlikePostState extends AppStates {}
 
 class ErrorLikeUnlikePostState extends AppStates {}

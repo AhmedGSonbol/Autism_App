@@ -1,9 +1,11 @@
 // ignore_for_file: sort_child_properties_last, non_constant_identifier_names, prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_interpolation_to_compose_strings, unnecessary_const
 
+import 'package:autism/Shared/Constants/testQuestions.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/styles/colors.dart';
+import 'package:autism/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -16,29 +18,14 @@ class Test_Screen extends StatelessWidget {
   const Test_Screen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
+    var la = S.of(context);
     var dateController = TextEditingController();
 
 
 
-    List<String> testQuestions = [
-      'تشخيص أولي مبني على الذكاء  اﻹصطناعي لقياس مدى قابلية طفلك للأصابة بالتوحد و من ثم اتخذ القرار المناسب',
-      ' هل ينظر إليك طفلك عندم تنادية باسمه ؟',
-      'هل سهل عليك التواصل بصرياً مع طفلك ؟',
-      ' هل يميل طفلك ﻹستخدام اﻹشارة بدل الكلام ؟',
-      ' هل يميل طفلك لمشاركة إهتماماته معك؟',
-      ' هل يتفاعل طفلك مع ألعابة كأنها تستجيب له ؟',
-      'هل يميل طفلك لتخلف أثناء الذهاب إلى مكان ما ؟',
-      'إذا كنت أو شخص آخر في العائلة منزعجًا بشكل واضح، فهل تظهر على طفلك علامات عاطفية كإحتضان الشخص الغاضب لتهدئت الوضع؟',
-      ' هل كلمات الطفل اﻷولى كانت واضحة ؟',
-      'هل يستخدم طفلك الإيماءات البسيطة؟ (على سبيل المثال التلويح بالوداع)',
-      'هل يحدق طفلك في لا شيء دون أي غرض واضح؟',
-      'ما هو تاريخ الميلاد ؟',
-      'ما هو جنس طفلك ؟',
-      ' هل يعاني طفلك من اليرق صعوبة النوم ؟',
-      ' هل هناك أي فرد من العائلة لديه تاريخ مرضي مع إضطراب طيف التوحد ؟',
-      ' ما هو عرق طفلك ؟',
-    ];
+
 
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
@@ -57,7 +44,7 @@ class Test_Screen extends StatelessWidget {
               color: colors.fontColor(),
             ),
             title:  Text(
-              'التشخيص',
+              la.Diagnose,
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
@@ -82,20 +69,9 @@ class Test_Screen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 15.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      if (cubit.currentTestScreen != 0)
-                        defaultElevatedButton(
-                          onPressed: () {
-                            cubit.previousTestQuestion();
-                          },
-                          text: 'السابق',
-                          color: appRedColor,
-                          textColor: Colors.white,
-                        ),
-                      const SizedBox(
-                        width: 15,
-                      ),
+
+                    children:
+                    [
                       defaultElevatedButton(
                         onPressed: () {
                           if (cubit.currentTestScreen == 0)
@@ -114,9 +90,9 @@ class Test_Screen extends StatelessWidget {
                               } else
                               {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
+                                    SnackBar(
                                         content:
-                                            Text('برجاء اختيار إجابة اولاً')));
+                                        Text(la.selectAnswerFirst)));
                               }
                             }
                             else if(cubit.currentTestScreen > 0 && cubit.currentTestScreen < 11)
@@ -128,9 +104,9 @@ class Test_Screen extends StatelessWidget {
                               else
                               {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
+                                    SnackBar(
                                         content:
-                                        Text('برجاء اختيار إجابة اولاً')));
+                                        Text(la.selectAnswerFirst)));
                               }
                             }
                             else if (cubit.currentTestScreen == 11)
@@ -138,7 +114,7 @@ class Test_Screen extends StatelessWidget {
                               if (dateController.text.isNotEmpty) {
                                 int x = Jiffy.now()
                                     .diff(Jiffy.parse(dateController.text),
-                                        unit: Unit.month)
+                                    unit: Unit.month)
                                     .toInt();
 
                                 if (x >= 0) {
@@ -146,16 +122,16 @@ class Test_Screen extends StatelessWidget {
                                 } else {
 
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
+                                      SnackBar(
                                           content: Text(
-                                              'برجاء اختيار تاريخ صحيح !')));
+                                              la.selectValidDate)));
                                 }
                               } else
                               {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
+                                    SnackBar(
                                         content: Text(
-                                            'برجاء اختيار تاريخ الميلاد اولاً')));
+                                            la.selectBirthDateFirst)));
                               }
                             }
                             else if (cubit.currentTestScreen == 15)
@@ -168,20 +144,34 @@ class Test_Screen extends StatelessWidget {
                               else
                               {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
+                                    SnackBar(
                                         content:
-                                            Text('برجاء اختيار إجابة اولاً')));
+                                        Text(la.selectAnswerFirst)));
                               }
                             }else if (cubit.currentTestScreen == 16)
-                          {
-                            cubit.endTest();
-                            Navigator.of(context).pop();
-                          }
+                            {
+                              cubit.endTest();
+                              Navigator.of(context).pop();
+                            }
                           }
                         },
                         textColor: Colors.white,
-                        text:cubit.currentTestScreen < 15 ? 'التالي' :cubit.currentTestScreen == 15 ? 'فحص' : 'إنهاء',
+                        text:cubit.currentTestScreen < 15 ? la.nextButton :cubit.currentTestScreen == 15 ? la.performTestButton : la.finishButton,
                       ),
+
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      if (cubit.currentTestScreen != 0)
+                        defaultElevatedButton(
+                          onPressed: () {
+                            cubit.previousTestQuestion();
+                          },
+                          text: la.previousButton,
+                          color: appRedColor,
+                          textColor: Colors.white,
+                        ),
+
                     ],
                   ),
                 ),
@@ -197,20 +187,21 @@ class Test_Screen extends StatelessWidget {
                     height: 20.0,
                   ),
                   if (cubit.currentTestScreen != 0)
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: CircularStepProgressIndicator(
-                        totalSteps: 15,
-                        currentStep: cubit.currentTestScreen - 1,
-                        stepSize: 6,
-                        selectedColor: mainColor,
-                        unselectedColor: Color(0xffA8C8FF),
-                        padding: 0,
-                        width: 50,
-                        height: 50,
-                        selectedStepSize: 6,
-                        roundedCap: (_, __) => true,
-                      ),
+                    Row(
+                      children: [
+                        CircularStepProgressIndicator(
+                          totalSteps: 15,
+                          currentStep: cubit.currentTestScreen - 1,
+                          stepSize: 6,
+                          selectedColor: mainColor,
+                          unselectedColor: Color(0xffA8C8FF),
+                          padding: 0,
+                          width: 50,
+                          height: 50,
+                          selectedStepSize: 6,
+                          roundedCap: (_, __) => true,
+                        ),
+                      ],
                     ),
 
                   SizedBox(
@@ -245,7 +236,7 @@ class Test_Screen extends StatelessWidget {
                             child: cubit.currentTestScreen != 16
                                 ? Text(
                               textAlign: TextAlign.center,
-                              testQuestions[cubit.currentTestScreen],
+                              testQuestionsAR[cubit.currentTestScreen],
                               style:  TextStyle(
                                   color: colors.fontColor(),
                                   fontSize: 20,
@@ -256,18 +247,18 @@ class Test_Screen extends StatelessWidget {
                               children: [
                                 Text(
                                   cubit.testRate.isNotEmpty && cubit.testRate == 'yes'?
-                                  'عالي'
+                                  la.high
                                       :
-                                  'منخفض',
+                                  la.low,
                                   style: TextStyle(
                                       color: cubit.testRate == 'no' ? mainColor : appRedColor,
                                       fontSize: 25,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  '  إحتمال الإصابة ',
+                                  '  ${la.mayHaveAutism} ',
                                   style: TextStyle(
-                                      color: Color(0xffE3E2E6),
+                                      color: colors.fontColor(),
                                       fontSize: 25,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -301,20 +292,20 @@ class Test_Screen extends StatelessWidget {
                             keyboardType: TextInputType.none,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
-                              hintText: 'العمر',
+                              hintText: la.patienTAge,
                               hintStyle: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color:
-                                       colors.fontColor()),
+                                  colors.fontColor()),
                             ),
                             controller: dateController,
                             onTap: () async {
                               final DateTime? picked = await showDatePicker(
                                   context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(2015, 8),
-                                  lastDate: DateTime(2025, 1));
+                                  initialDate: DateTime(2024, 7 , 1),
+                                  firstDate: DateTime(2015, 7),
+                                  lastDate: DateTime(2024, 7));
                               if (picked != null) {
                                 dateController.text = picked.year.toString() +
                                     "/" +
@@ -329,7 +320,7 @@ class Test_Screen extends StatelessWidget {
                         return Container(
                           decoration: BoxDecoration(
                               border:
-                                  Border.all(width: 0.5, color: Colors.grey)),
+                              Border.all(width: 0.5, color: Colors.grey)),
                           child: DropdownButton<String>(
                             value: cubit.selectedEthnicity < 0
                                 ? null
@@ -345,7 +336,7 @@ class Test_Screen extends StatelessWidget {
                                 child: Padding(
                                   padding:  EdgeInsets.only(right: 10.0),
                                   child: Text(
-                                    'العرق',
+                                    la.ethnicity,
                                     style: TextStyle(color: colors.fontColor()),
                                   ),
                                 )),
@@ -367,14 +358,15 @@ class Test_Screen extends StatelessWidget {
                       }
                       else if (cubit.currentTestScreen > 0 && cubit.currentTestScreen < 11)
                       {
-                        return chooseWidget(cubit,colors);
+                        return chooseWidget(cubit,colors,la);
                       }
                       else
                       {
-                        return YesOrNoWidget(cubit,colors);
+                        return YesOrNoWidget(cubit,colors,la);
 
                       }
-                    }()),
+                    }())
+
                   ///////////////////////////////
                 ],
               ),
@@ -385,7 +377,7 @@ class Test_Screen extends StatelessWidget {
     );
   }
 
-  Widget YesOrNoWidget(AppCubit cubit,AppColors colors)
+  Widget YesOrNoWidget(AppCubit cubit,AppColors colors,S la)
   {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -408,7 +400,7 @@ class Test_Screen extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                cubit.currentTestScreen == 12 ? 'انثي' : 'لا',
+                cubit.currentTestScreen == 12 ? la.female : la.no,
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -445,7 +437,7 @@ class Test_Screen extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                cubit.currentTestScreen == 12 ? 'ذكر' : 'نعم',
+                cubit.currentTestScreen == 12 ? la.male : la.yes,
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -465,20 +457,23 @@ class Test_Screen extends StatelessWidget {
     );
   }
 
-  Widget chooseWidget(AppCubit cubit,AppColors colors)
+  Widget chooseWidget(AppCubit cubit,AppColors colors, S la)
   {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+
       children:
       [
         Row(
           children:
           [
-            Spacer(),
-            Text(
-              'دائماً',style: TextStyle(
-                color: colors.fontColor(),
-                fontSize: 20.0),
+
+            SizedBox(
+              width: 50.0,
+              child: Text(
+                la.always,style: TextStyle(
+                  color: colors.fontColor(),
+                  fontSize: 20.0),
+              ),
             ),
             Radio(
 
@@ -487,6 +482,13 @@ class Test_Screen extends StatelessWidget {
 
 
                 activeColor: colors.fontColor(),
+                fillColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      return (cubit.testRadioValue == '1')
+                          ? colors.fontColor()
+                          : colors.fontColor();
+                    }),
+
 
                 onChanged: (val)
                 {
@@ -498,11 +500,14 @@ class Test_Screen extends StatelessWidget {
         Row(
           children:
           [
-            Spacer(),
-            Text(
-              'عادةً',style: TextStyle(
-                color: colors.fontColor(),
-                fontSize: 20.0),
+
+            SizedBox(
+              width: 50.0,
+              child: Text(
+                la.often,style: TextStyle(
+                  color: colors.fontColor(),
+                  fontSize: 20.0),
+              ),
             ),
             Radio(
 
@@ -511,6 +516,12 @@ class Test_Screen extends StatelessWidget {
 
 
                 activeColor: colors.fontColor(),
+                fillColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      return (cubit.testRadioValue == '2')
+                          ? colors.fontColor()
+                          : colors.fontColor();
+                    }),
 
                 onChanged: (val)
                 {
@@ -522,11 +533,14 @@ class Test_Screen extends StatelessWidget {
         Row(
           children:
           [
-            Spacer(),
-            Text(
-              'احياناً',style: TextStyle(
-                color: colors.fontColor(),
-                fontSize: 20.0),
+
+            SizedBox(
+              width: 50.0,
+              child: Text(
+                la.sometimes,style: TextStyle(
+                  color: colors.fontColor(),
+                  fontSize: 20.0),
+              ),
             ),
             Radio(
 
@@ -535,6 +549,12 @@ class Test_Screen extends StatelessWidget {
 
 
                 activeColor: colors.fontColor(),
+                fillColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      return (cubit.testRadioValue == '3')
+                          ? colors.fontColor()
+                          : colors.fontColor();
+                    }),
 
                 onChanged: (val)
                 {
@@ -546,18 +566,26 @@ class Test_Screen extends StatelessWidget {
         Row(
           children:
           [
-            Spacer(),
-            Text(
-              'نادراً',style: TextStyle(
-                color: colors.fontColor(),
-                fontSize: 20.0),
+
+            SizedBox(
+              width: 50.0,
+              child: Text(
+                la.rarely,style: TextStyle(
+                  color: colors.fontColor(),
+                  fontSize: 20.0),
+              ),
             ),
             Radio(
 
                 value: '4',
                 groupValue: cubit.testRadioValue,
 
-
+                fillColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      return (cubit.testRadioValue == '4')
+                          ? colors.fontColor()
+                          : colors.fontColor();
+                    }),
                 activeColor: colors.fontColor(),
 
                 onChanged: (val)
@@ -570,11 +598,14 @@ class Test_Screen extends StatelessWidget {
         Row(
           children:
           [
-            Spacer(),
-            Text(
-              'ابداً',style: TextStyle(
-                color: colors.fontColor(),
-                fontSize: 20.0),
+
+            SizedBox(
+              width: 50.0,
+              child: Text(
+                la.never,style: TextStyle(
+                  color: colors.fontColor(),
+                  fontSize: 20.0),
+              ),
             ),
             Radio(
 
@@ -583,6 +614,12 @@ class Test_Screen extends StatelessWidget {
 
 
                 activeColor: colors.fontColor(),
+                fillColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      return (cubit.testRadioValue == '5')
+                          ? colors.fontColor()
+                          : colors.fontColor();
+                    }),
 
                 onChanged: (val)
                 {

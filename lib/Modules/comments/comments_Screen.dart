@@ -8,6 +8,7 @@ import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/Shared/styles/text_styles.dart';
+import 'package:autism/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart' as intl ;
@@ -22,6 +23,7 @@ class Comments_Screen extends StatelessWidget
   @override
   Widget build(BuildContext context)
   {
+    var la = S.of(context);
     var commentContentController = TextEditingController();
 
     return BlocConsumer<AppCubit,AppStates>(
@@ -29,11 +31,11 @@ class Comments_Screen extends StatelessWidget
       {
         if(state is SuccessAddCommentState)
         {
-          myToast(msg: state.message, state: ToastStates.SUCCESS);
+          myToast(msg: la.SuccessAddComment, state: ToastStates.SUCCESS);
         }
         if(state is SuccessDeleteCommentState)
         {
-          myToast(msg: state.message, state: ToastStates.SUCCESS);
+          myToast(msg: la.SuccessDeleteComment, state: ToastStates.SUCCESS);
         }
       },
       builder: (context, state)
@@ -45,7 +47,7 @@ class Comments_Screen extends StatelessWidget
           children: [
             Scaffold(
               appBar: AppBar(
-                title:  Text('التعليقات',
+                title:  Text(la.comments,
 
                 ),
                 leading: IconButton(
@@ -57,119 +59,117 @@ class Comments_Screen extends StatelessWidget
                   color: colors.fontColor(),
                 ),
               ),
-              body: Directionality(
-                textDirection: TextDirection.rtl,
-                child: Stack(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsetsDirectional.all(10.0),
-                      child:
-                      cubit.usersPostsModel == null
-                          ?
-                      Center(child: CircularProgressIndicator())
-                          :
-                      SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
-                        child: Column(
-                          children:
-                          [
-                            // RefreshIndicator(
-                            //   onRefresh: ()async
-                            //   {
-                            //     // refresh comments
-                            //     // await cubit.getPatientsPosts();
-                            //   },
-                            //   child:
-                            // ),
+              body: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsetsDirectional.all(10.0),
+                    child:
+                    cubit.usersPostsModel == null
+                        ?
+                    Center(child: CircularProgressIndicator())
+                        :
+                    SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      child: Column(
+                        children:
+                        [
+                          // RefreshIndicator(
+                          //   onRefresh: ()async
+                          //   {
+                          //     // refresh comments
+                          //     // await cubit.getPatientsPosts();
+                          //   },
+                          //   child:
+                          // ),
 
-                            bulidPostItem(
-                                context: context,
-                                model: postModel),
+                          bulidPostItem(
+                              context: context,
+                              model: postModel),
 
-                            SizedBox(height: 30,),
+                          SizedBox(height: 30,),
 
-                            (()
+                          (()
+                          {
+                            if(cubit.comments_model == null)
                             {
-                              if(cubit.comments_model == null)
-                              {
-                                return Center(
-                                  child: CircularProgressIndicator(color: mainColor,),
-                                );
-                              }
-                              else if(cubit.comments_model != null && cubit.comments_model!.commentsData.length == 0)
-                              {
-                                return Center(
-                                  child: Text('لا يوجد تعليقات !',style: TextStyle(color: colors.fontColor()),),
-                                );
-                              }else
-                              {
-                                return ListView.separated(
-                                    padding: EdgeInsets.only(bottom: 70.0),
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) => bulidCommentItem(
-                                      colors: colors,
-                                        context: context,
-                                        model: cubit.comments_model!.commentsData[index]),
-                                    separatorBuilder: (context, index) => SizedBox(height: 5,),
-                                    itemCount: cubit.comments_model!.commentsData.length
-                                );
-                              }
-                            }())
-                          ],
-                        ),
+                              return Center(
+                                child: CircularProgressIndicator(color: mainColor,),
+                              );
+                            }
+                            else if(cubit.comments_model != null && cubit.comments_model!.commentsData.length == 0)
+                            {
+                              return Center(
+                                child: Text(la.noComments,style: TextStyle(color: colors.fontColor()),),
+                              );
+                            }else
+                            {
+                              return ListView.separated(
+                                  padding: EdgeInsets.only(bottom: 70.0),
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) => bulidCommentItem(
+                                    la: la,
+                                    colors: colors,
+                                      context: context,
+                                      model: cubit.comments_model!.commentsData[index]),
+                                  separatorBuilder: (context, index) => SizedBox(height: 5,),
+                                  itemCount: cubit.comments_model!.commentsData.length
+                              );
+                            }
+                          }())
+                        ],
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 15.0,top: 5.0),
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          color: colors.backgroundColor(),
-                        height: 60,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: TextField(
-                            controller: commentContentController,
-                            style:  TextStyle(color: colors.fontColor()),
-                            decoration: InputDecoration(
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 15.0,top: 5.0),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        color: colors.backgroundColor(),
+                      height: 60,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: TextField(
+                          controller: commentContentController,
+                          style:  TextStyle(color: colors.fontColor()),
+                          decoration: InputDecoration(
 
-                                border: OutlineInputBorder(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              enabledBorder:  OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16),
-                                ),
-                                enabledBorder:  OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                    borderSide: BorderSide(color: colors.fontColor())
-                                ),
-                                hintText: 'إكتب شئ',
+                                  borderSide: BorderSide(color: colors.fontColor())
+                              ),
+                              hintText: la.writeSomethingHere,
 
-                                suffixIcon: IconButton(
-                                  icon: Transform.rotate(
-                                    angle: 0,
-                                    child:  Icon(Icons.send,color: colors.fontColor(),),
-                                  ),
-                                  onPressed: ()
+                              suffixIcon: IconButton(
+                                icon: Transform.rotate(
+                                  angle: 0,
+                                  child:  Icon(Icons.send,color: colors.fontColor(),),
+                                ),
+                                onPressed: ()
+                                {
+                                  if(commentContentController.text.isNotEmpty)
                                   {
-                                    if(commentContentController.text.isNotEmpty)
-                                    {
-                                      cubit.addComment(postID: postModel.id!,content: commentContentController.text);
-                                      commentContentController.clear();
-                                    }
-                                    else
-                                    {
-                                      myToast(msg: 'برجاء كتابة نص للتعليق !', state: ToastStates.WARNING);
-                                    }
+                                    cubit.addComment(postID: postModel.id!,content: commentContentController.text);
+                                    commentContentController.clear();
+                                  }
+                                  else
+                                  {
+                                    myToast(msg: la.enterCommentText, state: ToastStates.WARNING);
+                                  }
 
-                                  },
-                                )
-                            ),
+                                },
+                              )
                           ),
                         ),
-                        ),
                       ),
-                    )
-                  ],
-                ),
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
 
@@ -194,7 +194,8 @@ class Comments_Screen extends StatelessWidget
   Widget bulidCommentItem({
     required BuildContext context,
     required CommentsData model,
-    required AppColors colors
+    required AppColors colors,
+    required S la
   }) {
     return Padding(
       padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
@@ -211,28 +212,29 @@ class Comments_Screen extends StatelessWidget
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  IconButton(
-
-                    icon: CircleAvatar(
-                      backgroundImage: (()
-                      {
-                        if (model.image != null && model.image!.isNotEmpty)
-                        {
-
-                          return NetworkImage(model.image!) as ImageProvider;
-
-                        }
-                        else
-                        {
-                          return AssetImage('assets/images/Rectangle.png') as ImageProvider;
-                        }
-                      }()),
-                    )
-                    ,
-                    onPressed: () {
-                      // go to user porofile
-                    },
-                  ),
+                  myImageProvider(model.image!),
+                  // IconButton(
+                  //
+                  //   icon: CircleAvatar(
+                  //     backgroundImage: (()
+                  //     {
+                  //       if (model.image != null && model.image!.isNotEmpty)
+                  //       {
+                  //
+                  //         return NetworkImage(model.image!) as ImageProvider;
+                  //
+                  //       }
+                  //       else
+                  //       {
+                  //         return AssetImage('assets/images/Rectangle.png') as ImageProvider;
+                  //       }
+                  //     }()),
+                  //   )
+                  //   ,
+                  //   onPressed: () {
+                  //     // go to user porofile
+                  //   },
+                  // ),
                   const SizedBox(
                     width: 7,
                   ),
@@ -295,7 +297,7 @@ class Comments_Screen extends StatelessWidget
                                                 height: 20.0,
                                               ),
                                               Text(
-                                                'هل تريد حذف التعليق ؟',
+                                                la.sureToDeleteComment,
                                                 style: TextStyle(
                                                     fontSize: 25.0,
                                                     color: colors.fontColor()),
@@ -308,8 +310,8 @@ class Comments_Screen extends StatelessWidget
                                         ),
                                         actions: [
                                           TextButton(
-                                            child: const Text(
-                                              'حذف',
+                                            child:  Text(
+                                              la.delete,
                                               style: TextStyle(
                                                   fontSize: 16.0,
                                                   fontWeight: FontWeight.bold,
@@ -325,7 +327,7 @@ class Comments_Screen extends StatelessWidget
                                           ),
                                           TextButton(
                                             child:  Text(
-                                              'إلغاء',
+                                              la.cancelButton,
                                               style:
                                               TextStyle(
                                                   fontSize: 16.0,

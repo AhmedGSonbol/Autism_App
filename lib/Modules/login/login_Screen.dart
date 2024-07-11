@@ -9,6 +9,7 @@ import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/network/local/Cach_Helper.dart';
 import 'package:autism/Shared/styles/colors.dart';
+import 'package:autism/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,7 +22,10 @@ class Login_Screen extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
+    var la = S.of(context);
+
     return BlocProvider(
       create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginStates>(
@@ -30,7 +34,7 @@ class Login_Screen extends StatelessWidget {
           if(state is LoginSuccessState)
           {
 
-              myToast(msg: state.model.message!, state: ToastStates.SUCCESS);
+              // myToast(msg: la.success_login, state: ToastStates.SUCCESS);
 
               CachHelper.saveData(key: 'token', value: state.model.token).then((value)
               {
@@ -64,7 +68,20 @@ class Login_Screen extends StatelessWidget {
           {
             print(state.error);
 
-            myToast(msg: state.error,state: ToastStates.ERROR ,);
+            if(state.error.contains('بيانات الدخول غير صحيحة !'))
+            {
+              myToast(msg: la.loginDataIncorrect,state: ToastStates.ERROR ,);
+            }
+            else if(state.error.contains('في إنتظار موافقة المسؤول !'))
+            {
+              myToast(msg: la.loginPendingError,state: ToastStates.ERROR ,);
+            }
+            else
+            {
+              myToast(msg: la.connectioError,state: ToastStates.ERROR ,);
+            }
+
+
           }
         },
         builder: (context, state)
@@ -82,7 +99,8 @@ class Login_Screen extends StatelessWidget {
                     child: Form(
                       key: formKey,
                       child: Column(
-                        children: [
+                        children:
+                        [
                           const SizedBox(
                             height: 50,
                           ),
@@ -95,7 +113,7 @@ class Login_Screen extends StatelessWidget {
                             height: 30,
                           ),
                            Text(
-                            'تسجيل الدخول',
+                            la.login_screen_title,
                             style: TextStyle(
                                 color: colors.fontColor(),
                                 // fontFamily: 'Roboto',
@@ -107,7 +125,7 @@ class Login_Screen extends StatelessWidget {
                             height: 10,
                           ),
                            Text(
-                            'إلى حسابك في مجتمع التوحد',
+                            la.login_screen_subtitle,
                             style: TextStyle(
                               color: colors.fontColor(),
                               // fontFamily: 'Roboto',
@@ -122,10 +140,10 @@ class Login_Screen extends StatelessWidget {
                               context: context,
                               controller: emailCon,
                               type: TextInputType.emailAddress,
-                              hint: 'الإيميل',
+                              hint: la.email,
                               validate: (value) {
                                 if (value == '') {
-                                  return 'مطلوب*';
+                                  return la.Required;
                                 }
                                 return null;
                               }),
@@ -133,10 +151,17 @@ class Login_Screen extends StatelessWidget {
                             height: 20,
                           ),
                           defaultTextFormField(
+                            onFieldSubmitted: (val)
+                            {
+                              if(formKey.currentState!.validate())
+                              {
+                                cubit.userLogin(Email: emailCon.text, Password: passCon.text);
+                              }
+                            },
                               context: context,
                               controller: passCon,
                               type: TextInputType.visiblePassword,
-                              hint: 'الرقم السري',
+                              hint: la.password,
                               iconButton: IconButton(
                                 icon: Icon(
                                   cubit.isPassVisible
@@ -152,34 +177,34 @@ class Login_Screen extends StatelessWidget {
                               style: const TextStyle(color: Colors.white),
                               validate: (value) {
                                 if (value == '') {
-                                  return 'مطلوب*';
+                                  return la.Required;
                                 }
                               }),
                           const SizedBox(
                             height: 5,
                           ),
-                          InkWell(
-                            onTap: ()
-                            {
-
-                              // navTo(context, Admin_Home_Screen());
-
-                            },
-                            child:  Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                // Text(
-                                //   'هل نسيت الرقم السري ؟',
-                                //   style: TextStyle(
-                                //     color: Color(0xffA8C8FF),
-                                //   ),
-                                // ),
-                                SizedBox(
-                                  width: 16,
-                                )
-                              ],
-                            ),
-                          ),
+                          // InkWell(
+                          //   onTap: ()
+                          //   {
+                          //
+                          //     // navTo(context, Admin_Home_Screen());
+                          //
+                          //   },
+                          //   child:  Row(
+                          //     mainAxisAlignment: MainAxisAlignment.end,
+                          //     children: [
+                          //       // Text(
+                          //       //   'هل نسيت الرقم السري ؟',
+                          //       //   style: TextStyle(
+                          //       //     color: Color(0xffA8C8FF),
+                          //       //   ),
+                          //       // ),
+                          //       SizedBox(
+                          //         width: 16,
+                          //       )
+                          //     ],
+                          //   ),
+                          // ),
                           const SizedBox(
                             height: 30,
                           ),
@@ -189,7 +214,7 @@ class Login_Screen extends StatelessWidget {
                             color: mainColor,
                           )
                               :
-                              defaultButton(text: 'دخول', function: ()
+                              defaultButton(text: la.login_button, function: ()
                               {
                                 if(formKey.currentState!.validate())
                                 {
@@ -238,39 +263,62 @@ class Login_Screen extends StatelessWidget {
                             height: 40,
                           ),
                           Container(
-                            width: double.infinity,
-                            height: 50,
+
+                            
                             decoration: BoxDecoration(
                               color: colors.home_drawer_item_background(),
-                              borderRadius: BorderRadius.circular(5),
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(100.0),
+                                bottomRight: Radius.circular(100.0),
+                                topRight: Radius.circular(5.0),
+                                topLeft: Radius.circular(5.0),
+                              ),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      navTo(context, Register_Screen());
-                                    },
-                                    child:  Text(
-                                      'إنشاء',
-                                      style: TextStyle(
-                                          color: mainColor, fontSize: 16,
-                                        fontWeight: FontWeight.bold
+                              padding: const EdgeInsets.all( 5.0),
+                              child: Column(
+                                children:
+                                [
+                                  Column(
+                                    children:
+                                    [
+                                      Text(
+                                        textAlign: TextAlign.center,
+                                        maxLines: 5,
+                                        la.create_account_description,
+                                        style: TextStyle(
+                                            color: colors.fontColor(), fontSize: 16),
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                  ////////////////////////////
-                                  // SizedBox(
-                                  //   width: 60,
-                                  // ),
-                                  const Spacer(),
-                                   Text(
-                                     'يمكنك انشاء حساب جديد من هنا',
-                                     style: TextStyle(
-                                         color: colors.fontColor(), fontSize: 16),
-                                   ),
+                                  Column(
+                                    children:
+                                    [
+                                      TextButton(
+                                        onPressed: () {
+                                          navTo(context, Register_Screen());
+                                        },
+
+                                        child:  Text(
+                                          la.create_account,
+                                          style: TextStyle(
+                                              color: mainColor, fontSize: 16,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children:
+                                    [
+
+                                      // const Spacer(),
+
+
+
+                                    ],
+                                  ),
                                 ],
                               ),
                             ),

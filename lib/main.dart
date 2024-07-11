@@ -11,10 +11,12 @@ import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/network/local/Cach_Helper.dart';
 import 'package:autism/Shared/network/remote/dio_Helper.dart';
 import 'package:autism/Shared/styles/app_Themes.dart';
+import 'package:autism/generated/l10n.dart';
 import 'package:autism/modules/login/login_Screen.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'Shared/Classes/bloc_observer.dart';
 import 'dart:io';
 // import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -67,6 +69,8 @@ void main() async
 
   bool isDark = CachHelper.getData(key: 'isdarkmode') ?? false;
 
+  current_lang = CachHelper.getData(key: 'lang') ?? 'en';
+
   return runApp(
       BlocProvider(
         create: (context) => AppCubit()..isDarkMode = isDark..getAppData(),
@@ -76,16 +80,17 @@ void main() async
             builder: (context, state)
             {
               return MaterialApp(
-                // localizationsDelegates:
-                // const [
-                //   S.delegate,
-                //   GlobalMaterialLocalizations.delegate,
-                //   GlobalWidgetsLocalizations.delegate,
-                //   GlobalCupertinoLocalizations.delegate,
-                // ],
-                // supportedLocales: S.delegate.supportedLocales,
-                //
-                // locale:  Locale(current_lang),
+                localizationsDelegates:
+                const [
+                  S.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: S.delegate.supportedLocales,
+
+                locale:  Locale(current_lang),
+
                 debugShowCheckedModeBanner: false,
                 darkTheme: myDarkTheme,
                 theme: myLightTheme,

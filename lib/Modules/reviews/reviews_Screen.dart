@@ -5,6 +5,7 @@ import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/styles/colors.dart';
+import 'package:autism/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -20,9 +21,12 @@ class Reviews_Screen extends StatelessWidget {
 
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
-      builder: (context, state) {
+      builder: (context, state)
+      {
+
         AppColors colors = AppColors(context);
         var cubit = AppCubit.get(context);
+        var la = S.of(context);
 
         return Padding(
           padding: const EdgeInsetsDirectional.all(10.0),
@@ -67,62 +71,72 @@ class Reviews_Screen extends StatelessWidget {
                                             children:
                                              [
                                               Text(
-                                                'نشر',
+                                                la.publish,
                                                 style: TextStyle(
                                                   color: colors.fontColor(),
                                                   fontSize: 20,
                                                 ),
                                               ),
                                               SizedBox(
-                                                width: 5,
+                                                width: 20,
                                               ),
-                                              Text(
-                                                'نصيحة',
-                                                style: TextStyle(
-                                                    color: Color(0xffFFB4AB),
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold),
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children:
+                                                [
+                                                  Text(
+                                                    la.advice,
+                                                    style: TextStyle(
+                                                        color: appRedColor,
+                                                        fontSize: 20,
+                                                        fontWeight: FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    la.information,
+                                                    style: TextStyle(
+                                                        color: Color(0xff61FD7D),
+                                                        fontSize: 20,
+                                                        fontWeight: FontWeight.bold),
+                                                  ),
+
+                                                  Text(
+                                                    la.question,
+                                                    style: TextStyle(
+                                                        color: Color(0xffA8C8FF),
+                                                        fontSize: 20,
+                                                        fontWeight: FontWeight.bold),
+                                                  ),
+
+                                                ],
                                               ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                'أو',
-                                                style: TextStyle(
-                                                  color: colors.fontColor(),
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                'معلومة',
-                                                style: TextStyle(
-                                                    color: Color(0xff61FD7D),
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold),
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                'أو',
-                                                style: TextStyle(
-                                                  color: colors.fontColor(),
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                'سؤال',
-                                                style: TextStyle(
-                                                    color: Color(0xffA8C8FF),
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold),
-                                              ),
+                                              // SizedBox(
+                                              //   width: 5,
+                                              // ),
+                                              // Text(
+                                              //   la.or,
+                                              //   style: TextStyle(
+                                              //     color: colors.fontColor(),
+                                              //     fontSize: 16,
+                                              //   ),
+                                              // ),
+                                              // SizedBox(
+                                              //   width: 5,
+                                              // ),
+                                              //
+                                              // SizedBox(
+                                              //   width: 5,
+                                              // ),
+                                              // Text(
+                                              //   la.or,
+                                              //   style: TextStyle(
+                                              //     color: colors.fontColor(),
+                                              //     fontSize: 16,
+                                              //   ),
+                                              // ),
+                                              // SizedBox(
+                                              //   width: 5,
+                                              // ),
+
                                             ],
                                           ),
                                         ),
@@ -148,14 +162,15 @@ class Reviews_Screen extends StatelessWidget {
                                                 label: Row(
                                                   children:
                                                    [
-                                                    Text('إكتب',style: TextStyle(color: colors.fontColor()),),
+                                                     SizedBox(width: 5.0,),
+                                                    Text(la.write,style: TextStyle(color: colors.fontColor()),),
                                                     SizedBox(width: 3,),
                                                     (()
                                                     {
                                                       if(cubit.docPostType == 'advice')
                                                       {
                                                         return Text(
-                                                          'نصيحة',
+                                                          la.advice,
                                                           style: TextStyle(
                                                               color: appRedColor,
                                                               fontSize: 17,
@@ -165,7 +180,7 @@ class Reviews_Screen extends StatelessWidget {
                                                       else if(cubit.docPostType == 'information')
                                                       {
                                                         return Text(
-                                                        'معلومة',
+                                                        la.information,
                                                         style: TextStyle(
                                                       color: appGreenColor,
                                                       fontSize: 17,
@@ -175,7 +190,7 @@ class Reviews_Screen extends StatelessWidget {
                                                       else
                                                       {
                                                         return Text(
-                                                        'سؤال',
+                                                        la.question,
                                                         style: TextStyle(
                                                       color: mainColor,
                                                       fontSize: 17,
@@ -247,7 +262,7 @@ class Reviews_Screen extends StatelessWidget {
                                                   color: appRedColor,
                                                 ),
                                                 SizedBox(width: 10.0,),
-                                                Text('نصيحة',style: TextStyle(color: colors.fontColor()),),
+                                                Text(la.advice,style: TextStyle(color: colors.fontColor()),),
                                               ],
                                               ),
                                             ),
@@ -263,7 +278,7 @@ class Reviews_Screen extends StatelessWidget {
                                                   color: appGreenColor,
                                                 ),
                                                 SizedBox(width: 10.0,),
-                                                Text('معلومة',style: TextStyle(color: colors.fontColor()),),
+                                                Text(la.information,style: TextStyle(color: colors.fontColor()),),
                                               ],
                                             ),
                                           ),
@@ -279,7 +294,7 @@ class Reviews_Screen extends StatelessWidget {
                                                   color: mainColor,
                                                 ),
                                                 SizedBox(width: 10.0,),
-                                                Text('سؤال',style: TextStyle(color: colors.fontColor()),),
+                                                Text(la.question,style: TextStyle(color: colors.fontColor()),),
                                               ],
                                             ),
                                           ),
@@ -300,7 +315,7 @@ class Reviews_Screen extends StatelessWidget {
                                 firstChild: SizedBox(),
                                 secondChild: ElevatedButton(
 
-                                  child: Text('نشر',style: TextStyle(color: Colors.white , fontSize: 15.0),),
+                                  child: Text(la.publish,style: TextStyle(color: Colors.white , fontSize: 15.0),),
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: mainColor,
                                     ),
@@ -318,7 +333,7 @@ class Reviews_Screen extends StatelessWidget {
                                       }
                                       else
                                       {
-                                        myToast(msg: 'برجاء كتابة نص للمنشور !', state: ToastStates.WARNING);
+                                        myToast(msg: la.please_write_post_text, state: ToastStates.WARNING);
                                       }
                                     },
 

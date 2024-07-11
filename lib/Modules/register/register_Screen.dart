@@ -4,9 +4,11 @@ import 'package:autism/Modules/login/login_Screen.dart';
 import 'package:autism/Modules/register/cubit/register_Cubit.dart';
 import 'package:autism/Modules/register/cubit/register_States.dart';
 import 'package:autism/Shared/Constants/Constants.dart';
+import 'package:autism/Shared/Constants/Countries.dart';
 import 'package:autism/Shared/components/components.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/Shared/styles/text_styles.dart';
+import 'package:autism/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -29,6 +31,7 @@ class Register_Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context)
   {
+    var la = S.of(context);
 
     return BlocProvider(create: (context) => RegisterCubit(),
     child: BlocConsumer<RegisterCubit, RegisterStates>(
@@ -67,8 +70,8 @@ class Register_Screen extends StatelessWidget {
               appBar: AppBar(
                 title: Text(
         cubit.currentRegScreen == 2
-        ? 'إكتمل إنشاء حسابك'
-          : 'إنشاء حساب جديد',
+        ? la.completeAccount
+          : la.addNewAccount,
           style: TextStyle(
             color: colors.fontColor(),
             height: 2,
@@ -107,7 +110,7 @@ class Register_Screen extends StatelessWidget {
                             myNavBar(
                               context,
                               selectedIndex: cubit.currentRegScreenType,
-                              text: ['طبيب', 'أب / أم'],
+                              text: [la.doctor, la.parent],
                               onDestinationSelected: (index)
                               {
                                 nameCon.clear();
@@ -156,13 +159,13 @@ class Register_Screen extends StatelessWidget {
                                           controller: nameCon,
                                           type: TextInputType.name,
 
-                                          hint: 'الأسم',
+                                          hint: la.name,
                                           validate: (value) {
                                             if (value == '') {
-                                              return 'مطلوب*';
+                                              return la.Required;
                                             }else if(value!.length < 5)
                                             {
-                                              return 'الأسم يجب الا يقل عن 5 حروف !';
+                                              return la.nameLimitation;
                                             }
                                             return null;
                                           }),
@@ -173,12 +176,12 @@ class Register_Screen extends StatelessWidget {
                                         context: context,
                                           controller: phoneCon,
                                           type: TextInputType.phone,
-                                          hint: 'الهاتف',
+                                          hint: la.phone,
                                           validate: (value) {
                                             if (value == '') {
-                                              return 'مطلوب*';
+                                              return la.Required;
                                             }else if (value!.length != 11) {
-                                              return 'رقم الهاتف يجب ان يكون 11 رقم !';
+                                              return la.phoneLimitation;
                                             }
                                             return null;
                                           }),
@@ -187,15 +190,22 @@ class Register_Screen extends StatelessWidget {
                                         height: 40,
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        // mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
+                                          Text(la.country,
+                                            style: TextStyle(
+                                                color: colors.fontColor() ,
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.bold
+                                            ),),
 
+                                          SizedBox(width: 20.0,),
                                           DropdownButton(
 
                                             menuMaxHeight: 200.0,
                                             dropdownColor:  colors.home_drawer_item_background(),
 
-                                            alignment: Alignment.centerRight,
+                                            // alignment: Alignment.centerRight,
                                             value: cubit.countryValue,
                                             onChanged: (val)
                                             {
@@ -203,7 +213,7 @@ class Register_Screen extends StatelessWidget {
                                             },
                                             style:TextStyle(color: colors.fontColor() , fontSize: 20.0),
                                             items:
-                                            COUNTRIES.map((e)
+                                            countriesAR.map((e)
                                             {
                                               return DropdownMenuItem(
                                                 child: Text(e['label'].toString(),
@@ -217,13 +227,6 @@ class Register_Screen extends StatelessWidget {
                                             } ).toList(),
 
                                           ),
-                                          SizedBox(width: 20.0,),
-                                          Text(' : الدولة',
-                                            style: TextStyle(
-                                                color: colors.fontColor() ,
-                                                fontSize: 20.0,
-                                                fontWeight: FontWeight.bold
-                                            ),),
                                         ],
                                       ),
                                       const SizedBox(
@@ -232,15 +235,22 @@ class Register_Screen extends StatelessWidget {
 
 
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
 
+                                        children: [
+                                          Text(la.government,
+                                            style: TextStyle(
+                                                color: colors.fontColor() ,
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.bold
+                                            ),),
+
+                                          SizedBox(width: 20.0,),
                                           DropdownButton(
 
                                             menuMaxHeight: 200.0,
                                             dropdownColor:  colors.home_drawer_item_background(),
 
-                                            alignment: Alignment.centerRight,
+
                                             value: cubit.governmentValue,
                                             onChanged: (val)
                                             {
@@ -263,13 +273,6 @@ class Register_Screen extends StatelessWidget {
                                             } ).toList(),
 
                                           ),
-                                          SizedBox(width: 20.0,),
-                                          Text(' : المحافظة',
-                                            style: TextStyle(
-                                                color: colors.fontColor() ,
-                                                fontSize: 20.0,
-                                                fontWeight: FontWeight.bold
-                                            ),),
                                         ],
                                       ),
 
@@ -289,13 +292,13 @@ class Register_Screen extends StatelessWidget {
                                         context: context,
                                           controller: emailCon,
                                           type: TextInputType.emailAddress,
-                                          hint: 'الإيميل',
+                                          hint: la.email,
                                           validate: (value) {
                                             if (value == '') {
-                                              return 'مطلوب*';
+                                              return la.Required;
                                             }else if(!value!.contains('@') || !value.contains('.') || value.length < 7)
                                             {
-                                              return 'برجاء كتابة الايميل بشكل صحيح !';
+                                              return la.emailFormatError;
                                             }
                                             return null;
                                           }),
@@ -306,12 +309,12 @@ class Register_Screen extends StatelessWidget {
                                         context: context,
                                           controller: passCon,
                                           type: TextInputType.text,
-                                          hint: 'إنشاء الرقم سري',
+                                          hint: la.password,
                                           validate: (value) {
                                             if (value == '') {
-                                              return 'مطلوب*';
+                                              return la.Required;
                                             }else if (value!.length < 6) {
-                                              return 'لا يمكن انشاء رقم سري اقل من 6 احرف او ارقام';
+                                              return la.passLimitation;
                                             }
                                             return null;
                                           }),
@@ -322,13 +325,13 @@ class Register_Screen extends StatelessWidget {
                                         context: context,
                                           controller: confirmPassCon,
                                           type: TextInputType.text,
-                                          hint: 'تأكيد الرقم السري',
+                                          hint: la.confirm_password,
                                           validate: (value) {
                                             if (value == '') {
-                                              return 'مطلوب* ';
+                                              return la.Required;
                                             }else if(passCon.text != value)
                                             {
-                                              return 'برجاء إعادة كتابة كلمة السر بشكل صحيح !';
+                                              return la.confirmPasswordError;
                                             }
                                             return null;
                                           }),
@@ -392,7 +395,7 @@ class Register_Screen extends StatelessWidget {
                                               child: Text(
                                                 cubit.cv == null
                                                     ?
-                                                'ارفع ملف تعريف الهوية'
+                                                la.uploadCV
                                                     :
                                                 basename(cubit.cv!.path),
 
@@ -463,12 +466,11 @@ class Register_Screen extends StatelessWidget {
                                     const SizedBox(
                                       height: 20,
                                     ),
-                                    const Text(
+                                     Text(
                                       textAlign: TextAlign.center,
-                                      'تهانينا, لقد إكتمل إنشاء حسابك و اﻷن يمكنك المساهم في نشر الوعي و مساعدت أطفال طيف التوحد ',
+                                      la.successRegistration,
                                       style: TextStyle(
-                                          color: Color(0xffE1E2E9),
-                                          fontFamily: 'Roboto',
+                                          color: colors.fontColor(),
                                           height: 2,
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),
@@ -498,14 +500,14 @@ class Register_Screen extends StatelessWidget {
                                         context: context,
                                           controller: nameCon,
                                           type: TextInputType.name,
-                                          hint: 'الأسم',
+                                          hint: la.name,
                                           validate: (value) {
                                             if (value == '') {
 
-                                              return 'مطلوب*';
+                                              return la.Required;
                                             }else if(value!.length < 5)
                                             {
-                                              return 'الأسم يجب الا يقل عن 5 حروف !';
+                                              return la.nameLimitation;
                                             }
                                             return null;
                                           }),
@@ -517,10 +519,10 @@ class Register_Screen extends StatelessWidget {
                                           controller: ageCon,
                                           type: TextInputType.number,
 
-                                          hint: 'سن الطفل',
+                                          hint: la.childAge,
                                           validate: (value) {
                                             if (value == '') {
-                                              return 'مطلوب*';
+                                              return la.Required;
                                             }
                                             // else if (int.parse(value!) > 3 || int.parse(value) < 0) {
                                             //   return 'العمر يجب ان يكون ما بين سنه الي 3 سنوات';
@@ -538,21 +540,27 @@ class Register_Screen extends StatelessWidget {
                                       //     hint: 'الدولة',
                                       //     validate: (value) {
                                       //       if (value == '') {
-                                      //         return 'مطلوب*';
+                                      //         return la.Required;
                                       //       } else  if (value!.length <3) {
                                       //         return 'الدولة يجب الا تقل عن 3 احرف';
                                       //       }
                                       //     }),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
+
+                                          Text(la.country,
+                                            style: TextStyle(
+                                                color: colors.fontColor() ,
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.bold
+                                            ),),
+                                          SizedBox(width: 20.0,),
 
                                           DropdownButton(
 
                                             menuMaxHeight: 200.0,
                                             dropdownColor:  colors.home_drawer_item_background(),
 
-                                            alignment: Alignment.centerRight,
                                             value: cubit.countryValue,
                                             onChanged: (val)
                                             {
@@ -560,27 +568,20 @@ class Register_Screen extends StatelessWidget {
                                             },
                                             style:TextStyle(color: colors.fontColor() , fontSize: 20.0),
                                             items:
-                                            COUNTRIES.map((e)
+                                            countriesAR.map((e)
                                             {
                                               return DropdownMenuItem(
                                                 child: Text(e['label'].toString(),
-                                                style: TextStyle(color: colors.fontColor()),
+                                                  style: TextStyle(color: colors.fontColor()),
                                                   textAlign: TextAlign.left,
                                                   textDirection: TextDirection.rtl,
-                                              ),
-                                              alignment: Alignment.centerRight,
-                                              value: e['value'],);
+                                                ),
+                                                alignment: Alignment.centerRight,
+                                                value: e['value'],);
 
                                             } ).toList(),
 
                                           ),
-                                          SizedBox(width: 20.0,),
-                                          Text(' : الدولة',
-                                            style: TextStyle(
-                                                color: colors.fontColor() ,
-                                              fontSize: 20.0,
-                                              fontWeight: FontWeight.bold
-                                            ),),
                                         ],
                                       ),
                                       const SizedBox(
@@ -589,15 +590,21 @@ class Register_Screen extends StatelessWidget {
 
 
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
 
+                                        children: [
+                                          Text(la.government,
+                                            style: TextStyle(
+                                                color: colors.fontColor() ,
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.bold
+                                            ),),
+
+                                          SizedBox(width: 20.0,),
                                           DropdownButton(
 
                                             menuMaxHeight: 200.0,
                                             dropdownColor:  colors.home_drawer_item_background(),
 
-                                            alignment: Alignment.centerRight,
                                             value: cubit.governmentValue,
                                             onChanged: (val)
                                             {
@@ -620,13 +627,6 @@ class Register_Screen extends StatelessWidget {
                                             } ).toList(),
 
                                           ),
-                                          SizedBox(width: 20.0,),
-                                          Text(' : المحافظة',
-                                            style: TextStyle(
-                                                color: colors.fontColor() ,
-                                                fontSize: 20.0,
-                                                fontWeight: FontWeight.bold
-                                            ),),
                                         ],
                                       ),
                                     ],
@@ -646,12 +646,12 @@ class Register_Screen extends StatelessWidget {
                                           controller: phoneCon,
                                           type: TextInputType.phone,
 
-                                          hint: 'الهاتف',
+                                          hint: la.phone,
                                           validate: (value) {
                                             if (value == '') {
-                                              return 'مطلوب*';
+                                              return la.Required;
                                             }else if (value!.length != 11) {
-                                              return 'رقم الهاتف يجب ان يكون 11 رقم !';
+                                              return la.phoneLimitation;
                                             }
                                             return null;
                                           }),
@@ -663,13 +663,13 @@ class Register_Screen extends StatelessWidget {
                                           controller: emailCon,
                                           type: TextInputType.emailAddress,
 
-                                          hint: 'الإيميل',
+                                          hint: la.email,
                                           validate: (value) {
                                             if (value == '') {
-                                              return 'مطلوب*';
+                                              return la.Required;
                                             }else if(!value!.contains('@') || !value.contains('.') || value.length < 7)
                                             {
-                                              return 'برجاء كتابة الايميل بشكل صحيح !';
+                                              return la.emailFormatError;
                                             }
                                             return null;
                                           }),
@@ -681,12 +681,12 @@ class Register_Screen extends StatelessWidget {
                                           controller: passCon,
                                           type: TextInputType.text,
 
-                                          hint: 'إنشاء الرقم سري',
+                                          hint: la.password,
                                           validate: (value) {
                                             if (value == '') {
-                                              return 'مطلوب*';
+                                              return la.Required;
                                             }else if (value!.length < 6) {
-                                              return 'لا يمكن انشاء رقم سري اقل من 6 احرف او ارقام';
+                                              return la.passLimitation;
                                             }
                                             return null;
                                           }),
@@ -698,15 +698,15 @@ class Register_Screen extends StatelessWidget {
                                           controller: confirmPassCon,
                                           type: TextInputType.text,
 
-                                          hint: 'تأكيد الرقم السري',
+                                          hint: la.confirmPass,
                                           validate: (value) {
                                             if (value == '')
                                             {
-                                              return 'مطلوب*';
+                                              return la.Required;
                                             }
                                             else if(passCon.text != value)
                                             {
-                                              return 'برجاء إعادة كتابة كلمة السر بشكل صحيح !';
+                                              return la.confirmPasswordError;
                                             }
                                             return null;
                                           }),
@@ -768,23 +768,14 @@ class Register_Screen extends StatelessWidget {
                                       height: 20,
                                     ),
                                     Text(
-                                      'تهانينا, لقد إكتمل إنشاء حسابك',
+                                      la.successRegistration,
                                       style: TextStyle(
-                                          color: Color(0xffE1E2E9),
-                                          fontFamily: 'Roboto',
+                                          color: colors.fontColor(),
                                           height: 2,
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    Text(
-                                      'و الأن ستبدأ الرحلة',
-                                      style: TextStyle(
-                                          color: Color(0xffE1E2E9),
-                                          fontFamily: 'Roboto',
-                                          height: 2,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+
 
                                   ],
                                 );
@@ -799,7 +790,7 @@ class Register_Screen extends StatelessWidget {
                             children:
                             [
                               defaultButton(
-                                text: cubit.currentRegScreen != 2 ?'التالي' : 'إنشاء الحساب',
+                                text: cubit.currentRegScreen != 2 ?la.nextButton : la.create_account,
                                 radius: 50 ,
                                 width:cubit.currentRegScreen != 2 ? 100 : 120 ,
                                 function: ()
@@ -809,12 +800,12 @@ class Register_Screen extends StatelessWidget {
                                   {
                                     if(cubit.countryValue == 'بدون')
                                     {
-                                      myToast(msg: 'برجاء اختيار الدولة', state: ToastStates.ERROR);
+                                      myToast(msg: la.chooseCountry, state: ToastStates.ERROR);
                                       return;
                                     }
                                     if(cubit.governmentValue == 'بدون')
                                     {
-                                      myToast(msg: 'برجاء اختيار المحافظة', state: ToastStates.ERROR);
+                                      myToast(msg: la.chooseGovernment, state: ToastStates.ERROR);
                                       return;
                                     }
 
@@ -827,7 +818,7 @@ class Register_Screen extends StatelessWidget {
                                     {
                                       if(cubit.currentRegScreenType == 0 && cubit.currentRegScreen == 1 && cubit.cv == null)
                                       {
-                                        myToast(msg: 'برجاء رفع الـ CV الخاص بك اولاً', state: ToastStates.ERROR);
+                                        myToast(msg: la.uploadCVError, state: ToastStates.ERROR);
                                       }else
                                       {
                                         cubit.changeCurrentRegScreen(
@@ -877,7 +868,7 @@ class Register_Screen extends StatelessWidget {
                               SizedBox(width: 10.0,),
                               if(cubit.currentRegScreen > 0)
                                 defaultButton(
-                                  text: 'السابق',
+                                  text: la.previousButton,
                                   radius: 50,
                                   function: ()
                                   {

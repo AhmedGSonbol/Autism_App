@@ -2,6 +2,7 @@ import 'package:autism/Shared/Constants/Constants.dart';
 import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/styles/colors.dart';
+import 'package:autism/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,13 +10,26 @@ class Settings_Screen extends StatelessWidget {
   const Settings_Screen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
+    var la = S.of(context);
+
+    Map<String , String> langs =
+    {
+      'en':'English',
+      'ar':'العربية',
+      'fr':'Français',
+      'es':'Español',
+    };
+
     return BlocConsumer<AppCubit,AppStates>
       (
         listener: (context, state) {},
         builder: (context, state)
         {
           AppColors colors = AppColors(context);
+
+          var cubit = AppCubit.get(context);
 
           return Scaffold(
             appBar: AppBar(
@@ -27,7 +41,7 @@ class Settings_Screen extends StatelessWidget {
                 color: colors.fontColor(),
               ),
               title:  Text(
-                'الإعدادات',
+                la.settings,
                 style: TextStyle(
                   fontSize: 25,
 
@@ -105,178 +119,212 @@ class Settings_Screen extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
-                              children:
-                              [
-                                // Container(
-                                //   height: 40,
-                                //   decoration: BoxDecoration(
-                                //       color: const Color(0xffF8D8FE),
-                                //       borderRadius: BorderRadius.circular(30)),
-                                //   child: const Center(
-                                //     child: Text(
-                                //       'الإعدادات',
+                              children: [
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.center,
+                                //   children: [
+                                //     Switch(
+                                //       value: AppCubit.get(context).userModel!.data!.profile_status!,
+                                //       onChanged: (val)
+                                //       {
+                                //         AppCubit.get(context).changeProfileStatus(val);
+                                //
+                                //       },
+                                //       activeTrackColor: const Color(0xffA8C8FF),
+                                //       thumbIcon: MaterialStateProperty.resolveWith(
+                                //             (Set<MaterialState> states) {
+                                //           if (states
+                                //               .contains(MaterialState.selected)) {
+                                //             return const Icon(Icons.check,
+                                //                 color: Color(0xffA8C8FF));
+                                //           }
+                                //           return null;
+                                //         },
+                                //       ),
+                                //       thumbColor: MaterialStateProperty.resolveWith(
+                                //             (Set<MaterialState> states) {
+                                //           if (states
+                                //               .contains(MaterialState.selected)) {
+                                //             return const Color(0xff05305F);
+                                //           }
+                                //           return Colors.grey;
+                                //         },
+                                //       ),
+                                //     ),
+                                //     const Spacer(),
+                                //      Text(
+                                //       'رؤية ملفك الشخصي',
                                 //       style: TextStyle(
-                                //           color: Color(0xff3E2845),
-                                //           fontSize: 20,
+                                //           color: colors.fontColor(),
+                                //           fontSize: 18,
                                 //           fontWeight: FontWeight.bold),
                                 //     ),
-                                //   ),
+                                //   ],
                                 // ),
                                 // const SizedBox(
                                 //   height: 20,
                                 // ),
-                                Column(
-                                  children: [
-                                    // Row(
-                                    //   mainAxisAlignment: MainAxisAlignment.center,
-                                    //   children: [
-                                    //     Switch(
-                                    //       value: AppCubit.get(context).userModel!.data!.profile_status!,
-                                    //       onChanged: (val)
-                                    //       {
-                                    //         AppCubit.get(context).changeProfileStatus(val);
-                                    //
-                                    //       },
-                                    //       activeTrackColor: const Color(0xffA8C8FF),
-                                    //       thumbIcon: MaterialStateProperty.resolveWith(
-                                    //             (Set<MaterialState> states) {
-                                    //           if (states
-                                    //               .contains(MaterialState.selected)) {
-                                    //             return const Icon(Icons.check,
-                                    //                 color: Color(0xffA8C8FF));
-                                    //           }
-                                    //           return null;
-                                    //         },
-                                    //       ),
-                                    //       thumbColor: MaterialStateProperty.resolveWith(
-                                    //             (Set<MaterialState> states) {
-                                    //           if (states
-                                    //               .contains(MaterialState.selected)) {
-                                    //             return const Color(0xff05305F);
-                                    //           }
-                                    //           return Colors.grey;
-                                    //         },
-                                    //       ),
-                                    //     ),
-                                    //     const Spacer(),
-                                    //      Text(
-                                    //       'رؤية ملفك الشخصي',
-                                    //       style: TextStyle(
-                                    //           color: colors.fontColor(),
-                                    //           fontSize: 18,
-                                    //           fontWeight: FontWeight.bold),
-                                    //     ),
-                                    //   ],
-                                    // ),
-                                    // const SizedBox(
-                                    //   height: 20,
-                                    // ),
-                                    // Row(
-                                    //   mainAxisAlignment: MainAxisAlignment.center,
-                                    //   children: [
-                                    //     mySwitch(),
-                                    //     const Spacer(),
-                                    //     const Text(
-                                    //       'رؤيتك في البحث',
-                                    //       style: TextStyle(
-                                    //           color: fontColor,
-                                    //           fontSize: 18,
-                                    //           fontWeight: FontWeight.bold),
-                                    //     ),
-                                    //   ],
-                                    // ),
-                                    // const SizedBox(
-                                    //   height: 20,
-                                    // ),
-                                    // Row(
-                                    //   mainAxisAlignment: MainAxisAlignment.center,
-                                    //   children: [
-                                    //     mySwitch(),
-                                    //     const Spacer(),
-                                    //     const Text(
-                                    //       'التحدث معك',
-                                    //       style: TextStyle(
-                                    //           color: fontColor,
-                                    //           fontSize: 18,
-                                    //           fontWeight: FontWeight.bold),
-                                    //     ),
-                                    //   ],
-                                    // ),
-                                    // const SizedBox(
-                                    //   height: 20,
-                                    // ),
-                                    // Row(
-                                    //   mainAxisAlignment: MainAxisAlignment.center,
-                                    //   children: [
-                                    //     mySwitch(),
-                                    //     const Spacer(),
-                                    //     const Text(
-                                    //       'التعليق علي منشورك',
-                                    //       style: TextStyle(
-                                    //           color: fontColor,
-                                    //           fontSize: 18,
-                                    //           fontWeight: FontWeight.bold),
-                                    //     ),
-                                    //   ],
-                                    // ),
-                                    // const SizedBox(
-                                    //   height: 20,
-                                    // ),
-                                    // Row(
-                                    //   mainAxisAlignment: MainAxisAlignment.center,
-                                    //   children: [
-                                    //     mySwitch(),
-                                    //     const Spacer(),
-                                    //     const Text(
-                                    //       'التطبيق استخدام بيانات التشخيص',
-                                    //       style: TextStyle(
-                                    //           color: fontColor,
-                                    //           fontSize: 18,
-                                    //           fontWeight: FontWeight.bold),
-                                    //     ),
-                                    //   ],
-                                    // ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Switch(
-                                          value: AppCubit.get(context).isDarkMode,
-                                          onChanged: (val)
-                                          {
-                                            AppCubit.get(context).changeMode();
-
-                                          },
-                                          activeTrackColor: const Color(0xffA8C8FF),
-                                          thumbIcon: MaterialStateProperty.resolveWith(
-                                                (Set<MaterialState> states) {
-                                              if (states
-                                                  .contains(MaterialState.selected)) {
-                                                return const Icon(Icons.check,
-                                                    color: Color(0xffA8C8FF));
-                                              }
-                                              return null;
-                                            },
-                                          ),
-                                          thumbColor: MaterialStateProperty.resolveWith(
-                                                (Set<MaterialState> states) {
-                                              if (states
-                                                  .contains(MaterialState.selected)) {
-                                                return const Color(0xff05305F);
-                                              }
-                                              return Colors.grey;
-                                            },
-                                          ),
-                                        ),
-                                        const Spacer(),
-                                        Text(
-                                          AppCubit.get(context).isDarkMode ? 'الوضع (داكن)' :'الوضع (فاتح)',
-                                          style: TextStyle(
-                                              color: colors.fontColor(),
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.center,
+                                //   children: [
+                                //     mySwitch(),
+                                //     const Spacer(),
+                                //     const Text(
+                                //       'رؤيتك في البحث',
+                                //       style: TextStyle(
+                                //           color: fontColor,
+                                //           fontSize: 18,
+                                //           fontWeight: FontWeight.bold),
+                                //     ),
+                                //   ],
+                                // ),
+                                // const SizedBox(
+                                //   height: 20,
+                                // ),
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.center,
+                                //   children: [
+                                //     mySwitch(),
+                                //     const Spacer(),
+                                //     const Text(
+                                //       'التحدث معك',
+                                //       style: TextStyle(
+                                //           color: fontColor,
+                                //           fontSize: 18,
+                                //           fontWeight: FontWeight.bold),
+                                //     ),
+                                //   ],
+                                // ),
+                                // const SizedBox(
+                                //   height: 20,
+                                // ),
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.center,
+                                //   children: [
+                                //     mySwitch(),
+                                //     const Spacer(),
+                                //     const Text(
+                                //       'التعليق علي منشورك',
+                                //       style: TextStyle(
+                                //           color: fontColor,
+                                //           fontSize: 18,
+                                //           fontWeight: FontWeight.bold),
+                                //     ),
+                                //   ],
+                                // ),
+                                // const SizedBox(
+                                //   height: 20,
+                                // ),
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.center,
+                                //   children: [
+                                //     mySwitch(),
+                                //     const Spacer(),
+                                //     const Text(
+                                //       'التطبيق استخدام بيانات التشخيص',
+                                //       style: TextStyle(
+                                //           color: fontColor,
+                                //           fontSize: 18,
+                                //           fontWeight: FontWeight.bold),
+                                //     ),
+                                //   ],
+                                // ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children:
+                                  [
+                                    Text(
+                                      AppCubit.get(context).isDarkMode ? la.darkMode :la.lightMode,
+                                      style: TextStyle(
+                                          color: colors.fontColor(),
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
                                     ),
+
+                                    const Spacer(),
+                                    Switch(
+                                      value: AppCubit.get(context).isDarkMode,
+                                      onChanged: (val)
+                                      {
+                                        AppCubit.get(context).changeMode();
+
+                                      },
+                                      activeTrackColor: const Color(0xffA8C8FF),
+                                      thumbIcon: MaterialStateProperty.resolveWith(
+                                            (Set<MaterialState> states) {
+                                          if (states
+                                              .contains(MaterialState.selected)) {
+                                            return const Icon(Icons.check,
+                                                color: Color(0xffA8C8FF));
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      thumbColor: MaterialStateProperty.resolveWith(
+                                            (Set<MaterialState> states) {
+                                          if (states
+                                              .contains(MaterialState.selected)) {
+                                            return const Color(0xff05305F);
+                                          }
+                                          return Colors.grey;
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                                Row(
+                                  children:
+                                  [
+                                    Text(
+                                      la.language,
+                                      style: TextStyle(
+                                          color: colors.fontColor(),
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+
+                                    const Spacer(),
+                                    DropdownButton(
+
+                                      value:  current_lang ,
+                                      onChanged: (val)
+                                      {
+
+                                        if(val == 'en' && current_lang != 'en')
+                                        {
+                                          cubit.changeLang(val!);
+                                        }
+                                        else if(val == 'ar' && current_lang != 'ar')
+                                        {
+                                          cubit.changeLang(val!);
+                                        }
+                                        else if(val == 'fr' && current_lang != 'fr')
+                                        {
+                                          cubit.changeLang(val!);
+                                        }
+                                        else if(val == 'es' && current_lang != 'es')
+                                        {
+                                          cubit.changeLang(val!);
+                                        }
+                                      },
+                                      items:
+                                      [
+                                        DropdownMenuItem(child: Text(langs['en']!),value: 'en',),
+                                        DropdownMenuItem(child: Text(langs['ar']!) , value: 'ar',),
+                                        DropdownMenuItem(child: Text(langs['fr']!) , value: 'fr',),
+                                        DropdownMenuItem(child: Text(langs['es']!) , value: 'es',),
+                                      ],
+                                      style: TextStyle(fontSize: 17.0,color: colors.fontColor()),
+                                      dropdownColor: colors.home_drawer_background_color(),
+                                      iconEnabledColor: mainColor,
+                                      borderRadius: BorderRadius.circular(15.0),
+
+
+                                    ),
+
                                   ],
                                 )
                               ],
@@ -434,27 +482,27 @@ class Settings_Screen extends StatelessWidget {
     );
   }
 
-  Widget mySwitch() {
-    return Switch(
-      value: true,
-      onChanged: (val) {},
-      activeTrackColor: const Color(0xffA8C8FF),
-      thumbIcon: MaterialStateProperty.resolveWith(
-        (Set<MaterialState> states) {
-          if (states.contains(MaterialState.selected)) {
-            return const Icon(Icons.check, color: Color(0xffA8C8FF));
-          }
-          return null;
-        },
-      ),
-      thumbColor: MaterialStateProperty.resolveWith(
-        (Set<MaterialState> states) {
-          if (states.contains(MaterialState.selected)) {
-            return const Color(0xff05305F);
-          }
-          return Colors.grey;
-        },
-      ),
-    );
-  }
+  // Widget mySwitch() {
+  //   return Switch(
+  //     value: true,
+  //     onChanged: (val) {},
+  //     activeTrackColor: const Color(0xffA8C8FF),
+  //     thumbIcon: MaterialStateProperty.resolveWith(
+  //       (Set<MaterialState> states) {
+  //         if (states.contains(MaterialState.selected)) {
+  //           return const Icon(Icons.check, color: Color(0xffA8C8FF));
+  //         }
+  //         return null;
+  //       },
+  //     ),
+  //     thumbColor: MaterialStateProperty.resolveWith(
+  //       (Set<MaterialState> states) {
+  //         if (states.contains(MaterialState.selected)) {
+  //           return const Color(0xff05305F);
+  //         }
+  //         return Colors.grey;
+  //       },
+  //     ),
+  //   );
+  // }
 }

@@ -9,6 +9,7 @@ import 'package:autism/Shared/cubit/cubit.dart';
 import 'package:autism/Shared/cubit/states.dart';
 import 'package:autism/Shared/styles/colors.dart';
 import 'package:autism/Shared/styles/text_styles.dart';
+import 'package:autism/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -22,54 +23,53 @@ class Requests_Screen extends StatelessWidget {
   Widget build(BuildContext context)
   {
     AppCubit.get(context).getPending();
+    var la = S.of(context);
+
     return BlocConsumer<AppCubit,AppStates>(
         listener: (context, state)
         {
           if(state is SuccessConfirmDoctorsState)
           {
-            myToast(msg: state.message, state: ToastStates.SUCCESS);
+            myToast(msg: la.accepted, state: ToastStates.SUCCESS);
           }
           else if(state is ErrorConfirmDoctorsState)
           {
-            myToast(msg: state.message, state: ToastStates.ERROR);
+            myToast(msg: la.connectioError, state: ToastStates.ERROR);
           }
 
           if(state is SuccessRejectDoctorsState)
           {
-            myToast(msg: state.message, state: ToastStates.SUCCESS);
+            myToast(msg: la.rejected, state: ToastStates.SUCCESS);
           }
           else if(state is ErrorRejectDoctorsState)
           {
-            myToast(msg: state.message, state: ToastStates.ERROR);
+            myToast(msg:  la.connectioError, state: ToastStates.ERROR);
           }
         },
         builder: (context, state)
         {
           AppColors colors = AppColors(context);
 
-          return Directionality(
-            textDirection: TextDirection.rtl,
-            child: Padding(
-              padding: const EdgeInsetsDirectional.symmetric(vertical: 10),
-              child:
-              AppCubit.get(context).pendingDoctors == null
-                  ?
-                  Center(
-                    child: CircularProgressIndicator(color: mainColor,),
-                  )
-                  :
-              RefreshIndicator(
-                onRefresh: ()async
-                {
-                  await AppCubit.get(context).getPending(isReferesh: true);
-                },
-                child: ListView.separated(
-                  itemBuilder: ((context, index) => buildRequestItems(context,AppCubit.get(context).pendingDoctors!.pendingData[index],colors)),
-                  separatorBuilder: ((context, index) => SizedBox(
-                    height: 10,
-                  )),
-                  itemCount: AppCubit.get(context).pendingDoctors!.pendingData.length,
-                ),
+          return Padding(
+            padding: const EdgeInsetsDirectional.symmetric(vertical: 10),
+            child:
+            AppCubit.get(context).pendingDoctors == null
+                ?
+                Center(
+                  child: CircularProgressIndicator(color: mainColor,),
+                )
+                :
+            RefreshIndicator(
+              onRefresh: ()async
+              {
+                await AppCubit.get(context).getPending(isReferesh: true);
+              },
+              child: ListView.separated(
+                itemBuilder: ((context, index) => buildRequestItems(context,AppCubit.get(context).pendingDoctors!.pendingData[index],colors,la)),
+                separatorBuilder: ((context, index) => SizedBox(
+                  height: 10,
+                )),
+                itemCount: AppCubit.get(context).pendingDoctors!.pendingData.length,
               ),
             ),
           );
@@ -77,7 +77,7 @@ class Requests_Screen extends StatelessWidget {
     );
   }
 
-  Widget buildRequestItems(BuildContext context,PendingData model,AppColors colors) => Padding(
+  Widget buildRequestItems(BuildContext context,PendingData model,AppColors colors, S la) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Container(
           padding: EdgeInsets.all(10.0),
@@ -89,7 +89,7 @@ class Requests_Screen extends StatelessWidget {
           child: Column(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                // mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   const SizedBox(
                     width: 10,
@@ -102,18 +102,15 @@ class Requests_Screen extends StatelessWidget {
                     width: 10,
                   ),
                   Expanded(
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        textDirection: TextDirection.ltr,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                        model.name!,
-                        style: TextStyle(
-                          color: colors.fontColor(),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold
-                        ),
+                    child: Text(
+                      // textDirection: TextDirection.ltr,
+                      // textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      model.name!,
+                      style: TextStyle(
+                        color: colors.fontColor(),
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold
                       ),
                     ),
                   ),
@@ -122,8 +119,8 @@ class Requests_Screen extends StatelessWidget {
                   ),
 
                    Text(
-                     intl.DateFormat('yyyy/MM/dd').format(intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz').parse(model.date!)),
-                    style: TextStyle(color: colors.fontColor(), fontSize: 16),
+                     intl.DateFormat('yyyy/MM/dd').format(intl.DateFormat('EEE, dd MMM yyyy HH:mm:ss zzz','en').parse(model.date!)),
+                   style: TextStyle(color: colors.fontColor(), fontSize: 16),
                   ),
                   const SizedBox(
                     width: 10,
@@ -133,32 +130,29 @@ class Requests_Screen extends StatelessWidget {
               SizedBox(
                 height: 15.0,
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: InkWell(
-                  onTap: ()
-                  {
-                    ///open CV here !!
-                    // model.cv!
-                    navTo(context, Pdf_Viewer_Screen(cvLink: model.cv!));
-                  },
-                  child: Text(
-                    'فتح ملف تعريف الهوية',
-                    style: TextStyle(color: mainColor,fontWeight: FontWeight.bold, fontSize: 18),
-                    overflow: TextOverflow.ellipsis,
-                  ),
+              InkWell(
+                onTap: ()
+                {
+                  ///open CV here !!
+                  // model.cv!
+                  navTo(context, Pdf_Viewer_Screen(cvLink: model.cv!));
+                },
+                child: Text(
+                  la.openCV,
+                  style: TextStyle(color: mainColor,fontWeight: FontWeight.bold, fontSize: 18),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               SizedBox(
                 height: 15.0,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                // mainAxisAlignment: MainAxisAlignment.end,
                 children:
                 [
 
                   defaultElevatedButton(
-                    text: 'قبول',
+                    text: la.accept,
                     onPressed: ()
                     {
                       AppCubit.get(context).confirmDoctor(model);
@@ -169,7 +163,8 @@ class Requests_Screen extends StatelessWidget {
                   ),
 
                   defaultElevatedButton(
-                    text: 'رفض',
+                    text: la.reject,
+                    color: appRedColor,
                     onPressed: ()
                     {
                       AppCubit.get(context).rejectDoctor(model);
